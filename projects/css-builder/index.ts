@@ -161,6 +161,13 @@ const colorMap = {
         placeholder: 'ff0014',
         default: 'rgba(255, 255, 255, 0.3)',
     },
+    
+    //b0b0b0
+    /*'mat-theme-background--disabled': {
+        placeholder: 'b0b0b0',
+        default: '#686868',
+
+    },*/
 
 }
 
