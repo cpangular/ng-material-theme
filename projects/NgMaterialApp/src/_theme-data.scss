@@ -1,5 +1,7 @@
-// f00004 = --mdc-theme-surface
 
+// alpha high medium low
+/// diabled alpha
+///
 $primary-palette:(
   50: #000050,
   100: #000100,
@@ -206,14 +208,14 @@ $DynamicTheme: (
     primary: $primary-palette,
     accent: $accent-palette,
     warn: $warn-palette,
-    is-dark: true,
+    is-dark: false,
     foreground: $foreground,
     background: $background,
   ),
   primary: $primary-palette,
   accent: $accent-palette,
   warn: $warn-palette,
-  is-dark: true,
+  is-dark: false,
   foreground: $foreground,
   background: $background,
 );
