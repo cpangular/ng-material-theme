@@ -238,7 +238,7 @@
   }
   
   .mat-pseudo-checkbox-disabled {
-    color: #686868;
+    color: #b0b0b0;
   }
   
   .mat-primary .mat-pseudo-checkbox-checked,
@@ -260,7 +260,7 @@
   
   .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled,
   .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled {
-    background: #686868;
+    background: #b0b0b0;
   }
   
   .mat-app-background {
@@ -679,13 +679,6 @@
     opacity: 0.24;
   }
   
-  select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) option {
-    color: rgba(0, 0, 0, 0.87);
-  }
-  select.mat-mdc-form-field-input-control:not(.mat-mdc-native-select-inline) option:disabled {
-    color: rgba(0, 0, 0, 0.38);
-  }
-  
   .mat-mdc-form-field-type-mat-native-select .mat-mdc-form-field-infix::after {
     color: rgba(255, 255, 255, 0.54);
   }
@@ -1039,13 +1032,13 @@
   .mat-mdc-standard-chip {
     --mdc-chip-elevated-container-color: #f21f22;
     --mdc-chip-elevated-disabled-container-color: #f21f22;
-    --mdc-chip-label-text-color: #fafafa;
-    --mdc-chip-disabled-label-text-color: #fafafa;
-    --mdc-chip-with-icon-icon-color: #fafafa;
-    --mdc-chip-with-icon-disabled-icon-color: #fafafa;
-    --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: #fafafa;
-    --mdc-chip-with-trailing-icon-trailing-icon-color: #fafafa;
-    --mdc-chip-with-icon-selected-icon-color: #fafafa;
+    --mdc-chip-label-text-color: #212121;
+    --mdc-chip-disabled-label-text-color: #212121;
+    --mdc-chip-with-icon-icon-color: #212121;
+    --mdc-chip-with-icon-disabled-icon-color: #212121;
+    --mdc-chip-with-trailing-icon-disabled-trailing-icon-color: #212121;
+    --mdc-chip-with-trailing-icon-trailing-icon-color: #212121;
+    --mdc-chip-with-icon-selected-icon-color: #212121;
   }
   .mat-mdc-standard-chip.mat-primary.mat-mdc-chip-selected, .mat-mdc-standard-chip.mat-primary.mat-mdc-chip-highlighted {
     --mdc-chip-elevated-container-color: #020000;
@@ -1090,26 +1083,26 @@
   }
   
   .mat-mdc-slide-toggle {
-    --mdc-switch-disabled-selected-handle-color: #000;
-    --mdc-switch-disabled-unselected-handle-color: #000;
-    --mdc-switch-disabled-selected-track-color: #f5f5f5;
-    --mdc-switch-disabled-unselected-track-color: #f5f5f5;
-    --mdc-switch-unselected-focus-state-layer-color: #f5f5f5;
-    --mdc-switch-unselected-pressed-state-layer-color: #f5f5f5;
-    --mdc-switch-unselected-hover-state-layer-color: #f5f5f5;
-    --mdc-switch-unselected-focus-track-color: #616161;
-    --mdc-switch-unselected-hover-track-color: #616161;
-    --mdc-switch-unselected-pressed-track-color: #616161;
-    --mdc-switch-unselected-track-color: #616161;
-    --mdc-switch-unselected-focus-handle-color: #fafafa;
-    --mdc-switch-unselected-hover-handle-color: #fafafa;
-    --mdc-switch-unselected-pressed-handle-color: #fafafa;
+    --mdc-switch-disabled-selected-handle-color: #424242;
+    --mdc-switch-disabled-unselected-handle-color: #424242;
+    --mdc-switch-disabled-selected-track-color: #424242;
+    --mdc-switch-disabled-unselected-track-color: #424242;
+    --mdc-switch-unselected-focus-state-layer-color: #424242;
+    --mdc-switch-unselected-pressed-state-layer-color: #424242;
+    --mdc-switch-unselected-hover-state-layer-color: #424242;
+    --mdc-switch-unselected-focus-track-color: #e0e0e0;
+    --mdc-switch-unselected-hover-track-color: #e0e0e0;
+    --mdc-switch-unselected-pressed-track-color: #e0e0e0;
+    --mdc-switch-unselected-track-color: #e0e0e0;
+    --mdc-switch-unselected-focus-handle-color: #212121;
+    --mdc-switch-unselected-hover-handle-color: #212121;
+    --mdc-switch-unselected-pressed-handle-color: #212121;
     --mdc-switch-handle-surface-color: var(--mdc-theme-surface, #fff);
-    --mdc-switch-unselected-handle-color: #9e9e9e;
-    --mdc-switch-selected-icon-color: #212121;
-    --mdc-switch-disabled-selected-icon-color: #212121;
-    --mdc-switch-disabled-unselected-icon-color: #212121;
-    --mdc-switch-unselected-icon-color: #212121;
+    --mdc-switch-unselected-handle-color: #616161;
+    --mdc-switch-selected-icon-color: #fff;
+    --mdc-switch-disabled-selected-icon-color: #fff;
+    --mdc-switch-disabled-unselected-icon-color: #fff;
+    --mdc-switch-unselected-icon-color: #fff;
   }
   .mat-mdc-slide-toggle .mdc-form-field {
     color: var(--mdc-theme-text-primary-on-background, white);
@@ -1118,43 +1111,43 @@
     color: #ff0005;
   }
   .mat-mdc-slide-toggle.mat-primary {
-    --mdc-switch-selected-focus-state-layer-color: #000300;
-    --mdc-switch-selected-handle-color: #000300;
-    --mdc-switch-selected-hover-state-layer-color: #000300;
-    --mdc-switch-selected-pressed-state-layer-color: #000300;
-    --mdc-switch-selected-focus-handle-color: #000200;
-    --mdc-switch-selected-hover-handle-color: #000200;
-    --mdc-switch-selected-pressed-handle-color: #000200;
-    --mdc-switch-selected-focus-track-color: #000600;
-    --mdc-switch-selected-hover-track-color: #000600;
-    --mdc-switch-selected-pressed-track-color: #000600;
-    --mdc-switch-selected-track-color: #000600;
+    --mdc-switch-selected-focus-state-layer-color: #000600;
+    --mdc-switch-selected-handle-color: #000600;
+    --mdc-switch-selected-hover-state-layer-color: #000600;
+    --mdc-switch-selected-pressed-state-layer-color: #000600;
+    --mdc-switch-selected-focus-handle-color: #000900;
+    --mdc-switch-selected-hover-handle-color: #000900;
+    --mdc-switch-selected-pressed-handle-color: #000900;
+    --mdc-switch-selected-focus-track-color: #000300;
+    --mdc-switch-selected-hover-track-color: #000300;
+    --mdc-switch-selected-pressed-track-color: #000300;
+    --mdc-switch-selected-track-color: #000300;
   }
   .mat-mdc-slide-toggle.mat-accent {
-    --mdc-switch-selected-focus-state-layer-color: #100300;
-    --mdc-switch-selected-handle-color: #100300;
-    --mdc-switch-selected-hover-state-layer-color: #100300;
-    --mdc-switch-selected-pressed-state-layer-color: #100300;
-    --mdc-switch-selected-focus-handle-color: #100200;
-    --mdc-switch-selected-hover-handle-color: #100200;
-    --mdc-switch-selected-pressed-handle-color: #100200;
-    --mdc-switch-selected-focus-track-color: #100600;
-    --mdc-switch-selected-hover-track-color: #100600;
-    --mdc-switch-selected-pressed-track-color: #100600;
-    --mdc-switch-selected-track-color: #100600;
+    --mdc-switch-selected-focus-state-layer-color: #100600;
+    --mdc-switch-selected-handle-color: #100600;
+    --mdc-switch-selected-hover-state-layer-color: #100600;
+    --mdc-switch-selected-pressed-state-layer-color: #100600;
+    --mdc-switch-selected-focus-handle-color: #100900;
+    --mdc-switch-selected-hover-handle-color: #100900;
+    --mdc-switch-selected-pressed-handle-color: #100900;
+    --mdc-switch-selected-focus-track-color: #100300;
+    --mdc-switch-selected-hover-track-color: #100300;
+    --mdc-switch-selected-pressed-track-color: #100300;
+    --mdc-switch-selected-track-color: #100300;
   }
   .mat-mdc-slide-toggle.mat-warn {
-    --mdc-switch-selected-focus-state-layer-color: #300300;
-    --mdc-switch-selected-handle-color: #300300;
-    --mdc-switch-selected-hover-state-layer-color: #300300;
-    --mdc-switch-selected-pressed-state-layer-color: #300300;
-    --mdc-switch-selected-focus-handle-color: #300200;
-    --mdc-switch-selected-hover-handle-color: #300200;
-    --mdc-switch-selected-pressed-handle-color: #300200;
-    --mdc-switch-selected-focus-track-color: #300600;
-    --mdc-switch-selected-hover-track-color: #300600;
-    --mdc-switch-selected-pressed-track-color: #300600;
-    --mdc-switch-selected-track-color: #300600;
+    --mdc-switch-selected-focus-state-layer-color: #300600;
+    --mdc-switch-selected-handle-color: #300600;
+    --mdc-switch-selected-hover-state-layer-color: #300600;
+    --mdc-switch-selected-pressed-state-layer-color: #300600;
+    --mdc-switch-selected-focus-handle-color: #300900;
+    --mdc-switch-selected-hover-handle-color: #300900;
+    --mdc-switch-selected-pressed-handle-color: #300900;
+    --mdc-switch-selected-focus-track-color: #300300;
+    --mdc-switch-selected-hover-track-color: #300300;
+    --mdc-switch-selected-pressed-track-color: #300300;
+    --mdc-switch-selected-track-color: #300300;
   }
   
   .mat-mdc-slide-toggle {
@@ -1167,8 +1160,8 @@
   .mat-mdc-radio-button.mat-primary {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #020000;
@@ -1184,8 +1177,8 @@
   .mat-mdc-radio-button.mat-accent {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #120000;
@@ -1201,8 +1194,8 @@
   .mat-mdc-radio-button.mat-warn {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #320000;
@@ -1234,13 +1227,13 @@
   }
   
   .mat-mdc-slider {
-    --mdc-slider-label-container-color: white;
-    --mdc-slider-label-label-text-color: black;
+    --mdc-slider-label-container-color: black;
+    --mdc-slider-label-label-text-color: white;
     --mdc-slider-disabled-handle-color: #fff;
     --mdc-slider-disabled-active-track-color: #fff;
     --mdc-slider-disabled-inactive-track-color: #fff;
     --mdc-slider-with-tick-marks-disabled-container-color: #fff;
-    --mat-mdc-slider-value-indicator-opacity: 0.9;
+    --mat-mdc-slider-value-indicator-opacity: 0.6;
   }
   .mat-mdc-slider.mat-primary {
     --mdc-slider-handle-color: #020000;
@@ -1375,13 +1368,13 @@
   }
   
   .mat-mdc-list-item-interactive::before {
-    background: white;
+    background: black;
   }
   .mat-mdc-list-item-interactive:not(:focus):not(.mdc-list-item--disabled):hover::before {
-    opacity: 0.08;
+    opacity: 0.04;
   }
   .mat-mdc-list-item-interactive:focus::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-list-item-interactive.mdc-list-item--selected::before {
     background: #020000;
@@ -1469,8 +1462,8 @@
     --mdc-checkbox-selected-hover-icon-color: #020000;
     --mdc-checkbox-selected-icon-color: #020000;
     --mdc-checkbox-selected-pressed-icon-color: #020000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1479,8 +1472,8 @@
   .mat-mdc-list-option .mdc-list-item__start, .mat-mdc-list-option .mdc-list-item__end {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #020000;
@@ -1500,8 +1493,8 @@
     --mdc-checkbox-selected-hover-icon-color: #120000;
     --mdc-checkbox-selected-icon-color: #120000;
     --mdc-checkbox-selected-pressed-icon-color: #120000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1510,8 +1503,8 @@
   .mat-mdc-list-option.mat-accent .mdc-list-item__start, .mat-mdc-list-option.mat-accent .mdc-list-item__end {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #120000;
@@ -1531,8 +1524,8 @@
     --mdc-checkbox-selected-hover-icon-color: #320000;
     --mdc-checkbox-selected-icon-color: #320000;
     --mdc-checkbox-selected-pressed-icon-color: #320000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1541,8 +1534,8 @@
   .mat-mdc-list-option.mat-warn .mdc-list-item__start, .mat-mdc-list-option.mat-warn .mdc-list-item__end {
     --mdc-radio-disabled-selected-icon-color: #fff;
     --mdc-radio-disabled-unselected-icon-color: #fff;
-    --mdc-radio-unselected-focus-icon-color: #eeeeee;
-    --mdc-radio-unselected-hover-icon-color: #eeeeee;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
     --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-unselected-pressed-icon-color: rgba(255, 255, 255, 0.54);
     --mdc-radio-selected-focus-icon-color: #320000;
@@ -1736,8 +1729,8 @@
     --mdc-checkbox-selected-hover-icon-color: #020000;
     --mdc-checkbox-selected-icon-color: #020000;
     --mdc-checkbox-selected-pressed-icon-color: #020000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1755,8 +1748,8 @@
     --mdc-checkbox-selected-hover-icon-color: #120000;
     --mdc-checkbox-selected-icon-color: #120000;
     --mdc-checkbox-selected-pressed-icon-color: #120000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1774,8 +1767,8 @@
     --mdc-checkbox-selected-hover-icon-color: #320000;
     --mdc-checkbox-selected-icon-color: #320000;
     --mdc-checkbox-selected-pressed-icon-color: #320000;
-    --mdc-checkbox-unselected-focus-icon-color: #eeeeee;
-    --mdc-checkbox-unselected-hover-icon-color: #eeeeee;
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
     --mdc-checkbox-disabled-selected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-disabled-unselected-icon-color: rgba(255, 255, 255, 0.38);
     --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.54);
@@ -1821,8 +1814,8 @@
     --mdc-text-button-label-text-color: #320000;
   }
   .mat-mdc-button[disabled][disabled] {
-    --mdc-text-button-disabled-label-text-color: rgba(255, 255, 255, 0.5);
-    --mdc-text-button-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-text-button-disabled-label-text-color: rgba(255, 255, 255, 0.38);
+    --mdc-text-button-label-text-color: rgba(255, 255, 255, 0.38);
   }
   
   .mat-mdc-unelevated-button.mat-unthemed {
@@ -1843,9 +1836,9 @@
   }
   .mat-mdc-unelevated-button[disabled][disabled] {
     --mdc-filled-button-disabled-container-color: rgba(255, 255, 255, 0.12);
-    --mdc-filled-button-disabled-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-filled-button-disabled-label-text-color: rgba(255, 255, 255, 0.38);
     --mdc-filled-button-container-color: rgba(255, 255, 255, 0.12);
-    --mdc-filled-button-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-filled-button-label-text-color: rgba(255, 255, 255, 0.38);
   }
   
   .mat-mdc-raised-button.mat-unthemed {
@@ -1866,9 +1859,9 @@
   }
   .mat-mdc-raised-button[disabled][disabled] {
     --mdc-protected-button-disabled-container-color: rgba(255, 255, 255, 0.12);
-    --mdc-protected-button-disabled-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-protected-button-disabled-label-text-color: rgba(255, 255, 255, 0.38);
     --mdc-protected-button-container-color: rgba(255, 255, 255, 0.12);
-    --mdc-protected-button-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-protected-button-label-text-color: rgba(255, 255, 255, 0.38);
     --mdc-protected-button-container-elevation: 0;
   }
   
@@ -1888,8 +1881,8 @@
     --mdc-outlined-button-label-text-color: #320000;
   }
   .mat-mdc-outlined-button[disabled][disabled] {
-    --mdc-outlined-button-label-text-color: rgba(255, 255, 255, 0.5);
-    --mdc-outlined-button-disabled-label-text-color: rgba(255, 255, 255, 0.5);
+    --mdc-outlined-button-label-text-color: rgba(255, 255, 255, 0.38);
+    --mdc-outlined-button-disabled-label-text-color: rgba(255, 255, 255, 0.38);
     --mdc-outlined-button-outline-color: rgba(255, 255, 255, 0.12);
     --mdc-outlined-button-disabled-outline-color: rgba(255, 255, 255, 0.12);
   }
@@ -1899,13 +1892,13 @@
     --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.1);
   }
   .mat-mdc-button:hover .mat-mdc-button-persistent-ripple::before, .mat-mdc-outlined-button:hover .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.08;
+    opacity: 0.04;
   }
   .mat-mdc-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-button.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-outlined-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-outlined-button.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-button:active .mat-mdc-button-persistent-ripple::before, .mat-mdc-outlined-button:active .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-button.mat-primary, .mat-mdc-outlined-button.mat-primary {
     --mat-mdc-button-persistent-ripple-color: #020000;
@@ -1925,13 +1918,13 @@
     --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.1);
   }
   .mat-mdc-raised-button:hover .mat-mdc-button-persistent-ripple::before, .mat-mdc-unelevated-button:hover .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.08;
+    opacity: 0.04;
   }
   .mat-mdc-raised-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-raised-button.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-unelevated-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-unelevated-button.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-raised-button:active .mat-mdc-button-persistent-ripple::before, .mat-mdc-unelevated-button:active .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-raised-button.mat-primary, .mat-mdc-unelevated-button.mat-primary {
     --mat-mdc-button-persistent-ripple-color: #fff;
@@ -1958,13 +1951,13 @@
     --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.1);
   }
   .mat-mdc-icon-button:hover .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.08;
+    opacity: 0.04;
   }
   .mat-mdc-icon-button.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-icon-button.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-icon-button:active .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-icon-button.mat-primary {
     --mat-mdc-button-persistent-ripple-color: #020000;
@@ -1988,8 +1981,8 @@
     --mdc-icon-button-icon-color: #320000;
   }
   .mat-mdc-icon-button[disabled][disabled] {
-    --mdc-icon-button-icon-color: rgba(255, 255, 255, 0.5);
-    --mdc-icon-button-disabled-icon-color: rgba(255, 255, 255, 0.5);
+    --mdc-icon-button-icon-color: rgba(255, 255, 255, 0.38);
+    --mdc-icon-button-disabled-icon-color: rgba(255, 255, 255, 0.38);
   }
   
   .mat-mdc-icon-button.mat-mdc-button-base {
@@ -2028,13 +2021,13 @@
     --mat-mdc-button-ripple-color: rgba(255, 255, 255, 0.1);
   }
   .mat-mdc-fab:hover .mat-mdc-button-persistent-ripple::before, .mat-mdc-mini-fab:hover .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.08;
+    opacity: 0.04;
   }
   .mat-mdc-fab.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-fab.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-mini-fab.cdk-program-focused .mat-mdc-button-persistent-ripple::before, .mat-mdc-mini-fab.cdk-keyboard-focused .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-fab:active .mat-mdc-button-persistent-ripple::before, .mat-mdc-mini-fab:active .mat-mdc-button-persistent-ripple::before {
-    opacity: 0.24;
+    opacity: 0.12;
   }
   .mat-mdc-fab.mat-primary, .mat-mdc-mini-fab.mat-primary {
     --mat-mdc-button-persistent-ripple-color: #fff;
@@ -2070,12 +2063,12 @@
   }
   .mat-mdc-fab[disabled][disabled], .mat-mdc-mini-fab[disabled][disabled] {
     --mdc-fab-container-color: rgba(255, 255, 255, 0.12);
-    --mdc-fab-icon-color: rgba(255, 255, 255, 0.5);
-    --mat-mdc-fab-color: rgba(255, 255, 255, 0.5);
+    --mdc-fab-icon-color: rgba(255, 255, 255, 0.38);
+    --mat-mdc-fab-color: rgba(255, 255, 255, 0.38);
   }
   
   .mat-mdc-snack-bar-container {
-    --mat-mdc-snack-bar-button-color: rgba(0, 0, 0, 0.87);
+    --mat-mdc-snack-bar-button-color: #140000;
     --mdc-snackbar-container-color: #fccccd;
     --mdc-snackbar-supporting-text-color: rgba(240, 0, 4, 0.87);
   }
