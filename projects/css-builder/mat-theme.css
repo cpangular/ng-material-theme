@@ -33,7 +33,7 @@
 }
 
 .mat-pseudo-checkbox-disabled {
-  color: #686868;
+  color: var(--mat-theme-background--disabled, #686868);
 }
 
 .mat-primary .mat-pseudo-checkbox-checked,
@@ -55,7 +55,7 @@
 
 .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-disabled,
 .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-disabled {
-  background: #686868;
+  background: var(--mat-theme-background--disabled, #686868);
 }
 
 .mat-app-background {

@@ -162,15 +162,44 @@ const colorMap = {
         default: 'rgba(255, 255, 255, 0.3)',
     },
     
-    //b0b0b0
-    /*'mat-theme-background--disabled': {
-        placeholder: 'b0b0b0',
-        default: '#686868',
 
-    },*/
+    'mat-theme-background--disabled': {
+        placeholder: '686868',
+        default: '#686868',
+        // light: b0b0b0
+
+    },
 
 }
 
+// --opacity-0 : 8
+// --opacity-1 : 12
+// --opacity-2 : 24
+// --opacity-3 : 38
+// --opacity-4: 87
+
+
+// --opacity-disabled: 50
+
+
+/*
+
+--theme-primary
+--theme-primary-contrast
+--theme-secondary
+--theme-secondary-contrast
+--theme-error
+--theme-error-contrast
+
+--theme-background
+--theme-background-contrast
+
+--theme-surface
+--theme-surface-contrast
+
+
+
+*/
 
 // 'var(--mdc-theme-primary, #020000)' = > var(--mdc-theme-primary, #020000)
 // '#020000' = > var(--mdc-theme-primary)
