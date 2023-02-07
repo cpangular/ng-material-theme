@@ -1,5 +1,5 @@
 import { ThemeTokens } from "../ThemeTokens";
-import { CssTransform } from "./CssTransform";
+import { CssTransform } from "../CssTransform";
 
 export const backgroundTransformers: CssTransform[] = [];
 
@@ -7,7 +7,7 @@ export const backgroundTransformers: CssTransform[] = [];
 backgroundTransformers.push((css) => {
     return css.replaceAll(
         `${ThemeTokens.background['status-bar']}`,
-        `var(--theme-background-status-bar)`
+        `var(--theme-background-base)`
     );
 });
 
@@ -56,7 +56,6 @@ backgroundTransformers.push((css) => {
     );
 });
 
-
 backgroundTransformers.push((css) => {
     return css.replaceAll(
         `${ThemeTokens.background.hover}`,
@@ -84,4 +83,3 @@ backgroundTransformers.push((css) => {
         `var(--theme-background-disabled)`
     );
 });
-

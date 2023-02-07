@@ -1,5 +1,5 @@
 import { ThemeTokens } from "../ThemeTokens";
-import { CssTransform } from "./CssTransform";
+import { CssTransform } from "../CssTransform";
 
 export const foregroundTransformers: CssTransform[] = [];
 
@@ -33,6 +33,13 @@ foregroundTransformers.push((css) => {
 
 foregroundTransformers.push((css) => {
     return css.replaceAll(
+        `rgba(255, 255, 255, 0.5)`,
+        `var(--theme-foreground-text-disabled)`
+    );
+});
+
+foregroundTransformers.push((css) => {
+    return css.replaceAll(
         `${ThemeTokens.foreground['hint-text']}`,
         `var(--theme-foreground-text-hint)`
     );
@@ -44,6 +51,8 @@ foregroundTransformers.push((css) => {
         `var(--theme-foreground-icon, var(--theme-foreground-text))`
     );
 });
+
+
 
 foregroundTransformers.push((css) => {
     return css.replaceAll(
@@ -102,6 +111,8 @@ foregroundTransformers.push((css) => {
         `var(--theme-foreground-text-disabled)`
     );
 });
+
+
 
 
 

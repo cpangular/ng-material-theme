@@ -1,5 +1,5 @@
 import { ThemeTokens } from "../ThemeTokens";
-import { CssTransform } from "./CssTransform";
+import { CssTransform } from "../CssTransform";
 
 export const paletteTransformers: CssTransform[] = [];
 
@@ -10,7 +10,7 @@ const palettes = [
     "primary",
     "accent",
     "warn",
-]
+];
 
 const paletteNameMap = {
     primary: "primary",
@@ -36,9 +36,26 @@ const paletteColorKeys = [
     "A200",
     "A400",
     "A700",
-]
+];
+
+const tints = [
+    '0.05',
+    '0.1',
+    '0.2',
+    '0.25',
+    '0.3',
+    '0.4',
+    '0.87',
+];
+
+const paletteTintMap = {
+    'primary': '2, 0, 0',
+    'accent': '18, 0, 0',
+    'warn': '34, 0, 0',
+};
 
 
+// palette refs
 paletteTransformers.push((css) => {
     for (const palette of palettes) {
         var mdcName = paletteNameMap[palette];
@@ -57,8 +74,24 @@ paletteTransformers.push((css) => {
     return css;
 });
 
+// palette tints
+paletteTransformers.push((css) => {
+    for (const palette of palettes) {
+        var mdcName = paletteNameMap[palette];
+        for (let i = 0; i < tints.length; i++) {
+            const tintAmount = tints[i];
+            var tintKey = paletteTintMap[palette];
+            css = css.replaceAll(
+                `rgba(${tintKey}, ${tintAmount})`,
+                `var(--theme-${mdcName}-tint-${i})`
+            );
+        }
+    }
+    return css;
+});
 
-// Primary Palette
+
+// Primary Palette defaults
 paletteTransformers.push((css) => {
     return css.replaceAll(
         `var(--mdc-theme-primary, ${ThemeTokens.primary.default})`,
@@ -86,6 +119,56 @@ paletteTransformers.push((css) => {
         `var(--theme-primary-contrast)`
     );
 });
+
+
+
+
+/*
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.05)`,
+        `var(--theme-primary-tint-ripple-low)`
+    );
+});
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.2)`,
+        `var(--theme-primary-tint-ripple)`
+    );
+});
+
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.1)`,
+        `var(--theme-primary-tint-medium)`
+    );
+});
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.25)`,
+        `var(--theme-primary-tint-medium)`
+    );
+});
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.4)`,
+        `var(--theme-primary-tint-medium)`
+    );
+});
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.3)`,
+        `var(--theme-primary-tint-medium)`
+    );
+});
+
+paletteTransformers.push((css) => {
+    return css.replaceAll(
+        `rgba(2, 0, 0, 0.87)`,
+        `var(--theme-primary-tint-high)`
+    );
+});
+*/
 
 // primary contrast = --mdc-theme-text-primary-on-background
 

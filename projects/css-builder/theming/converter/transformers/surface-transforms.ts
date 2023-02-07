@@ -1,5 +1,5 @@
 import { ThemeTokens } from "../ThemeTokens";
-import { CssTransform } from "./CssTransform";
+import { CssTransform } from "../CssTransform";
 
 export const surfaceTransformers: CssTransform[] = [];
 

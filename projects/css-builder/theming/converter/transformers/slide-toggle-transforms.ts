@@ -1,6 +1,6 @@
 import { ThemeTokens } from "../ThemeTokens";
-import { CssTransform } from "./CssTransform";
-import { replaceVar } from "./replaceVar";
+import { CssTransform } from "../CssTransform";
+import { replaceVar } from "../replaceVar";
 
 export const slideToggleTransformers: CssTransform[] = [];
 
