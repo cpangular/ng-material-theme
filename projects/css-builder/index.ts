@@ -1,5 +1,85 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { cssTransformers } from './theming/transformers/transformers';
 
+mkdirSync('./dist', { recursive: true });
+
+const cssPath = '../NgMaterialApp/dist/ng-material-app/styles.css';
+
+let cssParts = readFileSync(cssPath, { encoding: 'utf-8' })
+    .split(/(\/\*\!\*\*)|(\*\*\*\/\n)/g)
+    .filter(i => !!i)
+    .filter(i => !i.startsWith('/*!*'))
+    .filter(i => !i.startsWith('***'))
+    ;
+
+const coreCss = cssParts[0];
+writeFileSync('./dist/mat-core.css', coreCss, { encoding: 'utf-8' });
+
+
+let componentCss = cssParts[1];
+for (const transform of cssTransformers) {
+    componentCss = transform(componentCss);
+}
+
+writeFileSync('./dist/mat-theme.css', componentCss, { encoding: 'utf-8' });
+
+
+
+
+
+
+
+
+
+/*
+--theme-foreground-text
+--theme-foreground-secondary-text
+--theme-foreground-hint-text
+--theme-foreground-disabled-text
+--theme-foreground-divider
+--theme-background-focus
+*/
+////////
+
+
+// --theme-background
+// --theme-background-contrast
+// --theme-background-contrast-low
+
+// --theme-background
+// --theme-background-contrast
+// --theme-background-contrast-low
+
+// --theme-background-low
+// --theme-background-low-contrast
+// --theme-background-low-contrast-low
+
+// --theme-background-high
+// --theme-background-high-contrast
+// --theme-background-high-contrast-low
+
+
+//     let find = `var(--${varName}, #${cm.placeholder})`;
+//     let replace = `var(--${varName}, ${cm.default})`;
+
+//     lightCss = lightCss.replaceAll(find, replace);
+
+//     find = `#${cm.placeholder}`;
+//     replace = `var(--${varName}, ${cm.default})`;
+
+//     lightCss = lightCss.replaceAll(find, replace);
+
+
+
+
+
+
+
+/*
+import {genNgMaterialThemeData} from './theming/genNgMaterialThemeData';
+var t = genNgMaterialThemeData();
+console.log(t);
+/*
 const cssPath = '../NgMaterialApp/dist/ng-material-app/styles.css';
 
 
@@ -161,7 +241,7 @@ const colorMap = {
         placeholder: 'ff0014',
         default: 'rgba(255, 255, 255, 0.3)',
     },
-    
+
 
     'mat-theme-background--disabled': {
         placeholder: '686868',
@@ -186,42 +266,47 @@ const colorMap = {
 
 --theme-primary
 --theme-primary-contrast
+
 --theme-secondary
 --theme-secondary-contrast
+
 --theme-error
 --theme-error-contrast
 
 --theme-background
 --theme-background-contrast
+--theme-background-contrast-low
 
 --theme-surface
 --theme-surface-contrast
+--theme-surface-contrast-low
 
+--theme-opacity-low: 0.08
+--theme-opacity-medium: 0.12
+--theme-opacity-high: 0.24
 
+--theme-opacity-disabled: 0.5
 
 */
 
 // 'var(--mdc-theme-primary, #020000)' = > var(--mdc-theme-primary, #020000)
 // '#020000' = > var(--mdc-theme-primary)
 
-for (const varName in colorMap) {
-    const cm = colorMap[varName];
+// for (const varName in colorMap) {
+//     const cm = colorMap[varName];
 
-    let find = `var(--${varName}, #${cm.placeholder})`;
-    let replace = `var(--${varName}, ${cm.default})`;
+//     let find = `var(--${varName}, #${cm.placeholder})`;
+//     let replace = `var(--${varName}, ${cm.default})`;
 
-    lightCss = lightCss.replaceAll(find, replace);
+//     lightCss = lightCss.replaceAll(find, replace);
 
-    find = `#${cm.placeholder}`;
-    replace = `var(--${varName}, ${cm.default})`;
+//     find = `#${cm.placeholder}`;
+//     replace = `var(--${varName}, ${cm.default})`;
 
-    lightCss = lightCss.replaceAll(find, replace);
+//     lightCss = lightCss.replaceAll(find, replace);
 
-}
+// }
 
-mkdirSync('./dist', { recursive: true });
 
-writeFileSync('./dist/mat-core.css', coreCss, { encoding: 'utf-8' });
-writeFileSync('./dist/mat-theme.css', lightCss, { encoding: 'utf-8' });
 
 
