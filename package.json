@@ -7,6 +7,7 @@
     "prepare": "run-s prepare:*",
     "prepare:clean-tags": "pnpm run clean-tags",
     "prepare:husky": "husky install",
+    "prepare:theme-data": "pnpm run build:generate-theme-data",
     "pre-commit": "run-s pre-commit:*",
     "pre-commit:tags": "pnpm run clean-tags",
     "pre-commit:projects": "pnpm -r run pre-commit",
