@@ -52,8 +52,6 @@ foregroundTransformers.push((css) => {
     );
 });
 
-
-
 foregroundTransformers.push((css) => {
     return css.replaceAll(
         `${ThemeTokens.foreground.divider}`,
@@ -96,24 +94,16 @@ foregroundTransformers.push((css) => {
     );
 });
 
-
-
 foregroundTransformers.push((css) => {
     return css.replaceAll(
         `var(--mdc-theme-text-hint-on-background, rgba(255, 255, 255, 0.5))`,
-        `var(--theme-foreground-text-disabled)`
+        `var(--theme-foreground-text-hint)`
     );
 });
 
 foregroundTransformers.push((css) => {
     return css.replaceAll(
         `var(--mdc-theme-text-icon-on-background, rgba(255, 255, 255, 0.5))`,
-        `var(--theme-foreground-text-disabled)`
+        `var(--theme-foreground-text-hint)`
     );
 });
-
-
-
-
-
-

@@ -3,14 +3,12 @@ import { CssTransform } from "../CssTransform";
 
 export const backgroundTransformers: CssTransform[] = [];
 
-
 backgroundTransformers.push((css) => {
     return css.replaceAll(
         `${ThemeTokens.background['status-bar']}`,
         `var(--theme-background-base)`
     );
 });
-
 
 backgroundTransformers.push((css) => {
     return css.replaceAll(
@@ -25,7 +23,6 @@ backgroundTransformers.push((css) => {
         `var(--theme-background-low)`
     );
 });
-
 
 backgroundTransformers.push((css) => {
     return css.replaceAll(
@@ -47,7 +44,6 @@ backgroundTransformers.push((css) => {
         `var(--theme-background-high)`
     );
 });
-
 
 backgroundTransformers.push((css) => {
     return css.replaceAll(

@@ -3,9 +3,6 @@ import { CssTransform } from "../CssTransform";
 
 export const paletteTransformers: CssTransform[] = [];
 
-
-
-
 const palettes = [
     "primary",
     "accent",
@@ -19,7 +16,6 @@ const paletteNameMap = {
     warn: "error",
     error: "warn",
 };
-
 
 const paletteColorKeys = [
     "50",
@@ -53,7 +49,6 @@ const paletteTintMap = {
     'accent': '18, 0, 0',
     'warn': '34, 0, 0',
 };
-
 
 // palette refs
 paletteTransformers.push((css) => {
@@ -120,58 +115,6 @@ paletteTransformers.push((css) => {
     );
 });
 
-
-
-
-/*
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.05)`,
-        `var(--theme-primary-tint-ripple-low)`
-    );
-});
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.2)`,
-        `var(--theme-primary-tint-ripple)`
-    );
-});
-
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.1)`,
-        `var(--theme-primary-tint-medium)`
-    );
-});
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.25)`,
-        `var(--theme-primary-tint-medium)`
-    );
-});
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.4)`,
-        `var(--theme-primary-tint-medium)`
-    );
-});
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.3)`,
-        `var(--theme-primary-tint-medium)`
-    );
-});
-
-paletteTransformers.push((css) => {
-    return css.replaceAll(
-        `rgba(2, 0, 0, 0.87)`,
-        `var(--theme-primary-tint-high)`
-    );
-});
-*/
-
-// primary contrast = --mdc-theme-text-primary-on-background
-
 paletteTransformers.push((css) => {
     return css.replaceAll(
         `var(--mdc-theme-text-primary-on-background, ${ThemeTokens.primary['default-contrast']})`,
@@ -185,7 +128,6 @@ paletteTransformers.push((css) => {
         `var(--theme-primary-contrast)`
     );
 });
-
 
 // Secondary Palette
 

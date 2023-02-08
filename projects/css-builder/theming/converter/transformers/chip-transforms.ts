@@ -1,4 +1,3 @@
-import { ThemeTokens } from "../ThemeTokens";
 import { CssTransform } from "../CssTransform";
 import { replaceVar } from "../replaceVar";
 
@@ -16,5 +15,3 @@ chipTransformers.push(replaceVar('mdc-chip-with-icon-disabled-icon-color', '#faf
 chipTransformers.push(replaceVar('mdc-chip-with-trailing-icon-disabled-trailing-icon-color', '#fafafa', 'var(--theme-foreground-text-secondary)'));
 chipTransformers.push(replaceVar('mdc-chip-with-trailing-icon-trailing-icon-color', '#fafafa', 'var(--theme-foreground-text-secondary)'));
 chipTransformers.push(replaceVar('mdc-chip-with-icon-selected-icon-color', '#fafafa', 'var(--theme-foreground-text-secondary)'));
-
-
