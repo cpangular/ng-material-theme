@@ -1,9 +1,12 @@
 {
-  "name": "ng-material-app",
+  "name": "test-app",
   "version": "0.0.0",
   "scripts": {
-    "build": "ng build --configuration=development",
-    "start": "ng serve"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {

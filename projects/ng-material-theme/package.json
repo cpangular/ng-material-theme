@@ -1,0 +1,9 @@
+{
+  "name": "@cpangular/ng-material-theme",
+  "version": "0.0.0-PLACEHOLDER",
+  "scripts": {},
+  "repository": "https://github.com/cpangular/ng-material-theme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

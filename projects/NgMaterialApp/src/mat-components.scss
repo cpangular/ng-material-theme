@@ -4,4 +4,147 @@
 
 @use "_theme" as theme;
 
+@use "sass:map";
+
 @include mat.all-component-themes(theme.$theme);
+
+@mixin asdf($themeId, $isDefaultTheme, $light, $dark) {
+  $selector: "";
+  @if $isDefaultTheme {
+    $selector: 'html:not([theme]), html[theme=""], [theme=#{$themeId}]';
+  } @else {
+    $selector: "[theme=#{$themeId}]";
+  }
+
+  #{$selector} {
+    @each $k, $l in $light {
+      $d: map.get($dark, $k);
+      @if $l == $d {
+        #{$k}: #{$d};
+      }
+    }
+
+    @at-root {
+      html[theme-mode=""]:is(&),
+      html[theme-mode=""] &,
+      html:not([theme-mode]):is(&),
+      html:not([theme-mode]) & {
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$l};
+          }
+        }
+
+        @media (prefers-color-scheme: dark) {
+          @each $k, $l in $light {
+            $d: map.get($dark, $k);
+            @if $l != $d {
+              #{$k}: #{$d};
+            }
+          }
+        }
+      }
+    }
+
+    @at-root {
+      html[theme-mode="light"]:is(&),
+      html[theme-mode="light"] & {
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$l};
+          }
+        }
+      }
+    }
+
+    @at-root {
+      html[theme-mode="dark"]:is(&),
+      html[theme-mode="dark"] & {
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$d};
+          }
+        }
+      }
+    }
+  }
+}
+
+@include asdf(
+  my-theme,
+  true,
+  (
+    "--theme-background": #fff,
+  ),
+  (
+    "--theme-background": #f00,
+  )
+);
+
+/*
+html:not([theme]),  // <-- makes theme default theme
+html[theme=""],  // <-- makes theme default theme
+[theme=my-theme] {
+
+  @at-root {
+    html:not([theme-mode="light"]):is(&),
+    html:not([theme-mode="light"]) & {
+      --theme-background: #000;
+    }
+  }
+
+  @at-root {
+    html[theme-mode="light"]:is(&),
+    html[theme-mode="light"] & {
+      --theme-background: #0ff;
+    }
+  }
+}
+
+*/
+
+// @at-root html:not([theme-mode=light]):is(&),
+// @at-root html:not([theme-mode=light]) & {
+//   --theme-background: #000;
+// }
+// @at-root html[theme-mode=light] & {
+//   --theme-background: #fff;
+// }
+/*
+  &:has([theme-mode="dark"]){
+    color: blue;
+  }
+
+  &:has(> html[theme-mode=light]){
+    --theme-background: #fff;
+  }
+
+/*
+  --theme-palette--primary-50: #000050;
+  --theme-palette--primary-50-contrast: white;
+  --theme-palette--primary-50-contrast-low: grey;
+
+  --theme-palette--primary-100: #000050;
+  --theme-palette--primary-100-contrast: white;
+  --theme-palette--primary-100-contrast-low: grey;
+
+  --theme-palette--primary-200: #000050;
+  --theme-palette--primary-200-contrast: white;
+  --theme-palette--primary-200-contrast-low: grey;
+
+  // ...
+
+  --theme-palette--primary-default: #000050;
+  --mdc-theme-primary: var(--theme-palette--primary-default);
+
+  --theme-palette--primary-default-contrast: white;
+  --mdc-theme-on-primary: var(--theme-palette--primary-default-contrast);
+  --theme-palette--primary-default-contrast-low: grey;
+  */
+
+mat-card {
+  background-color: var(--theme-background);
+}

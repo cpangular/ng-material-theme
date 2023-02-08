@@ -1,4 +1,13 @@
-:root {
+html,  // <-- makes theme default theme
+[theme=my-theme] {
+  //&:has(html:not([theme-mode])), // <-- makes mode default mode
+  &:has(html[theme-mode="dark"]) {
+  }
+
+  &:has(html[theme-mode="light"]) {
+  }
+
+  /*
   --theme-palette--primary-50: #000050;
   --theme-palette--primary-50-contrast: white;
   --theme-palette--primary-50-contrast-low: grey;
@@ -19,4 +28,5 @@
   --theme-palette--primary-default-contrast: white;
   --mdc-theme-on-primary: var(--theme-palette--primary-default-contrast);
   --theme-palette--primary-default-contrast-low: grey;
+  */
 }

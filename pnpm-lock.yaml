@@ -66,6 +66,59 @@ importers:
       karma-jasmine-html-reporter: 2.0.0_uk6l45dlsjldsnfgnal4othgyq
       typescript: 4.9.5
 
+  projects/TestApp:
+    specifiers:
+      "@angular-devkit/build-angular": ^15.1.3
+      "@angular/animations": ^15.1.0
+      "@angular/cdk": 15.1.3
+      "@angular/cli": ~15.1.3
+      "@angular/common": ^15.1.0
+      "@angular/compiler": ^15.1.0
+      "@angular/compiler-cli": ^15.1.0
+      "@angular/core": ^15.1.0
+      "@angular/forms": ^15.1.0
+      "@angular/material": 15.1.3
+      "@angular/platform-browser": ^15.1.0
+      "@angular/platform-browser-dynamic": ^15.1.0
+      "@angular/router": ^15.1.0
+      "@types/jasmine": ~4.3.0
+      jasmine-core: ~4.5.0
+      karma: ~6.4.0
+      karma-chrome-launcher: ~3.1.0
+      karma-coverage: ~2.2.0
+      karma-jasmine: ~5.1.0
+      karma-jasmine-html-reporter: ~2.0.0
+      rxjs: ~7.8.0
+      tslib: ^2.3.0
+      typescript: ~4.9.4
+      zone.js: ~0.12.0
+    dependencies:
+      "@angular/animations": 15.1.3_@angular+core@15.1.3
+      "@angular/cdk": 15.1.3_um5srvgxdjze4pjhzgxkaq5vrm
+      "@angular/common": 15.1.3_e5k2npugnvd34secg4d53mkdom
+      "@angular/compiler": 15.1.3_@angular+core@15.1.3
+      "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/forms": 15.1.3_ldllaezapbozgxcjenczigqhsy
+      "@angular/material": 15.1.3_yt6tcv4cymxy3nvn3sbjk6ujxy
+      "@angular/platform-browser": 15.1.3_bjrq5ug2dzvjea7bcoozclkliu
+      "@angular/platform-browser-dynamic": 15.1.3_g73y6grxaixjsu7lthh2v6wd74
+      "@angular/router": 15.1.3_ldllaezapbozgxcjenczigqhsy
+      rxjs: 7.8.0
+      tslib: 2.5.0
+      zone.js: 0.12.0
+    devDependencies:
+      "@angular-devkit/build-angular": 15.1.4_ghxqtropjkuqoqj6aexbk5frmm
+      "@angular/cli": 15.1.4
+      "@angular/compiler-cli": 15.1.3_4khyt5yocueaoa5yhnzf5rhw64
+      "@types/jasmine": 4.3.1
+      jasmine-core: 4.5.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-jasmine: 5.1.0_karma@6.4.1
+      karma-jasmine-html-reporter: 2.0.0_uk6l45dlsjldsnfgnal4othgyq
+      typescript: 4.9.5
+
   projects/css-builder:
     specifiers:
       "@types/node": ^18.11.19
@@ -76,6 +129,9 @@ importers:
       typescript: 4.9.5
     devDependencies:
       "@types/node": 18.13.0
+
+  projects/ng-material-theme:
+    specifiers: {}
 
 packages:
   /@ampproject/remapping/2.2.0:

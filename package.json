@@ -18,6 +18,7 @@
     "build:build-theme": "pnpm -r run build",
     "build:build-css": "pnpm -r run build-css",
     "pack": "pnpm -r run pack",
+    "start": "pnpm -r run start",
     "test": "pnpm -r run test",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier --write --ignore-unknown .",
