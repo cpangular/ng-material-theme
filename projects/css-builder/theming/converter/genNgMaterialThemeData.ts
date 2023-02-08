@@ -1,7 +1,7 @@
 import { ThemeTokens } from "./ThemeTokens";
 
 export function genNgMaterialThemeData(): string {
-    return `
+  return `
         $primary-palette: (
             50: ${ThemeTokens.primary[50]},
             100: ${ThemeTokens.primary[100]},

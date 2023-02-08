@@ -1,6 +1,6 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { genNgMaterialThemeData } from './theming/converter/genNgMaterialThemeData';
+import { readFileSync, writeFileSync, mkdirSync } from "fs";
+import { genNgMaterialThemeData } from "./theming/converter/genNgMaterialThemeData";
 var cssData = genNgMaterialThemeData();
 
-const cssPath = '../NgMaterialApp/src/_theme.scss';
-writeFileSync(cssPath, cssData, { encoding: 'utf-8' });
+const cssPath = "../NgMaterialApp/src/_theme.scss";
+writeFileSync(cssPath, cssData, { encoding: "utf-8" });

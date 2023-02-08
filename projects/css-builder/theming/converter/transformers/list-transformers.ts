@@ -11,19 +11,16 @@ let cssToReplace = `.mat-mdc-list-item-interactive::before {
 }`;
 
 listTransformers.push((css) => {
-  return css.replaceAll(
-    cssToFind,
-    cssToReplace
-  );
+  return css.replaceAll(cssToFind, cssToReplace);
 });
 
 // opacity
 const findOpacityRule = /^.*?.mat-mdc-list-item-interactive:.*?\{.*?\n.*?(opacity: .*?);.*?\n/gm;
 const rippleOpacityMap = {
-  'opacity: 0.08': 'opacity: var(--theme-opacity-low)',
-  'opacity: 0.24': 'opacity: var(--theme-opacity-medium)',
-  'opacity: 0.9': 'opacity: var(--theme-opacity-high)',
-}
+  "opacity: 0.08": "opacity: var(--theme-opacity-low)",
+  "opacity: 0.24": "opacity: var(--theme-opacity-medium)",
+  "opacity: 0.9": "opacity: var(--theme-opacity-high)",
+};
 
 listTransformers.push((css) => {
   const matches = css.matchAll(findOpacityRule);

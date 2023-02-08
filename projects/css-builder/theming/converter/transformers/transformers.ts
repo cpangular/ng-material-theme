@@ -15,18 +15,18 @@ import { surfaceTransformers } from "./surface-transforms";
 import { opacityTransformers } from "./opacity-transformers";
 
 export const cssTransformers: CssTransform[] = [
-    paletteTransformers,
-    foregroundTransformers,
-    backgroundTransformers,
-    surfaceTransformers,
-    overlayTransformers,
-    chipTransformers,
-    sliderTransformers,
-    slideToggleTransformers,
-    radioButtonTransformers,
-    checkboxTransformers,
-    listTransformers,
-    snackBarTransformers,
-    cardTransformers,
-    opacityTransformers
+  paletteTransformers,
+  foregroundTransformers,
+  backgroundTransformers,
+  surfaceTransformers,
+  overlayTransformers,
+  chipTransformers,
+  sliderTransformers,
+  slideToggleTransformers,
+  radioButtonTransformers,
+  checkboxTransformers,
+  listTransformers,
+  snackBarTransformers,
+  cardTransformers,
+  opacityTransformers,
 ].flat();

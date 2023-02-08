@@ -3,6 +3,4 @@ import { replaceVar } from "../replaceVar";
 
 export const cardTransformers: CssTransform[] = [];
 
-cardTransformers.push(replaceVar('mdc-outlined-card-outline-color', '#f21f22', 'var(--theme-foreground-stroke)'));
-
-
+cardTransformers.push(replaceVar("mdc-outlined-card-outline-color", "#f21f22", "var(--theme-foreground-stroke)"));
