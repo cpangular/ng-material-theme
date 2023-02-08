@@ -1,11 +1,34 @@
 {
   "name": "@cpangular/ng-material-theme",
   "version": "0.0.0-dev.0",
+  "private": true,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "run-s prepare:*",
+    "prepare:clean-tags": "pnpm run clean-tags",
+    "prepare:husky": "husky install",
+    "pre-commit": "run-s pre-commit:*",
+    "pre-commit:tags": "pnpm run clean-tags",
+    "pre-commit:projects": "pnpm -r run pre-commit",
+    "pre-commit:git-add": "git add -u",
+    "clean-tags": "git tag | xargs git tag -d",
+    "build": "pnpm -r run build",
+    "pack": "pnpm -r run pack",
+    "test": "pnpm -r run test",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier --write --ignore-unknown .",
+    "fix:projects": "pnpm -r run fix",
+    "reset-hard": "run-s reset-hard:*",
+    "reset-hard:git-clean": "git clean -dfx && git reset --hard",
+    "reset-hard:install": "pnpm install --force",
+    "actions-build": "pnpm run build",
+    "actions-pack": "pnpm run pack",
+    "actions-test": "pnpm run test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.1",
+    "npm-run-all2": "^6.0.4",
+    "prettier": "^2.8.3"
+  }
 }
