@@ -11,9 +11,9 @@
 @mixin asdf($themeId, $isDefaultTheme, $light, $dark) {
   $selector: "";
   @if $isDefaultTheme {
-    $selector: 'html:not([theme]), html[theme=""], [theme=#{$themeId}]';
+    $selector: '-theme-, html:not([theme]), html[theme=""], [theme=#{$themeId}]';
   } @else {
-    $selector: "[theme=#{$themeId}]";
+    $selector: "-theme-, [theme=#{$themeId}]";
   }
 
   #{$selector} {

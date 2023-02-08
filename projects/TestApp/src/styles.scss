@@ -3,6 +3,8 @@
 @use "@angular/material" as mat;
 // Plus imports for other components in your app.
 
+@use "sass:map";
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
@@ -44,3 +46,100 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+@mixin makeTheme($themeId, $isDefaultTheme, $light, $dark) {
+  -theme- {
+    --def-theme-id: #{$themeId};
+    --def-theme-is-default: #{$isDefaultTheme};
+  }
+
+  $selector: "[theme=#{$themeId}]";
+  @if $isDefaultTheme {
+    $selector: '#{$selector}, html:not([theme]), html[theme=""]';
+  }
+
+  #{$selector} {
+    --def-theme-mode: shared;
+    @each $k, $l in $light {
+      $d: map.get($dark, $k);
+      @if $l == $d {
+        #{$k}: #{$d};
+      }
+    }
+
+    @at-root {
+      html[theme-mode=""]:is(&),
+      html[theme-mode=""] &,
+      html:not([theme-mode]):is(&),
+      html:not([theme-mode]) & {
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$l};
+          }
+        }
+
+        @media (prefers-color-scheme: dark) {
+          @each $k, $l in $light {
+            $d: map.get($dark, $k);
+            @if $l != $d {
+              #{$k}: #{$d};
+            }
+          }
+        }
+      }
+    }
+
+    @at-root {
+      html[theme-mode="light"]:is(&),
+      html[theme-mode="light"] & {
+        --def-theme-mode: light;
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$l};
+          }
+        }
+      }
+    }
+
+    @at-root {
+      html[theme-mode="dark"]:is(&),
+      html[theme-mode="dark"] & {
+        --def-theme-mode: dark;
+        @each $k, $l in $light {
+          $d: map.get($dark, $k);
+          @if $l != $d {
+            #{$k}: #{$d};
+          }
+        }
+      }
+    }
+  }
+}
+
+@include makeTheme(
+  my-theme,
+  true,
+  (
+    "--theme-background": #fff,
+    "--theme-background-low": #ccc,
+  ),
+  (
+    "--theme-background": #f00,
+    "--theme-background-low": #ccc,
+  )
+);
+
+@include makeTheme(
+  my-theme-2,
+  false,
+  (
+    "--theme-background": #f0f,
+    "--theme-background-low": #ccc,
+  ),
+  (
+    "--theme-background": #00f,
+    "--theme-background-low": #ccc,
+  )
+);
