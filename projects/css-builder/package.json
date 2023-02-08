@@ -10,6 +10,6 @@
     },
     "scripts": {
         "generate": "ts-node generate.ts",
-        "build": "ts-node index.ts"
+        "build-css": "ts-node index.ts"
     }
 }
