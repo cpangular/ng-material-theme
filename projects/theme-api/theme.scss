@@ -1,0 +1,22 @@
+:root {
+  --theme-palette--primary-50: #000050;
+  --theme-palette--primary-50-contrast: white;
+  --theme-palette--primary-50-contrast-low: grey;
+
+  --theme-palette--primary-100: #000050;
+  --theme-palette--primary-100-contrast: white;
+  --theme-palette--primary-100-contrast-low: grey;
+
+  --theme-palette--primary-200: #000050;
+  --theme-palette--primary-200-contrast: white;
+  --theme-palette--primary-200-contrast-low: grey;
+
+  // ...
+
+  --theme-palette--primary-default: #000050;
+  --mdc-theme-primary: var(--theme-palette--primary-default);
+
+  --theme-palette--primary-default-contrast: white;
+  --mdc-theme-on-primary: var(--theme-palette--primary-default-contrast);
+  --theme-palette--primary-default-contrast-low: grey;
+}
