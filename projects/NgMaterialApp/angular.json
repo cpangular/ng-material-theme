@@ -32,8 +32,7 @@
             ],
             "styles": [
               "src/mat-core.scss",
-              "src/mat-light-components.scss",
-              "src/mat-dark-components.scss"
+              "src/mat-components.scss"
             ],
             "scripts": []
           },
