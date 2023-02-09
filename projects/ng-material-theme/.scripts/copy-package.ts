@@ -9,5 +9,19 @@ import { readJsonFile, writeJsonFile } from "@cpdevtools/lib-node-utilities";
   pkg.typings = "./index.d.ts";
   pkg.main = "./index.js";
 
+  const exports = pkg.exports as {
+    [path: string]: PackageJson.Exports;
+  };
+  if (pkg.exports) {
+    for (const key in exports) {
+      const exp = exports[key] as { [path: string]: string };
+      for (const k in exp) {
+        if (exp[k].startsWith("./dist/")) {
+          exp[k] = "." + exp[k].slice(6);
+        }
+      }
+    }
+  }
+
   await writeJsonFile("./dist/package.json", pkg, 2);
 })();

@@ -8,20 +8,20 @@ import { getActiveTheme, getDefaultTheme, getThemeSetting, isValidTheme, setThem
 export class ThemeManager {
   private static readonly _themeManagers: Map<HTMLElement, ThemeManager> = new Map();
 
-  public static get default(): ThemeManager {
-    return ThemeManager.forElement(document.documentElement);
+  public static get default(): RootThemeManager {
+    return ThemeManager.forElement(document.documentElement) as RootThemeManager;
   }
 
   public static forElement(elm: HTMLElement): ThemeManager {
     if (!ThemeManager._themeManagers.has(elm)) {
-      ThemeManager._themeManagers.set(elm, new ThemeManager(elm));
+      ThemeManager._themeManagers.set(elm, elm === document.documentElement ? new RootThemeManager(elm) : new ThemeManager(elm));
     }
     return ThemeManager._themeManagers.get(elm)!;
   }
 
-  private constructor(private readonly forElement: HTMLElement) {}
+  protected constructor(private readonly forElement: HTMLElement) {}
 
-  private readonly _headChange$ = new Observable<void>((observer) => {
+  protected readonly _headChange$ = new Observable<void>((observer) => {
     observer.next();
     const mutation = new MutationObserver(() => {
       observer.next();
@@ -32,7 +32,7 @@ export class ThemeManager {
     };
   }).pipe(shareReplay(1));
 
-  private readonly _htmlThemeChange$ = new Observable<void>((observer) => {
+  protected readonly _htmlThemeChange$ = new Observable<void>((observer) => {
     observer.next();
     const mutation = new MutationObserver(() => {
       observer.next();
@@ -47,7 +47,7 @@ export class ThemeManager {
     shareReplay(1)
   );
 
-  private readonly _htmlThemeModeChange$ = new Observable<void>((observer) => {
+  protected readonly _htmlThemeModeChange$ = new Observable<void>((observer) => {
     observer.next();
     const mutation = new MutationObserver(() => {
       observer.next();
@@ -62,29 +62,23 @@ export class ThemeManager {
     shareReplay(1)
   );
 
-  private readonly _prefersColorSchemeChange$ = fromEvent(window.matchMedia("(prefers-color-scheme: dark)"), "change").pipe(
+  protected readonly _prefersColorSchemeChange$ = fromEvent(window.matchMedia("(prefers-color-scheme: dark)"), "change").pipe(
     startWith(getPreferredMode()),
     map((_) => getPreferredMode()),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  private readonly _themes$ = this._headChange$.pipe(map((_) => scanForThemes()));
+  protected readonly _themes$ = this._headChange$.pipe(map((_) => scanForThemes()));
 
-  private readonly _defaultTheme$ = this._themes$.pipe(
+  protected readonly _defaultTheme$ = this._themes$.pipe(
     map((themes) => getDefaultTheme(themes)?.id),
     distinctUntilChanged()
   );
 
-  private readonly _mode$ = combineLatest([this._htmlThemeModeChange$, this._prefersColorSchemeChange$]).pipe(map((_) => getMode()));
-  /*
-  private _mode$ = this._htmlThemeModeChange$.pipe(
-    map(themes => getDefaultTheme(themes)?.id),
-    distinctUntilChanged()
-  );
-  */
+  protected readonly _mode$ = combineLatest([this._htmlThemeModeChange$, this._prefersColorSchemeChange$]).pipe(map((_) => getMode()));
 
-  private readonly _activeTheme$ = combineLatest([this._themes$, this._htmlThemeChange$]).pipe(
+  protected readonly _activeTheme$ = combineLatest([this._themes$, this._htmlThemeChange$]).pipe(
     map(([themes, _]) => {
       const activeId = getActiveTheme(themes, this.forElement);
       return activeId && isValidTheme(activeId, themes) ? activeId : null;
@@ -108,16 +102,8 @@ export class ThemeManager {
     return this._htmlThemeChange$;
   }
 
-  public get modeSetting$() {
-    return this._htmlThemeModeChange$;
-  }
-
   public get mode$() {
     return this._mode$;
-  }
-
-  public setMode(mode: ThemeMode) {
-    return setModeSetting(mode);
   }
 
   public setTheme(mode: string | undefined) {
@@ -126,5 +112,15 @@ export class ThemeManager {
 
   public get prefersColorScheme$() {
     return this._prefersColorSchemeChange$;
+  }
+}
+
+export class RootThemeManager extends ThemeManager {
+  public get modeSetting$() {
+    return this._htmlThemeModeChange$;
+  }
+
+  public setMode(mode: ThemeMode) {
+    return setModeSetting(mode);
   }
 }

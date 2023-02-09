@@ -1,42 +1,145 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use "@angular/material" as mat;
-// Plus imports for other components in your app.
+@use "@cpangular/ng-material-theme/theming";
 
-@use "sass:map";
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$TestApp-primary: mat.define-palette(mat.$indigo-palette);
-$TestApp-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$TestApp-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$TestApp-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $TestApp-primary,
-      accent: $TestApp-accent,
-      warn: $TestApp-warn,
-    ),
-  )
+$error-palette: (
+  id: error,
+  default: A700,
+  tints: true,
+  colors: (
+    50: #ffebee,
+    100: #ffcdd2,
+    200: #ef9a9a,
+    300: #e57373,
+    400: #ef5350,
+    500: #f44336,
+    600: #e53935,
+    700: #d32f2f,
+    800: #c62828,
+    900: #b71c1c,
+    A100: #ff8a80,
+    A200: #ff5252,
+    A400: #ff1744,
+    A700: #d50000,
+  ),
+  named: (
+    container: 100,
+  ),
+  aliases: (
+    lighter: 300,
+    darker: 900,
+  ),
 );
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($TestApp-theme);
+$purple-palette: (
+  id: primary,
+  default: 500,
 
-/* You can add global styles to this file, and also import other style files */
+  tints: true,
+  colors: (
+    50: #f3e5f5,
+    100: #e1bee7,
+    200: #ce93d8,
+    300: #ba68c8,
+    400: #ab47bc,
+    500: #9c27b0,
+    600: #8e24aa,
+    700: #7b1fa2,
+    800: #6a1b9a,
+    900: #4a148c,
+    A100: #ea80fc,
+    A200: #e040fb,
+    A400: #d500f9,
+    A700: #aa00ff,
+  ),
+  named: (
+    container: 100,
+  ),
+  aliases: (
+    lighter: 300,
+    darker: 600,
+  ),
+);
+
+$amber-palette: (
+  id: secondary,
+  default: 500,
+
+  tints: true,
+  colors: (
+    50: #fff8e1,
+    100: #ffecb3,
+    200: #ffe082,
+    300: #ffd54f,
+    400: #ffca28,
+    500: #ffc107,
+    600: #ffb300,
+    700: #ffa000,
+    800: #ff8f00,
+    900: #ff6f00,
+    A100: #ffe57f,
+    A200: #ffd740,
+    A400: #ffc400,
+    A700: #ffab00,
+  ),
+  named: (
+    container: 100,
+  ),
+  aliases: (
+    lighter: 300,
+    darker: 600,
+  ),
+);
+
+$dark-background: (
+  id: background,
+  default: 800,
+  tints: true,
+  colors: (
+    0: #ffffff,
+    50: #f5f5f5,
+    100: #fafafa,
+    200: #e6e6e6,
+    300: #c1c1c1,
+    400: #9e9e9e,
+    500: #686868,
+    550: #616161,
+    600: #505050,
+    700: #424242,
+    800: #303030,
+    900: #212121,
+    1000: #000000,
+  ),
+  named: (
+    container: 300,
+  ),
+  aliases: (),
+);
+
+$themeD: (
+  id: my-theme,
+  label: "Asdfg",
+  descriptions: "asadfas dsad asd asd as d",
+  default: true,
+  palettes: (
+    primary: (
+      light: $purple-palette,
+      dark: $purple-palette,
+    ),
+    secondary: (
+      light: $amber-palette,
+      dark: $amber-palette,
+    ),
+    error: (
+      light: $error-palette,
+      dark: $error-palette,
+    ),
+    background: (
+      light: $dark-background,
+      dark: $dark-background,
+    ),
+  ),
+);
+
+@include theming.apply-theme($themeD);
 
 html,
 body {
@@ -46,100 +149,3 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-@mixin makeTheme($themeId, $isDefaultTheme, $light, $dark) {
-  -theme- {
-    --def-theme-id: #{$themeId};
-    --def-theme-is-default: #{$isDefaultTheme};
-  }
-
-  $selector: "[theme=#{$themeId}]";
-  @if $isDefaultTheme {
-    $selector: '#{$selector}, html:not([theme]), html[theme=""]';
-  }
-
-  #{$selector} {
-    --def-theme-mode: shared;
-    @each $k, $l in $light {
-      $d: map.get($dark, $k);
-      @if $l == $d {
-        #{$k}: #{$d};
-      }
-    }
-
-    @at-root {
-      html[theme-mode=""]:is(&),
-      html[theme-mode=""] &,
-      html:not([theme-mode]):is(&),
-      html:not([theme-mode]) & {
-        @each $k, $l in $light {
-          $d: map.get($dark, $k);
-          @if $l != $d {
-            #{$k}: #{$l};
-          }
-        }
-
-        @media (prefers-color-scheme: dark) {
-          @each $k, $l in $light {
-            $d: map.get($dark, $k);
-            @if $l != $d {
-              #{$k}: #{$d};
-            }
-          }
-        }
-      }
-    }
-
-    @at-root {
-      html[theme-mode="light"]:is(&),
-      html[theme-mode="light"] & {
-        --def-theme-mode: light;
-        @each $k, $l in $light {
-          $d: map.get($dark, $k);
-          @if $l != $d {
-            #{$k}: #{$l};
-          }
-        }
-      }
-    }
-
-    @at-root {
-      html[theme-mode="dark"]:is(&),
-      html[theme-mode="dark"] & {
-        --def-theme-mode: dark;
-        @each $k, $l in $light {
-          $d: map.get($dark, $k);
-          @if $l != $d {
-            #{$k}: #{$d};
-          }
-        }
-      }
-    }
-  }
-}
-
-@include makeTheme(
-  my-theme,
-  true,
-  (
-    "--theme-background": #fff,
-    "--theme-background-low": #ccc,
-  ),
-  (
-    "--theme-background": #f00,
-    "--theme-background-low": #ccc,
-  )
-);
-
-@include makeTheme(
-  my-theme-2,
-  false,
-  (
-    "--theme-background": #f0f,
-    "--theme-background-low": #ccc,
-  ),
-  (
-    "--theme-background": #00f,
-    "--theme-background-low": #ccc,
-  )
-);

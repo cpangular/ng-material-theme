@@ -1,0 +1,237 @@
+@use "sass:map";
+@use "sass:color";
+
+// @use "sass:list";
+// @use "sass:math";
+// @use "sass:meta";
+
+@use "./util/var-util";
+@use "./util/color-util";
+
+$-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
+
+@function -set-var($map, $key, $val, $defaultVal: null) {
+  @if $val == null {
+    $val: $defaultVal;
+  }
+  @return map.set($map, $key, $val);
+}
+
+@function -colors-to-css-variables($palette, $colors, $suffix: null) {
+  $refKey: --theme-#{$palette};
+  $ret: ();
+  @each $k, $v in $colors {
+    $key: #{$refKey}-#{$k};
+    @if $suffix {
+      $key: #{$key}-#{$suffix};
+    }
+    $ret: map.set($ret, $key, $v);
+  }
+  @return $ret;
+}
+
+@function -generate-tints($palette, $color) {
+  $key: --theme-#{$palette};
+  $ret: ();
+  $i: 0;
+  @each $value in $-tintsToGenerate {
+    $ret: map.set($ret, #{$key}-tint-#{$i}, rgba($color, $value));
+    $i: $i + 1;
+  }
+  @return $ret;
+}
+
+@function -generate-missing-contrast-values($palette, $colors, $contrastColors, $contrastFactor: 1) {
+  $refKey: --theme-#{$palette};
+  $ret: ();
+  @each $k, $v in $colors {
+    $c: null;
+    @if $contrastColors {
+      $c: map.get($contrastColors, $k);
+    }
+    @if not $c {
+      $l: color-util.brightness($v);
+      // $c: rgba(white, $contrastFactor * 0.87);
+      $c: color.mix(white, $v, $contrastFactor * 87%);
+      @if $l > 55% {
+        // $c: rgba(black, $contrastFactor * 0.87);
+        $c: color.mix(black, $v, $contrastFactor * 87%);
+      } @else if $l > 50% {
+        // $c: rgba(black, $contrastFactor);
+        $c: color.mix(black, $v, $contrastFactor * 100%);
+      } @else if $l > 45% {
+        // $c: rgba(white, $contrastFactor);
+        $c: color.mix(white, $v, $contrastFactor * 100%);
+      }
+    }
+    $ret: map.set($ret, $k, $c);
+  }
+  @return $ret;
+}
+
+@function -generate-named-links($palette, $named) {
+  $key: --theme-#{$palette};
+  $ret: ();
+  @each $k, $v in $named {
+    $ret: map.set($ret, #{$key}-#{$k}, var(#{$key}-#{$v}));
+    $ret: map.set($ret, #{$key}-#{$k}-contrast, var(#{$key}-#{$v}-contrast));
+  }
+  @return $ret;
+}
+
+@function -generate-alias-links($palette, $aliases) {
+  $key: --theme-#{$palette};
+  $ret: ();
+  @each $k, $v in $aliases {
+    $ret: map.set($ret, #{$key}-#{$k}, var(#{$key}-#{$v}));
+  }
+  @return $ret;
+}
+
+@function -palette-to-css-variables($paletteDefinition) {
+  $id: map.get($paletteDefinition, id);
+  $key: --theme-#{$id};
+
+  $default: map.get($paletteDefinition, default);
+  $container: map.get($paletteDefinition, container);
+
+  $colors: map.get($paletteDefinition, colors);
+  $contrast: -generate-missing-contrast-values($id, $colors, map.get($paletteDefinition, contrast));
+  $contrast-low: -generate-missing-contrast-values($id, $colors, map.get($paletteDefinition, contrast-low), 0.8);
+  $defaultColor: map.get($colors, $default);
+
+  $tints: map.get($paletteDefinition, tints);
+  $aliases: map.get($paletteDefinition, aliases);
+  $named: map.get($paletteDefinition, named);
+
+  $cssVars: -colors-to-css-variables($id, $colors);
+  $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast, contrast));
+  $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast-low, contrast-low));
+
+  @if $tints {
+    $cssVars: map.merge($cssVars, -generate-tints($id, $defaultColor));
+  }
+
+  $cssVars: map.merge($cssVars, -generate-named-links($id, $named));
+  $cssVars: map.merge($cssVars, -generate-alias-links($id, $aliases));
+  $cssVars: map.set($cssVars, $key, var(#{$key}-#{$default}));
+  $cssVars: map.set($cssVars, #{$key}-contrast, var(#{$key}-#{$default}-contrast));
+
+  @return $cssVars;
+}
+
+@function -theme-to-css-variables($theme) {
+  $vars: ();
+
+  $key: --def-theme;
+  $themeId: map.get($theme, id);
+
+  $meta: (#{$key}-id: #{$themeId});
+
+  $meta: -set-var($meta, #{$key}-label, map.get($theme, label));
+  $meta: -set-var($meta, #{$key}-description, map.get($theme, description));
+  $meta: -set-var($meta, #{$key}-is-default, map.get($theme, default));
+  $vars: map.set($vars, meta, $meta);
+
+  $palettes: map.get($theme, palettes);
+  $cssPalettes: ();
+
+  @each $k, $v in $palettes {
+    $p: ();
+    $p: map.set($p, light, -palette-to-css-variables(map.get($v, light)));
+    $p: map.set($p, dark, -palette-to-css-variables(map.get($v, dark)));
+    $cssPalettes: map.set($cssPalettes, $k, $p);
+  }
+
+  $vars: map.set($vars, palettes, $cssPalettes);
+
+  @return $vars;
+}
+
+@mixin -apply-theme-palette($theme, $paletteName, $mode, $light, $dark) {
+  $themeId: map.get($theme, id);
+
+  @if not $light {
+    @error "Missing light palette definition on #{$themeId}.#{$paletteName}";
+  }
+  @if not $dark {
+    @error "Missing dark palette definition on #{$themeId}.#{$paletteName}";
+  }
+
+  /*** Theme Palette: #{$themeId}.#{$paletteName} ***/
+  @each $key, $lightVal in $light {
+    $darkVal: map.get($dark, $key);
+
+    @if not $lightVal {
+      @error "Missing light palette value #{$key} on #{$themeId}.#{$paletteName}";
+    }
+    @if not $darkVal {
+      @error "!Missing dark palette value #{$key} on #{$themeId}.#{$paletteName}";
+    }
+
+    @if $mode == shared and $lightVal == $darkVal {
+      #{$key}: #{$lightVal};
+    }
+    @if $mode == light and $lightVal != $darkVal {
+      #{$key}: #{$lightVal};
+    }
+    @if $mode == dark and $lightVal != $darkVal {
+      #{$key}: #{$darkVal};
+    }
+  }
+}
+
+@mixin -apply-theme-palettes($theme, $palettes, $mode) {
+  $themeId: map.get($theme, id);
+  @each $paletteName, $paletteSet in $palettes {
+    @include -apply-theme-palette($theme, $paletteName, $mode, map.get($paletteSet, light), map.get($paletteSet, dark));
+  }
+}
+
+@mixin apply-theme($theme) {
+  @at-root {
+    $themeId: map.get($theme, id);
+    $isDefaultTheme: map.get($theme, default);
+    $vars: -theme-to-css-variables($theme);
+    $palettes: map.get($vars, palettes);
+
+    $meta: map.get($vars, meta);
+    /*** Theme: #{$themeId} ***/
+    -theme- {
+      @include var-util.write-css-variables($meta, false);
+    }
+
+    $selector: "[theme=#{$themeId}]";
+    @if $isDefaultTheme {
+      $selector: '#{$selector}, html:not([theme]), html[theme=""]';
+    }
+
+    /*** Theme: #{$themeId} - Shared Properties ***/
+    #{$selector} {
+      @include -apply-theme-palettes($theme, $palettes, "shared");
+
+      /*** Theme: #{$themeId} - Light Mode Properties ***/
+      @include -apply-theme-palettes($theme, $palettes, "light");
+
+      @at-root {
+        /*** Theme: #{$themeId} - Auto Dark Mode ***/
+        html[theme-mode=""]:is(&),
+        html[theme-mode=""] &,
+        html:not([theme-mode]):is(&),
+        html:not([theme-mode]) & {
+          @media (prefers-color-scheme: dark) {
+            /*** Theme: #{$themeId} - Dark Mode Properties ***/
+            @include -apply-theme-palettes($theme, $palettes, "dark");
+          }
+        }
+
+        /*** Theme: #{$themeId} - Explicit Dark Mode ***/
+        html[theme-mode="dark"]:is(&),
+        html[theme-mode="dark"] & {
+          /*** Theme: #{$themeId} - Dark Mode Properties ***/
+          @include -apply-theme-palettes($theme, $palettes, "dark");
+        }
+      }
+    }
+  }
+}
