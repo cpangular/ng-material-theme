@@ -12,7 +12,11 @@ backgroundTransformers.push((css) => {
 });
 
 backgroundTransformers.push((css) => {
-  return css.replaceAll(`${ThemeTokens.background["app-bar"]}`, `var(--theme-background-low)`);
+  return css.replaceAll(`${ThemeTokens.background["app-bar"]}`, `var(--theme-background-lower)`);
+});
+
+backgroundTransformers.push((css) => {
+  return css.replaceAll(`${ThemeTokens.background["selected-button"]}`, `var(--theme-background-low)`);
 });
 
 backgroundTransformers.push((css) => {

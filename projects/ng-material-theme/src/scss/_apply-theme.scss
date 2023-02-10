@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "sass:color";
+@use "sass:string";
 
 // @use "sass:list";
 // @use "sass:math";
@@ -18,7 +19,7 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
 }
 
 @function -colors-to-css-variables($palette, $colors, $suffix: null) {
-  $refKey: --theme-#{$palette};
+  $refKey: --theme-ref-#{$palette};
   $ret: ();
   @each $k, $v in $colors {
     $key: #{$refKey}-#{$k};
@@ -31,7 +32,7 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
 }
 
 @function -generate-tints($palette, $color) {
-  $key: --theme-#{$palette};
+  $key: --theme-ref-#{$palette};
   $ret: ();
   $i: 0;
   @each $value in $-tintsToGenerate {
@@ -42,7 +43,7 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
 }
 
 @function -generate-missing-contrast-values($palette, $colors, $contrastColors, $contrastFactor: 1) {
-  $refKey: --theme-#{$palette};
+  $refKey: --theme-ref-#{$palette};
   $ret: ();
   @each $k, $v in $colors {
     $c: null;
@@ -69,21 +70,71 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
   @return $ret;
 }
 
-@function -generate-named-links($palette, $named) {
-  $key: --theme-#{$palette};
+@function -get-alias-key($palette, $key) {
+  @if string.index($key, "--") == 1 {
+    @return $key;
+  }
+  @return --theme-#{$palette}-#{$key};
+}
+
+@function -get-ref-key($palette, $key) {
+  @return --theme-ref-#{$palette}-#{$key};
+}
+
+@function -get-link($palette, $linkTarget) {
+  $t: "#{$linkTarget}";
+  @if $t == "default" {
+    $linkTarget: "";
+  } @else if string.index($t, "default-") == 1 {
+    $linkTarget: string.slice($linkTarget, 9);
+  } @else {
+    $palette: ref-#{$palette};
+    $linkTarget: -#{$linkTarget};
+  }
+  @return --theme-#{$palette}#{$linkTarget};
+}
+
+@function -add-enabled-links($paletteDefinition, $alias, $link) {
+  $contrast: map.get($paletteDefinition, contrast);
+  $contrast-low: map.get($paletteDefinition, contrast);
+
   $ret: ();
-  @each $k, $v in $named {
-    $ret: map.set($ret, #{$key}-#{$k}, var(#{$key}-#{$v}));
-    $ret: map.set($ret, #{$key}-#{$k}-contrast, var(#{$key}-#{$v}-contrast));
+  $ret: map.set($ret, #{$alias}, var(#{$link}));
+  @if $contrast != false {
+    $ret: map.set($ret, #{$alias}-contrast, var(#{$link}-contrast));
+  }
+  @if $contrast-low != false {
+    $ret: map.set($ret, #{$alias}-contrast-low, var(#{$link}-contrast-low));
   }
   @return $ret;
 }
 
-@function -generate-alias-links($palette, $aliases) {
-  $key: --theme-#{$palette};
+@function -generate-default-links($paletteDefinition) {
+  $palette: map.get($paletteDefinition, id);
+  $defaultColor: map.get($paletteDefinition, default);
+  @return -add-enabled-links($paletteDefinition, --theme-#{$palette}, -get-link($palette, $defaultColor));
+}
+
+@function -generate-named-links($paletteDefinition) {
+  $palette: map.get($paletteDefinition, id);
+  $named: map.get($paletteDefinition, named);
+
+  $ret: ();
+  @each $k, $v in $named {
+    $ret: map.merge($ret, -add-enabled-links($paletteDefinition, -get-alias-key($palette, $k), -get-link($palette, $v)));
+  }
+  @return $ret;
+}
+
+@function -generate-alias-links($paletteDefinition) {
+  $palette: map.get($paletteDefinition, id);
+  $aliases: map.get($paletteDefinition, aliases);
+
   $ret: ();
   @each $k, $v in $aliases {
-    $ret: map.set($ret, #{$key}-#{$k}, var(#{$key}-#{$v}));
+    $alias: -get-alias-key($palette, $k);
+    $link: -get-link($palette, $v);
+    $ret: map.set($ret, #{$alias}, var(#{$link}));
   }
   @return $ret;
 }
@@ -96,8 +147,17 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
   $container: map.get($paletteDefinition, container);
 
   $colors: map.get($paletteDefinition, colors);
-  $contrast: -generate-missing-contrast-values($id, $colors, map.get($paletteDefinition, contrast));
-  $contrast-low: -generate-missing-contrast-values($id, $colors, map.get($paletteDefinition, contrast-low), 0.8);
+
+  $contrast: map.get($paletteDefinition, contrast);
+  @if $contrast != false {
+    $contrast: -generate-missing-contrast-values($id, $colors, $contrast);
+  }
+
+  $contrast-low: map.get($paletteDefinition, contrast-low);
+  @if $contrast-low != false {
+    $contrast-low: -generate-missing-contrast-values($id, $colors, $contrast-low);
+  }
+
   $defaultColor: map.get($colors, $default);
 
   $tints: map.get($paletteDefinition, tints);
@@ -105,18 +165,31 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
   $named: map.get($paletteDefinition, named);
 
   $cssVars: -colors-to-css-variables($id, $colors);
-  $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast, contrast));
-  $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast-low, contrast-low));
+
+  @if $contrast {
+    $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast, contrast));
+  }
+
+  @if $contrast-low {
+    $cssVars: map.merge($cssVars, -colors-to-css-variables($id, $contrast-low, contrast-low));
+  }
 
   @if $tints {
     $cssVars: map.merge($cssVars, -generate-tints($id, $defaultColor));
   }
 
-  $cssVars: map.merge($cssVars, -generate-named-links($id, $named));
-  $cssVars: map.merge($cssVars, -generate-alias-links($id, $aliases));
-  $cssVars: map.set($cssVars, $key, var(#{$key}-#{$default}));
-  $cssVars: map.set($cssVars, #{$key}-contrast, var(#{$key}-#{$default}-contrast));
+  // $cssVars: map.set($cssVars, $key, var(#{$key}-#{$default}));
+  // $cssVars: map.set($cssVars, #{$key}-contrast, var(#{$key}-#{$default}-contrast));
 
+  $cssVars: map.merge($cssVars, -generate-default-links($paletteDefinition));
+
+  @if $named {
+    $cssVars: map.merge($cssVars, -generate-named-links($paletteDefinition));
+  }
+
+  @if $aliases {
+    $cssVars: map.merge($cssVars, -generate-alias-links($paletteDefinition));
+  }
   @return $cssVars;
 }
 
@@ -206,10 +279,7 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
       $selector: '#{$selector}, html:not([theme]), html[theme=""]';
     }
 
-    /*** Theme: #{$themeId} - Shared Properties ***/
     #{$selector} {
-      @include -apply-theme-palettes($theme, $palettes, "shared");
-
       /*** Theme: #{$themeId} - Light Mode Properties ***/
       @include -apply-theme-palettes($theme, $palettes, "light");
 
@@ -232,6 +302,9 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
           @include -apply-theme-palettes($theme, $palettes, "dark");
         }
       }
+
+      /*** Theme: #{$themeId} - Shared Properties ***/
+      @include -apply-theme-palettes($theme, $palettes, "shared");
     }
   }
 }

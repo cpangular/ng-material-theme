@@ -4,7 +4,7 @@ import { CssTransform } from "../CssTransform";
 export const surfaceTransformers: CssTransform[] = [];
 
 surfaceTransformers.push((css) => {
-  return css.replaceAll(`var(--mdc-theme-surface, ${ThemeTokens.background.card})`, `var(--mdc-surface)`);
+  return css.replaceAll(`var(--mdc-theme-surface, ${ThemeTokens.background.card})`, `var(--theme-surface)`);
 });
 
 surfaceTransformers.push((css) => {
