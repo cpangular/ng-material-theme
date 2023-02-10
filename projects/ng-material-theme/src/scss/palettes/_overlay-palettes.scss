@@ -1,0 +1,54 @@
+$-overlay-colors: (
+  0: rgba(black, 0),
+  5: rgba(black, 0.05),
+  8: rgba(black, 0.08),
+  10: rgba(black, 0.1),
+  12: rgba(black, 0.12),
+  20: rgba(black, 0.2),
+  24: rgba(black, 0.24),
+  30: rgba(black, 0.3),
+  38: rgba(black, 0.38),
+  40: rgba(black, 0.4),
+  50: rgba(black, 0.5),
+  54: rgba(black, 0.54),
+  60: rgba(black, 0.6),
+  87: rgba(black, 0.87),
+  95: rgba(black, 0.95),
+  100: rgba(black, 1),
+);
+
+$light-mode-overlay-palette: (
+  id: overlay,
+  default: 12,
+  tints: false,
+  colors: $-overlay-colors,
+  contrast: false,
+  contrast-low: false,
+  aliases: (
+    ripple-hover: 8,
+    ripple: 10,
+    lower: 5,
+    low: 20,
+    medium: 54,
+    high: 60,
+    higher: 87,
+  ),
+);
+
+$dark-mode-overlay-palette: (
+  id: overlay,
+  default: 3,
+  tints: false,
+  colors: $-overlay-colors,
+  contrast: false,
+  contrast-low: false,
+  aliases: (
+    ripple-hover: 8,
+    ripple: 10,
+    lower: 5,
+    low: 20,
+    medium: 54,
+    high: 60,
+    higher: 87,
+  ),
+);

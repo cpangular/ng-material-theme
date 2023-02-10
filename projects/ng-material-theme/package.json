@@ -41,6 +41,9 @@
     },
     "./theming": {
       "sass": "./src/_index.scss"
+    },
+    "./palettes": {
+      "sass": "./src/_palettes.scss"
     }
   }
 }

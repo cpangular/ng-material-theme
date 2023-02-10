@@ -1,0 +1,93 @@
+$-background-colors: (
+  0: #ffffff,
+  50: #fafafa,
+  100: #f5f5f5,
+  200: #eeeeee,
+  300: #e0e0e0,
+  400: #bdbdbd,
+  500: #9e9e9e,
+  600: #757575,
+  700: #616161,
+  800: #424242,
+  850: #303030,
+  900: #212121,
+  1000: #000000,
+  A100: #ffffff,
+  A200: #eeeeee,
+  A400: #bdbdbd,
+  A700: #616161,
+);
+
+$light-mode-background-palette: (
+  id: background,
+  default: 100,
+  tints: true,
+  colors: $-background-colors,
+  named: (
+    lower: 500,
+    low: 300,
+    high: 50,
+    higher: 0,
+    disabled: 700,
+
+    --theme-surface-base: 800,
+    --theme-surface-lower: 300,
+    --theme-surface-low: 100,
+    --theme-surface: 50,
+    --theme-surface-high: 0,
+    --theme-surface-higher: 0,
+  ),
+  aliases: (
+    --theme-foreground-base: 1000,
+    --theme-foreground-text: default-contrast,
+    --theme-foreground-text-secondary: default-contrast-low,
+    --theme-foreground-text-hint: 50-contrast-low,
+    --theme-foreground-text-disabled: 0-contrast-low,
+
+    --theme-foreground-icon: default-contrast,
+    --theme-foreground-icon-low: default-contrast-low,
+    --theme-foreground-icon-secondary: default-contrast-low,
+
+    --theme-surface-text: 300-contrast,
+    --theme-surface-text-secondary: 300-contrast-low,
+    --theme-surface-text-hint: 200-contrast-low,
+
+    --theme-foreground-stroke: 400,
+  ),
+);
+
+$dark-mode-background-palette: (
+  id: background,
+  default: 850,
+  tints: true,
+  colors: $-background-colors,
+  named: (
+    base: 1000,
+    lower: 1000,
+    low: 900,
+    high: 700,
+    higher: 500,
+    disabled: 600,
+
+    --theme-surface-base: 1000,
+    --theme-surface-lower: 900,
+    --theme-surface-low: 850,
+    --theme-surface: 800,
+    --theme-surface-high: 500,
+    --theme-surface-higher: 300,
+  ),
+  aliases: (
+    --theme-foreground-base: 0,
+    --theme-foreground-text: default-contrast,
+    --theme-foreground-text-secondary: default-contrast-low,
+    --theme-foreground-text-hint: 800-contrast-low,
+    --theme-foreground-text-disabled: 900-contrast-low,
+    --theme-foreground-icon: default-contrast,
+    --theme-foreground-icon-low: default-contrast-low,
+    --theme-foreground-icon-secondary: default-contrast-low,
+    --theme-surface-text: 800-contrast,
+    --theme-surface-text-secondary: 800-contrast-low,
+    --theme-surface-text-hint: 800-contrast-low,
+    --theme-foreground-stroke: 700,
+  ),
+);

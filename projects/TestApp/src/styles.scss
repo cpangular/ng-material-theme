@@ -1,37 +1,39 @@
 @use "@cpangular/ng-material-theme/theming";
+@use "@cpangular/ng-material-theme/palettes";
 
-$error-palette: (
-  id: error,
-  default: A700,
+$purple-palette: (
+  id: primary,
+  default: 500,
+
   tints: true,
   colors: (
-    50: #ffebee,
-    100: #ffcdd2,
-    200: #ef9a9a,
-    300: #e57373,
-    400: #ef5350,
-    500: #f44336,
-    600: #e53935,
-    700: #d32f2f,
-    800: #c62828,
-    900: #b71c1c,
-    A100: #ff8a80,
-    A200: #ff5252,
-    A400: #ff1744,
-    A700: #d50000,
+    50: #f3e5f5,
+    100: #e1bee7,
+    200: #ce93d8,
+    300: #ba68c8,
+    400: #ab47bc,
+    500: #9c27b0,
+    600: #8e24aa,
+    700: #7b1fa2,
+    800: #6a1b9a,
+    900: #4a148c,
+    A100: #ea80fc,
+    A200: #e040fb,
+    A400: #d500f9,
+    A700: #aa00ff,
   ),
   named: (
     container: 100,
   ),
   aliases: (
     lighter: 300,
-    darker: 900,
+    darker: 600,
   ),
 );
 
-$purple-palette: (
+$dark-purple-palette: (
   id: primary,
-  default: 500,
+  default: 300,
 
   tints: true,
   colors: (
@@ -117,174 +119,6 @@ $grey-palette: (
   ),
 );
 
-$dark-background: (
-  id: background,
-  default: 850,
-  tints: true,
-  colors: (
-    0: #ffffff,
-    50: #fafafa,
-    100: #f5f5f5,
-    200: #eeeeee,
-    300: #e0e0e0,
-    400: #bdbdbd,
-    500: #9e9e9e,
-    600: #757575,
-    700: #616161,
-    800: #424242,
-    850: #303030,
-    900: #212121,
-    1000: #000000,
-    A100: #ffffff,
-    A200: #eeeeee,
-    A400: #bdbdbd,
-    A700: #616161,
-  ),
-  named: (
-    lower: 1000,
-    low: 900,
-    high: 700,
-    higher: 100,
-    disabled: 600,
-
-    --theme-surface-lower: 900,
-    --theme-surface-low: 850,
-    --theme-surface: 800,
-    --theme-surface-high: 300,
-    --theme-surface-higher: 0,
-  ),
-  aliases: (
-    --theme-foreground-text: contrast,
-    --theme-foreground-text-secondary: contrast-low,
-    --theme-foreground-text-hint: 800-contrast-low,
-
-    --theme-surface-text: 800-contrast,
-    --theme-surface-text-secondary: 800-contrast-low,
-    --theme-surface-text-hint: 800-contrast-low,
-
-    --theme-foreground-stroke: 700,
-  ),
-);
-
-$light-background: (
-  id: background,
-  default: 100,
-  tints: true,
-  colors: (
-    0: #ffffff,
-    50: #fafafa,
-    100: #f5f5f5,
-    200: #eeeeee,
-    300: #e0e0e0,
-    400: #bdbdbd,
-    500: #9e9e9e,
-    600: #757575,
-    700: #616161,
-    800: #424242,
-    850: #303030,
-    900: #212121,
-    1000: #000000,
-    A100: #ffffff,
-    A200: #eeeeee,
-    A400: #bdbdbd,
-    A700: #616161,
-  ),
-  named: (
-    lower: 0,
-    low: 50,
-    high: 400,
-    higher: 800,
-    disabled: 700,
-
-    --theme-surface-lower: 50,
-    --theme-surface-low: 200,
-    --theme-surface: 300,
-    --theme-surface-high: 500,
-    --theme-surface-higher: 800,
-  ),
-  aliases: (
-    --theme-foreground-text: contrast,
-    --theme-foreground-text-secondary: contrast-low,
-    --theme-foreground-text-hint: 50-contrast-low,
-
-    --theme-surface-text: 300-contrast,
-    --theme-surface-text-secondary: 300-contrast-low,
-    --theme-surface-text-hint: 200-contrast-low,
-
-    --theme-foreground-stroke: 400,
-  ),
-);
-
-$dark-overlays: (
-  id: overlay,
-  default: 3,
-  tints: false,
-  colors: (
-    0: rgba(white, 0),
-    5: rgba(white, 0.05),
-    8: rgba(white, 0.08),
-    10: rgba(white, 0.1),
-    12: rgba(white, 0.12),
-    20: rgba(white, 0.2),
-    25: rgba(white, 0.25),
-    30: rgba(white, 0.3),
-    38: rgba(white, 0.38),
-    40: rgba(white, 0.4),
-    50: rgba(white, 0.5),
-    54: rgba(white, 0.54),
-    60: rgba(white, 0.6),
-    87: rgba(white, 0.87),
-    95: rgba(white, 0.95),
-    100: rgba(white, 1),
-  ),
-  contrast: false,
-  contrast-low: false,
-  aliases: (
-    ripple-hover: 8,
-    ripple: 10,
-    lower: 5,
-    low: 20,
-    medium: 54,
-    high: 60,
-    higher: 87,
-  ),
-);
-
-$light-overlays: (
-  id: overlay,
-  default: 12,
-  tints: false,
-  colors: (
-    0: rgba(black, 0),
-    5: rgba(black, 0.05),
-    8: rgba(black, 0.08),
-    10: rgba(black, 0.1),
-    12: rgba(black, 0.12),
-    20: rgba(black, 0.2),
-    25: rgba(black, 0.25),
-    30: rgba(black, 0.3),
-    38: rgba(black, 0.38),
-    40: rgba(black, 0.4),
-    50: rgba(black, 0.5),
-    54: rgba(black, 0.54),
-    60: rgba(black, 0.6),
-    87: rgba(black, 0.87),
-    95: rgba(black, 0.95),
-    100: rgba(black, 1),
-  ),
-  contrast: false,
-  contrast-low: false,
-  aliases: (
-    ripple-hover: 8,
-    ripple: 10,
-    lower: 5,
-    low: 20,
-    medium: 54,
-    high: 60,
-    higher: 87,
-  ),
-);
-
 $themeD: (
   id: my-theme,
   label: "Asdfg",
@@ -293,23 +127,27 @@ $themeD: (
   palettes: (
     primary: (
       light: $purple-palette,
-      dark: $purple-palette,
+      dark: $dark-purple-palette,
     ),
     secondary: (
       light: $amber-palette,
       dark: $amber-palette,
     ),
     error: (
-      light: $error-palette,
-      dark: $error-palette,
+      light: palettes.$light-mode-error-palette,
+      dark: palettes.$dark-mode-error-palette,
     ),
     background: (
-      light: $light-background,
-      dark: $dark-background,
+      light: palettes.$light-mode-background-palette,
+      dark: palettes.$dark-mode-background-palette,
     ),
     overlay: (
-      light: $light-overlays,
-      dark: $dark-overlays,
+      light: palettes.$light-mode-overlay-palette,
+      dark: palettes.$dark-mode-overlay-palette,
+    ),
+    opacity: (
+      light: palettes.$light-mode-opacity-palette,
+      dark: palettes.$dark-mode-opacity-palette,
     ),
   ),
 );
