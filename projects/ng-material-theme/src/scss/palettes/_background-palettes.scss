@@ -91,3 +91,8 @@ $dark-mode-background-palette: (
     --theme-foreground-stroke: 700,
   ),
 );
+
+$background-palette: (
+  light: $light-mode-background-palette,
+  dark: $dark-mode-background-palette,
+);

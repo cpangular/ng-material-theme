@@ -42,3 +42,8 @@ $dark-mode-error-palette: (
     darker: 900,
   ),
 );
+
+$error-palette: (
+  light: $light-mode-error-palette,
+  dark: $dark-mode-error-palette,
+);

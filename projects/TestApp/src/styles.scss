@@ -1,6 +1,8 @@
 @use "@cpangular/ng-material-theme/theming";
 @use "@cpangular/ng-material-theme/palettes";
 
+@use "@angular/material" as mat;
+
 $purple-palette: (
   id: primary,
   default: 500,
@@ -133,26 +135,27 @@ $themeD: (
       light: $amber-palette,
       dark: $amber-palette,
     ),
-    error: (
-      light: palettes.$light-mode-error-palette,
-      dark: palettes.$dark-mode-error-palette,
-    ),
-    background: (
-      light: palettes.$light-mode-background-palette,
-      dark: palettes.$dark-mode-background-palette,
-    ),
-    overlay: (
-      light: palettes.$light-mode-overlay-palette,
-      dark: palettes.$dark-mode-overlay-palette,
-    ),
-    opacity: (
-      light: palettes.$light-mode-opacity-palette,
-      dark: palettes.$dark-mode-opacity-palette,
+    // error: palettes.$error-palette,
+    // background: palettes.$background-palette,
+    // overlay: palettes.$overlay-palette,
+    // opacity: palettes.$opacity-palette,,,
+  ),
+);
+
+$theme2: (
+  id: my-theme-2,
+  label: "Asdfg 2",
+  descriptions: "asadfas dsad asd asd as d",
+  default: false,
+  palettes: (
+    primary: (
+      light: $amber-palette,
+      dark: $amber-palette,
     ),
   ),
 );
 
-@include theming.apply-theme($themeD);
+@include theming.apply-theme(($themeD, $theme2));
 
 html,
 body {

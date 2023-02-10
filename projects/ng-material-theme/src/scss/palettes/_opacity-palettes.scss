@@ -44,3 +44,8 @@ $dark-mode-opacity-palette: (
     high: 87,
   ),
 );
+
+$opacity-palette: (
+  light: $light-mode-opacity-palette,
+  dark: $dark-mode-opacity-palette,
+);

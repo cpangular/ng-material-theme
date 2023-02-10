@@ -4,10 +4,11 @@
 
 // @use "sass:list";
 // @use "sass:math";
-// @use "sass:meta";
+@use "sass:meta";
 
 @use "./util/var-util";
 @use "./util/color-util";
+@use "./palettes";
 
 $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
 
@@ -207,12 +208,38 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
   $vars: map.set($vars, meta, $meta);
 
   $palettes: map.get($theme, palettes);
-  $cssPalettes: ();
 
+  @if not map.has-key($palettes, primary) {
+    @error 'Theme requires a primary palette.';
+  }
+
+  @if not map.has-key($palettes, secondary) {
+    $palettes: map.set($palettes, secondary, map.get($palettes, primary));
+  }
+
+  @if not map.has-key($palettes, error) {
+    $palettes: map.set($palettes, error, palettes.$error-palette);
+  }
+
+  @if not map.has-key($palettes, background) {
+    $palettes: map.set($palettes, background, palettes.$background-palette);
+  }
+
+  @if not map.has-key($palettes, overlay) {
+    $palettes: map.set($palettes, overlay, palettes.$overlay-palette);
+  }
+
+  @if not map.has-key($palettes, opacity) {
+    $palettes: map.set($palettes, opacity, palettes.$opacity-palette);
+  }
+
+  $cssPalettes: ();
   @each $k, $v in $palettes {
+    $l: map.set(map.get($v, light), id, $k);
+    $d: map.set(map.get($v, dark), id, $k);
     $p: ();
-    $p: map.set($p, light, -palette-to-css-variables(map.get($v, light)));
-    $p: map.set($p, dark, -palette-to-css-variables(map.get($v, dark)));
+    $p: map.set($p, light, -palette-to-css-variables($l));
+    $p: map.set($p, dark, -palette-to-css-variables($d));
     $cssPalettes: map.set($cssPalettes, $k, $p);
   }
 
@@ -262,49 +289,55 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
 }
 
 @mixin apply-theme($theme) {
-  @at-root {
-    $themeId: map.get($theme, id);
-    $isDefaultTheme: map.get($theme, default);
-    $vars: -theme-to-css-variables($theme);
-    $palettes: map.get($vars, palettes);
-
-    $meta: map.get($vars, meta);
-    /*** Theme: #{$themeId} ***/
-    -theme- {
-      @include var-util.write-css-variables($meta, false);
+  @if meta.type-of($theme) == list {
+    @each $t in $theme {
+      @include apply-theme($t);
     }
+  } @else {
+    @at-root {
+      $themeId: map.get($theme, id);
+      $isDefaultTheme: map.get($theme, default);
+      $vars: -theme-to-css-variables($theme);
+      $palettes: map.get($vars, palettes);
 
-    $selector: "[theme=#{$themeId}]";
-    @if $isDefaultTheme {
-      $selector: '#{$selector}, html:not([theme]), html[theme=""]';
-    }
+      $meta: map.get($vars, meta);
+      /*** Theme: #{$themeId} ***/
+      -theme- {
+        @include var-util.write-css-variables($meta, false);
+      }
 
-    #{$selector} {
-      /*** Theme: #{$themeId} - Light Mode Properties ***/
-      @include -apply-theme-palettes($theme, $palettes, "light");
+      $selector: "[theme=#{$themeId}]";
+      @if $isDefaultTheme {
+        $selector: '#{$selector}, html:not([theme]), html[theme=""]';
+      }
 
-      @at-root {
-        /*** Theme: #{$themeId} - Auto Dark Mode ***/
-        html[theme-mode=""]:is(&),
-        html[theme-mode=""] &,
-        html:not([theme-mode]):is(&),
-        html:not([theme-mode]) & {
-          @media (prefers-color-scheme: dark) {
+      #{$selector} {
+        /*** Theme: #{$themeId} - Light Mode Properties ***/
+        @include -apply-theme-palettes($theme, $palettes, "light");
+
+        @at-root {
+          /*** Theme: #{$themeId} - Auto Dark Mode ***/
+          html[theme-mode=""]:is(&),
+          html[theme-mode=""] &,
+          html:not([theme-mode]):is(&),
+          html:not([theme-mode]) & {
+            @media (prefers-color-scheme: dark) {
+              /*** Theme: #{$themeId} - Dark Mode Properties ***/
+              @include -apply-theme-palettes($theme, $palettes, "dark");
+            }
+          }
+
+          /*** Theme: #{$themeId} - Explicit Dark Mode ***/
+          html[theme-mode="dark"]:is(&),
+          html[theme-mode="dark"] & {
             /*** Theme: #{$themeId} - Dark Mode Properties ***/
             @include -apply-theme-palettes($theme, $palettes, "dark");
           }
         }
 
-        /*** Theme: #{$themeId} - Explicit Dark Mode ***/
-        html[theme-mode="dark"]:is(&),
-        html[theme-mode="dark"] & {
-          /*** Theme: #{$themeId} - Dark Mode Properties ***/
-          @include -apply-theme-palettes($theme, $palettes, "dark");
-        }
+        /*** Theme: #{$themeId} - Shared Properties ***/
+        @include -apply-theme-palettes($theme, $palettes, "shared");
       }
-
-      /*** Theme: #{$themeId} - Shared Properties ***/
-      @include -apply-theme-palettes($theme, $palettes, "shared");
     }
   }
 }

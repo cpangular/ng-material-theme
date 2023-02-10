@@ -1,0 +1,86 @@
+@use "sass:map";
+@use "sass:list";
+@use "angular/material" as mat;
+
+@function convert-mat-palette($matPalette, $default: 500, $lighter: 300, $darker: 600) {
+  $contrast: map.get($matPalette, contrast);
+  @if not $contrast {
+    $contrast: ();
+  }
+
+  $colors: ();
+  $contrastColors: ();
+  @each $k, $color in $matPalette {
+    $colors: map.set($colors, $k, $color);
+    $contrastColor: map.get($contrast, $k);
+    @if $contrastColor {
+      $contrastColors: map.set($contrastColors, $k, $contrastColor);
+    }
+  }
+
+  @return (
+    default: $default,
+    tints: true,
+    colors: $colors,
+    contrast: $contrastColors,
+    aliases: (
+      lighter: $lighter,
+      darker: $darker,
+    )
+  );
+}
+
+$aaa: (
+  50: #fce4ec,
+  100: #f8bbd0,
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: #e91e63,
+  600: #d81b60,
+  700: #c2185b,
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  ),
+  default: #ff4081,
+  lighter: #ff80ab,
+  darker: #f50057,
+  text: #ff4081,
+  default-contrast: white,
+  lighter-contrast: rgba(0, 0, 0, 0.87),
+  darker-contrast: white,
+  "50-contrast": rgba(0, 0, 0, 0.87),
+  "100-contrast": rgba(0, 0, 0, 0.87),
+  "200-contrast": rgba(0, 0, 0, 0.87),
+  "300-contrast": rgba(0, 0, 0, 0.87),
+  "400-contrast": rgba(0, 0, 0, 0.87),
+  "500-contrast": white,
+  "600-contrast": white,
+  "700-contrast": white,
+  "800-contrast": white,
+  "900-contrast": white,
+  "A100-contrast": rgba(0, 0, 0, 0.87),
+  "A200-contrast": white,
+  "A400-contrast": white,
+  "A700-contrast": white,
+  "contrast-contrast": null,
+);
