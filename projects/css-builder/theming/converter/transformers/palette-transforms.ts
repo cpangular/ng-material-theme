@@ -43,7 +43,7 @@ paletteTransformers.push((css) => {
     for (let i = 0; i < tints.length; i++) {
       const tintAmount = tints[i];
       var tintKey = paletteTintMap[palette];
-      css = css.replaceAll(`rgba(${tintKey}, ${tintAmount})`, `var(--theme-${mdcName}-tint-${i})`);
+      css = css.replaceAll(`rgba(${tintKey}, ${tintAmount})`, `var(--theme-ref-${mdcName}-tint-${i})`);
     }
   }
   return css;
@@ -74,7 +74,7 @@ paletteTransformers.push((css) => {
 });
 
 paletteTransformers.push((css) => {
-  return css.replaceAll(`var(--mdc-theme-text-primary-on-background, white)`, `var(--theme-primary-contrast)`);
+  return css.replaceAll(`var(--mdc-theme-text-primary-on-background, white)`, `var(--theme-foreground-text)`);
 });
 
 // Secondary Palette
@@ -103,7 +103,10 @@ paletteTransformers.push((css) => {
 });
 
 paletteTransformers.push((css) => {
-  return css.replaceAll(`var(--mdc-theme-text-secondary-on-background, rgba(255, 255, 255, 0.7))`, `var(--theme-secondary-contrast)`);
+  return css.replaceAll(
+    `var(--mdc-theme-text-secondary-on-background, rgba(255, 255, 255, 0.7))`,
+    `var(--theme-foreground-text-secondary)`
+  );
 });
 
 // Error Palette

@@ -1,4 +1,7 @@
 <mat-toolbar> Welcome </mat-toolbar>
+<mat-toolbar color="primary"> Welcome </mat-toolbar>
+<mat-toolbar color="accent"> Welcome </mat-toolbar>
+<mat-toolbar color="warn"> Welcome </mat-toolbar>
 
 <mat-button-toggle-group
   name="colorMode"
@@ -36,3 +39,6 @@ Prefers Color Scheme: {{ themeManager.prefersColorScheme$ | async | json }}</pre
 >
 <pre>Mode: {{ themeManager.mode$ | async | json }}</pre>
 <pre>Themes: {{ themeManager.themes$ | async | json }}</pre>
+
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<mat-spinner></mat-spinner>
