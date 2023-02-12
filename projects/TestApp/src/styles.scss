@@ -124,7 +124,7 @@ $grey-palette: (
 $themeD: (
   id: my-theme,
   label: "Asdfg",
-  descriptions: "asadfas dsad asd asd as d",
+  description: "asadfas dsad asd asd as d",
   default: true,
   palettes: (
     primary: (
@@ -138,14 +138,14 @@ $themeD: (
     // error: palettes.$error-palette,
     // background: palettes.$background-palette,
     // overlay: palettes.$overlay-palette,
-    // opacity: palettes.$opacity-palette,,,
+    // opacity: palettes.$opacity-palette,,,,
   ),
 );
 
 $theme2: (
   id: my-theme-2,
   label: "Asdfg 2",
-  descriptions: "asadfas dsad asd asd as d",
+  description: "asadfas dsad asd asd as d",
   default: false,
   palettes: (
     primary: (

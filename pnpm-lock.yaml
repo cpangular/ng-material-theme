@@ -151,6 +151,37 @@ importers:
       type-fest: 3.5.6
       typescript: 4.9.5
 
+  projects/ng-material-theme-converter:
+    specifiers:
+      "@angular/animations": ^15.1.4
+      "@angular/cdk": 15.1.4
+      "@angular/common": ^15.1.4
+      "@angular/core": ^15.1.4
+      "@angular/forms": ^15.1.4
+      "@angular/material": 15.1.4
+      "@angular/platform-browser": ^15.1.4
+      "@types/node": ^18.11.19
+      rxjs: ~7.8.0
+      sass: ^1.58.0
+      ts-node: ^10.9.1
+      typescript: ^4.9.5
+      zone.js: ~0.12.0
+    dependencies:
+      "@angular/animations": 15.1.4_@angular+core@15.1.4
+      "@angular/cdk": 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/forms": 15.1.4_g7mjdvsmeszabti4mywkhjexwi
+      "@angular/material": 15.1.4_isjki5jxkx7qtx4nb6paon7zxy
+      "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
+      rxjs: 7.8.0
+      zone.js: 0.12.0
+    devDependencies:
+      "@types/node": 18.13.0
+      sass: 1.58.0
+      ts-node: 10.9.1_4bewfcp2iebiwuold25d6rgcsy
+      typescript: 4.9.5
+
 packages:
   /@ampproject/remapping/2.2.0:
     resolution: { integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w== }
@@ -359,6 +390,16 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /@angular/animations/15.1.4_@angular+core@15.1.4:
+    resolution: { integrity: sha512-aNLBjEsxykkG+cVA86IMLQaqVym7TSe3yAVM+KrOX4l76V7rDnByR/Fh29mj5tOfx/V08gm4HgIQ7VMqZAhCWw== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      "@angular/core": 15.1.4
+    dependencies:
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      tslib: 2.5.0
+    dev: false
+
   /@angular/cdk/15.1.3_um5srvgxdjze4pjhzgxkaq5vrm:
     resolution: { integrity: sha512-FRb1ZirybQGVlRx34vsnkIyy4WHJlrRg2mwPeJ90b0DzIWuIZIiPYxxR2bAi/Si1IjnK8YBdacd5DXPdrW1jyw== }
     peerDependencies:
@@ -368,6 +409,21 @@ packages:
     dependencies:
       "@angular/common": 15.1.3_e5k2npugnvd34secg4d53mkdom
       "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    optionalDependencies:
+      parse5: 7.1.2
+    dev: false
+
+  /@angular/cdk/15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu:
+    resolution: { integrity: sha512-uCYrquUYakm+ym3l/0GG2HtyEtzJlr3eO3T8Oezvl4HcNB0jlcN80ut5SwQC0KcgiWDuP1BVv8PGinD2vearJg== }
+    peerDependencies:
+      "@angular/common": ^15.0.0 || ^16.0.0
+      "@angular/core": ^15.0.0 || ^16.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
       rxjs: 7.8.0
       tslib: 2.5.0
     optionalDependencies:
@@ -411,6 +467,18 @@ packages:
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /@angular/common/15.1.4_vnmvp4f72xubbup5sqayiytz2i:
+    resolution: { integrity: sha512-E2klptW9CbXDAYZEL988RQ0XWQPf8obr6p+/+j2zy8kn14VJgsjn/27S9M8sX76nfXOaA6vQSbofZycTU7IiFQ== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      "@angular/core": 15.1.4
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false
@@ -462,6 +530,18 @@ packages:
       tslib: 2.5.0
       zone.js: 0.12.0
 
+  /@angular/core/15.1.4_rxjs@7.8.0+zone.js@0.12.0:
+    resolution: { integrity: sha512-eWXtL4pe/pG4klehsm1URpgF4gnUjFpCXzHJ0Shp5HwLszoflZMbzdoRTSyOG5iMxDhsk0wwnHTfG+j4NTJN3A== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+      zone.js: ~0.11.4 || ~0.12.0
+    dependencies:
+      rxjs: 7.8.0
+      tslib: 2.5.0
+      zone.js: 0.12.0
+    dev: false
+
   /@angular/forms/15.1.3_ldllaezapbozgxcjenczigqhsy:
     resolution: { integrity: sha512-vEgiZBk3rGGp4tBQHl9EaspEjYh70lkz6/zYreObTbMdCB54bkbl+jn+JbQyFj+TPfukiumtiG3/477vKzYnSg== }
     engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
@@ -474,6 +554,22 @@ packages:
       "@angular/common": 15.1.3_e5k2npugnvd34secg4d53mkdom
       "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
       "@angular/platform-browser": 15.1.3_bjrq5ug2dzvjea7bcoozclkliu
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /@angular/forms/15.1.4_g7mjdvsmeszabti4mywkhjexwi:
+    resolution: { integrity: sha512-gUBenRZS4gTevA3AJdpCVIuMeWU++OTqj6Rd8bv+x42W/RoOSVVcb3bInVECJFedAhx6P2/TWFGV1sVGwW+3sg== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      "@angular/common": 15.1.4
+      "@angular/core": 15.1.4
+      "@angular/platform-browser": 15.1.4
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false
@@ -495,6 +591,74 @@ packages:
       "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
       "@angular/forms": 15.1.3_ldllaezapbozgxcjenczigqhsy
       "@angular/platform-browser": 15.1.3_bjrq5ug2dzvjea7bcoozclkliu
+      "@material/animation": 15.0.0-canary.684e33d25.0
+      "@material/auto-init": 15.0.0-canary.684e33d25.0
+      "@material/banner": 15.0.0-canary.684e33d25.0
+      "@material/base": 15.0.0-canary.684e33d25.0
+      "@material/button": 15.0.0-canary.684e33d25.0
+      "@material/card": 15.0.0-canary.684e33d25.0
+      "@material/checkbox": 15.0.0-canary.684e33d25.0
+      "@material/chips": 15.0.0-canary.684e33d25.0
+      "@material/circular-progress": 15.0.0-canary.684e33d25.0
+      "@material/data-table": 15.0.0-canary.684e33d25.0
+      "@material/density": 15.0.0-canary.684e33d25.0
+      "@material/dialog": 15.0.0-canary.684e33d25.0
+      "@material/dom": 15.0.0-canary.684e33d25.0
+      "@material/drawer": 15.0.0-canary.684e33d25.0
+      "@material/elevation": 15.0.0-canary.684e33d25.0
+      "@material/fab": 15.0.0-canary.684e33d25.0
+      "@material/feature-targeting": 15.0.0-canary.684e33d25.0
+      "@material/floating-label": 15.0.0-canary.684e33d25.0
+      "@material/form-field": 15.0.0-canary.684e33d25.0
+      "@material/icon-button": 15.0.0-canary.684e33d25.0
+      "@material/image-list": 15.0.0-canary.684e33d25.0
+      "@material/layout-grid": 15.0.0-canary.684e33d25.0
+      "@material/line-ripple": 15.0.0-canary.684e33d25.0
+      "@material/linear-progress": 15.0.0-canary.684e33d25.0
+      "@material/list": 15.0.0-canary.684e33d25.0
+      "@material/menu": 15.0.0-canary.684e33d25.0
+      "@material/menu-surface": 15.0.0-canary.684e33d25.0
+      "@material/notched-outline": 15.0.0-canary.684e33d25.0
+      "@material/radio": 15.0.0-canary.684e33d25.0
+      "@material/ripple": 15.0.0-canary.684e33d25.0
+      "@material/rtl": 15.0.0-canary.684e33d25.0
+      "@material/segmented-button": 15.0.0-canary.684e33d25.0
+      "@material/select": 15.0.0-canary.684e33d25.0
+      "@material/shape": 15.0.0-canary.684e33d25.0
+      "@material/slider": 15.0.0-canary.684e33d25.0
+      "@material/snackbar": 15.0.0-canary.684e33d25.0
+      "@material/switch": 15.0.0-canary.684e33d25.0
+      "@material/tab": 15.0.0-canary.684e33d25.0
+      "@material/tab-bar": 15.0.0-canary.684e33d25.0
+      "@material/tab-indicator": 15.0.0-canary.684e33d25.0
+      "@material/tab-scroller": 15.0.0-canary.684e33d25.0
+      "@material/textfield": 15.0.0-canary.684e33d25.0
+      "@material/theme": 15.0.0-canary.684e33d25.0
+      "@material/tooltip": 15.0.0-canary.684e33d25.0
+      "@material/top-app-bar": 15.0.0-canary.684e33d25.0
+      "@material/touch-target": 15.0.0-canary.684e33d25.0
+      "@material/typography": 15.0.0-canary.684e33d25.0
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /@angular/material/15.1.4_isjki5jxkx7qtx4nb6paon7zxy:
+    resolution: { integrity: sha512-mepKRVzO3v4BxGkzkwO1PZjWTdLDbqkydmmiEYkzPOUk9I3tElzjYlybB0xuY6A5CIdXU9Mdc+AaUZWng2yN/g== }
+    peerDependencies:
+      "@angular/animations": ^15.0.0 || ^16.0.0
+      "@angular/cdk": 15.1.4
+      "@angular/common": ^15.0.0 || ^16.0.0
+      "@angular/core": ^15.0.0 || ^16.0.0
+      "@angular/forms": ^15.0.0 || ^16.0.0
+      "@angular/platform-browser": ^15.0.0 || ^16.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      "@angular/animations": 15.1.4_@angular+core@15.1.4
+      "@angular/cdk": 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/forms": 15.1.4_g7mjdvsmeszabti4mywkhjexwi
+      "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
       "@material/animation": 15.0.0-canary.684e33d25.0
       "@material/auto-init": 15.0.0-canary.684e33d25.0
       "@material/banner": 15.0.0-canary.684e33d25.0
@@ -576,6 +740,23 @@ packages:
       "@angular/animations": 15.1.3_@angular+core@15.1.3
       "@angular/common": 15.1.3_e5k2npugnvd34secg4d53mkdom
       "@angular/core": 15.1.3_rxjs@7.8.0+zone.js@0.12.0
+      tslib: 2.5.0
+    dev: false
+
+  /@angular/platform-browser/15.1.4_vztyff4teqf7syhiw43dlsmbye:
+    resolution: { integrity: sha512-PrRNVbnPY38eh0zVDoNlx2EDHe4AzQ4bhJv3Wsrm+IFgi0e4yet8FQuL6sj1JBjLztKuZsndG2M/fyRWIpYkMQ== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      "@angular/animations": 15.1.4
+      "@angular/common": 15.1.4
+      "@angular/core": 15.1.4
+    peerDependenciesMeta:
+      "@angular/animations":
+        optional: true
+    dependencies:
+      "@angular/animations": 15.1.4_@angular+core@15.1.4
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
       tslib: 2.5.0
     dev: false
 
@@ -7203,6 +7384,16 @@ packages:
 
   /sass/1.57.1:
     resolution: { integrity: sha512-O2+LwLS79op7GI0xZ8fqzF7X2m/m8WFfI02dHOdsK5R2ECeS5F62zrwg/relM1rjSLy7Vd/DiMNIvPrQGsA0jw== }
+    engines: { node: ">=12.0.0" }
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.2.4
+      source-map-js: 1.0.2
+    dev: true
+
+  /sass/1.58.0:
+    resolution: { integrity: sha512-PiMJcP33DdKtZ/1jSjjqVIKihoDc6yWmYr9K/4r3fVVIEDAluD0q7XZiRKrNJcPK3qkLRF/79DND1H5q1LBjgg== }
     engines: { node: ">=12.0.0" }
     hasBin: true
     dependencies:
