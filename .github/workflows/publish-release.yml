@@ -21,14 +21,22 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v3.3.0
 
-      - name: Install Node & Dependencies
-        uses: ./.github/actions/setup-node
+      - name: Echo Version
+        run: echo ${{ needs.setup.outputs.version }}
 
-      - name: Build
-        uses: ./.github/actions/build
+      - name: Set Version
+        uses: ./.github/actions/set-version
+        with:
+          version: ${{ needs.setup.outputs.version }}
 
-      - name: Pack
-        uses: ./.github/actions/pack
+      # - name: Install Node & Dependencies
+      #   uses: ./.github/actions/setup-node
+
+      # - name: Build
+      #   uses: ./.github/actions/build
+
+      # - name: Pack
+      #   uses: ./.github/actions/pack
 
   #     - name: Publish
   #       uses: ./.github/actions/publish-node-package
