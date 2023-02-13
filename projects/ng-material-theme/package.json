@@ -12,7 +12,7 @@
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "start": "tsc -w -p tsconfig.json",
     "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
-    "release": "pnpm publish ./dist/pack/*.tgz --access public --no-git-checks 'release/latest'"
+    "release": "pnpm publish ./dist/pack/*.tgz --access public --no-git-checks"
   },
   "repository": "https://github.com/cpangular/ng-material-theme",
   "publishConfig": {
