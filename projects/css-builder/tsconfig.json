@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "lib": ["ES2022"]
-  }
-}
