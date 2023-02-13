@@ -209,7 +209,7 @@ export function generateThemeData(): string {
               foreground: $foreground,
               background: $background,
             ),
-            density: -1,
+            density: -2,
             primary: $primary-palette,
             accent: $accent-palette,
             warn: $warn-palette,

@@ -1,0 +1,11 @@
+name: "Check version"
+description: ""
+
+runs:
+  using: "composite"
+  steps:
+    - id: checkVersion
+      name: Check Version
+      uses: cpdevtools/action-versions@v0.5
+      with:
+        failInvalidCanCreate: true

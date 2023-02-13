@@ -9,7 +9,9 @@
     "build:copy-scss": "copyfiles --up=1  \"src/**/*.scss\" dist/",
     "build:copy-package": "ts-node .scripts/copy-package.ts",
     "build:copy-material-theme": "ts-node .scripts/copy-material-theme.ts",
-    "start": "tsc -w -p tsconfig.json"
+    "start": "tsc -w -p tsconfig.json",
+    "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
+    "release": "pnpm publish ./dist/pack/*.tgz --access public --publish-branch 'release/latest'"
   },
   "repository": "https://github.com/cpangular/ng-material-theme",
   "publishConfig": {
