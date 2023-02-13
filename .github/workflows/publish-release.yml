@@ -30,19 +30,19 @@ jobs:
       - name: Pack
         uses: ./.github/actions/pack
 
-      - name: Publish
-        uses: ./.github/actions/publish-node-package
-        with:
-          toGithub: true
-          toNpm: true
-          npmToken: ${{ secrets.NPM_TOKEN  }}
+  #     - name: Publish
+  #       uses: ./.github/actions/publish-node-package
+  #       with:
+  #         toGithub: true
+  #         toNpm: true
+  #         npmToken: ${{ secrets.NPM_TOKEN  }}
 
-  create-release:
-    runs-on: ubuntu-latest
-    needs: publish
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v3.3.0
+  # create-release:
+  #   runs-on: ubuntu-latest
+  #   needs: publish
+  #   steps:
+  #     - name: Checkout Project
+  #       uses: actions/checkout@v3.3.0
 
-      - name: Create Release
-        uses: ./.github/actions/create-release
+  #     - name: Create Release
+  #       uses: ./.github/actions/create-release
