@@ -1,1 +1,6 @@
 @use "@angular/material" as mat;
+@use "../dist/scss/theme-data" as theme;
+
+@include mat.core();
+/*** Components ***/
+@include mat.all-component-themes(theme.$theme);

@@ -3,4 +3,3 @@ import { genNgMaterialThemeData } from "./theming/converter/genNgMaterialThemeDa
 var cssData = genNgMaterialThemeData();
 
 const cssPath = "../NgMaterialApp/src/_theme.scss";
-writeFileSync(cssPath, cssData, { encoding: "utf-8" });
