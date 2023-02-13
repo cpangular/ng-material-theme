@@ -138,7 +138,7 @@ $themeD: (
     // error: palettes.$error-palette,
     // background: palettes.$background-palette,
     // overlay: palettes.$overlay-palette,
-    // opacity: palettes.$opacity-palette,,,,,
+    // opacity: palettes.$opacity-palette,,,,,,
   ),
 );
 
@@ -156,14 +156,3 @@ $theme2: (
 );
 
 @include theming.apply-themes(($themeD, $theme2));
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: var(--theme-background);
-  color: var(--theme-background-contrast);
-}
