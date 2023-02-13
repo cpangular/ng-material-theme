@@ -9,6 +9,7 @@
     "build:copy-scss": "copyfiles --up=1  \"src/**/*.scss\" dist/",
     "build:copy-package": "ts-node .scripts/copy-package.ts",
     "build:copy-material-theme": "ts-node .scripts/copy-material-theme.ts",
+    "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "start": "tsc -w -p tsconfig.json",
     "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
     "release": "pnpm publish ./dist/pack/*.tgz --access public --publish-branch 'release/latest'"

@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "ng-material-theme-converter",
+  "version": "0.0.0-none",
   "devDependencies": {
     "@material/animation": "^15.0.0-canary.684e33d25.0",
     "@material/base": "^15.0.0-canary.684e33d25.0",
