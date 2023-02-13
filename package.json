@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "0.0.0-dev.0",
+  "version": "0.0.1-dev.2",
   "private": true,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
@@ -17,6 +17,7 @@
     "build:generate-theme": "pnpm -r run convert",
     "build:build": "pnpm -r run build",
     "pack": "pnpm -r run pack",
+    "release": "pnpm -r run release",
     "start": "pnpm -r run start",
     "test": "pnpm -r run test",
     "fix": "run-s fix:*",
@@ -31,7 +32,9 @@
     "reset-hard:install": "pnpm install --force",
     "actions-build": "pnpm run build",
     "actions-pack": "pnpm run pack",
-    "actions-test": "pnpm run test"
+    "actions-publish": "pnpm run release",
+    "actions-test": "pnpm run test",
+    "actions-set-version": "pnpm run set-version"
   },
   "devDependencies": {
     "husky": "^8.0.3",
