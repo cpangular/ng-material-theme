@@ -1,5 +1,6 @@
-import { copyFileSync } from "fs";
+import { copyFileSync, mkdirSync } from "fs";
 
 (async () => {
-  copyFileSync("../css-builder/dist/mat-theme.css", "./dist/mat-theme.css");
+  mkdirSync("./dist/css", { recursive: true });
+  copyFileSync("../ng-material-theme-converter/dist/ng-material-theme.css", "./dist/css/ng-material-theme.css");
 })();

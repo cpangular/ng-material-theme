@@ -19,6 +19,9 @@ import { readJsonFile, writeJsonFile } from "@cpdevtools/lib-node-utilities";
         if (exp[k].startsWith("./dist/")) {
           exp[k] = "." + exp[k].slice(6);
         }
+        if (exp[k].startsWith("./src/")) {
+          exp[k] = "." + exp[k].slice(5);
+        }
       }
     }
   }

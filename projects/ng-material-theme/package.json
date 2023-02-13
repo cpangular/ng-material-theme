@@ -6,6 +6,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:ts": "tsc -p tsconfig.json",
+    "build:copy-scss": "copyfiles --up=1  \"src/**/*.scss\" dist/",
     "build:copy-package": "ts-node .scripts/copy-package.ts",
     "build:copy-material-theme": "ts-node .scripts/copy-material-theme.ts",
     "start": "tsc -w -p tsconfig.json"
@@ -20,7 +21,8 @@
   },
   "devDependencies": {
     "@cpdevtools/lib-node-utilities": "0.4.49",
-    "@types/node": "^18.11.19",
+    "@types/node": "^18.13.0",
+    "copyfiles": "^2.4.1",
     "type-fest": "^3.5.6",
     "typescript": "^4.9.5"
   },
@@ -36,8 +38,8 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./mat-theme.css": {
-      "style": "./dist/mat-theme.css"
+    "./ng-material-theme.css": {
+      "style": "./dist/css/ng-material-theme.css"
     },
     "./theming": {
       "sass": "./src/_index.scss"
