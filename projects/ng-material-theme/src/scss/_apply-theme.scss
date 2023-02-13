@@ -288,56 +288,64 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
   }
 }
 
-@mixin apply-theme($theme) {
-  @if meta.type-of($theme) == list {
-    @each $t in $theme {
-      @include apply-theme($t);
+@mixin -apply-theme($theme) {
+  @at-root {
+    $themeId: map.get($theme, id);
+    $isDefaultTheme: map.get($theme, default);
+    $vars: -theme-to-css-variables($theme);
+    $palettes: map.get($vars, palettes);
+
+    $meta: map.get($vars, meta);
+    /*** Theme: #{$themeId} ***/
+    -theme- {
+      @include var-util.write-css-variables($meta, false);
     }
-  } @else {
-    @at-root {
-      $themeId: map.get($theme, id);
-      $isDefaultTheme: map.get($theme, default);
-      $vars: -theme-to-css-variables($theme);
-      $palettes: map.get($vars, palettes);
 
-      $meta: map.get($vars, meta);
-      /*** Theme: #{$themeId} ***/
-      -theme- {
-        @include var-util.write-css-variables($meta, false);
-      }
+    $selector: "[theme=#{$themeId}]";
+    @if $isDefaultTheme {
+      $selector: '#{$selector}, html:not([theme]), html[theme=""]';
+    }
 
-      $selector: "[theme=#{$themeId}]";
-      @if $isDefaultTheme {
-        $selector: '#{$selector}, html:not([theme]), html[theme=""]';
-      }
+    #{$selector} {
+      /*** Theme: #{$themeId} - Light Mode Properties ***/
+      @include -apply-theme-palettes($theme, $palettes, "light");
 
-      #{$selector} {
-        /*** Theme: #{$themeId} - Light Mode Properties ***/
-        @include -apply-theme-palettes($theme, $palettes, "light");
-
-        @at-root {
-          /*** Theme: #{$themeId} - Auto Dark Mode ***/
-          html[theme-mode=""]:is(&),
-          html[theme-mode=""] &,
-          html:not([theme-mode]):is(&),
-          html:not([theme-mode]) & {
-            @media (prefers-color-scheme: dark) {
-              /*** Theme: #{$themeId} - Dark Mode Properties ***/
-              @include -apply-theme-palettes($theme, $palettes, "dark");
-            }
-          }
-
-          /*** Theme: #{$themeId} - Explicit Dark Mode ***/
-          html[theme-mode="dark"]:is(&),
-          html[theme-mode="dark"] & {
+      @at-root {
+        /*** Theme: #{$themeId} - Auto Dark Mode ***/
+        html[theme-mode=""]:is(&),
+        html[theme-mode=""] &,
+        html:not([theme-mode]):is(&),
+        html:not([theme-mode]) & {
+          @media (prefers-color-scheme: dark) {
             /*** Theme: #{$themeId} - Dark Mode Properties ***/
             @include -apply-theme-palettes($theme, $palettes, "dark");
           }
         }
 
-        /*** Theme: #{$themeId} - Shared Properties ***/
-        @include -apply-theme-palettes($theme, $palettes, "shared");
+        /*** Theme: #{$themeId} - Explicit Dark Mode ***/
+        html[theme-mode="dark"]:is(&),
+        html[theme-mode="dark"] & {
+          /*** Theme: #{$themeId} - Dark Mode Properties ***/
+          @include -apply-theme-palettes($theme, $palettes, "dark");
+        }
       }
+
+      /*** Theme: #{$themeId} - Shared Properties ***/
+      @include -apply-theme-palettes($theme, $palettes, "shared");
     }
+  }
+}
+
+@mixin apply-themes($theme, $noDefault: false) {
+  @if meta.type-of($theme) == list {
+    $first: not $noDefault;
+    @each $t in $theme {
+      $t: map.set($t, default, $first);
+      @include -apply-theme($t);
+      $first: false;
+    }
+  } @else {
+    $theme: map.set($theme, default, not $noDefault);
+    @include -apply-theme($t);
   }
 }

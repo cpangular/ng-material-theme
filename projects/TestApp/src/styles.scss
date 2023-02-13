@@ -138,7 +138,7 @@ $themeD: (
     // error: palettes.$error-palette,
     // background: palettes.$background-palette,
     // overlay: palettes.$overlay-palette,
-    // opacity: palettes.$opacity-palette,,,,
+    // opacity: palettes.$opacity-palette,,,,,
   ),
 );
 
@@ -155,7 +155,7 @@ $theme2: (
   ),
 );
 
-@include theming.apply-theme(($themeD, $theme2));
+@include theming.apply-themes(($themeD, $theme2));
 
 html,
 body {
