@@ -33,7 +33,7 @@
   },
   "exports": {
     ".": {
-      "style": "./dist/mat-theme.css",
+      "style": "./dist/css/ng-material-theme.css",
       "sass": "./src/_index.scss",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"

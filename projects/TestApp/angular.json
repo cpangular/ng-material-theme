@@ -25,7 +25,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "node_modules/@cpangular/ng-material-theme/dist/mat-theme.css",
+              "@cpangular/ng-material-theme/ng-material-theme.css",
               "src/styles.scss"
             ],
             "scripts": []

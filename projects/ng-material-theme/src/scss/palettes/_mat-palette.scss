@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:list";
-@use "angular/material" as mat;
+@use "@angular/material" as mat;
 
 @function convert-mat-palette($matPalette, $default: 500, $lighter: 300, $darker: 600) {
   $contrast: map.get($matPalette, contrast);
