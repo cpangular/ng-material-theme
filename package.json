@@ -17,6 +17,7 @@
     "build:generate-theme": "pnpm -r run convert",
     "build:build": "pnpm -r run build",
     "pack": "pnpm -r run pack",
+    "release": "pnpm -r run release",
     "start": "pnpm -r run start",
     "test": "pnpm -r run test",
     "fix": "run-s fix:*",
@@ -31,6 +32,7 @@
     "reset-hard:install": "pnpm install --force",
     "actions-build": "pnpm run build",
     "actions-pack": "pnpm run pack",
+    "actions-publish": "pnpm run release",
     "actions-test": "pnpm run test"
   },
   "devDependencies": {
