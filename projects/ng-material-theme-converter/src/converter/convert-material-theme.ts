@@ -10,9 +10,6 @@ export function convertMaterialTheme() {
 
   const cssPath = "dist/css/theme-raw.css";
 
-  console.log("-------------");
-  console.log(readFileSync(cssPath, { encoding: "utf-8" }));
-
   let cssParts = readFileSync(cssPath, { encoding: "utf-8" })
     .split("/*** Components ***/")
     .filter((i) => !!i?.trim());
