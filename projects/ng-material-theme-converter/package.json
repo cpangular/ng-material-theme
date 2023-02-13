@@ -51,10 +51,10 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "build": "run-s build:*",
-    "build:theme-data": "ts-node src/generate.ts",
-    "build:css": "sass --load-path=node_modules/ --no-source-map --style=expanded  src/theme.scss dist/css/theme-raw.css",
-    "build:convert": "ts-node src/convert.ts"
+    "convert": "run-s convert:*",
+    "convert:generate-theme-data": "ts-node src/generate.ts",
+    "convert:compile-scss": "sass --load-path=node_modules/ --no-source-map --style=expanded  src/theme.scss dist/css/theme-raw.css",
+    "convert:replace-variables": "ts-node src/convert.ts"
   },
   "dependencies": {
     "@angular/animations": "^15.1.4",
