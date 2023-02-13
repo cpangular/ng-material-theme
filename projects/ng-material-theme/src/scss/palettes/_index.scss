@@ -2,3 +2,4 @@
 @forward "./overlay-palettes" show $overlay-palette, $light-mode-overlay-palette, $dark-mode-overlay-palette;
 @forward "./opacity-palettes" show $opacity-palette, $light-mode-opacity-palette, $dark-mode-opacity-palette;
 @forward "./error-palettes" show $error-palette, $light-mode-error-palette, $dark-mode-error-palette;
+@forward "./mat-palette";

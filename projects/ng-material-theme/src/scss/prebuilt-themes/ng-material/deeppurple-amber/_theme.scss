@@ -1,0 +1,20 @@
+@use "angular/material" as mat;
+@use "../../palettes";
+
+$primary: palettes.convert-mat-palette(mat.$deep-purple-palette);
+$accent: palettes.convert-mat-palette(mat.$amber-palette, A200, A100, A400);
+
+$theme: (
+  id: ng-deeppurple-amber,
+  label: "Deep Purple and Amber",
+  palettes: (
+    primary: (
+      light: $primary,
+      dark: $primary,
+    ),
+    secondary: (
+      light: $accent,
+      dark: $accent,
+    ),
+  ),
+);
