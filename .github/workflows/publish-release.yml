@@ -24,6 +24,11 @@ jobs:
       - name: Install Node & Dependencies
         uses: ./.github/actions/setup-node
 
+      - name: Set Version
+        uses: ./.github/actions/set-version
+        with:
+          version: ${{ needs.setup.outputs.version }}
+
       - name: Build
         uses: ./.github/actions/build
 

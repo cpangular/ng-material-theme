@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "0.0.1-dev.0",
+  "version": "0.0.1-dev.1",
   "private": true,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
@@ -33,7 +33,8 @@
     "actions-build": "pnpm run build",
     "actions-pack": "pnpm run pack",
     "actions-publish": "pnpm run release",
-    "actions-test": "pnpm run test"
+    "actions-test": "pnpm run test",
+    "actions-set-version": "pnpm run set-version"
   },
   "devDependencies": {
     "husky": "^8.0.3",
