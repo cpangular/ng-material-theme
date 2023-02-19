@@ -3,6 +3,7 @@
     "target": "ES6",
     "module": "CommonJS",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "lib": ["ES2022", "DOM"]
   }
 }

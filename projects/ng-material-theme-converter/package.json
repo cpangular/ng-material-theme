@@ -45,7 +45,9 @@
     "@material/tooltip": "^15.0.0-canary.684e33d25.0",
     "@material/touch-target": "^15.0.0-canary.684e33d25.0",
     "@material/typography": "^15.0.0-canary.684e33d25.0",
+    "@types/css-tree": "^2.3.0",
     "@types/node": "^18.13.0",
+    "@types/prettier": "^2.7.2",
     "npm-run-all2": "^6.0.4",
     "sass": "^1.58.0",
     "ts-node": "^10.9.1",
@@ -55,7 +57,8 @@
     "convert": "run-s convert:*",
     "convert:generate-theme-data": "ts-node src/generate.ts",
     "convert:compile-scss": "sass --load-path=node_modules/ --no-source-map --style=expanded  src/theme.scss dist/css/theme-raw.css",
-    "convert:replace-variables": "ts-node src/convert.ts"
+    "convert:replace-variables": "ts-node src/convert.ts",
+    "ttt": "ts-node src/ttt.ts"
   },
   "dependencies": {
     "@angular/animations": "^15.1.4",
@@ -65,6 +68,9 @@
     "@angular/forms": "^15.1.4",
     "@angular/material": "15.1.4",
     "@angular/platform-browser": "^15.1.4",
+    "chalk": "^4.1.2",
+    "css-tree": "^2.3.1",
+    "linq": "^3.2.4",
     "rxjs": "~7.8.0",
     "zone.js": "~0.12.0"
   }

@@ -181,7 +181,7 @@ export function generateThemeData(): string {
             slider-off: ${ThemeTokens.foreground["slider-off"]},
             slider-off-active: ${ThemeTokens.foreground["slider-off-active"]},
           );
-          
+
           $background: (
             status-bar: ${ThemeTokens.background["status-bar"]},
             app-bar: ${ThemeTokens.background["app-bar"]},
@@ -214,6 +214,86 @@ export function generateThemeData(): string {
             accent: $accent-palette,
             warn: $warn-palette,
             is-dark: true,
+            foreground: $foreground,
+            background: $background,
+          );
+
+          $theme-dark: (
+            color: (
+              primary: $primary-palette,
+              accent: $accent-palette,
+              warn: $warn-palette,
+              is-dark: true,
+              foreground: $foreground,
+              background: $background,
+            ),
+            density: 0,
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+            is-dark: true,
+            foreground: $foreground,
+            background: $background,
+          );
+
+
+
+
+
+
+
+
+
+          $theme-dark-dense: (
+            color: (
+              primary: $primary-palette,
+              accent: $accent-palette,
+              warn: $warn-palette,
+              is-dark: true,
+              foreground: $foreground,
+              background: $background,
+            ),
+            density: -2,
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+            is-dark: true,
+            foreground: $foreground,
+            background: $background,
+          );
+
+          $theme-light: (
+            color: (
+              primary: $primary-palette,
+              accent: $accent-palette,
+              warn: $warn-palette,
+              is-dark: false,
+              foreground: $foreground,
+              background: $background,
+            ),
+            density: 0,
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+            is-dark: false,
+            foreground: $foreground,
+            background: $background,
+          );
+
+          $theme-light-dense: (
+            color: (
+              primary: $primary-palette,
+              accent: $accent-palette,
+              warn: $warn-palette,
+              is-dark: false,
+              foreground: $foreground,
+              background: $background,
+            ),
+            density: -2,
+            primary: $primary-palette,
+            accent: $accent-palette,
+            warn: $warn-palette,
+            is-dark: false,
             foreground: $foreground,
             background: $background,
           );
