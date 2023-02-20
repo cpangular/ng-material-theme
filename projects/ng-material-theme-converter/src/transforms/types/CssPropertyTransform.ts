@@ -3,11 +3,11 @@ import { CssProperty } from "./CssProperty";
 import { ThemeConfig } from "./ThemeConfig";
 import { CssPropertyTransformCheckProperty } from "./CssPropertyTransformCheckProperty";
 import { CssRuleTransformCheckSelector } from "./CssRuleTransformCheckSelector";
-import { CssTransformBase } from "./CssTransformBase";
+import { CssTransformation } from "./CssTransformation";
 import { CssTransformCheckTheme } from "./CssTransformCheckTheme";
 
 export interface CssPropertyTransform
-  extends CssTransformBase,
+  extends CssTransformation,
     CssTransformCheckTheme,
     CssRuleTransformCheckSelector,
     CssPropertyTransformCheckProperty {

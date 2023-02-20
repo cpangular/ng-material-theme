@@ -1,9 +1,9 @@
 import * as CssTree from "css-tree";
 import { ThemeConfig } from "./ThemeConfig";
-import { CssTransformBase } from "./CssTransformBase";
+import { CssTransformation } from "./CssTransformation";
 import { CssTransformCheckTheme } from "./CssTransformCheckTheme";
 
-export interface CssStyleSheetTransform extends CssTransformBase, CssTransformCheckTheme {
+export interface CssStyleSheetTransform extends CssTransformation, CssTransformCheckTheme {
   readonly transforms: "stylesheet";
-  transform(property: CssTree.StyleSheet, config: ThemeConfig): void;
+  transform(styleSheet: CssTree.StyleSheet, config: ThemeConfig): void;
 }

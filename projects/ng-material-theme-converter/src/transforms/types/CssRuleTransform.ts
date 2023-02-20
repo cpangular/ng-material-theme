@@ -1,10 +1,10 @@
 import { CssRule } from "./CssRule";
 import { ThemeConfig } from "./ThemeConfig";
 import { CssRuleTransformCheckSelector } from "./CssRuleTransformCheckSelector";
-import { CssTransformBase } from "./CssTransformBase";
+import { CssTransformation } from "./CssTransformation";
 import { CssTransformCheckTheme } from "./CssTransformCheckTheme";
-
-export interface CssRuleTransform extends CssTransformBase, CssTransformCheckTheme, CssRuleTransformCheckSelector {
+import * as CssTree from "css-tree";
+export interface CssRuleTransform extends CssTransformation, CssTransformCheckTheme, CssRuleTransformCheckSelector {
   readonly transforms: "rule";
-  transform(rule: CssRule, config: ThemeConfig): CssRule | undefined;
+  transform(rule: CssRule, config: ThemeConfig): CssTree.Rule | undefined;
 }
