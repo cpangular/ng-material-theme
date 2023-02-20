@@ -1,7 +1,7 @@
 import * as CssTree from "css-tree";
 import { getPaletteFromSelector } from "./transforms/util/getPaletteFromSelector";
 import { createTransform } from "./transforms/createTransform";
-import { transformTheme } from "./transforms/theme";
+import { transformTheme } from "./transforms/transformTheme";
 // import { transformNgMaterialTheme } from "./transforms/transform-ng-material-theme";
 
 // function transformComponentBackgroundColors(prefix: string) {
