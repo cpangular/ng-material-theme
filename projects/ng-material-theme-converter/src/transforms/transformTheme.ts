@@ -18,7 +18,7 @@ const OUT_DIR = "./dist/ng-material-theme/scss";
 
 const SUB_THEMES = ["button-theme"];
 
-function transformSubTheme(theme: string) {
+function transformSubTheme(theme: string, reportOnly: boolean = false) {
   const configDark: ThemeConfig = { name: theme, darkMode: true, density: -2 };
   const configDense1: ThemeConfig = { name: theme, darkMode: true, density: -1 };
   const configDense0: ThemeConfig = { name: theme, darkMode: true, density: 0 };
@@ -29,10 +29,12 @@ function transformSubTheme(theme: string) {
   const themeDense0 = loadThemeStyleSheet(configDense0);
   const themeLight = loadThemeStyleSheet(configLight);
 
-  applyTransformations(configDark, themeDark, TRANSFORMATIONS);
-  applyTransformations(configDense1, themeDense1, TRANSFORMATIONS);
-  applyTransformations(configDense0, themeDense0, TRANSFORMATIONS);
-  applyTransformations(configLight, themeLight, TRANSFORMATIONS);
+  if (!reportOnly) {
+    applyTransformations(configDark, themeDark, TRANSFORMATIONS);
+    applyTransformations(configDense1, themeDense1, TRANSFORMATIONS);
+    applyTransformations(configDense0, themeDense0, TRANSFORMATIONS);
+    applyTransformations(configLight, themeLight, TRANSFORMATIONS);
+  }
 
   // report
   const report = generateReport(
@@ -102,25 +104,28 @@ function writeSubThemeCss(name: string, scss: string) {
   writeFileSync(Path.join(OUT_DIR, `_${name}.scss`), Prettier.format(scss, { parser: "scss", tabWidth: 2 }), { encoding: "utf-8" });
 }
 
-export function transformTheme() {
+export function transformTheme(reportOnly: boolean = false) {
   mkdirSync(OUT_DIR, { recursive: true });
   SUB_THEMES.forEach((t) => {
-    const result = transformSubTheme(t);
+    const result = transformSubTheme(t, reportOnly);
     printSubThemeReport(t, result.report);
-    writeSubThemeCss(t, result.css);
-  });
-
-  const forward = SUB_THEMES.map((t) => `@forward './${t}';`);
-  const use = SUB_THEMES.map((t) => `@use './${t}';`);
-  const include = SUB_THEMES.map((t) => `@include ${t}.${t}();`);
-  const indexScss = `
-    ${forward.join("\n")}
-
-    ${use.join("\n")}
-
-    @mixin all-themes(){
-      ${include.join("\n")}
+    if (!reportOnly) {
+      writeSubThemeCss(t, result.css);
     }
-  `;
-  writeSubThemeCss("index", indexScss);
+  });
+  if (!reportOnly) {
+    const forward = SUB_THEMES.map((t) => `@forward './${t}';`);
+    const use = SUB_THEMES.map((t) => `@use './${t}';`);
+    const include = SUB_THEMES.map((t) => `@include ${t}.${t}();`);
+    const indexScss = `
+        ${forward.join("\n")}
+
+        ${use.join("\n")}
+
+        @mixin all-themes(){
+          ${include.join("\n")}
+        }
+      `;
+    writeSubThemeCss("index", indexScss);
+  }
 }
