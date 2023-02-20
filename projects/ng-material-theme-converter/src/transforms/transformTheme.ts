@@ -73,23 +73,26 @@ function printSubThemeReport(theme: string, report: CssRuleReport[]) {
     console.info(chalk.gray(d.selector));
     console.group();
 
-    d.properties.forEach((p) => {
-      console.info();
-      console.info(chalk.cyan(p.name));
-      if (isCssDensityChangeReport(p.change)) {
-        console.table({
-          "density 0": p.change.values[0],
-          "density -1": p.change.values["-1"],
-          "density -2": p.change.values["-2"],
-        });
-      }
-      if (isCssModeChangeReport(p.change)) {
-        console.table({
-          light: p.change.lightModeValue,
-          dark: p.change.darkModeValue,
-        });
-      }
-    });
+    d.properties
+      .filter((p) => !!p.change)
+      .forEach((p) => {
+        console.info();
+        console.info(chalk.cyan(p.name));
+        if (isCssDensityChangeReport(p.change)) {
+          console.table({
+            "density 0": p.change.values[0],
+            "density -1": p.change.values["-1"],
+            "density -2": p.change.values["-2"],
+          });
+        } else if (isCssModeChangeReport(p.change)) {
+          console.table({
+            light: p.change.lightModeValue,
+            dark: p.change.darkModeValue,
+          });
+        } else {
+          console.log(p);
+        }
+      });
     console.groupEnd();
     console.info();
   });

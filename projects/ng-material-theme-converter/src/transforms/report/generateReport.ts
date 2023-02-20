@@ -50,8 +50,8 @@ export function generateReport(properties: CssPropertyReport[]) {
 
                     values: {
                       "-1": dense1Value,
-                      "-2": dense0Value,
-                      "0": currentValue,
+                      "-2": currentValue,
+                      "0": dense0Value,
                     },
                   } as CssDensityChangeReport;
                 }

@@ -1,3 +1,3 @@
-import { ComponentBackgroundTransform, ComponentForegroundTransform } from "./impl/component-colors";
+import { ComponentBackgroundTransform, ComponentDensityTransform, ComponentForegroundTransform } from "./impl/component-colors";
 
-export const TRANSFORMATIONS = [new ComponentBackgroundTransform(), new ComponentForegroundTransform()];
+export const TRANSFORMATIONS = [new ComponentBackgroundTransform(), new ComponentForegroundTransform(), new ComponentDensityTransform()];

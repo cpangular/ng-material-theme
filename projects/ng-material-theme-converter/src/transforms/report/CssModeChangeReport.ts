@@ -7,5 +7,5 @@ export interface CssModeChangeReport extends CssChangeReport {
 }
 
 export function isCssModeChangeReport(obj: object): obj is CssModeChangeReport {
-  return "scope" in obj && obj.scope === "mode";
+  return obj && "scope" in obj && obj.scope === "mode";
 }

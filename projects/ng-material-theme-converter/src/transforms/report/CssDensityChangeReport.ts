@@ -10,5 +10,5 @@ export interface CssDensityChangeReport extends CssChangeReport {
 }
 
 export function isCssDensityChangeReport(obj: object): obj is CssDensityChangeReport {
-  return "scope" in obj && obj.scope === "density";
+  return obj && "scope" in obj && obj.scope === "density";
 }
