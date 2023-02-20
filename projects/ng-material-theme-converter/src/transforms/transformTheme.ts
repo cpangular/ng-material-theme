@@ -1,17 +1,22 @@
-import { mkdirSync, writeFileSync } from "fs";
-import { ThemeConfig } from "./types/ThemeConfig";
 import * as CssTree from "css-tree";
-import { applyTransformations } from "./applyTransformations";
-import { CssRuleReport } from "./report/CssRuleReport";
-import Prettier, { util } from "prettier";
+import { mkdirSync, writeFileSync } from "fs";
 import Path from "path";
+import Prettier from "prettier";
+import { applyTransformations } from "./applyTransformations";
+import { generateReport } from "./report/generateReport";
+import { CssRuleReport } from "./report/CssRuleReport";
+import { TRANSFORMATIONS } from "./TRANSFORMATIONS";
+import { ThemeConfig } from "./types/ThemeConfig";
 import { loadThemeStyleSheet } from "./util/loadThemeStyleSheet";
 import { styleSheetToProperties } from "./util/styleSheetToProperties";
-import { generateReport } from "./generateReport";
+import chalk from "chalk";
+import { CssModeChangeReport, isCssModeChangeReport } from "./report/CssModeChangeReport";
+import { isCssDensityChangeReport } from "./report/CssDensityChangeReport";
+import Enumerable from "linq";
+
+const OUT_DIR = "./dist/ng-material-theme/scss";
 
 const SUB_THEMES = ["button-theme"];
-
-const TRANSFORMATIONS = [];
 
 function transformSubTheme(theme: string) {
   const configDark: ThemeConfig = { name: theme, darkMode: true, density: -2 };
@@ -52,22 +57,53 @@ function serializeTheme(themeName: string, theme: CssTree.StyleSheet) {
     }
   `;
 
-  return Prettier.format(scss, { parser: "scss", tabWidth: 2 });
+  return scss;
 }
 
-function printSubThemeReport(report: CssRuleReport[]) {
-  console.log(report);
+function printSubThemeReport(theme: string, report: CssRuleReport[]) {
+  console.info(chalk.green(`Compiled ${theme}.`));
+
+  const differences = report.filter((r) => !!r.properties.find((r2) => !!r2.change));
+  if (!differences.length) {
+    console.info(chalk.greenBright("No differences detected in theme variations"));
+  }
+
+  differences.forEach((d) => {
+    console.info(`[${chalk.yellow("DIFFERENCE")}]`, theme);
+    console.info(chalk.gray(d.selector));
+    console.group();
+
+    d.properties.forEach((p) => {
+      console.info();
+      console.info(chalk.cyan(p.name));
+      if (isCssDensityChangeReport(p.change)) {
+        console.table({
+          "density 0": p.change.values[0],
+          "density -1": p.change.values["-1"],
+          "density -2": p.change.values["-2"],
+        });
+      }
+      if (isCssModeChangeReport(p.change)) {
+        console.table({
+          light: p.change.lightModeValue,
+          dark: p.change.darkModeValue,
+        });
+      }
+    });
+    console.groupEnd();
+    console.info();
+  });
 }
 
-function writeSubThemeCss(name: string, css: string) {
-  writeFileSync(Path.join("./dist/theme", `_${name}.scss`), css, { encoding: "utf-8" });
+function writeSubThemeCss(name: string, scss: string) {
+  writeFileSync(Path.join(OUT_DIR, `_${name}.scss`), Prettier.format(scss, { parser: "scss", tabWidth: 2 }), { encoding: "utf-8" });
 }
 
 export function transformTheme() {
-  mkdirSync("./dist/theme", { recursive: true });
+  mkdirSync(OUT_DIR, { recursive: true });
   SUB_THEMES.forEach((t) => {
     const result = transformSubTheme(t);
-    printSubThemeReport(result.report);
+    printSubThemeReport(t, result.report);
     writeSubThemeCss(t, result.css);
   });
 

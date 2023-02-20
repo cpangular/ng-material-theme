@@ -1,10 +1,10 @@
-import { CssPropertyReport } from "./report/CssPropertyReport";
 import Enumerable from "linq";
-import { CssChangeReport } from "./report/CssChangeReport";
-import { CssModeChangeReport } from "./report/CssModeChangeReport";
-import { CssDensityChangeReport } from "./report/CssDensityChangeReport";
-import { CssPropertyModificationReport } from "./report/CssPropertyModificationReport";
-import { CssRuleReport } from "./report/CssRuleReport";
+import { CssChangeReport } from "./CssChangeReport";
+import { CssDensityChangeReport } from "./CssDensityChangeReport";
+import { CssModeChangeReport } from "./CssModeChangeReport";
+import { CssPropertyModificationReport } from "./CssPropertyModificationReport";
+import { CssPropertyReport } from "./CssPropertyReport";
+import { CssRuleReport } from "./CssRuleReport";
 
 export function generateReport(properties: CssPropertyReport[]) {
   return Enumerable.from(properties)
