@@ -245,6 +245,7 @@ export function compileNgMaterialTemplate(templateName: string, darkMode: boolea
 
     ${themeData}
 
+    $simpleMode: true;
 
     $darkMode: ${darkMode ? "true" : "false"};
     $density: ${Math.max(Math.min(density, 0), -2)};
@@ -256,7 +257,7 @@ export function compileNgMaterialTemplate(templateName: string, darkMode: boolea
     $foreground: $ref-foreground;
     $background: $ref-background;
 
-    @if not $darkMode {
+    @if $darkMode {
       $primary: $ref-accent;
       $accent: $ref-warn;
       $warn: $ref-primary;
@@ -264,23 +265,52 @@ export function compileNgMaterialTemplate(templateName: string, darkMode: boolea
       $background: $ref-background-inverted;
     }
 
-    $theme: (
-      color: (
+
+    $theme: null;
+    @if $simpleMode{
+      $themeSimple: (
+        color: (
+          primary: $primary,
+          accent: $accent,
+          warn: $warn
+        ),
+        density: $density,
+        typography: mat.define-typography-config(),
+      );
+
+      @if $darkMode {
+        $theme: mat.define-dark-theme($themeSimple);
+      } @else {
+        $theme: mat.define-light-theme($themeSimple);
+      }
+
+    } @else {
+      $theme: (
+        color: (
+          primary: $primary,
+          accent: $accent,
+          warn: $warn,
+          is-dark: $darkMode,
+           foreground: $foreground,
+           background: $background,
+        ),
+        density: $density,
+        typography: mat.define-typography-config(),
         primary: $primary,
         accent: $accent,
         warn: $warn,
         is-dark: $darkMode,
-        foreground: $foreground,
-        background: $background,
-      ),
-      density: $density,
-      primary: $primary,
-      accent: $accent,
-      warn: $warn,
-      is-dark: $darkMode,
-      foreground: $foreground,
-      background: $background,
-    );
+         foreground: $foreground,
+         background: $background,
+      );
+    }
+
+
+
+
+    @if $darkMode {
+
+    }
 
     @include mat.${templateName}-theme($theme);
 

@@ -1,0 +1,42 @@
+@use "sass:selector";
+
+@mixin in-mode-only($mode) {
+  $ref: &;
+  @at-root {
+    /* start: #{$mode}-mode-only */
+    @media (prefers-color-scheme: #{$mode}) {
+      html:not([theme-mode]),
+      html[theme-mode=""] {
+        @if $ref {
+          #{$ref} {
+            @content;
+          }
+        } @else {
+          @content;
+        }
+      }
+    }
+    html[theme-mode="#{$mode}"] {
+      @if $ref {
+        #{$ref} {
+          @content;
+        }
+      } @else {
+        @content;
+      }
+    }
+    /* end: #{$mode}-mode-only */
+  }
+}
+
+@mixin dark-mode-only() {
+  @include in-mode-only(dark) {
+    @content;
+  }
+}
+
+@mixin light-mode-only() {
+  @include in-mode-only(light) {
+    @content;
+  }
+}

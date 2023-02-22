@@ -12,7 +12,7 @@ export class AddMissingPropertyTransform extends CssTransformBase implements Css
 
   transform(styleSheet: CssTree.StyleSheet, config: ThemeConfig): void {
     const rule = CssTree.find(styleSheet, (n) => {
-      return n.type === "Rule" && CssTree.generate(n.prelude) === this.selector;
+      return n.type === "Rule" && CssTree.generate(n.prelude).trim() === this.selector.trim();
     }) as CssTree.Rule | undefined;
 
     if (!rule) {

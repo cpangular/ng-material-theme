@@ -1,3 +1,5 @@
-import { transformTheme } from "./transforms/transformTheme";
+import { runConvert } from "./cli/convert";
 
-transformTheme();
+(async () => {
+  await runConvert();
+})();

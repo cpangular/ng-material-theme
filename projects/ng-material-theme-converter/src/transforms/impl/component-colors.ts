@@ -117,7 +117,7 @@ export class ComponentOpacityTransform extends CssTransformBase implements CssPr
   }
 
   public transform(property: CssProperty, config: ThemeConfig): string | number | Raw | Value {
-    const propVal = parseFloat(CssTree.generate(property.value));
+    const propVal = parseFloat(CssTree.generate(property.value).trim());
     switch (propVal) {
       case opacityMap.lowest[config.darkMode.toString()]:
         return `var(${ThemeVarsRegistry.register(config.name, `opacity-lowest`)})`;
@@ -187,7 +187,7 @@ export class ComponentDensityTransform extends CssTransformBase implements CssPr
   }
 
   public transform(property: CssProperty, config: ThemeConfig): string | number | Raw | Value {
-    const value = CssTree.generate(property.value);
+    const value = CssTree.generate(property.value).trim();
     const val = parseFloat(value);
     if (value.endsWith("px")) {
       const target = val + Math.abs(config.density) * 4;

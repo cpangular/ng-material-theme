@@ -1,11 +1,9 @@
 import Enumerable from "linq";
 
 export class ThemeVarsRegistry {
-  private static readonly _themeVarPrefix = "--theme";
   private static readonly _vars: Set<string> = new Set();
 
   public static register(theme: string, varName: string) {
-    varName = `${this._themeVarPrefix}-${varName}`;
     this._vars.add(`${theme}|${varName}`);
     return varName;
   }

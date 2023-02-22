@@ -19,7 +19,7 @@ export function applyTransformations(theme: ThemeConfig, stylesheet: CssTree.Sty
 
   CssTree.walk(stylesheet, function (n, i, l) {
     if (n.type === "Rule") {
-      const selector = CssTree.generate(n.prelude);
+      const selector = CssTree.generate(n.prelude).trim();
       const transforms = ruleTransforms.filter((t) => t.appliesToTheme(theme.name) && t.appliesToSelector(selector));
       transforms.forEach((t) => {
         const ret = t.transform(
@@ -39,7 +39,7 @@ export function applyTransformations(theme: ThemeConfig, stylesheet: CssTree.Sty
 
   CssTree.walk(stylesheet, function (n, i, l) {
     if (n.type === "Declaration") {
-      const selector = CssTree.generate(this.rule.prelude);
+      const selector = CssTree.generate(this.rule.prelude).trim();
 
       const prop: CssProperty = {
         selector,
