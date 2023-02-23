@@ -2,6 +2,10 @@
   "private": true,
   "name": "ng-material-theme-converter",
   "version": "0.0.0-none",
+  "scripts": {
+    "convert": "ts-node src/convert.ts --write --no-cache --no-report",
+    "dev": "ts-node src/convert.ts"
+  },
   "devDependencies": {
     "@material/animation": "^15.0.0-canary.684e33d25.0",
     "@material/base": "^15.0.0-canary.684e33d25.0",
@@ -53,13 +57,6 @@
     "sass": "^1.58.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
-  },
-  "scripts": {
-    "convert": "run-s convert:*",
-    "convert:generate-theme-data": "ts-node src/generate.ts",
-    "convert:compile-scss": "sass --load-path=node_modules/ --no-source-map --style=expanded  src/theme.scss dist/css/theme-raw.css",
-    "convert:replace-variables": "ts-node src/convert.ts",
-    "ttt": "ts-node src/ttt.ts"
   },
   "dependencies": {
     "@angular/animations": "^15.1.4",

@@ -22,7 +22,8 @@ import { writeScssFile } from "./util/writeScssFile";
 
 export class ThemeFile implements ThemeFileUtil {
   private readonly _outDir = "./dist";
-  private readonly _snapshotsDir = "./dist/snapshots";
+  private readonly _snapshotsDir = "./dist/.snapshots";
+  private readonly _cacheDir = "./dist/.cache";
   private readonly _configLight: ThemeConfig = { name: this.name, darkMode: false, density: 0 };
   private readonly _configDark: ThemeConfig = { name: this.name, darkMode: true, density: 0 };
   private readonly _configDense1: ThemeConfig = { name: this.name, darkMode: false, density: -1 };
@@ -57,6 +58,7 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   constructor(public readonly name: string, public readonly options: ConvertOptions) {
+    this.writeCache();
     this.logInfo("Loaded theme.");
     this.snapshot();
   }
@@ -116,12 +118,12 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   public applyComponentTransformations() {
-    if (!this.options.componentTransformations) return;
+    if (!this.options.transformations) return;
     this.snapshot();
   }
 
   public applyTokenTransformations() {
-    if (!this.options.tokenTransformations) return;
+    if (!this.options.transformations) return;
 
     const mdcThemeVarReferences = applyMdcThemeTokensTransformations(this);
     if (mdcThemeVarReferences.length) {
@@ -133,19 +135,19 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   public applyColorTransformations() {
-    if (!this.options.colorTransformations) return;
+    if (!this.options.transformations) return;
 
     this.snapshot();
   }
 
   public applyDensityTransformations() {
-    if (!this.options.densityTransformations) return;
+    if (!this.options.transformations) return;
 
     this.snapshot();
   }
 
   public applyAutoColorTransformations() {
-    if (!this.options.autoColorTransformations) return;
+    if (!this.options.transformations) return;
 
     const transformableColorPairs = applyThemePairedColorTransformations(this);
     if (transformableColorPairs.length) {
@@ -180,7 +182,7 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   public applyAutoDensityTransformations() {
-    if (!this.options.autoDensityTransformations) return;
+    if (!this.options.transformations) return;
     this.snapshot();
   }
 
@@ -206,8 +208,12 @@ export class ThemeFile implements ThemeFileUtil {
     this._changed = true;
   }
 
-  private get snapshotsDir() {
+  public get snapshotsDir() {
     return Path.join(this._snapshotsDir, this.name);
+  }
+
+  public get cacheDir() {
+    return Path.join(this._cacheDir, this.name);
   }
 
   private snapshot() {
@@ -270,19 +276,19 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   private loadThemeStyleSheetFromCache(config: ThemeConfig): ReturnType<typeof loadThemeStyleSheet> {
-    const filePath = Path.join(this.snapshotsDir, `_${this.name}`);
+    const filePath = Path.join(this.cacheDir, `_${this.name}`);
 
     let result: ReturnType<typeof loadThemeStyleSheet>;
     if (this.options.cache) {
       let cachePath = "";
       if (config.darkMode === false && config.density === 0) {
-        cachePath = `${filePath}.light_0.scss`;
+        cachePath = `${filePath}.mode-light.css`;
       } else if (config.darkMode === true && config.density === 0) {
-        cachePath = `${filePath}.dark_0.scss`;
+        cachePath = `${filePath}.mode-dark.css`;
       } else if (config.darkMode === false && config.density === -1) {
-        cachePath = `${filePath}.density-1_0.scss`;
+        cachePath = `${filePath}.density-1.css`;
       } else if (config.darkMode === false && config.density === -2) {
-        cachePath = `${filePath}.density-2_0.scss`;
+        cachePath = `${filePath}.density-2.css`;
       }
       if (cachePath && existsSync(cachePath)) {
         const source = readFileSync(cachePath, { encoding: "utf-8" });
@@ -299,28 +305,32 @@ export class ThemeFile implements ThemeFileUtil {
     return result;
   }
 
+  private writeCache() {
+    const cacheDir = this.cacheDir;
+    mkdirSync(cacheDir, { recursive: true });
+    const baseFileName = Path.join(cacheDir, `_${this.name}`);
+    writeScssFile(baseFileName + ".mode-light.css", this._themeData.light.source, false);
+    writeScssFile(baseFileName + ".mode-dark.css", this._themeData.dark.source, false);
+    writeScssFile(baseFileName + ".density-1.css", this._themeData.dense1.source, false);
+    writeScssFile(baseFileName + ".density-2.css", this._themeData.dense2.source, false);
+  }
+
   private writeSnapshots() {
-    // cache files
-    const snapshotsDir = this.snapshotsDir;
-    mkdirSync(snapshotsDir, { recursive: true });
-
-    const baseFileName = Path.join(snapshotsDir, `_${this.name}`);
-    writeScssFile(baseFileName + ".light_0.scss", this._themeData.light.source, false);
-    writeScssFile(baseFileName + ".dark_0.scss", this._themeData.dark.source, false);
-    writeScssFile(baseFileName + ".density-1_0.scss", this._themeData.dense1.source, false);
-    writeScssFile(baseFileName + ".density-2_0.scss", this._themeData.dense2.source, false);
-
     if (!this.options.writeSnapshots) return;
 
+    const snapshotsDir = this.snapshotsDir;
     this.logInfo("Writing snapshots.");
 
+    mkdirSync(snapshotsDir, { recursive: true });
     this._snapshots.forEach((snap, i) => {
+      if (i === this._snapshots.length - 1 && !this.changed) return;
+
       const filename = Path.join(snapshotsDir, `_${this.name}`);
 
-      const lightFileName = `${filename}.light_${i + 1}.scss`;
-      const darkFileName = `${filename}.dark_${i + 1}.scss`;
-      const density1FileName = `${filename}.density-1_${i + 1}.scss`;
-      const density2FileName = `${filename}.density-2_${i + 1}.scss`;
+      const lightFileName = `${filename}.mode-light__${i}.scss`;
+      const darkFileName = `${filename}.mode-dark__${i}.scss`;
+      const density1FileName = `${filename}.density-1__${i}.scss`;
+      const density2FileName = `${filename}.density-2__${i}.scss`;
 
       writeScssFile(lightFileName, this.serializeTheme(snap.styleSheetLight));
       writeScssFile(darkFileName, this.serializeTheme(snap.styleSheetDark));

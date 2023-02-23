@@ -24,7 +24,7 @@ export function applyColorModeColorSwaps(themeFile: ThemeFileUtil): ColorModeCol
         const darkValue = group.first().darkMode.value;
         const rng = `${Math.round(Math.random() * 99999999)}`.padStart(8, "0");
         return {
-          variable: `--_generated_mode-ref--${source}--${rng}-${ret.generatedCount++}`,
+          variable: `--_ref-mode_--${source}--${rng}-${ret.generatedCount++}`,
           lightValue,
           darkValue,
           replacements: group.toArray(),

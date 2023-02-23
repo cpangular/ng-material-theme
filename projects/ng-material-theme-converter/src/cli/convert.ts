@@ -10,7 +10,7 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
   })
   .option("write", {
     type: "boolean",
-    default: true,
+    default: false,
   })
   .option("cache", {
     type: "boolean",
@@ -18,36 +18,9 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
   })
   .option("writeSnapshots", {
     type: "boolean",
-    default: true,
+    default: false,
   })
-  .option("transformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("componentTransformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("colorTransformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("tokenTransformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("densityTransformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("autoColorTransformations", {
-    type: "boolean",
-    default: true,
-  })
-  .option("autoDensityTransformations", {
-    type: "boolean",
-    default: true,
-  })
+  // reports
   .option("report", {
     type: "boolean",
     default: true,
@@ -57,6 +30,11 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
     default: true,
   })
   .option("reportDensity", {
+    type: "boolean",
+    default: true,
+  })
+  // transforms
+  .option("transformations", {
     type: "boolean",
     default: true,
   })
