@@ -3,8 +3,8 @@
   "name": "ng-material-theme-converter",
   "version": "0.0.0-none",
   "scripts": {
-    "convert": "ts-node src/convert.ts --write --no-cache --no-report",
-    "dev": "ts-node src/convert.ts"
+    "convert": "ts-node src/convert.ts --write --no-report",
+    "dev": "ts-node src/convert.ts --write"
   },
   "devDependencies": {
     "@material/animation": "^15.0.0-canary.684e33d25.0",
