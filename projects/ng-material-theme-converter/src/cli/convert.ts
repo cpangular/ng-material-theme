@@ -13,6 +13,10 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
     type: "boolean",
     default: true,
   })
+  .option("writeSnapshots", {
+    type: "boolean",
+    default: false,
+  })
   .option("transformations", {
     type: "boolean",
     default: true,
@@ -96,8 +100,15 @@ const THEMES_FILES = [
 ];
 
 export async function runConvert() {
-  THEMES_FILES.filter((t) => !options.component || t === options.component).forEach((tf) => {
+  THEMES_FILES.filter((t) => !options.component || t === options.component).map((tf) => {
     const themeFile = new ThemeFile(tf, options);
     themeFile.convert();
+    return themeFile;
   });
+  // THEMES_FILES
+  //   .filter((t) => !options.component || t === options.component)
+  //   .map(t => new ThemeFile(t, options))
+  //   .forEach((themeFile) => {
+  //     themeFile.convert();
+  //   });
 }

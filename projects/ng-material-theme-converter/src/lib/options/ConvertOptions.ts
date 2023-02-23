@@ -1,6 +1,7 @@
 export interface ConvertOptions {
   readonly component: string;
   readonly write: boolean;
+  readonly writeSnapshots: boolean;
   readonly transformations: boolean;
   readonly componentTransformations: boolean;
   readonly colorTransformations: boolean;

@@ -35,6 +35,13 @@ const MDCThemeTokenSubstitutions = {
   "text-hint-on-background": colorKey("background", undefined, "contrast-lower"),
 };
 
+interface ModeSwapView {
+  variable: string;
+  lightValue: string;
+  darkValue: string;
+  replacements: CssColorModeDiffView[];
+}
+
 export class ThemeFile {
   public readonly _snapshotsDir = "./dist/snapshots";
   public get snapshotsDir() {
@@ -123,7 +130,11 @@ export class ThemeFile {
   }
 
   private snapshot() {
-    this.logInfo("Creating new snapshot...");
+    if (!this.changed) return;
+    this._changed = false;
+    if (this._snapshots.length > 1) {
+      this.logInfo(chalk.gray("Style was modified. Created snapshot."));
+    }
     const current = this.currentSnapshot;
     const newSnap: ThemeFileSnapShot = {
       styleSheetLight: CssTree.clone(current.styleSheetLight) as CssTree.StyleSheet,
@@ -136,7 +147,6 @@ export class ThemeFile {
     const db = this.buildDb(newSnap);
     this._snapshotDbs.push(db);
     this.db = Enumerable.from(db);
-    this.logInfo("Created snapshot.");
   }
 
   private buildDb(snapshot: ThemeFileSnapShot) {
@@ -167,9 +177,17 @@ export class ThemeFile {
     });
   }
 
+  private _changed: boolean = true;
+
+  public get changed() {
+    return this._changed;
+  }
+  private markChanged(): void {
+    this._changed = true;
+  }
+
   public convert() {
     if (this.options.transformations) {
-      this.logInfo("Starting conversion...");
       this.applyComponentTransformations();
       this.applyTokenTransformations();
       this.applyColorTransformations();
@@ -209,11 +227,17 @@ export class ThemeFile {
         }
       })
       .where((r) => !!r)
-      .forEach((r) => {
+      .toArray();
+
+    if (mdcThemeVarReferences.length) {
+      mdcThemeVarReferences.forEach((r) => {
         const value = `var(${ThemeVarsRegistry.register(this.name, r.replacement)})`;
         r.record.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
       });
-
+      this.markChanged();
+      const num = mdcThemeVarReferences.length / 4;
+      this.logInfo(`Replaced ${chalk.yellow(num)} MDC theme reference variable` + (num === 1 ? "" : "s"));
+    }
     this.snapshot();
   }
 
@@ -232,7 +256,7 @@ export class ThemeFile {
   public applyAutoColorTransformations() {
     if (!this.options.autoColorTransformations) return;
 
-    const transformableColors = this.colorDiffView
+    const transformableColorPairs = this.colorDiffView
       .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
       .selectMany((v) =>
         v.lightMode.valueColors.colors
@@ -260,21 +284,26 @@ export class ThemeFile {
                   diff.darkMode.node.value = CssTree.parse(diff.darkMode.valueColors.toString(), { context: "value" }) as CssTree.Value;
                   diff.density1.node.value = CssTree.parse(diff.density1.valueColors.toString(), { context: "value" }) as CssTree.Value;
                   diff.density2.node.value = CssTree.parse(diff.density2.valueColors.toString(), { context: "value" }) as CssTree.Value;
+                  this.markChanged();
                 },
               };
             }
           })
           .filter((v) => !!v)
-      );
+      )
+      .toArray();
 
-    transformableColors.forEach((v) => {
-      const value = `var(${ThemeVarsRegistry.register(v.diff.sourceFile, v.match.name)})`;
-      v.replace(value);
-    });
-
+    if (transformableColorPairs.length) {
+      transformableColorPairs.forEach((v) => {
+        const value = `var(${ThemeVarsRegistry.register(v.diff.sourceFile, v.match.name)})`;
+        v.replace(value);
+      });
+      const num = transformableColorPairs.length;
+      this.logInfo(`Replaced ${chalk.yellow(num)} material theme color pair` + (num === 1 ? "" : "s"));
+    }
     this.snapshot();
 
-    this.colorDiffView
+    const transformableColors = this.colorDiffView
       .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
       .selectMany((v) => {
         const diff = v as CssDiffView;
@@ -301,67 +330,137 @@ export class ThemeFile {
           })),
         ];
       })
-      .forEach((v) => {
-        const replacementColor = ColorLookup.map((c) => ({
+      .select((v) => ({
+        ...v,
+        replacement: ColorLookup.map((c) => ({
           name: c.name,
           color: new ColorTranslator(v.darkMode ? c.dark : c.light),
-        })).find((c) => v.color.HEXA === c.color.HEXA);
-        if (replacementColor) {
-          const value = `var(${ThemeVarsRegistry.register(this.name, replacementColor.name)})`;
-          v.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
-        }
+        })).find((c) => v.color.HEXA === c.color.HEXA),
+      }))
+      .where((v) => !!v.replacement)
+      .toArray();
+
+    if (transformableColors.length) {
+      transformableColors.forEach((v) => {
+        const value = `var(${ThemeVarsRegistry.register(this.name, v.replacement.name)})`;
+        v.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
       });
+      this.markChanged();
+      const num = transformableColors.length;
+      this.logInfo(`Replaced ${chalk.yellow(num)} material theme color` + (num === 1 ? "" : "s"));
+    }
 
     this.snapshot();
 
-    const diffs = this.colorDiffView
+    let swapVarCount = 0;
+    const modeSwaps = this.colorDiffView
       .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
-      .select(
-        (v, i) =>
-          ({
-            ...v,
-            variable: `--theme--generated-mode-ref--${v.sourceFile}--${Math.round(Math.random() * 10000)}-${i}-${Math.round(
-              Math.random() * 10000
-            )}`,
-          } as CssColorModeDiffVariable)
+      .groupBy(
+        (v) => `${v.lightMode.value}<=>${v.darkMode.value}`,
+        (v) => v,
+        (_, group) => {
+          const source = group.first().sourceFile;
+          const lightValue = group.first().lightMode.value;
+          const darkValue = group.first().darkMode.value;
+          const rng = `${Math.round(Math.random() * 99999999)}`.padStart(8, "0");
+          return {
+            variable: `--_generated_mode-ref--${source}--${rng}-${swapVarCount++}`,
+            lightValue,
+            darkValue,
+            replacements: group.toArray(),
+          };
+        }
       )
       .toArray();
 
-    let headers: CssTree.CssNode[] = [];
-
-    if (diffs.length) {
-      const lightModeVars = diffs.map((r) => `${r.variable}: ${r.lightMode.value};`);
-      const darkModeModeVars = diffs.map((r) => `${r.variable}: ${r.darkMode.value};`);
+    if (modeSwaps.length) {
+      const lightModeVars = modeSwaps.map((r) => `${r.variable}: ${r.lightValue};`);
+      const darkModeModeVars = modeSwaps.map((r) => `${r.variable}: ${r.darkValue};`);
 
       const lightModeRule = `
-          html{
-            // Automatically generated variables to handle light-mode //
-            // These should not be referenced outside this file. //
-            ${lightModeVars.join("\n")}
-          }
-        `;
+        html{
+          // Automatically generated variables to handle light-mode //
+          // These should not be referenced outside this file. //
+          ${lightModeVars.join("\n")}
+        }
+      `;
       const darkModeRule = `
-          @include util.dark-mode-only(){
-            // Automatically generated variables to handle dark-mode //
-            // These should not be referenced outside this file. //
-            ${darkModeModeVars.join("\n")}
-          }
-          `;
+        @include util.dark-mode-only(){
+          // Automatically generated variables to handle dark-mode //
+          // These should not be referenced outside this file. //
+          ${darkModeModeVars.join("\n")}
+        }
+      `;
 
-      const lightNode = CssTree.parse(lightModeRule.trim(), { context: "rule" });
-      const darkNode = CssTree.parse(darkModeRule.trim(), { context: "rule" });
-      headers = [lightNode, darkNode];
+      const headers = [CssTree.parse(lightModeRule.trim(), { context: "rule" }), CssTree.parse(darkModeRule.trim(), { context: "rule" })];
+      const modCount = this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetLight, modeSwaps, headers);
+      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDark, modeSwaps, headers);
+      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense1, modeSwaps, headers);
+      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense2, modeSwaps, headers);
+      this.markChanged();
+
+      const num = modeSwaps.length;
+      this.logInfo(`Generated ${chalk.yellow(num)} dynamic mode variables` + (num === 1 ? "" : "s"));
+      this.logInfo(
+        `Replaced ${chalk.yellow(modCount)} propert${modCount === 1 ? "y" : "ies"} with dynamic mode variable` + (modCount === 1 ? "" : "s")
+      );
     }
 
-    this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetLight, diffs, headers);
-    this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDark, diffs, headers);
-    this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense1, diffs, headers);
-    this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense2, diffs, headers);
+    /////////////////////////////////////////
+
+    // const diffs = this.colorDiffView
+    //   .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
+    //   .select(
+    //     (v, i) =>
+    //     ({
+    //       ...v,
+    //       variable: `--theme--generated-mode-ref--${v.sourceFile}--${Math.round(Math.random() * 10000)}-${i}-${Math.round(
+    //         Math.random() * 10000
+    //       )}`,
+    //     } as CssColorModeDiffVariable)
+    //   )
+    //   .toArray();
+
+    // let headers: CssTree.CssNode[] = [];
+
+    // if (diffs.length) {
+    //   const lightModeVars = diffs.map((r) => `${r.variable}: ${r.lightMode.value};`);
+    //   const darkModeModeVars = diffs.map((r) => `${r.variable}: ${r.darkMode.value};`);
+
+    //   const lightModeRule = `
+    //       html{
+    //         // Automatically generated variables to handle light-mode //
+    //         // These should not be referenced outside this file. //
+    //         ${lightModeVars.join("\n")}
+    //       }
+    //     `;
+    //   const darkModeRule = `
+    //       @include util.dark-mode-only(){
+    //         // Automatically generated variables to handle dark-mode //
+    //         // These should not be referenced outside this file. //
+    //         ${darkModeModeVars.join("\n")}
+    //       }
+    //       `;
+
+    //   const lightNode = CssTree.parse(lightModeRule.trim(), { context: "rule" });
+    //   const darkNode = CssTree.parse(darkModeRule.trim(), { context: "rule" });
+    //   headers = [lightNode, darkNode];
+
+    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetLight, diffs, headers);
+    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDark, diffs, headers);
+    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense1, diffs, headers);
+    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense2, diffs, headers);
+    //   this.markChanged();
+
+    //   const num = diffs.length;
+    //   this.logInfo(`Generated ${chalk.yellow(num)} dynamic color variables` + (num === 1 ? '' : 's'));
+    // }
 
     this.snapshot();
   }
 
-  private applyAutoColorTransformationsToAst(styleSheet: CssTree.StyleSheet, vars: CssColorModeDiffVariable[], headers: CssTree.CssNode[]) {
+  private applyAutoColorTransformationsToAst(styleSheet: CssTree.StyleSheet, modeSwaps: ModeSwapView[], headers: CssTree.CssNode[]) {
+    let modCount = 0;
     for (var i = headers.length - 1; i >= 0; i--) {
       if (headers[i]) {
         const item = styleSheet.children.createItem(headers[i]);
@@ -371,13 +470,16 @@ export class ThemeFile {
     CssTree.walk(styleSheet, function (n, i, l) {
       if (n.type === "Declaration") {
         const selector = CssTree.generate(this.rule.prelude).trim();
-        const diff = vars.find((d) => d.name === n.property && d.selectors.join(",") === selector);
-        if (diff) {
-          const replacementValue = `var(${diff.variable})`;
+        const swap = modeSwaps.find((v) => !!v.replacements.find((r) => r.name === n.property && r.selectors.join(",") === selector));
+        if (swap) {
+          const variable = swap.variable;
+          const replacementValue = `var(${variable})`;
           n.value = CssTree.parse(replacementValue, { context: "value" }) as CssTree.Value;
+          modCount++;
         }
       }
     });
+    return modCount;
   }
 
   public applyAutoDensityTransformations() {
@@ -387,7 +489,9 @@ export class ThemeFile {
   }
 
   private writeSnapshots() {
-    this.logInfo("Writing snapshots...");
+    if (!this.options.writeSnapshots) return;
+
+    this.logInfo("Writing snapshots.");
     const snapshotsDir = this.snapshotsDir;
     mkdirSync(snapshotsDir, { recursive: true });
 
@@ -410,15 +514,15 @@ export class ThemeFile {
       writeScssFile(density1FileName, this.serializeTheme(snap.styleSheetDense1));
       writeScssFile(density2FileName, this.serializeTheme(snap.styleSheetDense2));
     });
-    this.logInfo("Writing snapshots complete.");
   }
 
   private writeOutput() {
-    this.logInfo("Writing output...");
+    if (!this.options.write) return;
+
+    this.logInfo("Writing output.");
     const outputDir = this.outDir;
     mkdirSync(outputDir, { recursive: true });
     writeScssFile(Path.join(outputDir, `_${this.name}.scss`), this.serializeTheme(this.currentSnapshot.styleSheetLight));
-    this.logInfo("Writing output complete.");
   }
 
   private serializeTheme(theme: CssTree.StyleSheet) {
