@@ -39,18 +39,21 @@
   "exports": {
     ".": {
       "style": "./dist/css/ng-material-theme.css",
-      "sass": "./src/_index.scss",
+      "sass": "./src/_theming.scss",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./ng-material-theme.css": {
-      "style": "./dist/css/ng-material-theme.css"
-    },
     "./theming": {
-      "sass": "./src/_index.scss"
+      "sass": "./src/_theming.scss"
+    },
+    "./theme": {
+      "sass": "./src/_theme.scss"
     },
     "./palettes": {
       "sass": "./src/_palettes.scss"
+    },
+    "./ng-material-theme.css": {
+      "style": "./dist/css/ng-material-theme.css"
     }
   }
 }
