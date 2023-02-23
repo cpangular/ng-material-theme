@@ -2,7 +2,7 @@ import * as CssTree from "css-tree";
 import { CssRule } from "../../types/CssRule";
 import { CssRuleTransform } from "../../types/CssRuleTransform";
 import { CssStyleSheetTransform } from "../../types/CssStyleSheetTransform";
-import { ThemeConfig } from "../../types/ThemeConfig";
+import { ThemeConfig } from "../../../lib/types/ThemeConfig";
 import { CssTransformBase } from "../CssTransformBase";
 
 export class AddMissingRuleTransform extends CssTransformBase implements CssStyleSheetTransform {

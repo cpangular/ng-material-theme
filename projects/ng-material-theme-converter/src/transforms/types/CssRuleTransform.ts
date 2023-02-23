@@ -1,5 +1,5 @@
 import { CssRule } from "./CssRule";
-import { ThemeConfig } from "./ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import { CssRuleTransformCheckSelector } from "./CssRuleTransformCheckSelector";
 import { CssTransformation } from "./CssTransformation";
 import { CssTransformCheckTheme } from "./CssTransformCheckTheme";

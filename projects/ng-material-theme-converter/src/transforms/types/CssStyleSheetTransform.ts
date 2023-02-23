@@ -1,5 +1,5 @@
 import * as CssTree from "css-tree";
-import { ThemeConfig } from "./ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import { CssTransformation } from "./CssTransformation";
 import { CssTransformCheckTheme } from "./CssTransformCheckTheme";
 

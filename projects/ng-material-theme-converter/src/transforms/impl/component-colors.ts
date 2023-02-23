@@ -1,11 +1,11 @@
 import { Raw, Value } from "css-tree";
 import { CssProperty } from "../types/CssProperty";
 import { CssPropertyTransform } from "../types/CssPropertyTransform";
-import { ThemeConfig } from "../types/ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import { getPaletteFromSelector } from "../util/getPaletteFromSelector";
 import { CssTransformBase } from "./CssTransformBase";
 import * as CssTree from "css-tree";
-import { ThemeVarsRegistry } from "../ThemeVarsRegistry";
+import { ThemeRegistry } from "../../lib/ThemeRegistry";
 
 import colorNameList from "color-name-list";
 import { ColorTranslator } from "colortranslator";
@@ -37,11 +37,11 @@ export class ComponentBackgroundColorTransform extends CssTransformBase implemen
       case "primary":
       case "secondary":
       case "error":
-        return `var(${ThemeVarsRegistry.register(config.name, `color-${palette}`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-${palette}`)})`;
       case "disabled":
-        return `var(${ThemeVarsRegistry.register(config.name, `color-overlay-disabled`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-overlay-disabled`)})`;
       default:
-        return `var(${ThemeVarsRegistry.register(config.name, `color-surface`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-surface`)})`;
     }
   }
 }
@@ -67,9 +67,9 @@ export class ComponentRippleTransform extends CssTransformBase implements CssPro
       case "primary":
       case "secondary":
       case "error":
-        return `var(${ThemeVarsRegistry.register(config.name, `color-${palette}${tint}`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-${palette}${tint}`)})`;
       default:
-        return `var(${ThemeVarsRegistry.register(config.name, `color-surface${tint}`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-surface${tint}`)})`;
     }
   }
 }
@@ -120,19 +120,19 @@ export class ComponentOpacityTransform extends CssTransformBase implements CssPr
     const propVal = parseFloat(CssTree.generate(property.value).trim());
     switch (propVal) {
       case opacityMap.lowest[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-lowest`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-lowest`)})`;
       case opacityMap.lower[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-lower`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-lower`)})`;
       case opacityMap.lowest[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-low`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-low`)})`;
       case opacityMap.medium[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity`)})`;
       case opacityMap.high[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-high`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-high`)})`;
       case opacityMap.higher[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-higher`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-higher`)})`;
       case opacityMap.highest[config.darkMode.toString()]:
-        return `var(${ThemeVarsRegistry.register(config.name, `opacity-highest`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `opacity-highest`)})`;
     }
   }
 }
@@ -156,11 +156,11 @@ export class ComponentForegroundColorTransform extends CssTransformBase implemen
       case "primary":
       case "secondary":
       case "error":
-        return `var(${ThemeVarsRegistry.register(config.name, `color-${palette}-contrast`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-${palette}-contrast`)})`;
       case "disabled":
-        return `var(${ThemeVarsRegistry.register(config.name, `color-overlay-disabled-contrast`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-overlay-disabled-contrast`)})`;
       default:
-        return `var(${ThemeVarsRegistry.register(config.name, `color-surface-contrast`)})`;
+        return `var(${ThemeRegistry.registerVariable(config.name, `color-surface-contrast`)})`;
     }
   }
 }
@@ -192,10 +192,10 @@ export class ComponentDensityTransform extends CssTransformBase implements CssPr
     if (value.endsWith("px")) {
       const target = val + Math.abs(config.density) * 4;
       if (target === 36) {
-        return `clamp(28px, calc(36px - calc(4px * var(${ThemeVarsRegistry.register(config.name, "density")}, 0))), 36px)`;
+        return `clamp(28px, calc(36px - calc(4px * var(${ThemeRegistry.registerVariable(config.name, "density")}, 0))), 36px)`;
       }
     } else if (value === "100%") {
-      return `max(100%, calc(133.3334% + calc(var(${ThemeVarsRegistry.register(config.name, "density")}, 0) * 100%)))`;
+      return `max(100%, calc(133.3334% + calc(var(${ThemeRegistry.registerVariable(config.name, "density")}, 0) * 100%)))`;
     }
   }
 }

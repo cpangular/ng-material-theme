@@ -1,6 +1,6 @@
 import { ColorTranslator } from "colortranslator";
-import { ThemeVarsRegistry } from "../../../transforms/ThemeVarsRegistry";
 import { ColorLookup } from "../../data/ColorLookup";
+import { ThemeRegistry } from "../../ThemeRegistry";
 import { CssDiffView } from "../../types/CssDiffView";
 import { PropertyTransformation } from "../../types/PropertyTransformation";
 import { ThemeFileUtil } from "../../types/ThemeFileUtil";
@@ -42,7 +42,7 @@ export function applyThemeColorTransformations(themeFile: ThemeFileUtil): Proper
 
       if (replacement) {
         return () => {
-          const value = `var(${ThemeVarsRegistry.register(themeFile.name, replacement.name)})`;
+          const value = `var(${ThemeRegistry.registerVariable(themeFile.name, replacement.name)})`;
           v.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
           themeFile.markChanged();
         };

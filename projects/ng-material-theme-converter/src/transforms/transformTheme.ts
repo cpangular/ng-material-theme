@@ -9,8 +9,8 @@ import { CssModeChangeReport, isCssModeChangeReport } from "./report/CssModeChan
 import { CssRuleReport } from "./report/CssRuleReport";
 import { generateReport } from "./report/generateReport";
 import { TRANSFORMATIONS } from "./TRANSFORMATIONS";
-import { ThemeConfig } from "./types/ThemeConfig";
-import { loadThemeStyleSheet } from "./util/loadThemeStyleSheet";
+import { ThemeConfig } from "../lib/types/ThemeConfig";
+import { loadThemeStyleSheet } from "../lib/util/loadThemeStyleSheet";
 import { styleSheetToProperties } from "./util/styleSheetToProperties";
 
 import Enumerable from "linq";

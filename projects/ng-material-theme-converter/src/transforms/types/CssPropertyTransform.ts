@@ -1,6 +1,6 @@
 import * as CssTree from "css-tree";
 import { CssProperty } from "./CssProperty";
-import { ThemeConfig } from "./ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import { CssPropertyTransformCheckProperty } from "./CssPropertyTransformCheckProperty";
 import { CssRuleTransformCheckSelector } from "./CssRuleTransformCheckSelector";
 import { CssTransformation } from "./CssTransformation";

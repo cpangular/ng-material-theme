@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import { ColorTranslator } from "colortranslator";
-import { ThemeVarsRegistry } from "../../../transforms/ThemeVarsRegistry";
 import { ColorLookup } from "../../data/ColorLookup";
 import { TintLookup } from "../../data/TintLookup";
+import { ThemeRegistry } from "../../ThemeRegistry";
 import { CssDiffView } from "../../types/CssDiffView";
 import { PropertyTransformation } from "../../types/PropertyTransformation";
 import { ThemeFileUtil } from "../../types/ThemeFileUtil";
@@ -42,7 +42,7 @@ export function applyThemePairedColorTransformations(themeFile: ThemeFileUtil): 
 
           if (match) {
             return () => {
-              const value = `var(${ThemeVarsRegistry.register(themeFile.name, match.name)})`;
+              const value = `var(${ThemeRegistry.registerVariable(themeFile.name, match.name)})`;
               diff.lightMode.valueColors.replaceColor(lightColor, value);
               diff.darkMode.valueColors.replaceColor(darkColor, value);
               diff.density1.valueColors.replaceColor(density1Color, value);

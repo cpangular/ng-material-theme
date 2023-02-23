@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import { ThemeVarsRegistry } from "../../../transforms/ThemeVarsRegistry";
 import { MDCThemeTokenSubstitutions } from "../../data/MDCThemeTokenSubstitutions";
+import { ThemeRegistry } from "../../ThemeRegistry";
 import { PropertyTransformation } from "../../types/PropertyTransformation";
 import { ThemeFileUtil } from "../../types/ThemeFileUtil";
 import CssTree from "../../util/CssTree";
@@ -13,7 +13,7 @@ export function applyMdcThemeTokensTransformations(themeFile: ThemeFileUtil): Pr
       const replacement = MDCThemeTokenSubstitutions[match[1]];
       if (replacement) {
         return () => {
-          const value = `var(${ThemeVarsRegistry.register(themeFile.name, replacement)})`;
+          const value = `var(${ThemeRegistry.registerVariable(themeFile.name, replacement)})`;
           record.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
           themeFile.markChanged();
         };

@@ -1,4 +1,4 @@
-import { ThemeConfig } from "../../types/ThemeConfig";
+import { ThemeConfig } from "../../../lib/types/ThemeConfig";
 import { CssTransformBase } from "../CssTransformBase";
 import * as CssTree from "css-tree";
 import { CssStyleSheetTransform } from "../../types/CssStyleSheetTransform";

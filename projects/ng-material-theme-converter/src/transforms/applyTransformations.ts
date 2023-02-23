@@ -4,7 +4,7 @@ import { CssPropertyTransform } from "./types/CssPropertyTransform";
 import { CssRuleTransform } from "./types/CssRuleTransform";
 import { CssStyleSheetTransform } from "./types/CssStyleSheetTransform";
 import { CssTransformation } from "./types/CssTransformation";
-import { ThemeConfig } from "./types/ThemeConfig";
+import { ThemeConfig } from "../lib/types/ThemeConfig";
 
 export function applyTransformations(theme: ThemeConfig, stylesheet: CssTree.StyleSheet, transformations: CssTransformation[]) {
   const stylesheetTransforms = transformations.filter((t) => t.transforms === "stylesheet") as CssStyleSheetTransform[];

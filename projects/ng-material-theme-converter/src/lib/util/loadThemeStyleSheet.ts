@@ -1,6 +1,6 @@
-import { compileNgMaterialTemplate } from "../../compiler/compile-ng-material-theme";
-import { ThemeConfig } from "../types/ThemeConfig";
 import * as CssTree from "css-tree";
+import { ThemeConfig } from "../types/ThemeConfig";
+import { compileNgMaterialTemplate } from "./compileNgMaterialTemplate";
 
 export function loadThemeStyleSheet(theme: ThemeConfig) {
   const result = compileNgMaterialTemplate(theme.name, theme.darkMode, theme.density);

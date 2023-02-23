@@ -1,6 +1,6 @@
-import { ThemeConfig } from "../types/ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import { ColorTranslator } from "colortranslator";
-import { BackgroundTokenKey, ForegroundTokenKey, PaletteTokenKey, ThemeTokens } from "../ThemeTokens";
+import { BackgroundTokenKey, ForegroundTokenKey, PaletteTokenKey, ThemeTokens } from "../../lib/data/ThemeTokens";
 import {
   ThemeBackgroundName,
   ThemeErrorName,

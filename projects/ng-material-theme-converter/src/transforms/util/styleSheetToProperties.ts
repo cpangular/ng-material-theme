@@ -1,4 +1,4 @@
-import { ThemeConfig } from "../types/ThemeConfig";
+import { ThemeConfig } from "../../lib/types/ThemeConfig";
 import * as CssTree from "css-tree";
 import { CssPropertyReport } from "../report/CssPropertyReport";
 

@@ -1,10 +1,7 @@
 import chalk from "chalk";
-
 import { existsSync, mkdirSync, readFileSync } from "fs";
 import Enumerable from "linq";
 import Path from "path";
-import { ThemeConfig } from "../transforms/types/ThemeConfig";
-import { loadThemeStyleSheet } from "../transforms/util/loadThemeStyleSheet";
 import { ConvertOptions } from "./options/ConvertOptions";
 import { applyColorModeColorSwaps } from "./transformations/general/applyColorModeColorSwaps";
 import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
@@ -14,12 +11,13 @@ import { CssColorModeDiffView } from "./types/CssColorModeDiffView";
 import { CssDensityDiffView } from "./types/CssDensityDiffView";
 import { CssDiffView } from "./types/CssDiffView";
 import { CssPropertyRecord } from "./types/CssPropertyRecord";
-import { ModeSwapView } from "./types/ModeSwapView";
+import { ThemeConfig } from "./types/ThemeConfig";
 import { ThemeFileDatabase } from "./types/ThemeFileDatabase";
 import { ThemeFileSnapShot } from "./types/ThemeFileSnapShot";
 import { ThemeFileUtil } from "./types/ThemeFileUtil";
 import { ColorizedProperty } from "./util/ColorizedProperty";
 import CssTree from "./util/CssTree";
+import { loadThemeStyleSheet } from "./util/loadThemeStyleSheet";
 import { writeScssFile } from "./util/writeScssFile";
 
 export class ThemeFile implements ThemeFileUtil {

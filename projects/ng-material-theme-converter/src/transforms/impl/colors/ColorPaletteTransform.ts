@@ -1,11 +1,11 @@
 import { ColorTranslator } from "colortranslator";
 import * as CssTree from "css-tree";
 import { Raw, Value } from "css-tree";
-import { BackgroundTokenKey, ForegroundTokenKey, PaletteTokenKey } from "../../ThemeTokens";
-import { ThemeVarsRegistry } from "../../ThemeVarsRegistry";
+import { BackgroundTokenKey, ForegroundTokenKey, PaletteTokenKey } from "../../../lib/data/ThemeTokens";
+import { ThemeRegistry } from "../../../lib/ThemeRegistry";
 import { CssProperty } from "../../types/CssProperty";
 import { CssPropertyTransform } from "../../types/CssPropertyTransform";
-import { ThemeConfig } from "../../types/ThemeConfig";
+import { ThemeConfig } from "../../../lib/types/ThemeConfig";
 import {
   ThemeBackgroundName,
   ThemeErrorName,
@@ -73,7 +73,7 @@ export class ColorPaletteTransform extends CssTransformBase implements CssProper
       propColors.forEach((color) => {
         if (color.HEXA === searchValue) {
           changed = true;
-          const val = `var(${ThemeVarsRegistry.register(config.name, replacementVarName)})`;
+          const val = `var(${ThemeRegistry.registerVariable(config.name, replacementVarName)})`;
           prop.replaceColor(color, val);
         }
       });
@@ -137,7 +137,7 @@ export class ColorPaletteRefTransform extends CssTransformBase implements CssPro
     const color = tryGetColor(value);
 
     if (color && color.HEXA === searchValue) {
-      return `var(${this.refName}, var(${ThemeVarsRegistry.register(config.name, replacementVarName)}))`;
+      return `var(${this.refName}, var(${ThemeRegistry.registerVariable(config.name, replacementVarName)}))`;
     }
     return undefined;
   }
@@ -158,7 +158,7 @@ export class VarValueReplaceTransform extends CssTransformBase implements CssPro
   }
 
   public transform(property: CssProperty, config: ThemeConfig): string | number | Raw | Value {
-    return `var(${ThemeVarsRegistry.register(config.name, this.toVar)})`;
+    return `var(${ThemeRegistry.registerVariable(config.name, this.toVar)})`;
   }
 }
 
@@ -186,10 +186,10 @@ export class VarPropertySetTransform extends CssTransformBase implements CssProp
     if (this.rawId) {
       const ids = Array.isArray(this.rawId) ? this.rawId : [this.rawId];
       ids.forEach((id) => {
-        ThemeVarsRegistry.register(config.name, id);
+        ThemeRegistry.registerVariable(config.name, id);
       });
       return this.toVar;
     }
-    return `var(${ThemeVarsRegistry.register(config.name, this.toVar)})`;
+    return `var(${ThemeRegistry.registerVariable(config.name, this.toVar)})`;
   }
 }

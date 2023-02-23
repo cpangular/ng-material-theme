@@ -1,4 +1,4 @@
-import { ThemeTokens } from "../../transforms/ThemeTokens";
+import { ThemeTokens } from "./ThemeTokens";
 
 export const primaryColors = {
   light: ThemeTokens.primary,
