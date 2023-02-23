@@ -1,2 +1,5 @@
-import { convertMaterialTheme } from "./converter/convert-material-theme";
-convertMaterialTheme();
+import { runConvert } from "./cli/convert";
+
+(async () => {
+  await runConvert();
+})();

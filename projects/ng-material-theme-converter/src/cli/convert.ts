@@ -1,6 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { componentThemes } from "../data/component-themes";
+import { ComponentThemes } from "../lib/data/componentThemes";
 import { ConvertOptions } from "../lib/options/ConvertOptions";
 import { ThemeFile } from "../lib/ThemeFile";
 
@@ -63,13 +63,11 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
   .parseSync();
 
 export async function runConvert() {
-  componentThemes
-    .filter((t) => !options.component || t === options.component)
-    .map((tf) => {
-      const themeFile = new ThemeFile(tf, options);
-      themeFile.convert();
-      return themeFile;
-    });
+  ComponentThemes.filter((t) => !options.component || t === options.component).map((tf) => {
+    const themeFile = new ThemeFile(tf, options);
+    themeFile.convert();
+    return themeFile;
+  });
   // THEMES_FILES
   //   .filter((t) => !options.component || t === options.component)
   //   .map(t => new ThemeFile(t, options))

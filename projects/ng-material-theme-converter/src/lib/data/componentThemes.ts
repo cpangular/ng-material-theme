@@ -1,4 +1,4 @@
-export const componentThemes = [
+export const ComponentThemes = [
   "core",
   "card",
   "progress-bar",
@@ -38,4 +38,4 @@ export const componentThemes = [
   "tree",
 ] as const;
 
-export type ComponentTheme = (typeof componentThemes)[any];
+export type ComponentTheme = (typeof ComponentThemes)[any];
