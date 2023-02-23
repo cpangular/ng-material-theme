@@ -6,6 +6,7 @@ import Path from "path";
 import { ThemeConfig } from "../transforms/types/ThemeConfig";
 import { loadThemeStyleSheet } from "../transforms/util/loadThemeStyleSheet";
 import { ConvertOptions } from "./options/ConvertOptions";
+import { applyColorModeColorSwaps } from "./transformations/general/applyColorModeColorSwaps";
 import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
 import { applyThemeColorTransformations } from "./transformations/general/applyThemeColorTransformations";
 import { applyThemePairedColorTransformations } from "./transformations/general/applyThemePairedColorTransformations";
@@ -62,9 +63,6 @@ export class ThemeFile implements ThemeFileUtil {
     this.snapshot();
   }
 
-  private get snapshotsDir() {
-    return Path.join(this._snapshotsDir, this.name);
-  }
   private get diffView() {
     return this._db?.groupBy(
       (r) => `${r.sourceFile}|${r.selectors.join(",")}|${r.name}`,
@@ -88,7 +86,6 @@ export class ThemeFile implements ThemeFileUtil {
           density1,
           density2,
         };
-
         return view;
       }
     );
@@ -102,103 +99,6 @@ export class ThemeFile implements ThemeFileUtil {
     return this.diffView
       ?.where((r) => r.density0?.value !== r.density1?.value || r.density0?.value !== r.density2?.value)
       .cast<CssDensityDiffView>();
-  }
-
-  private loadThemeStyleSheetFromCache(config: ThemeConfig): ReturnType<typeof loadThemeStyleSheet> {
-    const filePath = Path.join(this.snapshotsDir, `_${this.name}`);
-
-    let result: ReturnType<typeof loadThemeStyleSheet>;
-    if (this.options.cache) {
-      let cachePath = "";
-      if (config.darkMode === false && config.density === 0) {
-        cachePath = `${filePath}.light_0.scss`;
-      } else if (config.darkMode === true && config.density === 0) {
-        cachePath = `${filePath}.dark_0.scss`;
-      } else if (config.darkMode === false && config.density === -1) {
-        cachePath = `${filePath}.density-1_0.scss`;
-      } else if (config.darkMode === false && config.density === -2) {
-        cachePath = `${filePath}.density-2_0.scss`;
-      }
-      if (cachePath && existsSync(cachePath)) {
-        const source = readFileSync(cachePath, { encoding: "utf-8" });
-        const styleSheet = CssTree.parse(source) as CssTree.StyleSheet;
-        result = {
-          source,
-          styleSheet,
-        };
-      }
-    }
-    if (!result) {
-      result = loadThemeStyleSheet(config);
-    }
-    return result;
-  }
-
-  private get currentSnapshot() {
-    return this._snapshots[this._snapshots.length - 1];
-  }
-
-  public logInfo(message?: any) {
-    if (message === undefined) {
-      console.info();
-    } else {
-      console.info(chalk.gray(`[${chalk.cyan(this.name)}]:`), message);
-    }
-  }
-
-  private snapshot() {
-    if (!this.changed) return;
-    this._changed = false;
-    if (this._snapshots.length > 1) {
-      this.logInfo(chalk.gray("Style was modified. Created snapshot."));
-    }
-    const current = this.currentSnapshot;
-    const newSnap: ThemeFileSnapShot = {
-      styleSheetLight: CssTree.clone(current.styleSheetLight) as CssTree.StyleSheet,
-      styleSheetDark: CssTree.clone(current.styleSheetDark) as CssTree.StyleSheet,
-      styleSheetDense1: CssTree.clone(current.styleSheetDense1) as CssTree.StyleSheet,
-      styleSheetDense2: CssTree.clone(current.styleSheetDense2) as CssTree.StyleSheet,
-    };
-
-    this._snapshots.push(newSnap);
-    const db = this.buildDb(newSnap);
-    this._db = Enumerable.from(db);
-  }
-
-  private buildDb(snapshot: ThemeFileSnapShot) {
-    const newDb: CssPropertyRecord[] = [];
-    this.buildDbFor(newDb, snapshot.styleSheetLight, this._configLight);
-    this.buildDbFor(newDb, snapshot.styleSheetDark, this._configDark);
-    this.buildDbFor(newDb, snapshot.styleSheetDense1, this._configDense1);
-    this.buildDbFor(newDb, snapshot.styleSheetDense2, this._configDense2);
-    return newDb;
-  }
-
-  private buildDbFor(db: CssPropertyRecord[], styleSheet: CssTree.StyleSheet, config: ThemeConfig) {
-    CssTree.walk(styleSheet, function (node) {
-      if (node.type === "Declaration" && this.rule.prelude.type === "SelectorList") {
-        const record: CssPropertyRecord = {
-          node,
-          sourceFile: config.name,
-          density: config.density,
-          darkMode: config.darkMode,
-          selectors: this.rule.prelude.children.map((s) => CssTree.generate(s).trim()).toArray(),
-          name: node.property,
-          value: CssTree.generate(node.value).trim(),
-          important: !!node.important,
-          valueColors: new ColorizedProperty(node.property, node.value),
-        };
-        db.push(record);
-      }
-    });
-  }
-
-  public get changed() {
-    return this._changed;
-  }
-
-  public markChanged(): void {
-    this._changed = true;
   }
 
   public convert() {
@@ -265,59 +165,24 @@ export class ThemeFile implements ThemeFileUtil {
       this.snapshot();
     }
 
-    let swapVarCount = 0;
-    const modeSwaps = this.colorDiffView
-      .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
-      .groupBy(
-        (v) => `${v.lightMode.value}<=>${v.darkMode.value}`,
-        (v) => v,
-        (_, group) => {
-          const source = group.first().sourceFile;
-          const lightValue = group.first().lightMode.value;
-          const darkValue = group.first().darkMode.value;
-          const rng = `${Math.round(Math.random() * 99999999)}`.padStart(8, "0");
-          return {
-            variable: `--_generated_mode-ref--${source}--${rng}-${swapVarCount++}`,
-            lightValue,
-            darkValue,
-            replacements: group.toArray(),
-          };
-        }
-      )
-      .toArray();
+    const colorModeColorSwaps = applyColorModeColorSwaps(this);
+    if (colorModeColorSwaps.headers.length) {
+      colorModeColorSwaps.headers.forEach((add) => add());
+      colorModeColorSwaps.properties.forEach((transform) => transform());
 
-    if (modeSwaps.length) {
-      const lightModeVars = modeSwaps.map((r) => `${r.variable}: ${r.lightValue};`);
-      const darkModeModeVars = modeSwaps.map((r) => `${r.variable}: ${r.darkValue};`);
-
-      const lightModeRule = `
-        html{
-          // Automatically generated variables to handle light-mode //
-          // These should not be referenced outside this file. //
-          ${lightModeVars.join("\n")}
-        }
-      `;
-      const darkModeRule = `
-        @include util.dark-mode-only(){
-          // Automatically generated variables to handle dark-mode //
-          // These should not be referenced outside this file. //
-          ${darkModeModeVars.join("\n")}
-        }
-      `;
-
-      const headers = [CssTree.parse(lightModeRule.trim(), { context: "rule" }), CssTree.parse(darkModeRule.trim(), { context: "rule" })];
-      const modCount = this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetLight, modeSwaps, headers);
-      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDark, modeSwaps, headers);
-      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense1, modeSwaps, headers);
-      this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense2, modeSwaps, headers);
-      this.markChanged();
-
-      const num = modeSwaps.length;
-      this.logInfo(`Generated ${chalk.yellow(num)} dynamic mode variables` + (num === 1 ? "" : "s"));
+      const generatedCount = colorModeColorSwaps.generatedCount;
+      const modifiedCount = colorModeColorSwaps.modifiedCount;
+      this.logInfo(`Generated ${chalk.yellow(generatedCount)} dynamic mode variables` + (generatedCount === 1 ? "" : "s"));
       this.logInfo(
-        `Replaced ${chalk.yellow(modCount)} propert${modCount === 1 ? "y" : "ies"} with dynamic mode variable` + (modCount === 1 ? "" : "s")
+        `Replaced ${chalk.yellow(modifiedCount)} propert${modifiedCount === 1 ? "y" : "ies"} with dynamic mode variable` +
+          (modifiedCount === 1 ? "" : "s")
       );
+      this.snapshot();
     }
+  }
+
+  public applyAutoDensityTransformations() {
+    if (!this.options.autoDensityTransformations) return;
     this.snapshot();
   }
 
@@ -335,33 +200,105 @@ export class ThemeFile implements ThemeFileUtil {
     }
   }
 
-  private applyAutoColorTransformationsToAst(styleSheet: CssTree.StyleSheet, modeSwaps: ModeSwapView[], headers: CssTree.CssNode[]) {
-    let modCount = 0;
-    for (var i = headers.length - 1; i >= 0; i--) {
-      if (headers[i]) {
-        const item = styleSheet.children.createItem(headers[i]);
-        styleSheet.children.prepend(item);
-      }
-    }
-    CssTree.walk(styleSheet, function (n, i, l) {
-      if (n.type === "Declaration") {
-        const selector = CssTree.generate(this.rule.prelude).trim();
-        const swap = modeSwaps.find((v) => !!v.replacements.find((r) => r.name === n.property && r.selectors.join(",") === selector));
-        if (swap) {
-          const variable = swap.variable;
-          const replacementValue = `var(${variable})`;
-          n.value = CssTree.parse(replacementValue, { context: "value" }) as CssTree.Value;
-          modCount++;
-        }
-      }
-    });
-    return modCount;
+  public get changed() {
+    return this._changed;
   }
 
-  public applyAutoDensityTransformations() {
-    if (!this.options.autoDensityTransformations) return;
+  public markChanged(): void {
+    this._changed = true;
+  }
 
-    this.snapshot();
+  private get snapshotsDir() {
+    return Path.join(this._snapshotsDir, this.name);
+  }
+
+  private snapshot() {
+    if (!this.changed) return;
+    this._changed = false;
+    if (this._snapshots.length > 1) {
+      this.logInfo(chalk.gray("Style was modified. Created snapshot."));
+    }
+    const current = this.currentSnapshot;
+    const newSnap: ThemeFileSnapShot = {
+      styleSheetLight: CssTree.clone(current.styleSheetLight) as CssTree.StyleSheet,
+      styleSheetDark: CssTree.clone(current.styleSheetDark) as CssTree.StyleSheet,
+      styleSheetDense1: CssTree.clone(current.styleSheetDense1) as CssTree.StyleSheet,
+      styleSheetDense2: CssTree.clone(current.styleSheetDense2) as CssTree.StyleSheet,
+    };
+
+    this._snapshots.push(newSnap);
+    const db = this.buildDb(newSnap);
+    this._db = Enumerable.from(db);
+  }
+
+  private get currentSnapshot() {
+    return this._snapshots[this._snapshots.length - 1];
+  }
+
+  public logInfo(message?: any) {
+    if (message === undefined) {
+      console.info();
+    } else {
+      console.info(chalk.gray(`[${chalk.cyan(this.name)}]:`), message);
+    }
+  }
+
+  private buildDb(snapshot: ThemeFileSnapShot) {
+    const newDb: CssPropertyRecord[] = [];
+    this.buildDbFor(newDb, snapshot.styleSheetLight, this._configLight);
+    this.buildDbFor(newDb, snapshot.styleSheetDark, this._configDark);
+    this.buildDbFor(newDb, snapshot.styleSheetDense1, this._configDense1);
+    this.buildDbFor(newDb, snapshot.styleSheetDense2, this._configDense2);
+    return newDb;
+  }
+
+  private buildDbFor(db: CssPropertyRecord[], styleSheet: CssTree.StyleSheet, config: ThemeConfig) {
+    CssTree.walk(styleSheet, function (node) {
+      if (node.type === "Declaration" && this.rule.prelude.type === "SelectorList") {
+        const record: CssPropertyRecord = {
+          node,
+          sourceFile: config.name,
+          density: config.density,
+          darkMode: config.darkMode,
+          selectors: this.rule.prelude.children.map((s) => CssTree.generate(s).trim()).toArray(),
+          name: node.property,
+          value: CssTree.generate(node.value).trim(),
+          important: !!node.important,
+          valueColors: new ColorizedProperty(node.property, node.value),
+        };
+        db.push(record);
+      }
+    });
+  }
+
+  private loadThemeStyleSheetFromCache(config: ThemeConfig): ReturnType<typeof loadThemeStyleSheet> {
+    const filePath = Path.join(this.snapshotsDir, `_${this.name}`);
+
+    let result: ReturnType<typeof loadThemeStyleSheet>;
+    if (this.options.cache) {
+      let cachePath = "";
+      if (config.darkMode === false && config.density === 0) {
+        cachePath = `${filePath}.light_0.scss`;
+      } else if (config.darkMode === true && config.density === 0) {
+        cachePath = `${filePath}.dark_0.scss`;
+      } else if (config.darkMode === false && config.density === -1) {
+        cachePath = `${filePath}.density-1_0.scss`;
+      } else if (config.darkMode === false && config.density === -2) {
+        cachePath = `${filePath}.density-2_0.scss`;
+      }
+      if (cachePath && existsSync(cachePath)) {
+        const source = readFileSync(cachePath, { encoding: "utf-8" });
+        const styleSheet = CssTree.parse(source) as CssTree.StyleSheet;
+        result = {
+          source,
+          styleSheet,
+        };
+      }
+    }
+    if (!result) {
+      result = loadThemeStyleSheet(config);
+    }
+    return result;
   }
 
   private writeSnapshots() {
