@@ -1,9 +1,8 @@
-import { ConvertOptions } from "../lib/options/ConvertOptions";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { loadThemeStyleSheet } from "../transforms/util/loadThemeStyleSheet";
+import { componentThemes } from "../data/component-themes";
+import { ConvertOptions } from "../lib/options/ConvertOptions";
 import { ThemeFile } from "../lib/ThemeFile";
-import { ColorLookup } from "../lib/data/ColorLookup";
 
 const options: ConvertOptions = yargs(hideBin(process.argv))
   .option("component", {
@@ -13,9 +12,13 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
     type: "boolean",
     default: true,
   })
+  .option("cache", {
+    type: "boolean",
+    default: true,
+  })
   .option("writeSnapshots", {
     type: "boolean",
-    default: false,
+    default: true,
   })
   .option("transformations", {
     type: "boolean",
@@ -59,52 +62,14 @@ const options: ConvertOptions = yargs(hideBin(process.argv))
   })
   .parseSync();
 
-const THEMES_FILES = [
-  "core",
-  "card",
-  "progress-bar",
-  "tooltip",
-  "form-field",
-  "input",
-  "select",
-  "autocomplete",
-  "dialog",
-  "chips",
-  "slide-toggle",
-  "radio",
-  "slider",
-  "menu",
-  "list",
-  "paginator",
-  "tabs",
-  "checkbox",
-  "button",
-  "icon-button",
-  "fab",
-  "snack-bar",
-  "table",
-  "progress-spinner",
-  "badge",
-  "bottom-sheet",
-  "button-toggle",
-  "datepicker",
-  "divider",
-  "expansion",
-  "grid-list",
-  "icon",
-  "sidenav",
-  "stepper",
-  "sort",
-  "toolbar",
-  "tree",
-];
-
 export async function runConvert() {
-  THEMES_FILES.filter((t) => !options.component || t === options.component).map((tf) => {
-    const themeFile = new ThemeFile(tf, options);
-    themeFile.convert();
-    return themeFile;
-  });
+  componentThemes
+    .filter((t) => !options.component || t === options.component)
+    .map((tf) => {
+      const themeFile = new ThemeFile(tf, options);
+      themeFile.convert();
+      return themeFile;
+    });
   // THEMES_FILES
   //   .filter((t) => !options.component || t === options.component)
   //   .map(t => new ThemeFile(t, options))

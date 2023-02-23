@@ -1,64 +1,40 @@
 import chalk from "chalk";
-import { ColorTranslator } from "colortranslator";
 
-import { mkdirSync } from "fs";
+import { existsSync, mkdirSync, readFileSync } from "fs";
 import Enumerable from "linq";
 import Path from "path";
-import { ThemeVarsRegistry } from "../transforms/ThemeVarsRegistry";
 import { ThemeConfig } from "../transforms/types/ThemeConfig";
 import { loadThemeStyleSheet } from "../transforms/util/loadThemeStyleSheet";
-import { ColorLookup } from "./data/ColorLookup";
 import { ConvertOptions } from "./options/ConvertOptions";
-import { CssColorModeDiffVariable } from "./types/CssColorModeDiffVariable";
+import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
+import { applyThemeColorTransformations } from "./transformations/general/applyThemeColorTransformations";
+import { applyThemePairedColorTransformations } from "./transformations/general/applyThemePairedColorTransformations";
 import { CssColorModeDiffView } from "./types/CssColorModeDiffView";
 import { CssDensityDiffView } from "./types/CssDensityDiffView";
 import { CssDiffView } from "./types/CssDiffView";
 import { CssPropertyRecord } from "./types/CssPropertyRecord";
+import { ModeSwapView } from "./types/ModeSwapView";
+import { ThemeFileDatabase } from "./types/ThemeFileDatabase";
 import { ThemeFileSnapShot } from "./types/ThemeFileSnapShot";
+import { ThemeFileUtil } from "./types/ThemeFileUtil";
 import { ColorizedProperty } from "./util/ColorizedProperty";
-import { colorKey } from "./util/colorKey";
 import CssTree from "./util/CssTree";
 import { writeScssFile } from "./util/writeScssFile";
 
-const MDCThemeTokenSubstitutions = {
-  primary: colorKey("primary"),
-  "text-primary-on-background": colorKey("primary", undefined, "contrast"),
-  secondary: colorKey("secondary"),
-  "text-secondary-on-background": colorKey("secondary", undefined, "contrast"),
-  error: colorKey("error"),
-  "text-error-on-background": colorKey("error", undefined, "contrast"),
-
-  surface: colorKey("surface"),
-  "on-surface": colorKey("surface", undefined, "contrast"),
-
-  "text-icon-on-background": colorKey("background", undefined, "contrast"),
-  "text-hint-on-background": colorKey("background", undefined, "contrast-lower"),
-};
-
-interface ModeSwapView {
-  variable: string;
-  lightValue: string;
-  darkValue: string;
-  replacements: CssColorModeDiffView[];
-}
-
-export class ThemeFile {
-  public readonly _snapshotsDir = "./dist/snapshots";
-  public get snapshotsDir() {
-    return Path.join(this._snapshotsDir, this.name);
-  }
-  public readonly outDir = "./dist";
-
-  private readonly configLight: ThemeConfig = { name: this.name, darkMode: false, density: 0 };
-  private readonly configDark: ThemeConfig = { name: this.name, darkMode: true, density: 0 };
-  private readonly configDense1: ThemeConfig = { name: this.name, darkMode: false, density: -1 };
-  private readonly configDense2: ThemeConfig = { name: this.name, darkMode: false, density: -2 };
+export class ThemeFile implements ThemeFileUtil {
+  private readonly _outDir = "./dist";
+  private readonly _snapshotsDir = "./dist/snapshots";
+  private readonly _configLight: ThemeConfig = { name: this.name, darkMode: false, density: 0 };
+  private readonly _configDark: ThemeConfig = { name: this.name, darkMode: true, density: 0 };
+  private readonly _configDense1: ThemeConfig = { name: this.name, darkMode: false, density: -1 };
+  private readonly _configDense2: ThemeConfig = { name: this.name, darkMode: false, density: -2 };
+  private _changed: boolean = true;
 
   private readonly _themeData = {
-    light: loadThemeStyleSheet(this.configLight),
-    dark: loadThemeStyleSheet(this.configDark),
-    dense1: loadThemeStyleSheet(this.configDense1),
-    dense2: loadThemeStyleSheet(this.configDense2),
+    light: this.loadThemeStyleSheetFromCache(this._configLight),
+    dark: this.loadThemeStyleSheetFromCache(this._configDark),
+    dense1: this.loadThemeStyleSheetFromCache(this._configDense1),
+    dense2: this.loadThemeStyleSheetFromCache(this._configDense2),
   };
 
   private readonly _snapshots: ThemeFileSnapShot[] = [
@@ -70,11 +46,27 @@ export class ThemeFile {
     },
   ];
 
-  private readonly _snapshotDbs: CssPropertyRecord[][] = [];
-  private db: Enumerable.IEnumerable<CssPropertyRecord>;
+  private _db: Enumerable.IEnumerable<CssPropertyRecord>;
 
+  public get database(): ThemeFileDatabase {
+    return {
+      cssProperties: this._db,
+      differencesView: this.diffView,
+      colorDifferencesView: this.colorDiffView,
+      densityDifferencesView: this.densityDiffView,
+    };
+  }
+
+  constructor(public readonly name: string, public readonly options: ConvertOptions) {
+    this.logInfo("Loaded theme.");
+    this.snapshot();
+  }
+
+  private get snapshotsDir() {
+    return Path.join(this._snapshotsDir, this.name);
+  }
   private get diffView() {
-    return this.db?.groupBy(
+    return this._db?.groupBy(
       (r) => `${r.sourceFile}|${r.selectors.join(",")}|${r.name}`,
       (r) => r,
       (k, group) => {
@@ -112,16 +104,41 @@ export class ThemeFile {
       .cast<CssDensityDiffView>();
   }
 
-  constructor(public readonly name: string, public readonly options: ConvertOptions) {
-    this.logInfo("Loaded theme.");
-    this.snapshot();
+  private loadThemeStyleSheetFromCache(config: ThemeConfig): ReturnType<typeof loadThemeStyleSheet> {
+    const filePath = Path.join(this.snapshotsDir, `_${this.name}`);
+
+    let result: ReturnType<typeof loadThemeStyleSheet>;
+    if (this.options.cache) {
+      let cachePath = "";
+      if (config.darkMode === false && config.density === 0) {
+        cachePath = `${filePath}.light_0.scss`;
+      } else if (config.darkMode === true && config.density === 0) {
+        cachePath = `${filePath}.dark_0.scss`;
+      } else if (config.darkMode === false && config.density === -1) {
+        cachePath = `${filePath}.density-1_0.scss`;
+      } else if (config.darkMode === false && config.density === -2) {
+        cachePath = `${filePath}.density-2_0.scss`;
+      }
+      if (cachePath && existsSync(cachePath)) {
+        const source = readFileSync(cachePath, { encoding: "utf-8" });
+        const styleSheet = CssTree.parse(source) as CssTree.StyleSheet;
+        result = {
+          source,
+          styleSheet,
+        };
+      }
+    }
+    if (!result) {
+      result = loadThemeStyleSheet(config);
+    }
+    return result;
   }
 
   private get currentSnapshot() {
     return this._snapshots[this._snapshots.length - 1];
   }
 
-  private logInfo(message?: any) {
+  public logInfo(message?: any) {
     if (message === undefined) {
       console.info();
     } else {
@@ -145,16 +162,15 @@ export class ThemeFile {
 
     this._snapshots.push(newSnap);
     const db = this.buildDb(newSnap);
-    this._snapshotDbs.push(db);
-    this.db = Enumerable.from(db);
+    this._db = Enumerable.from(db);
   }
 
   private buildDb(snapshot: ThemeFileSnapShot) {
     const newDb: CssPropertyRecord[] = [];
-    this.buildDbFor(newDb, snapshot.styleSheetLight, this.configLight);
-    this.buildDbFor(newDb, snapshot.styleSheetDark, this.configDark);
-    this.buildDbFor(newDb, snapshot.styleSheetDense1, this.configDense1);
-    this.buildDbFor(newDb, snapshot.styleSheetDense2, this.configDense2);
+    this.buildDbFor(newDb, snapshot.styleSheetLight, this._configLight);
+    this.buildDbFor(newDb, snapshot.styleSheetDark, this._configDark);
+    this.buildDbFor(newDb, snapshot.styleSheetDense1, this._configDense1);
+    this.buildDbFor(newDb, snapshot.styleSheetDense2, this._configDense2);
     return newDb;
   }
 
@@ -177,12 +193,11 @@ export class ThemeFile {
     });
   }
 
-  private _changed: boolean = true;
-
   public get changed() {
     return this._changed;
   }
-  private markChanged(): void {
+
+  public markChanged(): void {
     this._changed = true;
   }
 
@@ -204,41 +219,19 @@ export class ThemeFile {
 
   public applyComponentTransformations() {
     if (!this.options.componentTransformations) return;
-
     this.snapshot();
   }
+
   public applyTokenTransformations() {
     if (!this.options.tokenTransformations) return;
 
-    const mdcThemeVarReferences = this.db
-      .where((r) => r.value.startsWith("var(--mdc-theme-"))
-      .select((record) => {
-        const m = record.value.match(/^var\(--mdc-theme-(.*?),\s*(.*?)\)$/);
-        const variable = m[1];
-        const replacement = MDCThemeTokenSubstitutions[variable];
-        if (replacement) {
-          return {
-            record,
-            variable,
-            replacement,
-          };
-        } else {
-          console.log(variable);
-        }
-      })
-      .where((r) => !!r)
-      .toArray();
-
+    const mdcThemeVarReferences = applyMdcThemeTokensTransformations(this);
     if (mdcThemeVarReferences.length) {
-      mdcThemeVarReferences.forEach((r) => {
-        const value = `var(${ThemeVarsRegistry.register(this.name, r.replacement)})`;
-        r.record.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
-      });
-      this.markChanged();
+      mdcThemeVarReferences.forEach((transform) => transform());
       const num = mdcThemeVarReferences.length / 4;
       this.logInfo(`Replaced ${chalk.yellow(num)} MDC theme reference variable` + (num === 1 ? "" : "s"));
+      this.snapshot();
     }
-    this.snapshot();
   }
 
   public applyColorTransformations() {
@@ -256,101 +249,21 @@ export class ThemeFile {
   public applyAutoColorTransformations() {
     if (!this.options.autoColorTransformations) return;
 
-    const transformableColorPairs = this.colorDiffView
-      .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
-      .selectMany((v) =>
-        v.lightMode.valueColors.colors
-          .map((c, i) => {
-            const diff = v as CssDiffView;
-            const lightColor = c;
-            const darkColor = diff.darkMode.valueColors.colors[i];
-            const density1Color = diff.density1.valueColors.colors[i];
-            const density2Color = diff.density2.valueColors.colors[i];
-
-            const match = ColorLookup.find(
-              (l) => new ColorTranslator(l.light).HEXA === lightColor.HEXA && new ColorTranslator(l.dark).HEXA === darkColor.HEXA
-            );
-            if (match) {
-              return {
-                diff: v as CssDiffView,
-                match,
-                replace: (val: string) => {
-                  diff.lightMode.valueColors.replaceColor(lightColor, val);
-                  diff.darkMode.valueColors.replaceColor(darkColor, val);
-                  diff.density1.valueColors.replaceColor(density1Color, val);
-                  diff.density2.valueColors.replaceColor(density2Color, val);
-
-                  diff.lightMode.node.value = CssTree.parse(diff.lightMode.valueColors.toString(), { context: "value" }) as CssTree.Value;
-                  diff.darkMode.node.value = CssTree.parse(diff.darkMode.valueColors.toString(), { context: "value" }) as CssTree.Value;
-                  diff.density1.node.value = CssTree.parse(diff.density1.valueColors.toString(), { context: "value" }) as CssTree.Value;
-                  diff.density2.node.value = CssTree.parse(diff.density2.valueColors.toString(), { context: "value" }) as CssTree.Value;
-                  this.markChanged();
-                },
-              };
-            }
-          })
-          .filter((v) => !!v)
-      )
-      .toArray();
-
+    const transformableColorPairs = applyThemePairedColorTransformations(this);
     if (transformableColorPairs.length) {
-      transformableColorPairs.forEach((v) => {
-        const value = `var(${ThemeVarsRegistry.register(v.diff.sourceFile, v.match.name)})`;
-        v.replace(value);
-      });
+      transformableColorPairs.forEach((transform) => transform());
       const num = transformableColorPairs.length;
       this.logInfo(`Replaced ${chalk.yellow(num)} material theme color pair` + (num === 1 ? "" : "s"));
+      this.snapshot();
     }
-    this.snapshot();
 
-    const transformableColors = this.colorDiffView
-      .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
-      .selectMany((v) => {
-        const diff = v as CssDiffView;
-        return [
-          ...diff.lightMode.valueColors.colors.map((color) => ({
-            color,
-            darkMode: false,
-            node: diff.lightMode.node,
-          })),
-          ...diff.darkMode.valueColors.colors.map((color) => ({
-            color,
-            darkMode: true,
-            node: diff.darkMode.node,
-          })),
-          ...diff.density1.valueColors.colors.map((color) => ({
-            color,
-            darkMode: false,
-            node: diff.density1.node,
-          })),
-          ...diff.density2.valueColors.colors.map((color) => ({
-            color,
-            darkMode: false,
-            node: diff.density2.node,
-          })),
-        ];
-      })
-      .select((v) => ({
-        ...v,
-        replacement: ColorLookup.map((c) => ({
-          name: c.name,
-          color: new ColorTranslator(v.darkMode ? c.dark : c.light),
-        })).find((c) => v.color.HEXA === c.color.HEXA),
-      }))
-      .where((v) => !!v.replacement)
-      .toArray();
-
+    const transformableColors = applyThemeColorTransformations(this);
     if (transformableColors.length) {
-      transformableColors.forEach((v) => {
-        const value = `var(${ThemeVarsRegistry.register(this.name, v.replacement.name)})`;
-        v.node.value = CssTree.parse(value, { context: "value" }) as CssTree.Value;
-      });
-      this.markChanged();
+      transformableColors.forEach((transform) => transform());
       const num = transformableColors.length;
       this.logInfo(`Replaced ${chalk.yellow(num)} material theme color` + (num === 1 ? "" : "s"));
+      this.snapshot();
     }
-
-    this.snapshot();
 
     let swapVarCount = 0;
     const modeSwaps = this.colorDiffView
@@ -405,58 +318,21 @@ export class ThemeFile {
         `Replaced ${chalk.yellow(modCount)} propert${modCount === 1 ? "y" : "ies"} with dynamic mode variable` + (modCount === 1 ? "" : "s")
       );
     }
-
-    /////////////////////////////////////////
-
-    // const diffs = this.colorDiffView
-    //   .where((v) => v.darkMode?.value !== undefined && v.lightMode?.value !== undefined)
-    //   .select(
-    //     (v, i) =>
-    //     ({
-    //       ...v,
-    //       variable: `--theme--generated-mode-ref--${v.sourceFile}--${Math.round(Math.random() * 10000)}-${i}-${Math.round(
-    //         Math.random() * 10000
-    //       )}`,
-    //     } as CssColorModeDiffVariable)
-    //   )
-    //   .toArray();
-
-    // let headers: CssTree.CssNode[] = [];
-
-    // if (diffs.length) {
-    //   const lightModeVars = diffs.map((r) => `${r.variable}: ${r.lightMode.value};`);
-    //   const darkModeModeVars = diffs.map((r) => `${r.variable}: ${r.darkMode.value};`);
-
-    //   const lightModeRule = `
-    //       html{
-    //         // Automatically generated variables to handle light-mode //
-    //         // These should not be referenced outside this file. //
-    //         ${lightModeVars.join("\n")}
-    //       }
-    //     `;
-    //   const darkModeRule = `
-    //       @include util.dark-mode-only(){
-    //         // Automatically generated variables to handle dark-mode //
-    //         // These should not be referenced outside this file. //
-    //         ${darkModeModeVars.join("\n")}
-    //       }
-    //       `;
-
-    //   const lightNode = CssTree.parse(lightModeRule.trim(), { context: "rule" });
-    //   const darkNode = CssTree.parse(darkModeRule.trim(), { context: "rule" });
-    //   headers = [lightNode, darkNode];
-
-    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetLight, diffs, headers);
-    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDark, diffs, headers);
-    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense1, diffs, headers);
-    //   this.applyAutoColorTransformationsToAst(this.currentSnapshot.styleSheetDense2, diffs, headers);
-    //   this.markChanged();
-
-    //   const num = diffs.length;
-    //   this.logInfo(`Generated ${chalk.yellow(num)} dynamic color variables` + (num === 1 ? '' : 's'));
-    // }
-
     this.snapshot();
+  }
+
+  public prependHeader(header: CssTree.Rule): void {
+    this.prependHeaderTo(header, this.currentSnapshot.styleSheetLight);
+    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDark);
+    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense1);
+    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense2);
+  }
+
+  private prependHeaderTo(header: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
+    if (header) {
+      const item = styleSheet.children.createItem(header);
+      styleSheet.children.prepend(item);
+    }
   }
 
   private applyAutoColorTransformationsToAst(styleSheet: CssTree.StyleSheet, modeSwaps: ModeSwapView[], headers: CssTree.CssNode[]) {
@@ -489,17 +365,19 @@ export class ThemeFile {
   }
 
   private writeSnapshots() {
-    if (!this.options.writeSnapshots) return;
-
-    this.logInfo("Writing snapshots.");
+    // cache files
     const snapshotsDir = this.snapshotsDir;
     mkdirSync(snapshotsDir, { recursive: true });
 
     const baseFileName = Path.join(snapshotsDir, `_${this.name}`);
     writeScssFile(baseFileName + ".light_0.scss", this._themeData.light.source, false);
-    writeScssFile(baseFileName + ".dark_0.scss", this._themeData.light.source, false);
-    writeScssFile(baseFileName + ".density-1_0.scss", this._themeData.light.source, false);
-    writeScssFile(baseFileName + ".density-2_0.scss", this._themeData.light.source, false);
+    writeScssFile(baseFileName + ".dark_0.scss", this._themeData.dark.source, false);
+    writeScssFile(baseFileName + ".density-1_0.scss", this._themeData.dense1.source, false);
+    writeScssFile(baseFileName + ".density-2_0.scss", this._themeData.dense2.source, false);
+
+    if (!this.options.writeSnapshots) return;
+
+    this.logInfo("Writing snapshots.");
 
     this._snapshots.forEach((snap, i) => {
       const filename = Path.join(snapshotsDir, `_${this.name}`);
@@ -520,7 +398,7 @@ export class ThemeFile {
     if (!this.options.write) return;
 
     this.logInfo("Writing output.");
-    const outputDir = this.outDir;
+    const outputDir = this._outDir;
     mkdirSync(outputDir, { recursive: true });
     writeScssFile(Path.join(outputDir, `_${this.name}.scss`), this.serializeTheme(this.currentSnapshot.styleSheetLight));
   }

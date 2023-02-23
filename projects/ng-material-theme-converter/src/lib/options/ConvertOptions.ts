@@ -12,4 +12,5 @@ export interface ConvertOptions {
   readonly report: boolean;
   readonly reportColorMode: boolean;
   readonly reportDensity: boolean;
+  readonly cache: boolean;
 }
