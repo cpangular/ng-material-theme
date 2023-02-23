@@ -174,6 +174,7 @@ export class ThemeFile implements ThemeFileUtil {
       const modifiedCount = colorModeColorSwaps.modifiedCount;
       this.logInfo(`Generated ${chalk.yellow(generatedCount)} dynamic mode variables` + (generatedCount === 1 ? "" : "s"));
       this.logInfo(
+        /* spell-checker:ignore propert */
         `Replaced ${chalk.yellow(modifiedCount)} propert${modifiedCount === 1 ? "y" : "ies"} with dynamic mode variable` +
           (modifiedCount === 1 ? "" : "s")
       );
