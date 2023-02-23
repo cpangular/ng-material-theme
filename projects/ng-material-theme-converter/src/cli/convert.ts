@@ -68,6 +68,7 @@ export async function runConvert() {
     themeFile.convert();
     return themeFile;
   });
+
   // THEMES_FILES
   //   .filter((t) => !options.component || t === options.component)
   //   .map(t => new ThemeFile(t, options))
