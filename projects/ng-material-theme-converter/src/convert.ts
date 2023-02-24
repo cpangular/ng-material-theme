@@ -4,6 +4,8 @@ import { ComponentThemes } from "./lib/data/componentThemes";
 import { ConvertOptions } from "./lib/options/ConvertOptions";
 import { ThemeFile } from "./lib/ThemeFile";
 import { writeAllThemesFile } from "./writeAllThemesFile";
+import { writeBuildBaseComponentFiles } from "./writeBuildBaseComponentFiles";
+import { writeBuildBaseThemeFile } from "./writeBuildBaseThemeFile";
 import { writeThemeIndexFile } from "./writeThemeIndexFile";
 
 export const options: ConvertOptions = yargs(hideBin(process.argv))
@@ -52,4 +54,6 @@ export const options: ConvertOptions = yargs(hideBin(process.argv))
 
   writeAllThemesFile();
   writeThemeIndexFile();
+  writeBuildBaseThemeFile();
+  writeBuildBaseComponentFiles();
 })();

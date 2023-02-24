@@ -7,9 +7,11 @@
     "build": "run-s build:*",
     "build:ts": "tsc -p tsconfig.json",
     "build:copy-scss": "copyfiles --up=1  \"src/**/*.scss\" dist/",
-    "build:copy-ng-scss": "copyfiles --up=3  \"../ng-material-theme-converter/dist/**/_*.scss\" dist/scss/theme",
-    "xbuild:copy-package": "ts-node .scripts/copy-package.ts",
-    "xbuild:copy-material-theme": "ts-node .scripts/copy-material-theme.ts",
+    "build:copy-ng-scss": "copyfiles --up=4  \"../ng-material-theme-converter/dist/scss/**/_*.scss\" dist/scss/theme",
+    "build:copy-ng-base": "copyfiles --up=4  \"../ng-material-theme-converter/dist/base/**/*.scss\" dist/base",
+    "build:copy-package": "ts-node .scripts/copy-package.ts",
+    "build:npm-ignore": "copyfiles .npmignore ./dist",
+    "build:compile-ng-theme": "sass --load-path=node_modules --style=expanded ./dist/base:./dist/css",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "start": "tsc -w -p tsconfig.json",
     "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
@@ -27,6 +29,7 @@
     "@cpdevtools/lib-node-utilities": "0.4.49",
     "@types/node": "^18.13.0",
     "copyfiles": "^2.4.1",
+    "sass": "^1.58.0",
     "ts-node": "^10.9.1",
     "type-fest": "^3.5.6",
     "typescript": "^4.9.5"
@@ -38,7 +41,7 @@
   },
   "exports": {
     ".": {
-      "style": "./dist/css/ng-material-theme.css",
+      "style": "./dist/css/theme-all.css",
       "sass": "./src/_theming.scss",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
@@ -52,8 +55,7 @@
     "./palettes": {
       "sass": "./src/_palettes.scss"
     },
-    "./ng-material-theme.css": {
-      "style": "./dist/css/ng-material-theme.css"
-    }
+    "./theme.css": "./dist/css/theme-all.css",
+    "./theme/*.css": "./dist/css/*.css"
   }
 }

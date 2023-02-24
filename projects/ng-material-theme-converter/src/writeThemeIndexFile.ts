@@ -8,5 +8,5 @@ export function writeThemeIndexFile() {
   const forward = ComponentThemes.map((t) => `@forward './${t}' as ${t}-*;`);
   forward.push(`@forward './all-themes';`);
   const indexCss = forward.join("\n");
-  writeScssFile("./dist/_index.scss", indexCss, false);
+  writeScssFile("./dist/scss/_index.scss", indexCss, false);
 }

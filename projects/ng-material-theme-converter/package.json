@@ -66,6 +66,7 @@
     "@angular/forms": "^15.1.4",
     "@angular/material": "15.1.4",
     "@angular/platform-browser": "^15.1.4",
+    "@cpangular/ng-material-theme": "../ng-material-theme",
     "chalk": "^4.1.2",
     "color-name-list": "^10.4.0",
     "colortranslator": "^1.10.2",

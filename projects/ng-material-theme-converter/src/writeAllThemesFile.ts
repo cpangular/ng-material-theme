@@ -13,5 +13,5 @@ export function writeAllThemesFile() {
       ${include.join("\n")}
     }
   `;
-  writeScssFile("./dist/_all-themes.scss", allThemesCss, false);
+  writeScssFile("./dist/scss/_all-themes.scss", allThemesCss, false);
 }
