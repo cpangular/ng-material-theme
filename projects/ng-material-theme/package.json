@@ -7,13 +7,8 @@
     "build": "run-s build:*",
     "build:webpack": "webpack",
     "build:css": "sass --load-path=node_modules --style=expanded ./dist/theme_base:./dist/theme",
-    "xbuild:ts": "tsc -p tsconfig.json",
-    "xbuild:copy-scss": "copyfiles --up=1  \"src/**/*.scss\" dist/",
-    "xbuild:copy-ng-scss": "copyfiles --up=4  \"../ng-material-theme-converter/dist/scss/**/_*.scss\" dist/scss/theme",
-    "xbuild:copy-ng-base": "copyfiles --up=4  \"../ng-material-theme-converter/dist/base/**/*.scss\" dist/base",
-    "xbuild:copy-package": "ts-node .scripts/copy-package.ts",
-    "xbuild:npm-ignore": "copyfiles .npmignore ./dist",
-    "xbuild:compile-ng-theme": "sass --load-path=node_modules --style=expanded ./dist/base:./dist/css",
+    "build:npm-ignore": "copyfiles .npmignore ./dist",
+    "build:copy-package": "ts-node .scripts/copy-package.ts",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "start": "tsc -w -p tsconfig.json",
     "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
@@ -52,21 +47,18 @@
   },
   "exports": {
     ".": {
-      "style": "./dist/css/theme-all.css",
-      "sass": "./src/_theming.scss",
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "style": "./dist/theme/theme-all.css",
+      "sass": "./dist/scss/_index.scss",
+      "types": "./dist/lib/index.d.ts",
+      "default": "./dist/lib/main.js"
     },
     "./theming": {
-      "sass": "./src/_theming.scss"
-    },
-    "./theme": {
-      "sass": "./src/_theme.scss"
+      "sass": "./dist/scss/theming/_index.scss"
     },
     "./palettes": {
-      "sass": "./src/_palettes.scss"
+      "sass": "./dist/scss/palettes/_index.scss"
     },
-    "./theme.css": "./dist/css/theme-all.css",
-    "./theme/*.css": "./dist/css/*.css"
+    "./theme.css": "./dist/theme/theme-all.css",
+    "./theme/*.css": "./dist/theme/*.css"
   }
 }
