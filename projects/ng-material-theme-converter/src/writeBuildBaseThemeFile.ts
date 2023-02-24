@@ -5,8 +5,8 @@ export function writeBuildBaseThemeFile() {
   if (!options.write) return;
 
   const scss = `
-    @use '../scss/theme';
-    @include theme.all-themes();
+    @use "../theming";
+    @include theming.all-themes();
   `;
 
   writeScssFile("./dist/base/theme-all.scss", scss, false);

@@ -7,8 +7,8 @@ export function writeBuildBaseComponentFiles() {
 
   ComponentThemes.forEach((t) => {
     const scss = `
-        @use '../scss/theme';
-        @include theme.${t}-theme();
+        @use '../theming';
+        @include theming.${t}-theme();
       `;
     writeScssFile(`./dist/base/theme-${t}.scss`, scss, false);
   });

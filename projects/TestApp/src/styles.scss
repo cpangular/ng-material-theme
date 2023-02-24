@@ -1,7 +1,9 @@
+@use "@angular/material" as mat;
+
 @use "@cpangular/ng-material-theme/theming";
 @use "@cpangular/ng-material-theme/palettes";
 
-@use "@angular/material" as mat;
+@include mat.core();
 
 $purple-palette: (
   id: primary,
@@ -138,7 +140,7 @@ $themeD: (
     // error: palettes.$error-palette,
     // background: palettes.$background-palette,
     // overlay: palettes.$overlay-palette,
-    // opacity: palettes.$opacity-palette,,,,,,,,,,,,
+    // opacity: palettes.$opacity-palette,,,,,,,,,,,,,
   ),
 );
 

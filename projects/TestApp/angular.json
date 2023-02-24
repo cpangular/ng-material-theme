@@ -25,8 +25,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "@cpangular/ng-material-theme/ng-material-theme.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "@cpangular/ng-material-theme/theme.css"
             ],
             "scripts": []
           },
@@ -88,5 +88,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
