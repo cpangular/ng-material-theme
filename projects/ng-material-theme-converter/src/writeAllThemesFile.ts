@@ -1,6 +1,6 @@
 import { ComponentThemes } from "./lib/data/componentThemes";
 import { writeScssFile } from "./lib/util/writeScssFile";
-import { options } from "./convert";
+import { options } from "./options";
 
 export function writeAllThemesFile() {
   if (!options.write) return;

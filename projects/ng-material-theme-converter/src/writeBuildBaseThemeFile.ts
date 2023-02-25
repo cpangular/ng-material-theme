@@ -1,4 +1,4 @@
-import { options } from "./convert";
+import { options } from "./options";
 import { writeScssFile } from "./lib/util/writeScssFile";
 
 export function writeBuildBaseThemeFile() {

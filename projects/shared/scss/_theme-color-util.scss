@@ -1,0 +1,19 @@
+@use "sass:list";
+
+@function css-property-name($palette, $variation: null, $property: null, $isRef: false) {
+  @if $property == default {
+    $property: null;
+  }
+  $key: ($palette);
+  @if $variation != null {
+    $key: list.append($key, $variation);
+  }
+  @if $property != null {
+    $key: list.append($key, $property);
+  }
+  $colorKey: "--theme-color#{if($isRef, -ref, null)}";
+  @each $k in $key {
+    $colorKey: #{$colorKey}--#{$k};
+  }
+  @return $colorKey;
+}

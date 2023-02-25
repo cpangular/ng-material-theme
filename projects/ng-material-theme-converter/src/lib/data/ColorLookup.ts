@@ -1,40 +1,40 @@
-import { colorKey } from "../util/colorKey";
+import { colorCssPropertyName } from "../util/colorCssPropertyName";
 import { primaryColors, secondaryColors, errorColors } from "./ColorSets";
 import { makeRefColor } from "../util/makeRefColor";
 
 export const ColorLookup = [
   {
-    name: colorKey("primary"),
+    name: colorCssPropertyName("primary"),
     light: primaryColors.light.default,
     dark: primaryColors.dark.default,
   },
   {
-    name: colorKey("primary"),
+    name: colorCssPropertyName("primary"),
     light: primaryColors.light.text,
     dark: primaryColors.dark.text,
   },
   {
-    name: colorKey("primary", undefined, "contrast"),
+    name: colorCssPropertyName("primary", undefined, "contrast"),
     light: primaryColors.light["default-contrast"],
     dark: primaryColors.dark["default-contrast"],
   },
   {
-    name: colorKey("primary", "lighter"),
+    name: colorCssPropertyName("primary", "lighter"),
     light: primaryColors.light.lighter,
     dark: primaryColors.dark.lighter,
   },
   {
-    name: colorKey("primary", "lighter", "contrast"),
+    name: colorCssPropertyName("primary", "lighter", "contrast"),
     light: primaryColors.light["lighter-contrast"],
     dark: primaryColors.dark["lighter-contrast"],
   },
   {
-    name: colorKey("primary", "darker"),
+    name: colorCssPropertyName("primary", "darker"),
     light: primaryColors.light.lighter,
     dark: primaryColors.dark.lighter,
   },
   {
-    name: colorKey("primary", "darker", "contrast"),
+    name: colorCssPropertyName("primary", "darker", "contrast"),
     light: primaryColors.light["darker-contrast"],
     dark: primaryColors.dark["darker-contrast"],
   },
@@ -70,37 +70,37 @@ export const ColorLookup = [
   makeRefColor("primary", "A700", primaryColors, true),
 
   {
-    name: colorKey("secondary"),
+    name: colorCssPropertyName("secondary"),
     light: secondaryColors.light.default,
     dark: secondaryColors.dark.default,
   },
   {
-    name: colorKey("secondary"),
+    name: colorCssPropertyName("secondary"),
     light: secondaryColors.light.text,
     dark: secondaryColors.dark.text,
   },
   {
-    name: colorKey("secondary", undefined, "contrast"),
+    name: colorCssPropertyName("secondary", undefined, "contrast"),
     light: secondaryColors.light["default-contrast"],
     dark: secondaryColors.dark["default-contrast"],
   },
   {
-    name: colorKey("secondary", "lighter"),
+    name: colorCssPropertyName("secondary", "lighter"),
     light: secondaryColors.light.lighter,
     dark: secondaryColors.dark.lighter,
   },
   {
-    name: colorKey("secondary", "lighter", "contrast"),
+    name: colorCssPropertyName("secondary", "lighter", "contrast"),
     light: secondaryColors.light["lighter-contrast"],
     dark: secondaryColors.dark["lighter-contrast"],
   },
   {
-    name: colorKey("secondary", "darker"),
+    name: colorCssPropertyName("secondary", "darker"),
     light: secondaryColors.light.lighter,
     dark: secondaryColors.dark.lighter,
   },
   {
-    name: colorKey("secondary", "darker", "contrast"),
+    name: colorCssPropertyName("secondary", "darker", "contrast"),
     light: secondaryColors.light["darker-contrast"],
     dark: secondaryColors.dark["darker-contrast"],
   },
@@ -136,37 +136,37 @@ export const ColorLookup = [
   makeRefColor("secondary", "A700", secondaryColors, true),
 
   {
-    name: colorKey("error"),
+    name: colorCssPropertyName("error"),
     light: errorColors.light.default,
     dark: errorColors.dark.default,
   },
   {
-    name: colorKey("error"),
+    name: colorCssPropertyName("error"),
     light: errorColors.light.text,
     dark: errorColors.dark.text,
   },
   {
-    name: colorKey("error", undefined, "contrast"),
+    name: colorCssPropertyName("error", undefined, "contrast"),
     light: errorColors.light["default-contrast"],
     dark: errorColors.dark["default-contrast"],
   },
   {
-    name: colorKey("error", "lighter"),
+    name: colorCssPropertyName("error", "lighter"),
     light: errorColors.light.lighter,
     dark: errorColors.dark.lighter,
   },
   {
-    name: colorKey("error", "lighter", "contrast"),
+    name: colorCssPropertyName("error", "lighter", "contrast"),
     light: errorColors.light["lighter-contrast"],
     dark: errorColors.dark["lighter-contrast"],
   },
   {
-    name: colorKey("error", "darker"),
+    name: colorCssPropertyName("error", "darker"),
     light: errorColors.light.lighter,
     dark: errorColors.dark.lighter,
   },
   {
-    name: colorKey("error", "darker", "contrast"),
+    name: colorCssPropertyName("error", "darker", "contrast"),
     light: errorColors.light["darker-contrast"],
     dark: errorColors.dark["darker-contrast"],
   },

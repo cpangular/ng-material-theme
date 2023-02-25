@@ -1,5 +1,5 @@
 import { writeScssFile } from "./lib/util/writeScssFile";
-import { options } from "./convert";
+import { options } from "./options";
 import { ComponentThemes } from "./lib/data/componentThemes";
 
 export function writeBuildBaseComponentFiles() {
