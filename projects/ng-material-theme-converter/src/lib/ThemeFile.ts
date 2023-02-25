@@ -145,15 +145,13 @@ export class ThemeFile implements ThemeFileUtil {
               if (p._type === "mode") {
                 console.log(p.name, p);
                 return {
-                  property: p.name,
-                  "Diff Type": "mode",
+                  Property: p.name,
                   "Light Mode": p.lightMode?.value,
                   "Dark Mode": p.darkMode?.value,
                 };
               }
               return {
-                property: p.name,
-                "Diff Type": "density",
+                Property: p.name,
                 "Density 0": p.density0?.value,
                 "Density 1": p.density1?.value,
                 "Density 2": p.density2?.value,
