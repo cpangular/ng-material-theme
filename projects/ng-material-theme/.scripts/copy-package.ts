@@ -6,8 +6,14 @@ import { readJsonFile, writeJsonFile } from "@cpdevtools/lib-node-utilities";
   delete pkg.devDependencies;
   delete pkg.scripts;
   delete (pkg as any)["lint-staged"];
-  pkg.typings = "./index.d.ts";
-  pkg.main = "./index.js";
+
+  if (pkg.typings?.startsWith("./dist/")) {
+    pkg.typings = "." + pkg.typings.slice(6);
+  }
+
+  if (pkg.main?.startsWith("./dist/")) {
+    pkg.main = "." + pkg.main.slice(6);
+  }
 
   const exports = pkg.exports as {
     [path: string]: PackageJson.Exports;

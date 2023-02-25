@@ -18,13 +18,6 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.scss$/i,
-        loader: require.resolve("raw-loader"),
-        options: {
-          esModule: false,
-        },
-      },
-      {
         test: /\.ts$/i,
         use: [
           {
@@ -35,6 +28,13 @@ const config = {
           },
         ],
         exclude: [path.resolve("node_modules")],
+      },
+      {
+        test: /\.scss$/i,
+        loader: require.resolve("raw-loader"),
+        options: {
+          esModule: false,
+        },
       },
     ],
   },
@@ -49,7 +49,13 @@ const config = {
   ],
   output: {
     filename: "main.js",
+    library: {
+      type: "umd",
+      name: "MyLib",
+    },
+    //libraryTarget: 'umd',
     path: path.resolve(__dirname, "dist/lib"),
+    globalObject: "this",
   },
 };
 

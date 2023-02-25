@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeManager } from '@cpangular/ng-material-theme';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

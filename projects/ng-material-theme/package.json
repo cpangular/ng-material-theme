@@ -1,8 +1,8 @@
 {
   "name": "@cpangular/ng-material-theme",
   "version": "0.0.0-PLACEHOLDER",
-  "typings": "./dist/index.d.ts",
-  "main": "./dist/index.js",
+  "typings": "./dist/lib/index.d.ts",
+  "main": "./dist/lib/main.js",
   "scripts": {
     "build": "run-s build:*",
     "build:webpack": "webpack",
@@ -48,7 +48,7 @@
   "exports": {
     ".": {
       "style": "./dist/theme/theme-all.css",
-      "sass": "./dist/scss/_index.scss",
+      "sass": "./dist/scss/theming/_index.scss",
       "types": "./dist/lib/index.d.ts",
       "default": "./dist/lib/main.js"
     },

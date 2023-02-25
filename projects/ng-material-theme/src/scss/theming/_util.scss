@@ -40,3 +40,11 @@
     @content;
   }
 }
+
+@mixin write-css-variables($vars, $failOnNull: true) {
+  @each $k, $v in $vars {
+    @if $failOnNull or $v != null {
+      #{$k}: #{$v};
+    }
+  }
+}
