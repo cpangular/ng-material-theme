@@ -1,4 +1,5 @@
 import Enumerable from "linq";
+import { ThemeRegistry } from "../../ThemeRegistry";
 import { CssColorModeDiffView } from "../../types/CssColorModeDiffView";
 import { CssDiffView } from "../../types/CssDiffView";
 import { ThemeFileUtil } from "../../types/ThemeFileUtil";
@@ -48,7 +49,7 @@ function buildPropertyTransforms(
   return Enumerable.from(result)
     .selectMany((v) =>
       (v.replacements as CssDiffView[]).map((r) => () => {
-        const variable = v.variable;
+        const variable = ThemeRegistry.registerGeneratedVariable(r.sourceFile, v.variable);
         const replacementNode = CssTree.parse(`var(${variable})`, { context: "value" });
         r.lightMode.node.value = CssTree.clone(replacementNode) as CssTree.Value;
         r.darkMode.node.value = CssTree.clone(replacementNode) as CssTree.Value;

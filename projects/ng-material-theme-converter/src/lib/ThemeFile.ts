@@ -93,12 +93,26 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   private get colorDiffView() {
-    return this.diffView?.where((r) => r.lightMode?.value !== r.darkMode?.value).cast<CssColorModeDiffView>();
+    return this.diffView
+      ?.where((r) => r.lightMode?.value !== r.darkMode?.value)
+      .select((r) => {
+        return {
+          ...r,
+          _type: "mode",
+        };
+      })
+      .cast<CssColorModeDiffView>();
   }
 
   private get densityDiffView() {
     return this.diffView
       ?.where((r) => r.density0?.value !== r.density1?.value || r.density0?.value !== r.density2?.value)
+      .select((r) => {
+        return {
+          ...r,
+          _type: "density",
+        };
+      })
       .cast<CssDensityDiffView>();
   }
 
@@ -113,7 +127,64 @@ export class ThemeFile implements ThemeFileUtil {
     this.writeOutput();
 
     this.logInfo(chalk.greenBright("Conversion completed."));
+    this.printDiffReport();
     this.logInfo();
+  }
+
+  private printDiffReport() {
+    const diffs = this.database.colorDifferencesView
+      .cast<CssDiffView>()
+      .concat(this.database.densityDifferencesView.cast<CssDiffView>())
+      .groupBy(
+        (v) => v.selectors.join(","),
+        (v) => v,
+        (selector, group) => ({
+          selector,
+          properties: group
+            .select((p) => {
+              if (p._type === "mode") {
+                console.log(p.name, p);
+                return {
+                  property: p.name,
+                  "Diff Type": "mode",
+                  "Light Mode": p.lightMode?.value,
+                  "Dark Mode": p.darkMode?.value,
+                };
+              }
+              return {
+                property: p.name,
+                "Diff Type": "density",
+                "Density 0": p.density0?.value,
+                "Density 1": p.density1?.value,
+                "Density 2": p.density2?.value,
+              };
+            })
+            .toArray(),
+        })
+      )
+      .toArray();
+
+    if (diffs.length) {
+      console.info();
+      this.logInfo(
+        chalk.red(
+          `There ${diffs.length === 1 ? "is" : "are"} ${chalk.yellow(diffs.length)} selector${
+            diffs.length === 1 ? "" : "s"
+          } with differences remaining.`
+        )
+      );
+
+      this.logInfo(chalk.yellowBright("Difference Report:"));
+      console.info();
+
+      console.group();
+      diffs.forEach((diff) => {
+        console.info(chalk.blue(diff.selector.split(",").join(",\n")));
+        console.table(diff.properties);
+        console.info();
+      });
+      console.groupEnd();
+    }
   }
 
   public applyComponentTransformations() {

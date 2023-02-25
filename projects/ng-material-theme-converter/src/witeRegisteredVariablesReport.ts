@@ -29,5 +29,14 @@ export function witeRegisteredVariablesReport() {
       .toArray(),
   });
 
+  view.push({
+    theme: "-generated-",
+    properties: ThemeRegistry.generatedVariablesQuery
+      .select((v) => v.name)
+      .distinct()
+      .orderBy((v) => v)
+      .toArray(),
+  });
+
   writeFileSync("./dist/registeredVariables.json", JSON.stringify(view, undefined, 2), { encoding: "utf-8" });
 }
