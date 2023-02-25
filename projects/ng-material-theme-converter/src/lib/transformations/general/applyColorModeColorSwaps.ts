@@ -80,7 +80,7 @@ function buildHeaderTransforms(
       }
     `;
   const darkModeRule = `
-      @include util.dark-mode-only(){
+      @include theme-mode.dark-mode(){
         // Automatically generated variables to handle dark-mode //
         // These should not be referenced outside this file. //
         ${darkModeModeVars.join("\n")}

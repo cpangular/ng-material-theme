@@ -6,7 +6,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:webpack": "webpack",
-    "build:css": "sass --load-path=node_modules --style=expanded ./dist/theme_base:./dist/theme",
+    "build:css": "sass --load-path=node_modules --style=expanded ./dist/theme_base:./dist/css/theme",
     "build:npm-ignore": "copyfiles .npmignore ./dist",
     "build:copy-package": "ts-node .scripts/copy-package.ts",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
@@ -47,7 +47,7 @@
   },
   "exports": {
     ".": {
-      "style": "./dist/theme/theme-all.css",
+      "style": "./dist/css/theme/theme-all.css",
       "sass": "./dist/scss/theming/_index.scss",
       "types": "./dist/lib/index.d.ts",
       "default": "./dist/lib/main.js"
@@ -56,9 +56,9 @@
       "sass": "./dist/scss/theming/_index.scss"
     },
     "./palettes": {
-      "sass": "./dist/scss/palettes/_index.scss"
+      "sass": "./dist/scss/theming/_index.scss"
     },
-    "./theme.css": "./dist/theme/theme-all.css",
-    "./theme/*.css": "./dist/theme/*.css"
+    "./theme.css": "./dist/css/theme/theme-all.css",
+    "./theme/*.css": "./dist/css/theme/*.css"
   }
 }
