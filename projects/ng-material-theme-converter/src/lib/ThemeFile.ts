@@ -7,6 +7,7 @@ import { applyColorModeColorSwaps } from "./transformations/general/applyColorMo
 import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
 import { applyThemeColorTransformations } from "./transformations/general/applyThemeColorTransformations";
 import { applyThemePairedColorTransformations } from "./transformations/general/applyThemePairedColorTransformations";
+import { TRANSFORMS } from "./transformations/TRANSFORMS";
 import { CssColorModeDiffView } from "./types/CssColorModeDiffView";
 import { CssDensityDiffView } from "./types/CssDensityDiffView";
 import { CssDiffView } from "./types/CssDiffView";
@@ -105,8 +106,6 @@ export class ThemeFile implements ThemeFileUtil {
     if (this.options.transformations) {
       this.applyComponentTransformations();
       this.applyTokenTransformations();
-      this.applyColorTransformations();
-      this.applyDensityTransformations();
       this.applyAutoColorTransformations();
       this.applyAutoDensityTransformations();
     }
@@ -119,7 +118,22 @@ export class ThemeFile implements ThemeFileUtil {
 
   public applyComponentTransformations() {
     if (!this.options.transformations) return;
-    this.snapshot();
+    let count = 0;
+    TRANSFORMS.forEach((transformFactory) => {
+      const result = transformFactory(this);
+      if (result?.length) {
+        count += result.length;
+        result.forEach((transform) => transform());
+        this.logInfo(
+          `${chalk.cyanBright(transformFactory.name)} applied ${chalk.yellow(result.length)} transformation` +
+            (result.length === 1 ? "" : "s")
+        );
+        this.snapshot();
+      }
+    });
+    if (count > 0) {
+      this.logInfo(`Applied ${chalk.yellow(count)} component transformation` + (count === 1 ? "" : "s"));
+    }
   }
 
   public applyTokenTransformations() {
@@ -132,18 +146,6 @@ export class ThemeFile implements ThemeFileUtil {
       this.logInfo(`Replaced ${chalk.yellow(num)} MDC theme reference variable` + (num === 1 ? "" : "s"));
       this.snapshot();
     }
-  }
-
-  public applyColorTransformations() {
-    if (!this.options.transformations) return;
-
-    this.snapshot();
-  }
-
-  public applyDensityTransformations() {
-    if (!this.options.transformations) return;
-
-    this.snapshot();
   }
 
   public applyAutoColorTransformations() {
@@ -187,17 +189,31 @@ export class ThemeFile implements ThemeFileUtil {
     this.snapshot();
   }
 
-  public prependHeader(header: CssTree.Rule): void {
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetLight);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDark);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense1);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense2);
+  public prependRule(rule: CssTree.Rule): void {
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetLight);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDark);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDense1);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDense2);
   }
 
-  private prependHeaderTo(header: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
-    if (header) {
-      const item = styleSheet.children.createItem(header);
+  private prependRuleTo(rule: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
+    if (rule) {
+      const item = styleSheet.children.createItem(rule);
       styleSheet.children.prepend(item);
+    }
+  }
+
+  public appendRule(rule: CssTree.Rule): void {
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetLight);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDark);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDense1);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDense2);
+  }
+
+  private appendRuleTo(rule: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
+    if (rule) {
+      const item = styleSheet.children.createItem(rule);
+      styleSheet.children.append(item);
     }
   }
 

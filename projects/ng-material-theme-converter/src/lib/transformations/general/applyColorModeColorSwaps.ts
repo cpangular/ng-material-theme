@@ -90,7 +90,7 @@ function buildHeaderTransforms(
   const headers = [CssTree.parse(lightModeRule.trim(), { context: "rule" }), CssTree.parse(darkModeRule.trim(), { context: "rule" })];
   return headers.reverse().map((h) => {
     return () => {
-      themeFile.prependHeader(h as CssTree.Rule);
+      themeFile.prependRule(h as CssTree.Rule);
       themeFile.markChanged();
     };
   });
