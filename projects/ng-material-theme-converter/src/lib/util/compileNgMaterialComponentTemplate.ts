@@ -1,7 +1,7 @@
 import { compileString } from "sass";
 import { NgMaterialThemeGenerationData } from "../data/NgMaterialThemeGenerationData";
 
-export function compileNgMaterialTemplate(templateName: string, darkMode: boolean = false, density: number = 0) {
+export function compileNgMaterialComponentTemplate(templateName: string, darkMode: boolean = false, density: number = 0) {
   return compileString(
     `
     @use '@angular/material' as mat;

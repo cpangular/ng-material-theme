@@ -47,7 +47,7 @@
   },
   "exports": {
     ".": {
-      "style": "./dist/css/theme/theme-all.css",
+      "style": "./dist/css/theme/components/theme-all.css",
       "sass": "./dist/scss/theming/_index.scss",
       "types": "./dist/lib/index.d.ts",
       "default": "./dist/lib/main.js"
@@ -55,10 +55,14 @@
     "./theming": {
       "sass": "./dist/scss/theming/_index.scss"
     },
+    "./theme.css": "./dist/css/theme/components/theme-all.css",
+    "./theme.css.map": "./dist/css/theme/components/theme-all.css.map",
+    "./core.css": "./dist/css/theme/core.css",
+    "./core.css.map": "./dist/css/theme/core.css.map",
+    "./theme/*.css": "./dist/css/theme/components/*.css",
+    "./theme/*.css.map": "./dist/css/theme/components/*.css.map",
     "./palettes": {
       "sass": "./dist/scss/theming/_index.scss"
-    },
-    "./theme.css": "./dist/css/theme/theme-all.css",
-    "./theme/*.css": "./dist/css/theme/*.css"
+    }
   }
 }

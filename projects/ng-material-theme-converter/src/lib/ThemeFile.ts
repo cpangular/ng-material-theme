@@ -21,7 +21,7 @@ import { loadThemeStyleSheet } from "./util/loadThemeStyleSheet";
 import { writeScssFile } from "./util/writeScssFile";
 
 export class ThemeFile implements ThemeFileUtil {
-  private readonly _outDir = "./dist/scss";
+  private readonly _outDir = "./dist/scss/components";
   private readonly _snapshotsDir = "./dist/.snapshots";
   private readonly _cacheDir = "./dist/.cache";
   private readonly _configLight: ThemeConfig = { name: this.name, darkMode: false, density: 0 };

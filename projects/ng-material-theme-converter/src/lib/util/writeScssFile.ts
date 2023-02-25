@@ -9,7 +9,7 @@ export function writeScssFile(path: string, scss: string | CssTree.StyleSheet, i
     scss = (typeof scss === "string" ? scss : CssTree.generate(scss)).trim();
     if (includeUtil) {
       scss = `
-          @use '../theme-mode/util' as theme-mode;
+          @use '../theme-mode';
           ${scss}
         `;
     }
