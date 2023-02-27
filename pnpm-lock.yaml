@@ -70,7 +70,13 @@ importers:
 
   projects/ng-material-theme:
     specifiers:
-      "@angular/material": ^15.2.0
+      "@angular/animations": ^15.1.4
+      "@angular/cdk": 15.1.4
+      "@angular/common": ^15.1.4
+      "@angular/core": ^15.1.4
+      "@angular/forms": ^15.1.4
+      "@angular/material": 15.1.4
+      "@angular/platform-browser": ^15.1.4
       "@cpdevtools/lib-node-utilities": 0.4.49
       "@types/node": ^18.13.0
       "@types/webpack-node-externals": ^3.0.0
@@ -91,7 +97,13 @@ importers:
       webpack-cli: ^5.0.1
       webpack-node-externals: ^3.0.0
     dependencies:
-      "@angular/material": 15.2.0_rxjs@7.8.0
+      "@angular/animations": 15.1.4_@angular+core@15.1.4
+      "@angular/cdk": 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
+      "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
+      "@angular/core": 15.1.4_rxjs@7.8.0
+      "@angular/forms": 15.1.4_g7mjdvsmeszabti4mywkhjexwi
+      "@angular/material": 15.1.4_isjki5jxkx7qtx4nb6paon7zxy
+      "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
       camel-case: 4.1.2
       linq: 4.0.1
       rxjs: 7.8.0
@@ -481,7 +493,7 @@ packages:
     peerDependencies:
       "@angular/core": 15.1.4
     dependencies:
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       tslib: 2.5.0
     dev: false
 
@@ -508,7 +520,7 @@ packages:
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       rxjs: 7.8.0
       tslib: 2.5.0
     optionalDependencies:
@@ -563,7 +575,7 @@ packages:
       "@angular/core": 15.1.4
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false
@@ -615,6 +627,17 @@ packages:
       tslib: 2.5.0
       zone.js: 0.12.0
 
+  /@angular/core/15.1.4_rxjs@7.8.0:
+    resolution: { integrity: sha512-eWXtL4pe/pG4klehsm1URpgF4gnUjFpCXzHJ0Shp5HwLszoflZMbzdoRTSyOG5iMxDhsk0wwnHTfG+j4NTJN3A== }
+    engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+      zone.js: ~0.11.4 || ~0.12.0
+    dependencies:
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
   /@angular/core/15.1.4_rxjs@7.8.0+zone.js@0.12.0:
     resolution: { integrity: sha512-eWXtL4pe/pG4klehsm1URpgF4gnUjFpCXzHJ0Shp5HwLszoflZMbzdoRTSyOG5iMxDhsk0wwnHTfG+j4NTJN3A== }
     engines: { node: ^14.20.0 || ^16.13.0 || >=18.10.0 }
@@ -653,7 +676,7 @@ packages:
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
       rxjs: 7.8.0
       tslib: 2.5.0
@@ -741,71 +764,9 @@ packages:
       "@angular/animations": 15.1.4_@angular+core@15.1.4
       "@angular/cdk": 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       "@angular/forms": 15.1.4_g7mjdvsmeszabti4mywkhjexwi
       "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
-      "@material/animation": 15.0.0-canary.684e33d25.0
-      "@material/auto-init": 15.0.0-canary.684e33d25.0
-      "@material/banner": 15.0.0-canary.684e33d25.0
-      "@material/base": 15.0.0-canary.684e33d25.0
-      "@material/button": 15.0.0-canary.684e33d25.0
-      "@material/card": 15.0.0-canary.684e33d25.0
-      "@material/checkbox": 15.0.0-canary.684e33d25.0
-      "@material/chips": 15.0.0-canary.684e33d25.0
-      "@material/circular-progress": 15.0.0-canary.684e33d25.0
-      "@material/data-table": 15.0.0-canary.684e33d25.0
-      "@material/density": 15.0.0-canary.684e33d25.0
-      "@material/dialog": 15.0.0-canary.684e33d25.0
-      "@material/dom": 15.0.0-canary.684e33d25.0
-      "@material/drawer": 15.0.0-canary.684e33d25.0
-      "@material/elevation": 15.0.0-canary.684e33d25.0
-      "@material/fab": 15.0.0-canary.684e33d25.0
-      "@material/feature-targeting": 15.0.0-canary.684e33d25.0
-      "@material/floating-label": 15.0.0-canary.684e33d25.0
-      "@material/form-field": 15.0.0-canary.684e33d25.0
-      "@material/icon-button": 15.0.0-canary.684e33d25.0
-      "@material/image-list": 15.0.0-canary.684e33d25.0
-      "@material/layout-grid": 15.0.0-canary.684e33d25.0
-      "@material/line-ripple": 15.0.0-canary.684e33d25.0
-      "@material/linear-progress": 15.0.0-canary.684e33d25.0
-      "@material/list": 15.0.0-canary.684e33d25.0
-      "@material/menu": 15.0.0-canary.684e33d25.0
-      "@material/menu-surface": 15.0.0-canary.684e33d25.0
-      "@material/notched-outline": 15.0.0-canary.684e33d25.0
-      "@material/radio": 15.0.0-canary.684e33d25.0
-      "@material/ripple": 15.0.0-canary.684e33d25.0
-      "@material/rtl": 15.0.0-canary.684e33d25.0
-      "@material/segmented-button": 15.0.0-canary.684e33d25.0
-      "@material/select": 15.0.0-canary.684e33d25.0
-      "@material/shape": 15.0.0-canary.684e33d25.0
-      "@material/slider": 15.0.0-canary.684e33d25.0
-      "@material/snackbar": 15.0.0-canary.684e33d25.0
-      "@material/switch": 15.0.0-canary.684e33d25.0
-      "@material/tab": 15.0.0-canary.684e33d25.0
-      "@material/tab-bar": 15.0.0-canary.684e33d25.0
-      "@material/tab-indicator": 15.0.0-canary.684e33d25.0
-      "@material/tab-scroller": 15.0.0-canary.684e33d25.0
-      "@material/textfield": 15.0.0-canary.684e33d25.0
-      "@material/theme": 15.0.0-canary.684e33d25.0
-      "@material/tooltip": 15.0.0-canary.684e33d25.0
-      "@material/top-app-bar": 15.0.0-canary.684e33d25.0
-      "@material/touch-target": 15.0.0-canary.684e33d25.0
-      "@material/typography": 15.0.0-canary.684e33d25.0
-      rxjs: 7.8.0
-      tslib: 2.5.0
-    dev: false
-
-  /@angular/material/15.2.0_rxjs@7.8.0:
-    resolution: { integrity: sha512-3Y6MMureeqFx5mzVnLuWrm+MXtTBAZGq0cPNcS3HUSv4gpKE3gSE0b3I4c/jFF5tcS2eQKNkU/HDvSFrYz8/iA== }
-    peerDependencies:
-      "@angular/animations": ^15.0.0 || ^16.0.0
-      "@angular/cdk": 15.2.0
-      "@angular/common": ^15.0.0 || ^16.0.0
-      "@angular/core": ^15.0.0 || ^16.0.0
-      "@angular/forms": ^15.0.0 || ^16.0.0
-      "@angular/platform-browser": ^15.0.0 || ^16.0.0
-      rxjs: ^6.5.3 || ^7.4.0
-    dependencies:
       "@material/animation": 15.0.0-canary.684e33d25.0
       "@material/auto-init": 15.0.0-canary.684e33d25.0
       "@material/banner": 15.0.0-canary.684e33d25.0
@@ -903,7 +864,7 @@ packages:
     dependencies:
       "@angular/animations": 15.1.4_@angular+core@15.1.4
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
-      "@angular/core": 15.1.4_rxjs@7.8.0+zone.js@0.12.0
+      "@angular/core": 15.1.4_rxjs@7.8.0
       tslib: 2.5.0
     dev: false
 
