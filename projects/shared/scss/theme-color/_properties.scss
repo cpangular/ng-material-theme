@@ -1,0 +1,17 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:list";
+@use "sass:color";
+
+@use "./util";
+
+@function ensure-values($values) {
+  @if meta.type-of($values) == color {
+    $values: (
+      properties: (
+        default: $values,
+      ),
+    );
+  }
+  @return $values;
+}

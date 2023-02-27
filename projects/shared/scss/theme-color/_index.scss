@@ -1,1 +1,2 @@
-@forward "./util" as theme-color-*;
+@forward "./util" hide ensure-default-values, to-properties;
+@forward "./color";

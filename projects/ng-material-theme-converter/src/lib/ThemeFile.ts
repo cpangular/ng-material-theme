@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import { existsSync, mkdirSync, readFileSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "fs";
 import Enumerable from "linq";
-import Path from "path";
+import { default as path, default as Path } from "path";
 import { ConvertOptions } from "./options/ConvertOptions";
 import { applyColorModeColorSwaps } from "./transformations/general/applyColorModeColorSwaps";
 import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
@@ -118,6 +118,7 @@ export class ThemeFile implements ThemeFileUtil {
 
   public convert() {
     if (this.options.transformations) {
+      this.applyIncludeTransformations();
       this.applyComponentTransformations();
       this.applyTokenTransformations();
       this.applyAutoColorTransformations();
@@ -255,6 +256,65 @@ export class ThemeFile implements ThemeFileUtil {
 
   public applyAutoDensityTransformations() {
     if (!this.options.transformations) return;
+    this.snapshot();
+  }
+
+  public applyIncludeTransformations() {
+    if (!this.options.transformations) return;
+
+    const includeDir = `./src/scss/includes/components/${this.name}`;
+
+    const prependDir = path.join(includeDir, "prepend");
+    if (existsSync(prependDir)) {
+      const prependFiles = readdirSync(prependDir, { encoding: "utf-8" });
+      prependFiles.reverse().forEach((f) => {
+        const fPath = path.join(prependDir, f);
+        if (path.extname(f) === ".scss" && existsSync(fPath)) {
+          const scss = readFileSync(fPath, { encoding: "utf-8" });
+          const ast = CssTree.parse(scss) as CssTree.StyleSheet;
+
+          Enumerable.from(ast.children.toArray())
+            .where((n) => n.type === "Rule")
+            .cast<CssTree.Rule>()
+            .selectMany((n) => n.block.children.toArray())
+            .where((c) => c.type === "Raw")
+            .cast<CssTree.Raw>()
+            .where((c) => c.value.trimStart().startsWith("//"))
+            .forEach((c) => (c.value = `\n${c.value}\n`));
+
+          ast.children.forEach((node) => {
+            this.prependRule(node as CssTree.Rule);
+            this.markChanged();
+          });
+        }
+      });
+    }
+
+    const appendDir = path.join(includeDir, "append");
+    if (existsSync(appendDir)) {
+      const appendFiles = readdirSync(appendDir, { encoding: "utf-8" });
+      appendFiles.forEach((f) => {
+        const fPath = path.join(appendDir, f);
+        if (path.extname(f) === ".scss" && existsSync(fPath)) {
+          const scss = readFileSync(fPath, { encoding: "utf-8" });
+          const ast = CssTree.parse(scss) as CssTree.StyleSheet;
+
+          Enumerable.from(ast.children.toArray())
+            .where((n) => n.type === "Rule")
+            .cast<CssTree.Rule>()
+            .selectMany((n) => n.block.children.toArray())
+            .where((c) => c.type === "Raw")
+            .cast<CssTree.Raw>()
+            .where((c) => c.value.trimStart().startsWith("//"))
+            .forEach((c) => (c.value = `\n${c.value}\n`));
+
+          ast.children.forEach((node) => {
+            this.appendRule(node as CssTree.Rule);
+            this.markChanged();
+          });
+        }
+      });
+    }
     this.snapshot();
   }
 

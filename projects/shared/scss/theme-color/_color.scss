@@ -1,0 +1,85 @@
+@use "sass:map";
+
+@use "./properties";
+@use "./contrast";
+@use "./shade";
+@use "./tint";
+@use "./legacy";
+@use "./util";
+
+@function config($config) {
+  $config: properties.ensure-values($config);
+  $properties: map.get($config, properties);
+  $color: map.get($properties, default);
+
+  $contrast: contrast.ensure-values(map.get($config, contrast), $color);
+  $shade: shade.ensure-values(map.get($config, shades), $color);
+  $tint: tint.ensure-values(map.get($config, tints), $color);
+  $legacy: legacy.ensure-values(map.get($config, legacy), $color);
+
+  $variations: map.get($config, variations);
+  $aliases: map.get($config, aliases);
+
+  @return (
+    properties: map.get($config, properties),
+    contrast: $contrast,
+    shades: $shade,
+    tints: $tint,
+    legacy: $legacy,
+    variations: if($variations, $variations, ()),
+    aliases: if($aliases, $aliases, ())
+  );
+}
+
+@function to-css-properties($name, $config) {
+  $config: config($config);
+
+  $properties: map.get($config, properties);
+  $contrast: map.get($config, contrast);
+  $shades: map.get($config, shades);
+  $tints: map.get($config, tints);
+  $legacy: map.get($config, legacy);
+  $variations: map.get($config, variations);
+  $aliases: map.get($config, aliases);
+
+  $props: ();
+  $props: map.merge($props, util.to-properties($properties, $name));
+  $props: map.merge($props, util.to-properties($contrast, $name, "contrast"));
+  $props: map.merge($props, util.to-properties($tints, $name, "tint"));
+  $props: map.merge($props, util.to-properties($shades, $name, "shade"));
+  $props: map.merge($props, util.to-properties($legacy, $name, "legacy", true));
+
+  @each $k, $v in $variations {
+    $props: map.merge($props, util.to-properties($v, $name, $k));
+  }
+
+  @each $k, $v in $aliases {
+    $k: if(string.index($k, "--") == 1, $k, util.css-property-name($name, $k));
+
+    @if $v == "default" {
+      $v: util.css-property-name($name);
+    } @else if string.index($v, "default--") == 1 {
+      $v: string.slice($v, 10);
+      $v: util.css-property-name($name, null, $v);
+    } @else {
+      $div-pos: string.index($v, "--");
+      @if $div-pos == null {
+        $v: util.css-property-name($name, $v);
+      } @else {
+        $p: string.slice($v, $div-pos + 2);
+        $v: string.slice($v, 1, $div-pos - 1);
+        $v: util.css-property-name($name, $v, $p);
+      }
+    }
+    $v: var(#{$v});
+    $props: map.set($props, $k, $v);
+  }
+  @return $props;
+}
+
+@mixin include($name, $config) {
+  $props: to-css-properties($name, $config);
+  @each $k, $v in $props {
+    #{$k}: #{$v};
+  }
+}

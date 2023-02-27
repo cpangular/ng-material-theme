@@ -9,6 +9,7 @@ export function writeScssFile(path: string, scss: string | CssTree.StyleSheet, i
     scss = (typeof scss === "string" ? scss : CssTree.generate(scss)).trim();
     if (includeUtil) {
       scss = `
+          @use '@angular/material' as mat;
           @use '../theme-mode';
           ${scss}
         `;
@@ -19,6 +20,7 @@ export function writeScssFile(path: string, scss: string | CssTree.StyleSheet, i
       console.error("Unable to write scss file: ", path);
       console.error(e.name);
       console.error(e.message);
+      console.error(scss);
     }
   }
 }
