@@ -1,0 +1,218 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:list";
+@use "sass:color";
+
+@use "../theme-color";
+
+// @use "./util";
+
+// $-defaults: (
+//   high: 100%,
+//   medium: 87%,
+//   low: 80%,
+//   lower: 75%,
+//   lowest: 50%,
+//   stroke-high: 25%,
+//   stroke: 8%,
+//   stroke-low: 4%,
+//   default: medium,
+// );
+
+// @function -transform-values($target, $color) {
+//   $brightness: color.whiteness($color);
+//   $baseColor: white;
+//   @if $brightness > 50 {
+//     $baseColor: black;
+//   }
+//   @each $k, $v in $target {
+//     @if meta.type-of($v) == number {
+//       $target: map.set($target, $k, color.mix($baseColor, $color, $v));
+//     }
+//   }
+//   @return $target;
+// }
+
+@function -init-background-values($values) {
+  @return (null, null);
+}
+
+@function -init-surface-values($values) {
+  @return (null, null);
+}
+
+@function -init-palette-values($values) {
+  @return if(meta.type-of($values) == list, $values, ($values, $values));
+}
+
+@function -config-colors($palette) {
+  @return (theme-color.config(list.nth($palette, 1)), theme-color.config(list.nth($palette, 2)));
+}
+
+@function ensure-values($palette) {
+  @if meta.type-of($palette) == color {
+    $palette: (
+      primary: $palette,
+    );
+  }
+
+  $primary: map.get($palette, primary);
+  $secondary: map.get($palette, secondary);
+  @if not $secondary {
+    $palette: map.set($palette, secondary, $primary);
+  }
+
+  $retPalette: ();
+  @each $k, $v in $palette {
+    // @if $k != surface and $k != background {
+    $v: -init-palette-values($v);
+    $v: -config-colors($v);
+    $retPalette: map.set($retPalette, $k, $v);
+    //  }
+  }
+
+  // $surface: -init-surface-values(map.get($palette, surface));
+  // $retPalette: map.set($retPalette, surface, $surface);
+
+  // $background: -init-background-values(map.get($palette, background));
+  // $retPalette: map.set($retPalette, background, $background);
+
+  @return $retPalette;
+}
+
+@function to-css-properties($palette) {
+  $light: ();
+  $dark: ();
+  @each $k, $v in $palette {
+    $lightProps: theme-color.to-css-properties($k, list.nth($v, 1));
+    $light: map.merge($light, $lightProps);
+
+    $darkProps: theme-color.to-css-properties($k, list.nth($v, 2));
+    $dark: map.merge($dark, $darkProps);
+  }
+
+  @return (light: $light, dark: $dark);
+}
+
+$aa: (
+  light: (
+    --theme-color--primary red,
+    --theme-color--primary--contrast--high white,
+    --theme-color--primary--contrast--medium #ffdede,
+    --theme-color--primary--contrast--low #ffcccc,
+    --theme-color--primary--contrast--lower #ffbfbf,
+    --theme-color--primary--contrast--lowest #ff8080,
+    --theme-color--primary--contrast--stroke-high #ff4040,
+    --theme-color--primary--contrast--stroke #ff1414,
+    --theme-color--primary--contrast--stroke-low #ff0a0a,
+    --theme-color--primary--contrast var(--theme-color--primary--contrast--medium),
+    --theme-color--primary--tint--lowest rgba(255, 0, 0, 0.02),
+    --theme-color--primary--tint--lower rgba(255, 0, 0, 0.05),
+    --theme-color--primary--tint--low rgba(255, 0, 0, 0.1),
+    --theme-color--primary--tint--medium rgba(255, 0, 0, 0.25),
+    --theme-color--primary--tint--high rgba(255, 0, 0, 0.3),
+    --theme-color--primary--tint--higher rgba(255, 0, 0, 0.38),
+    --theme-color--primary--tint--highest rgba(255, 0, 0, 0.87),
+    --theme-color--primary--tint var(--theme-color--primary--tint--medium),
+    --theme-color--primary--shade--lowest #330000,
+    --theme-color--primary--shade--lower #990000,
+    --theme-color--primary--shade--low #cc0000,
+    --theme-color--primary--shade--high #ff3333,
+    --theme-color--primary--shade--higher #ff6666,
+    --theme-color--primary--shade--highest #ffcccc,
+    --theme-color-ref--primary--legacy--high white,
+    --theme-color-ref--primary--legacy--medium #ffdede,
+    --theme-color-ref--primary--legacy--low #ffcccc,
+    --theme-color-ref--primary--legacy--lower #ffbfbf,
+    --theme-color-ref--primary--legacy var(--theme-color-ref--primary--legacy--medium),
+    --theme-color--secondary red,
+    --theme-color--secondary--contrast--high white,
+    --theme-color--secondary--contrast--medium #ffdede,
+    --theme-color--secondary--contrast--low #ffcccc,
+    --theme-color--secondary--contrast--lower #ffbfbf,
+    --theme-color--secondary--contrast--lowest #ff8080,
+    --theme-color--secondary--contrast--stroke-high #ff4040,
+    --theme-color--secondary--contrast--stroke #ff1414,
+    --theme-color--secondary--contrast--stroke-low #ff0a0a,
+    --theme-color--secondary--contrast var(--theme-color--secondary--contrast--medium),
+    --theme-color--secondary--tint--lowest rgba(255, 0, 0, 0.02),
+    --theme-color--secondary--tint--lower rgba(255, 0, 0, 0.05),
+    --theme-color--secondary--tint--low rgba(255, 0, 0, 0.1),
+    --theme-color--secondary--tint--medium rgba(255, 0, 0, 0.25),
+    --theme-color--secondary--tint--high rgba(255, 0, 0, 0.3),
+    --theme-color--secondary--tint--higher rgba(255, 0, 0, 0.38),
+    --theme-color--secondary--tint--highest rgba(255, 0, 0, 0.87),
+    --theme-color--secondary--tint var(--theme-color--secondary--tint--medium),
+    --theme-color--secondary--shade--lowest #330000,
+    --theme-color--secondary--shade--lower #990000,
+    --theme-color--secondary--shade--low #cc0000,
+    --theme-color--secondary--shade--high #ff3333,
+    --theme-color--secondary--shade--higher #ff6666,
+    --theme-color--secondary--shade--highest #ffcccc,
+    --theme-color-ref--secondary--legacy--high white,
+    --theme-color-ref--secondary--legacy--medium #ffdede,
+    --theme-color-ref--secondary--legacy--low #ffcccc,
+    --theme-color-ref--secondary--legacy--lower #ffbfbf,
+    --theme-color-ref--secondary--legacy var(--theme-color-ref--secondary--legacy--medium),
+  ),
+  dark: (
+    --theme-color--primary red,
+    --theme-color--primary--contrast--high white,
+    --theme-color--primary--contrast--medium #ffdede,
+    --theme-color--primary--contrast--low #ffcccc,
+    --theme-color--primary--contrast--lower #ffbfbf,
+    --theme-color--primary--contrast--lowest #ff8080,
+    --theme-color--primary--contrast--stroke-high #ff4040,
+    --theme-color--primary--contrast--stroke #ff1414,
+    --theme-color--primary--contrast--stroke-low #ff0a0a,
+    --theme-color--primary--contrast var(--theme-color--primary--contrast--medium),
+    --theme-color--primary--tint--lowest rgba(255, 0, 0, 0.02),
+    --theme-color--primary--tint--lower rgba(255, 0, 0, 0.05),
+    --theme-color--primary--tint--low rgba(255, 0, 0, 0.1),
+    --theme-color--primary--tint--medium rgba(255, 0, 0, 0.25),
+    --theme-color--primary--tint--high rgba(255, 0, 0, 0.3),
+    --theme-color--primary--tint--higher rgba(255, 0, 0, 0.38),
+    --theme-color--primary--tint--highest rgba(255, 0, 0, 0.87),
+    --theme-color--primary--tint var(--theme-color--primary--tint--medium),
+    --theme-color--primary--shade--lowest #330000,
+    --theme-color--primary--shade--lower #990000,
+    --theme-color--primary--shade--low #cc0000,
+    --theme-color--primary--shade--high #ff3333,
+    --theme-color--primary--shade--higher #ff6666,
+    --theme-color--primary--shade--highest #ffcccc,
+    --theme-color-ref--primary--legacy--high white,
+    --theme-color-ref--primary--legacy--medium #ffdede,
+    --theme-color-ref--primary--legacy--low #ffcccc,
+    --theme-color-ref--primary--legacy--lower #ffbfbf,
+    --theme-color-ref--primary--legacy var(--theme-color-ref--primary--legacy--medium),
+    --theme-color--secondary red,
+    --theme-color--secondary--contrast--high white,
+    --theme-color--secondary--contrast--medium #ffdede,
+    --theme-color--secondary--contrast--low #ffcccc,
+    --theme-color--secondary--contrast--lower #ffbfbf,
+    --theme-color--secondary--contrast--lowest #ff8080,
+    --theme-color--secondary--contrast--stroke-high #ff4040,
+    --theme-color--secondary--contrast--stroke #ff1414,
+    --theme-color--secondary--contrast--stroke-low #ff0a0a,
+    --theme-color--secondary--contrast var(--theme-color--secondary--contrast--medium),
+    --theme-color--secondary--tint--lowest rgba(255, 0, 0, 0.02),
+    --theme-color--secondary--tint--lower rgba(255, 0, 0, 0.05),
+    --theme-color--secondary--tint--low rgba(255, 0, 0, 0.1),
+    --theme-color--secondary--tint--medium rgba(255, 0, 0, 0.25),
+    --theme-color--secondary--tint--high rgba(255, 0, 0, 0.3),
+    --theme-color--secondary--tint--higher rgba(255, 0, 0, 0.38),
+    --theme-color--secondary--tint--highest rgba(255, 0, 0, 0.87),
+    --theme-color--secondary--tint var(--theme-color--secondary--tint--medium),
+    --theme-color--secondary--shade--lowest #330000,
+    --theme-color--secondary--shade--lower #990000,
+    --theme-color--secondary--shade--low #cc0000,
+    --theme-color--secondary--shade--high #ff3333,
+    --theme-color--secondary--shade--higher #ff6666,
+    --theme-color--secondary--shade--highest #ffcccc,
+    --theme-color-ref--secondary--legacy--high white,
+    --theme-color-ref--secondary--legacy--medium #ffdede,
+    --theme-color-ref--secondary--legacy--low #ffcccc,
+    --theme-color-ref--secondary--legacy--lower #ffbfbf,
+    --theme-color-ref--secondary--legacy var(--theme-color-ref--secondary--legacy--medium),
+  ),
+);

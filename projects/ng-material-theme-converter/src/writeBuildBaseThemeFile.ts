@@ -8,7 +8,7 @@ export function writeBuildBaseThemeFile() {
     @use "../../scss/theming/core";
     @use "../../scss/theming/components";
 
-    @include core.theme();
+    @include core.include();
     @include components.all-themes();
   `;
 

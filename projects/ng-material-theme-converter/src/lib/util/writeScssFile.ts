@@ -9,6 +9,7 @@ export function writeScssFile(path: string, scss: string | CssTree.StyleSheet, i
     scss = (typeof scss === "string" ? scss : CssTree.generate(scss)).trim();
     if (includeUtil) {
       scss = `
+          @use 'sass:math';
           @use '@angular/material' as mat;
           @use '../theme-mode';
           ${scss}

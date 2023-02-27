@@ -6,7 +6,7 @@ export function writeBuildBaseCoreThemeFile() {
 
   const scss = `
     @use "../scss/theming/core";
-    @include core.theme();
+    @include core.include();
   `;
 
   writeScssFile("./dist/base/core.scss", scss, false);

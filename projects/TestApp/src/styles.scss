@@ -1,5 +1,35 @@
 @use "@angular/material" as mat;
 
+@use "@cpangular/ng-material-theme/theming";
+
+// @include theming.theme-include-root((
+//   id: my-theme,
+//   palette: red
+// ));
+
+@include theming.include-themes(
+  (
+    (
+      id: my-theme,
+      palette: (
+        primary: (
+          red,
+          blue,
+        ),
+      )
+    ),
+    (
+      id: my-theme-2,
+      palette: (
+        primary: (
+          purple,
+          green,
+        ),
+      )
+    )
+  )
+);
+
 // @use "@cpangular/ng-material-theme/theming";
 // @use "@cpangular/ng-material-theme/palettes";
 // @use "sass:meta";
@@ -16,6 +46,7 @@
 //     100: #e1bee7,
 //     200: #ce93d8,
 //     300: #ba68c8,
+
 //     400: #ab47bc,
 //     500: #9c27b0,
 //     600: #8e24aa,

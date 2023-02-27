@@ -44,7 +44,7 @@ const config = {
         //  { from: "**/*.scss", to: path.resolve("./dist/scss"), context: "./src/scss" },
         { from: "**/*.scss", to: path.resolve("./dist/scss/theming"), context: "../ng-material-theme-converter/dist/scss" },
         { from: "**/*.scss", to: path.resolve("./dist//scss/theming"), context: "../shared/scss" },
-        { from: "**/*.scss", to: path.resolve("./dist//scss/theming"), context: "./src/scss/theming" },
+        //   { from: "**/*.scss", to: path.resolve("./dist//scss/theming"), context: "./src/scss/theming" },
         { from: "**/*.scss", to: path.resolve("./dist/theme_base"), context: "../ng-material-theme-converter/dist/base" },
       ],
     }),
