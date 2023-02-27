@@ -2,8 +2,9 @@
 
 @include theming.include-themes(
   (
+    (id: my-theme, palette: orange),
     (
-      id: my-theme,
+      id: my-theme-2,
       palette: (
         primary: (
           red,
@@ -12,7 +13,7 @@
       )
     ),
     (
-      id: my-theme-2,
+      id: my-theme-3,
       palette: (
         primary: (
           purple,

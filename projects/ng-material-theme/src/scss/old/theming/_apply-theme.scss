@@ -303,7 +303,7 @@ $-tintsToGenerate: (0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.69, 0.87, 0.95);
       @include util.write-css-variables($meta, false);
     }
 
-    $selector: "[theme=#{$themeId}]";
+    $selector: ":root [theme=#{$themeId}]";
     @if $isDefaultTheme {
       $selector: '#{$selector}, html:not([theme]), html[theme=""]';
     }
