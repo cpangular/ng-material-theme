@@ -78,6 +78,48 @@ importers:
       "@angular/material": 15.1.4
       "@angular/platform-browser": ^15.1.4
       "@cpdevtools/lib-node-utilities": 0.4.49
+      "@material/animation": ^15.0.0-canary.684e33d25.0
+      "@material/base": ^15.0.0-canary.684e33d25.0
+      "@material/button": ^15.0.0-canary.684e33d25.0
+      "@material/card": ^15.0.0-canary.684e33d25.0
+      "@material/checkbox": ^15.0.0-canary.684e33d25.0
+      "@material/chips": ^15.0.0-canary.684e33d25.0
+      "@material/circular-progress": 15.0.0-canary.684e33d25.0
+      "@material/data-table": ^15.0.0-canary.684e33d25.0
+      "@material/density": ^15.0.0-canary.684e33d25.0
+      "@material/dialog": ^15.0.0-canary.684e33d25.0
+      "@material/dom": ^15.0.0-canary.684e33d25.0
+      "@material/elevation": ^15.0.0-canary.684e33d25.0
+      "@material/fab": ^15.0.0-canary.684e33d25.0
+      "@material/feature-targeting": ^15.0.0-canary.684e33d25.0
+      "@material/floating-label": ^15.0.0-canary.684e33d25.0
+      "@material/focus-ring": ^15.0.0-canary.684e33d25.0
+      "@material/form-field": ^15.0.0-canary.684e33d25.0
+      "@material/icon-button": ^15.0.0-canary.684e33d25.0
+      "@material/line-ripple": ^15.0.0-canary.684e33d25.0
+      "@material/linear-progress": 15.0.0-canary.684e33d25.0
+      "@material/list": ^15.0.0-canary.684e33d25.0
+      "@material/menu": 15.0.0-canary.684e33d25.0
+      "@material/menu-surface": ^15.0.0-canary.684e33d25.0
+      "@material/notched-outline": ^15.0.0-canary.684e33d25.0
+      "@material/radio": ^15.0.0-canary.684e33d25.0
+      "@material/ripple": ^15.0.0-canary.684e33d25.0
+      "@material/rtl": ^15.0.0-canary.684e33d25.0
+      "@material/select": ^15.0.0-canary.684e33d25.0
+      "@material/shape": ^15.0.0-canary.684e33d25.0
+      "@material/slider": ^15.0.0-canary.684e33d25.0
+      "@material/snackbar": ^15.0.0-canary.684e33d25.0
+      "@material/switch": ^15.0.0-canary.684e33d25.0
+      "@material/tab": ^15.0.0-canary.684e33d25.0
+      "@material/tab-bar": ^15.0.0-canary.684e33d25.0
+      "@material/tab-indicator": ^15.0.0-canary.684e33d25.0
+      "@material/tab-scroller": ^15.0.0-canary.684e33d25.0
+      "@material/textfield": ^15.0.0-canary.684e33d25.0
+      "@material/theme": ^15.0.0-canary.684e33d25.0
+      "@material/tokens": ^15.0.0-canary.684e33d25.0
+      "@material/tooltip": ^15.0.0-canary.684e33d25.0
+      "@material/touch-target": ^15.0.0-canary.684e33d25.0
+      "@material/typography": ^15.0.0-canary.684e33d25.0
       "@types/node": ^18.13.0
       "@types/webpack-node-externals": ^3.0.0
       camel-case: ^4.1.2
@@ -97,6 +139,10 @@ importers:
       webpack-cli: ^5.0.1
       webpack-node-externals: ^3.0.0
     dependencies:
+      camel-case: 4.1.2
+      linq: 4.0.1
+      rxjs: 7.8.0
+    devDependencies:
       "@angular/animations": 15.1.4_@angular+core@15.1.4
       "@angular/cdk": 15.1.4_vzucq2bjt7qxwdnmdnnvw5vdsu
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
@@ -104,11 +150,49 @@ importers:
       "@angular/forms": 15.1.4_g7mjdvsmeszabti4mywkhjexwi
       "@angular/material": 15.1.4_isjki5jxkx7qtx4nb6paon7zxy
       "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
-      camel-case: 4.1.2
-      linq: 4.0.1
-      rxjs: 7.8.0
-    devDependencies:
       "@cpdevtools/lib-node-utilities": 0.4.49
+      "@material/animation": 15.0.0-canary.684e33d25.0
+      "@material/base": 15.0.0-canary.684e33d25.0
+      "@material/button": 15.0.0-canary.684e33d25.0
+      "@material/card": 15.0.0-canary.684e33d25.0
+      "@material/checkbox": 15.0.0-canary.684e33d25.0
+      "@material/chips": 15.0.0-canary.684e33d25.0
+      "@material/circular-progress": 15.0.0-canary.684e33d25.0
+      "@material/data-table": 15.0.0-canary.684e33d25.0
+      "@material/density": 15.0.0-canary.684e33d25.0
+      "@material/dialog": 15.0.0-canary.684e33d25.0
+      "@material/dom": 15.0.0-canary.684e33d25.0
+      "@material/elevation": 15.0.0-canary.684e33d25.0
+      "@material/fab": 15.0.0-canary.684e33d25.0
+      "@material/feature-targeting": 15.0.0-canary.684e33d25.0
+      "@material/floating-label": 15.0.0-canary.684e33d25.0
+      "@material/focus-ring": 15.0.0-canary.684e33d25.0
+      "@material/form-field": 15.0.0-canary.684e33d25.0
+      "@material/icon-button": 15.0.0-canary.684e33d25.0
+      "@material/line-ripple": 15.0.0-canary.684e33d25.0
+      "@material/linear-progress": 15.0.0-canary.684e33d25.0
+      "@material/list": 15.0.0-canary.684e33d25.0
+      "@material/menu": 15.0.0-canary.684e33d25.0
+      "@material/menu-surface": 15.0.0-canary.684e33d25.0
+      "@material/notched-outline": 15.0.0-canary.684e33d25.0
+      "@material/radio": 15.0.0-canary.684e33d25.0
+      "@material/ripple": 15.0.0-canary.684e33d25.0
+      "@material/rtl": 15.0.0-canary.684e33d25.0
+      "@material/select": 15.0.0-canary.684e33d25.0
+      "@material/shape": 15.0.0-canary.684e33d25.0
+      "@material/slider": 15.0.0-canary.684e33d25.0
+      "@material/snackbar": 15.0.0-canary.684e33d25.0
+      "@material/switch": 15.0.0-canary.684e33d25.0
+      "@material/tab": 15.0.0-canary.684e33d25.0
+      "@material/tab-bar": 15.0.0-canary.684e33d25.0
+      "@material/tab-indicator": 15.0.0-canary.684e33d25.0
+      "@material/tab-scroller": 15.0.0-canary.684e33d25.0
+      "@material/textfield": 15.0.0-canary.684e33d25.0
+      "@material/theme": 15.0.0-canary.684e33d25.0
+      "@material/tokens": 15.0.0-canary.684e33d25.0
+      "@material/tooltip": 15.0.0-canary.684e33d25.0
+      "@material/touch-target": 15.0.0-canary.684e33d25.0
+      "@material/typography": 15.0.0-canary.684e33d25.0
       "@types/node": 18.13.0
       "@types/webpack-node-externals": 3.0.0_webpack-cli@5.0.1
       copy-webpack-plugin: 11.0.0_webpack@5.75.0
@@ -495,7 +579,6 @@ packages:
     dependencies:
       "@angular/core": 15.1.4_rxjs@7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/cdk/15.1.3_um5srvgxdjze4pjhzgxkaq5vrm:
     resolution: { integrity: sha512-FRb1ZirybQGVlRx34vsnkIyy4WHJlrRg2mwPeJ90b0DzIWuIZIiPYxxR2bAi/Si1IjnK8YBdacd5DXPdrW1jyw== }
@@ -525,7 +608,6 @@ packages:
       tslib: 2.5.0
     optionalDependencies:
       parse5: 7.1.2
-    dev: false
 
   /@angular/cli/15.1.4:
     resolution: { integrity: sha512-ebZiI4arb9wtOUMmTyUvjgDovmwpY8hmGLbkKZiEmAX8+2gbl4e97M+zd0SICZDU8bu5VcpoP6Q3Qb6vVjab9A== }
@@ -578,7 +660,6 @@ packages:
       "@angular/core": 15.1.4_rxjs@7.8.0
       rxjs: 7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/compiler-cli/15.1.3_4khyt5yocueaoa5yhnzf5rhw64:
     resolution: { integrity: sha512-z5bGdQQcStXWPpb5vztqqUOET+vxw+GUFtfktYxV40kE2d1zHLZh93AGEnM1NnBaOz+9NZrX+dWoEyWmv/T2LQ== }
@@ -636,7 +717,6 @@ packages:
     dependencies:
       rxjs: 7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/core/15.1.4_rxjs@7.8.0+zone.js@0.12.0:
     resolution: { integrity: sha512-eWXtL4pe/pG4klehsm1URpgF4gnUjFpCXzHJ0Shp5HwLszoflZMbzdoRTSyOG5iMxDhsk0wwnHTfG+j4NTJN3A== }
@@ -680,7 +760,6 @@ packages:
       "@angular/platform-browser": 15.1.4_vztyff4teqf7syhiw43dlsmbye
       rxjs: 7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/material/15.1.3_yt6tcv4cymxy3nvn3sbjk6ujxy:
     resolution: { integrity: sha512-Jj17GwvL1PsIVPiRBRQQRRvTQb5TlmMP+49JgIWTSTF03G7F9guoYapoYzuufK7dWA3Ga0KzDPKfjUmcnBg+Fw== }
@@ -816,7 +895,6 @@ packages:
       "@material/typography": 15.0.0-canary.684e33d25.0
       rxjs: 7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/platform-browser-dynamic/15.1.3_g73y6grxaixjsu7lthh2v6wd74:
     resolution: { integrity: sha512-lUfHmO+x3goSL1KnlAbekieKpak2KVGcOcAzOVOIMFt1SyWPBHq0NyyPOH2PUAnjPRbvCLEs2casjFggk0JzsQ== }
@@ -866,7 +944,6 @@ packages:
       "@angular/common": 15.1.4_vnmvp4f72xubbup5sqayiytz2i
       "@angular/core": 15.1.4_rxjs@7.8.0
       tslib: 2.5.0
-    dev: false
 
   /@angular/router/15.1.3_ldllaezapbozgxcjenczigqhsy:
     resolution: { integrity: sha512-GxvGZO0N7LIoaTV2EZ082kqb9asJl2rWe0kNsUQwu9IQAODOCCTQu2USg63J6hEOcKPJSZzbxdXLaxlpqKeC4A== }
@@ -2467,7 +2544,6 @@ packages:
     dependencies:
       "@material/base": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/banner/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-PqtGp3KWzdu58rWv/DIvSfe38m5YKOBbAAbBinSvgadBb/da+IE1t5F7YPNKE1T5lJsQBGVUYx6QBIeXm+aI/A== }
@@ -2484,7 +2560,6 @@ packages:
       "@material/tokens": 15.0.0-canary.684e33d25.0
       "@material/typography": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/base/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-oOaqb/SfjWwTKsdJUZmeh/Qrs41nIJI0N+zELsxnvbGjSIN1ZMAKYZFPMahqvC68OJ6+5CvJM8PoTNs5l+B8IQ== }
@@ -2637,7 +2712,6 @@ packages:
       "@material/theme": 15.0.0-canary.684e33d25.0
       "@material/typography": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/elevation/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-WDF8SsRtq3rXUbVVbd9K4DUijIPH0bUFSOreVYxudpuxAfTlDS5+aeS1EK9UIBFYLuba4u5wVT2tDv6e1RTfrQ== }
@@ -2724,13 +2798,11 @@ packages:
       "@material/theme": 15.0.0-canary.684e33d25.0
       "@material/typography": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/layout-grid/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-ALXE1mqFNb/RB2lVRQ3/r1Aufw2mFZnOjRE+boYDVepmAG/xWyPCyaGoavELJF5l4GAb0tXi8wA/8HeGbLOpuA== }
     dependencies:
       tslib: 2.5.0
-    dev: false
 
   /@material/line-ripple/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-7hRx8C/e9i0P6pgQpNOMfTwSS2r1fwEvBL72QDVGLtLuoKKwsjjgP6Z0Jat/GeHJe87u9LQvGBoD4upt+of/HA== }
@@ -2854,7 +2926,6 @@ packages:
       "@material/touch-target": 15.0.0-canary.684e33d25.0
       "@material/typography": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/select/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-kf178/2TeEinTv0mgmSBcmmExQ2h7a7dtR1E3WuqQgisJ/R6+zVLMkC2CnfIyzxYX2vkuUTG0ue3Reh/6XiqSg== }
@@ -3047,7 +3118,6 @@ packages:
       "@material/theme": 15.0.0-canary.684e33d25.0
       "@material/typography": 15.0.0-canary.684e33d25.0
       tslib: 2.5.0
-    dev: false
 
   /@material/touch-target/15.0.0-canary.684e33d25.0:
     resolution: { integrity: sha512-zdE69Slg8+T7sTn1OwqZ6H7WBYac9mxJ/JlJqfTqthzIjZRcCxBSYymQJcDHjsrPnUojOtr9U4Tpm5YZ96TEkQ== }
@@ -4847,7 +4917,6 @@ packages:
   /entities/4.4.0:
     resolution: { integrity: sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA== }
     engines: { node: ">=0.12" }
-    dev: false
     optional: true
 
   /env-paths/2.2.1:
@@ -7049,7 +7118,6 @@ packages:
     requiresBuild: true
     dependencies:
       entities: 4.4.0
-    dev: false
     optional: true
 
   /parseurl/1.3.3:
