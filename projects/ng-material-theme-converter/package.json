@@ -2,6 +2,10 @@
   "private": true,
   "name": "ng-material-theme-converter",
   "version": "0.0.0-none",
+  "scripts": {
+    "convert": "ts-node src/convert.ts --write --no-report",
+    "dev": "ts-node src/convert.ts --write"
+  },
   "devDependencies": {
     "@material/animation": "^15.0.0-canary.684e33d25.0",
     "@material/base": "^15.0.0-canary.684e33d25.0",
@@ -45,17 +49,14 @@
     "@material/tooltip": "^15.0.0-canary.684e33d25.0",
     "@material/touch-target": "^15.0.0-canary.684e33d25.0",
     "@material/typography": "^15.0.0-canary.684e33d25.0",
+    "@types/css-tree": "^2.3.1",
     "@types/node": "^18.13.0",
+    "@types/prettier": "^2.7.2",
+    "@types/yargs": "^17.0.22",
     "npm-run-all2": "^6.0.4",
     "sass": "^1.58.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
-  },
-  "scripts": {
-    "convert": "run-s convert:*",
-    "convert:generate-theme-data": "ts-node src/generate.ts",
-    "convert:compile-scss": "sass --load-path=node_modules/ --no-source-map --style=expanded  src/theme.scss dist/css/theme-raw.css",
-    "convert:replace-variables": "ts-node src/convert.ts"
   },
   "dependencies": {
     "@angular/animations": "^15.1.4",
@@ -65,7 +66,14 @@
     "@angular/forms": "^15.1.4",
     "@angular/material": "15.1.4",
     "@angular/platform-browser": "^15.1.4",
+    "@cpangular/ng-material-theme": "../ng-material-theme",
+    "chalk": "^4.1.2",
+    "color-name-list": "^10.4.0",
+    "colortranslator": "^1.10.2",
+    "css-tree": "^2.3.1",
+    "linq": "^3.2.4",
     "rxjs": "~7.8.0",
+    "yargs": "^17.7.0",
     "zone.js": "~0.12.0"
   }
 }

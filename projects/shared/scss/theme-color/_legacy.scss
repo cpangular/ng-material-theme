@@ -1,0 +1,40 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:list";
+@use "sass:color";
+
+@use "./util";
+
+$-defaults: (
+  high: 100%,
+  medium: 87%,
+  low: 80%,
+  lower: 75%,
+  default: medium,
+);
+
+@function -transform-values($target, $color) {
+  $brightness: color.whiteness($color);
+  $baseColor: white;
+  @if $brightness > 50 {
+    $baseColor: black;
+  }
+  @each $k, $v in $target {
+    @if meta.type-of($v) == number {
+      $target: map.set($target, $k, color.mix($baseColor, $color, $v));
+    }
+  }
+  @return $target;
+}
+
+@function ensure-values($values, $color) {
+  @if ($values == false) {
+    @return ();
+  }
+  @if ($values == null or $values == true) {
+    $values: ();
+  }
+  $values: util.ensure-default-values($values, $-defaults);
+  $values: -transform-values($values, $color);
+  @return $values;
+}

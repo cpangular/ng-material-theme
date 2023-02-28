@@ -1,0 +1,233 @@
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
+$-default-tints: (
+  lowest: 0.02,
+  lower: 0.05,
+  low: 0.1,
+  medium: 0.25,
+  high: 0.3,
+  higher: 0.38,
+  highest: 0.87,
+  default: medium,
+);
+
+$-default-contrast: (
+  high: 100%,
+  medium: 87%,
+  low: 80%,
+  lower: 75%,
+  default: medium,
+);
+
+$-default-shades: (
+  lowest: -87%,
+  lower: -38%,
+  low: -25%,
+  medium: 0%,
+  high: 25%,
+  higher: 38%,
+  highest: 87%,
+  default: medium,
+);
+
+@function brightness($color) {
+  $sum: red($color) + green($color) + blue($color);
+  @return percentage(math.div($sum, (255 * 3)));
+}
+
+@function theme-color-var($palette, $variation: null, $property: null, $isRef: false) {
+  @if $property == default {
+    $property: null;
+  }
+  $key: ($palette);
+  @if $variation != null {
+    $key: list.append($key, $variation);
+  }
+  @if $property != null {
+    $key: list.append($key, $property);
+  }
+  $colorKey: "--theme-color#{if($isRef, -ref, null)}";
+  @each $k in $key {
+    $colorKey: #{$colorKey}--#{$k};
+  }
+  @return $colorKey;
+}
+
+@function -transform-contrast-values($target, $color) {
+  $brightness: color.whiteness($color);
+  $baseColor: white;
+  @if $brightness > 50 {
+    $baseColor: black;
+  }
+  @each $k, $v in $target {
+    @if meta.type-of($v) == number {
+      $target: map.set($target, $k, color.mix($baseColor, $color, $v));
+    }
+  }
+  @return $target;
+}
+
+@function -transform-tint-values($target, $color) {
+  @each $k, $v in $target {
+    @if meta.type-of($v) == number {
+      $target: map.set($target, $k, color.change($color, $alpha: $v));
+    }
+  }
+  @return $target;
+}
+
+@function -transform-shade-values($target, $color) {
+  @each $k, $v in $target {
+    @if meta.type-of($v) == number {
+      @if $v >= 0 {
+        $target: map.set($target, $k, color.scale($color, $whiteness: $v));
+      } @else {
+        $target: map.set($target, $k, color.scale($color, $blackness: $v * -1));
+      }
+    }
+  }
+  @return $target;
+}
+
+@function -ensure-default-values($target, $values) {
+  @each $k, $v in $values {
+    @if not map.has-key($target, $k) {
+      $target: map.set($target, $k, $v);
+    }
+  }
+  @return $target;
+}
+
+@function -ensure-defaults($tc) {
+  @if meta.type-of($tc) == color {
+    $tc: (
+      properties: (
+        default: $tc,
+      ),
+    );
+  }
+  $properties: map.get($tc, properties);
+  $color: map.get($properties, default);
+
+  $contrast: map.get($tc, contrast);
+  @if $contrast == null or $contrast == true {
+    $contrast: ();
+  }
+
+  @if meta.type-of($contrast) == map or meta.type-of($contrast) == list {
+    $contrast: -ensure-default-values($contrast, $-default-contrast);
+    $contrast: -transform-contrast-values($contrast, $color);
+  }
+
+  $tints: map.get($tc, tints);
+  @if $tints == null or $tints == true {
+    $tints: ();
+  }
+
+  @if meta.type-of($tints) == map or meta.type-of($tints) == list {
+    $tints: -ensure-default-values($tints, $-default-tints);
+    $tints: -transform-tint-values($tints, $color);
+  }
+
+  $shades: map.get($tc, shades);
+  @if $shades == null or $shades == true {
+    $shades: ();
+  }
+
+  @if meta.type-of($shades) == map or meta.type-of($shades) == list {
+    $shades: -ensure-default-values($shades, $-default-shades);
+    $shades: -transform-shade-values($shades, $color);
+  }
+
+  $variations: map.get($tc, variations);
+  @if not $variations {
+    $variations: ();
+  }
+
+  $refs: map.get($tc, refs);
+  @if not $refs {
+    $refs: ();
+  }
+
+  $aliases: map.get($tc, aliases);
+  @if not $aliases {
+    $aliases: ();
+  }
+
+  @return (
+    properties: map.get($tc, properties),
+    contrast: $contrast,
+    tints: $tints,
+    shades: $shades,
+    variations: $variations,
+    refs: $refs,
+    aliases: $aliases
+  );
+}
+
+@function -to-variables($values, $paletteName, $variationName: null, $isRef: false) {
+  $vars: ();
+  @each $k, $v in $values {
+    @if $k == default and meta.type-of($v) == string {
+      $v: var(theme-color-var($paletteName, $variationName, $v, $isRef));
+    }
+
+    $var: (#{theme-color-var($paletteName, $variationName, $k, $isRef)}: $v);
+    $vars: map.merge($vars, $var);
+  }
+  @return $vars;
+}
+
+@function theme-color-to-css-variables($paletteName, $tc) {
+  $vars: ();
+  $properties: map.get($tc, properties);
+  $contrast: map.get($tc, contrast);
+  $tints: map.get($tc, tints);
+  $shades: map.get($tc, shades);
+  $refs: map.get($tc, refs);
+  $variations: map.get($tc, variations);
+  $aliases: map.get($tc, aliases);
+
+  $vars: map.merge($vars, -to-variables($properties, $paletteName));
+  $vars: map.merge($vars, -to-variables($contrast, $paletteName, "contrast"));
+  $vars: map.merge($vars, -to-variables($tints, $paletteName, "tint"));
+  $vars: map.merge($vars, -to-variables($shades, $paletteName, "shade"));
+  $vars: map.merge($vars, -to-variables($refs, $paletteName, null, true));
+
+  @each $k, $v in $variations {
+    $vars: map.merge($vars, -to-variables($v, $paletteName, $k));
+  }
+
+  @each $k, $v in $aliases {
+    $k: if(string.index($k, "--") == 1, $k, theme-color-var($paletteName, $k));
+
+    @if $v == "default" {
+      $v: theme-color-var($paletteName);
+    } @else if string.index($v, "default--") == 1 {
+      $v: string.slice($v, 10);
+      $v: theme-color-var($paletteName, null, $v);
+    } @else {
+      $div-pos: string.index($v, "--");
+      @if $div-pos == null {
+        $v: theme-color-var($paletteName, $v);
+      } @else {
+        $p: string.slice($v, $div-pos + 2);
+        $v: string.slice($v, 1, $div-pos - 1);
+        $v: theme-color-var($paletteName, $v, $p);
+      }
+    }
+    $v: var(#{$v});
+    $vars: map.set($vars, $k, $v);
+  }
+  @return $vars;
+}
+
+@function make-theme-color($tc) {
+  $tc: -ensure-defaults($tc);
+  @return $tc;
+}

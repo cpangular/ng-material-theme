@@ -1,0 +1,11 @@
+@forward "./theme-color" as theme-color-*;
+@forward "./theme-mode" as theme-mode-*;
+@forward "./theme" as theme-* hide include-root;
+@forward "./core" as core-*;
+@forward "./components";
+
+@use "./theme";
+
+@mixin include-themes($themeConfigs) {
+  @include theme.include-themes($themeConfigs);
+}

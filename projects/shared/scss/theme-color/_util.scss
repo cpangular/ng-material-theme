@@ -1,0 +1,49 @@
+@use "sass:list";
+@use "sass:math";
+@use "sass:map";
+@use "sass:meta";
+
+@function css-property-name($palette, $variation: null, $property: null, $isRef: false) {
+  @if $property == default {
+    $property: null;
+  }
+  $key: ($palette);
+  @if $variation != null {
+    $key: list.append($key, $variation);
+  }
+  @if $property != null {
+    $key: list.append($key, $property);
+  }
+  $colorKey: "--theme-color#{if($isRef, -ref, null)}";
+  @each $k in $key {
+    $colorKey: #{$colorKey}--#{$k};
+  }
+  @return $colorKey;
+}
+
+@function brightness($color) {
+  $sum: red($color) + green($color) + blue($color);
+  @return percentage(math.div($sum, (255 * 3)));
+}
+
+@function ensure-default-values($target, $values) {
+  @each $k, $v in $values {
+    @if not map.has-key($target, $k) {
+      $target: map.set($target, $k, $v);
+    }
+  }
+  @return $target;
+}
+
+@function to-properties($values, $paletteName, $variationName: null, $isRef: false) {
+  $vars: ();
+  @each $k, $v in $values {
+    @if $k == default and meta.type-of($v) == string {
+      $v: var(css-property-name($paletteName, $variationName, $v, $isRef));
+    }
+
+    $var: (#{css-property-name($paletteName, $variationName, $k, $isRef)}: $v);
+    $vars: map.merge($vars, $var);
+  }
+  @return $vars;
+}
