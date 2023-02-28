@@ -28,7 +28,7 @@ importers:
       "@angular/platform-browser": ^15.1.0
       "@angular/platform-browser-dynamic": ^15.1.0
       "@angular/router": ^15.1.0
-      "@cpangular/ng-material-theme": ../ng-material-theme
+      "@cpangular/ng-material-theme": link:../ng-material-theme/dist
       "@types/jasmine": ~4.3.0
       "@types/node": ^18.13.0
       Buffer: ^0.0.0
@@ -53,7 +53,7 @@ importers:
       "@angular/platform-browser": 15.1.3_bjrq5ug2dzvjea7bcoozclkliu
       "@angular/platform-browser-dynamic": 15.1.3_g73y6grxaixjsu7lthh2v6wd74
       "@angular/router": 15.1.3_ldllaezapbozgxcjenczigqhsy
-      "@cpangular/ng-material-theme": link:../ng-material-theme
+      "@cpangular/ng-material-theme": link:../ng-material-theme/dist
       Buffer: 0.0.0
       rxjs: 7.8.0
       tslib: 2.5.0

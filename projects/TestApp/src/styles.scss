@@ -36,3 +36,25 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.aaa {
+  --theme-color--primary: red;
+
+  --theme-color--primary--shade: red;
+  --theme-color--primary--shade-high: red;
+
+  --theme-color--primary--tint: red;
+  --theme-color--primary--tint-high: red;
+
+  // --theme-color--primary--contrast-high: rgb(255, 255, 255);
+  // --theme-color--primary--contrast: rgb(255, 226, 226);
+  // --theme-color--primary--contrast-low: rgb(255, 182, 182);
+
+  //  --theme-color--primary--shade--contrast-low: red;
+  //  --theme-color--primary--shade-high--contrast-low: red;
+
+  // --contrast-high
+  // --contrast
+  // --contrast-low
+  // --contrast-lower
+}

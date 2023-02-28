@@ -15,11 +15,6 @@ const config = {
 
   resolve: {
     extensions: [".ts", ".js"],
-    fallback: {
-      fs: require.resolve("fs"),
-      util: require.resolve("util/"),
-      buffer: require.resolve("buffer/"),
-    },
   },
   module: {
     rules: [

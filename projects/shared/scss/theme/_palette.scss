@@ -84,10 +84,10 @@
   $light: ();
   $dark: ();
   @each $k, $v in $palette {
-    $lightProps: theme-color.to-css-properties($k, list.nth($v, 1));
+    $lightProps: theme-color.to-css-properties($k, list.nth($v, 1), false);
     $light: map.merge($light, $lightProps);
 
-    $darkProps: theme-color.to-css-properties($k, list.nth($v, 2));
+    $darkProps: theme-color.to-css-properties($k, list.nth($v, 2), true);
     $dark: map.merge($dark, $darkProps);
   }
 

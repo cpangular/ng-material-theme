@@ -35,14 +35,41 @@
   @return $target;
 }
 
-@function to-properties($values, $paletteName, $variationName: null, $isRef: false) {
+@function to-variation($variationProps, $paletteName, $variation: null, $isRef: false) {
+  @if $variation == default {
+    $variation: null;
+  }
+  $vars: ();
+
+  @each $varKey, $varValue in $variationProps {
+    @if ($varKey == default and meta.type-of($varValue) == string) {
+      // create link for default
+      $varKey: css-property-name($paletteName, $variation, null, $isRef);
+      $varValue: var(css-property-name($paletteName, #{$variation}-#{$varValue}, null, $isRef));
+    } @else if $varKey == default {
+      $varKey: css-property-name($paletteName, $variation, null, $isRef);
+    } @else {
+      $varKey: css-property-name($paletteName, if(not $variation, $varKey, #{$variation}-#{$varKey}), null, $isRef);
+    }
+    $vars: map.merge($vars, (#{$varKey}: $varValue));
+  }
+  @return $vars;
+}
+
+@function to-properties($values, $paletteName, $propPrefix: null, $isRef: false) {
   $vars: ();
   @each $k, $v in $values {
+    $variationName: if(not $propPrefix, $k, #{$propPrefix}-#{$k});
+
     @if $k == default and meta.type-of($v) == string {
-      $v: var(css-property-name($paletteName, $variationName, $v, $isRef));
+      $variationName: if(not $propPrefix, $k, $propPrefix);
+
+      $pName: if(not $propPrefix, $v, #{$propPrefix}-#{$v});
+
+      $v: var(css-property-name($paletteName, $pName, null, $isRef));
     }
 
-    $var: (#{css-property-name($paletteName, $variationName, $k, $isRef)}: $v);
+    $var: (#{css-property-name($paletteName, $variationName, null, $isRef)}: $v);
     $vars: map.merge($vars, $var);
   }
   @return $vars;

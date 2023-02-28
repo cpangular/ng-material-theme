@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  ThemeBuilder,
-  ThemeManager,
-} from '@cpangular/ng-material-theme/dist/scss/lib';
+import { ThemeManager } from '@cpangular/ng-material-theme';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +10,11 @@ export class AppComponent {
   protected readonly themeManager = ThemeManager.default;
 
   public constructor() {
-    const result = ThemeBuilder.run(`
-      body{
-        color: blue;
-      }
-    `);
-    console.log(result);
+    // const result = ThemeBuilder.run(`
+    //   body{
+    //     color: blue;
+    //   }
+    // `);
+    // console.log(result);
   }
 }

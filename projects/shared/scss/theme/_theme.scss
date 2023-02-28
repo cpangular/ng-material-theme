@@ -26,13 +26,13 @@
 
   :root {
     @each $k, $v in $palette {
-      @include theme-color.include($k, list.nth($v, 1));
+      @include theme-color.include($k, list.nth($v, 1), false);
     }
   }
 
   @include theme-mode.dark-mode() {
     @each $k, $v in $palette {
-      @include theme-color.include($k, list.nth($v, 2));
+      @include theme-color.include($k, list.nth($v, 2), true);
     }
   }
 }
@@ -125,8 +125,7 @@ $-first-include-themes: true;
     } @else {
       $theme: map.set($theme, default, false);
     }
-    @debug "theme:";
-    @debug $theme;
+
     @include -apply-theme($theme);
   }
 }
