@@ -1,6 +1,7 @@
 @use "sass:map";
+@use "sass:list";
+@use "sass:meta";
 
-@use "./properties";
 @use "./contrast";
 @use "./shade";
 @use "./tint";
@@ -8,49 +9,85 @@
 @use "./util";
 
 @function config($config) {
-  $config: properties.ensure-values($config);
-  $properties: map.get($config, properties);
-  $color: map.get($properties, default);
+  @if meta.type-of($config) == color {
+    $config: (
+      color: $config,
+    );
+  }
+  $color: map.get($config, color);
 
-  $contrast: contrast.ensure-values(map.get($config, contrast), $color);
+  // $contrast: contrast.ensure-values(map.get($config, contrast), $color);
   $shade: shade.ensure-values(map.get($config, shades), $color);
   $tint: tint.ensure-values(map.get($config, tints), $color);
-  $legacy: legacy.ensure-values(map.get($config, legacy), $color);
+  // $legacy: legacy.ensure-values(map.get($config, legacy), $color);
 
   $variations: map.get($config, variations);
   $aliases: map.get($config, aliases);
 
   @return (
-    properties: map.get($config, properties),
-    contrast: $contrast,
+    color: $color,
+    //contrast: $contrast,
     shades: $shade,
     tints: $tint,
-    legacy: $legacy,
+    // legacy: $legacy,
     variations: if($variations, $variations, ()),
     aliases: if($aliases, $aliases, ())
   );
 }
 
-@function to-css-properties($name, $config) {
+@function -get-variation-properties($props, $darkMode) {
+  @if meta.type-of($props) == list {
+    @if list.length($props) == 1 {
+      @return list.nth($props, 1);
+    }
+    @if list.length($props) > 1 {
+      @return list.nth($props, if($darkMode, 2, 1));
+    }
+  }
+  @return $props;
+}
+
+@function to-css-properties($name, $config, $darkMode) {
   $config: config($config);
 
-  $properties: map.get($config, properties);
-  $contrast: map.get($config, contrast);
+  $color: map.get($config, color);
+  // $contrast: map.get($config, contrast);
   $shades: map.get($config, shades);
   $tints: map.get($config, tints);
-  $legacy: map.get($config, legacy);
+  // $legacy: map.get($config, legacy);
   $variations: map.get($config, variations);
   $aliases: map.get($config, aliases);
 
   $props: ();
-  $props: map.merge($props, util.to-properties($properties, $name));
-  $props: map.merge($props, util.to-properties($contrast, $name, "contrast"));
-  $props: map.merge($props, util.to-properties($tints, $name, "tint"));
-  $props: map.merge($props, util.to-properties($shades, $name, "shade"));
-  $props: map.merge($props, util.to-properties($legacy, $name, "legacy", true));
+  $props: map.merge(
+    $props,
+    util.to-variation(
+      (
+        default: $color,
+      ),
+      $name
+    )
+  );
+  // $props: map.merge($props, util.to-properties($contrast, $name, "contrast"));
+
+  $v: -get-variation-properties($tints, $darkMode);
+  $props: map.merge($props, util.to-variation($v, $name, "tint"));
+
+  $v: -get-variation-properties($shades, $darkMode);
+  $props: map.merge($props, util.to-variation($v, $name, "shade"));
+
+  //$props: map.merge($props, util.to-variation($legacy, $name, "legacy", true));
 
   @each $k, $v in $variations {
     $props: map.merge($props, util.to-properties($v, $name, $k));
+  }
+
+  // apply contrasts
+  @each $key, $color in $props {
+    $contrasts: contrast.make-contrast-colors($key, $color, null);
+    @if $contrasts {
+      $props: map.merge($props, $contrasts);
+    }
   }
 
   @each $k, $v in $aliases {
@@ -77,8 +114,8 @@
   @return $props;
 }
 
-@mixin include($name, $config) {
-  $props: to-css-properties($name, $config);
+@mixin include($name, $config, $darkMode) {
+  $props: to-css-properties($name, $config, $darkMode);
   @each $k, $v in $props {
     #{$k}: #{$v};
   }

@@ -1,11 +1,12 @@
 import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 import nodeExternals from "webpack-node-externals";
+//import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
 
 const config = {
   mode: "production",
   entry: "./src/ts/index.ts",
-  target: "node",
+  target: "web",
   externals: [nodeExternals()],
   externalsPresets: {
     node: true,
@@ -38,13 +39,14 @@ const config = {
       },
     ],
   },
+
   plugins: [
+    //new NodePolyfillPlugin(),
+
     new CopyPlugin({
       patterns: [
-        //  { from: "**/*.scss", to: path.resolve("./dist/scss"), context: "./src/scss" },
         { from: "**/*.scss", to: path.resolve("./dist/scss/theming"), context: "../ng-material-theme-converter/dist/scss" },
-        { from: "**/*.scss", to: path.resolve("./dist//scss/theming"), context: "../shared/scss" },
-        //   { from: "**/*.scss", to: path.resolve("./dist//scss/theming"), context: "./src/scss/theming" },
+        { from: "**/*.scss", to: path.resolve("./dist/scss/theming"), context: "../shared/scss" },
         { from: "**/*.scss", to: path.resolve("./dist/theme_base"), context: "../ng-material-theme-converter/dist/base" },
       ],
     }),

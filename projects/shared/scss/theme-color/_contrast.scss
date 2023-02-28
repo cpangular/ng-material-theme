@@ -11,13 +11,15 @@ $-defaults: (
   low: 80%,
   lower: 75%,
   lowest: 50%,
-  stroke-high: 25%,
-  stroke: 8%,
-  stroke-low: 4%,
+  // stroke-high: 25%,
+  // stroke: 8%,
+  // stroke-low: 4%,
   default: medium,
 );
 
 @function -transform-values($target, $color) {
+  $baseAlpha: color.alpha($color);
+  $color: color.change($color, $alpha: 1);
   $brightness: color.whiteness($color);
   $baseColor: white;
   @if $brightness > 50 {
@@ -25,7 +27,9 @@ $-defaults: (
   }
   @each $k, $v in $target {
     @if meta.type-of($v) == number {
-      $target: map.set($target, $k, color.mix($baseColor, $color, $v));
+      $cColor: color.mix($baseColor, $color, $v);
+      $cColor: color.change($cColor, $alpha: $baseAlpha);
+      $target: map.set($target, $k, $cColor);
     }
   }
   @return $target;
@@ -40,5 +44,27 @@ $-defaults: (
   }
   $values: util.ensure-default-values($values, $-defaults);
   $values: -transform-values($values, $color);
+  @return $values;
+}
+
+@function make-contrast-colors($key, $color, $weightsOrColors: null) {
+  @if meta.type-of($color) != color {
+    @return null;
+  }
+
+  $weightsOrColors: util.ensure-default-values(if($weightsOrColors, $weightsOrColors, ()), $-defaults);
+  $colors: -transform-values($weightsOrColors, $color);
+
+  $values: ();
+
+  @each $k, $v in $colors {
+    @if $k == default {
+      $v: var(#{$key}--contrast-#{$v});
+      $values: map.set($values, #{$key}--contrast, $v);
+    } @else {
+      $values: map.set($values, #{$key}--contrast-#{$k}, $v);
+    }
+  }
+
   @return $values;
 }

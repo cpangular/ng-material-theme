@@ -43,6 +43,7 @@ export function applyThemePairedColorTransformations(themeFile: ThemeFileUtil): 
           if (match) {
             return () => {
               const value = `var(${ThemeRegistry.registerVariable(themeFile.name, match.name)})`;
+
               diff.lightMode.valueColors.replaceColor(lightColor, value);
               diff.darkMode.valueColors.replaceColor(darkColor, value);
               diff.density1.valueColors.replaceColor(density1Color, value);
