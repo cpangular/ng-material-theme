@@ -34,7 +34,7 @@ html {
     background-image: linear-gradient(#{$tint}, #{$tint}), linear-gradient(var(--theme-color--surface), var(--theme-color--surface));
 
     &:hover {
-      background-image: linear-gradient(var(--theme-color--primary--tint--low), var(--theme-color--primary--tint--low)),
+      background-image: linear-gradient(var(--theme-color--primary--tint--higher), var(--theme-color--primary--tint--higher)),
         linear-gradient(#{$tint}, #{$tint}), linear-gradient(var(--theme-color--surface), var(--theme-color--surface));
     }
   }
