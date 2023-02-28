@@ -17,7 +17,7 @@ export function writeMaterialCoreThemeFile() {
         palette: (
           primary: #4D4D4D,
           secondary: #D5D5D5,
-          error: (#dd0d0d, #bb0b0b),
+          error: (#e00000, #f74040),
           surface: (white, #424242),
           background: (#fafafa, #303030),
         )
