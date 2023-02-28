@@ -1,9 +1,7 @@
 {
   "name": "test-app",
   "version": "0.0.0",
-  "scripts": {
-    "test": "ng build"
-  },
+  "scripts": {},
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.1.0",
