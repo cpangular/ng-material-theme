@@ -5,13 +5,10 @@
 @use "./util";
 
 $-defaults: (
-  lowest: 2%,
-  lower: 5%,
-  low: 10%,
-  medium: 25%,
-  high: 30%,
-  higher: 38%,
-  highest: 87%,
+  1: 8%,
+  2: 30%,
+  3: 54%,
+  4: 87%,
   default: medium,
 );
 
