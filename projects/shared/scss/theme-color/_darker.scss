@@ -1,0 +1,38 @@
+@use "sass:meta";
+@use "sass:map";
+@use "sass:color";
+
+@use "./util";
+
+$-defaults: (
+  lowest: 2%,
+  lower: 5%,
+  low: 10%,
+  medium: 25%,
+  high: 30%,
+  higher: 38%,
+  highest: 87%,
+  default: medium,
+);
+
+@function -transform-values($target, $color) {
+  @each $k, $v in $target {
+    @if meta.type-of($v) == number {
+      $v: color.mix($color, black, 100% - $v);
+      $target: map.set($target, $k, $v);
+    }
+  }
+  @return $target;
+}
+
+@function ensure-values($values, $color) {
+  @if ($values == false) {
+    @return ();
+  }
+  @if ($values == null or $values == true) {
+    $values: ();
+  }
+  $values: util.ensure-default-values($values, $-defaults);
+  $values: -transform-values($values, $color);
+  @return $values;
+}

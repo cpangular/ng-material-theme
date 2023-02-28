@@ -5,6 +5,8 @@
 @use "./contrast";
 @use "./shade";
 @use "./tint";
+@use "./lighter";
+@use "./darker";
 @use "./legacy";
 @use "./util";
 
@@ -19,6 +21,10 @@
   // $contrast: contrast.ensure-values(map.get($config, contrast), $color);
   $shade: shade.ensure-values(map.get($config, shades), $color);
   $tint: tint.ensure-values(map.get($config, tints), $color);
+
+  $lighter: lighter.ensure-values(map.get($config, lighter), $color);
+  $darker: darker.ensure-values(map.get($config, darker), $color);
+
   // $legacy: legacy.ensure-values(map.get($config, legacy), $color);
 
   $variations: map.get($config, variations);
@@ -29,6 +35,8 @@
     //contrast: $contrast,
     shades: $shade,
     tints: $tint,
+    lighter: $lighter,
+    darker: $darker,
     // legacy: $legacy,
     variations: if($variations, $variations, ()),
     aliases: if($aliases, $aliases, ())
@@ -54,6 +62,8 @@
   // $contrast: map.get($config, contrast);
   $shades: map.get($config, shades);
   $tints: map.get($config, tints);
+  $darker: map.get($config, darker);
+  $lighter: map.get($config, lighter);
   // $legacy: map.get($config, legacy);
   $variations: map.get($config, variations);
   $aliases: map.get($config, aliases);
@@ -75,6 +85,12 @@
 
   $v: -get-variation-properties($shades, $darkMode);
   $props: map.merge($props, util.to-variation($v, $name, "shade"));
+
+  $v: -get-variation-properties($lighter, $darkMode);
+  $props: map.merge($props, util.to-variation($v, $name, "lighter"));
+
+  $v: -get-variation-properties($darker, $darkMode);
+  $props: map.merge($props, util.to-variation($v, $name, "darker"));
 
   //$props: map.merge($props, util.to-variation($legacy, $name, "legacy", true));
 
