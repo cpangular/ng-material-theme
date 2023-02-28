@@ -1,158 +1,38 @@
 @use "@cpangular/ng-material-theme/theming";
-@use "@cpangular/ng-material-theme/palettes";
 
-@use "@angular/material" as mat;
-
-$purple-palette: (
-  id: primary,
-  default: 500,
-
-  tints: true,
-  colors: (
-    50: #f3e5f5,
-    100: #e1bee7,
-    200: #ce93d8,
-    300: #ba68c8,
-    400: #ab47bc,
-    500: #9c27b0,
-    600: #8e24aa,
-    700: #7b1fa2,
-    800: #6a1b9a,
-    900: #4a148c,
-    A100: #ea80fc,
-    A200: #e040fb,
-    A400: #d500f9,
-    A700: #aa00ff,
-  ),
-  named: (
-    container: 100,
-  ),
-  aliases: (
-    lighter: 300,
-    darker: 600,
-  ),
-);
-
-$dark-purple-palette: (
-  id: primary,
-  default: 300,
-
-  tints: true,
-  colors: (
-    50: #f3e5f5,
-    100: #e1bee7,
-    200: #ce93d8,
-    300: #ba68c8,
-    400: #ab47bc,
-    500: #9c27b0,
-    600: #8e24aa,
-    700: #7b1fa2,
-    800: #6a1b9a,
-    900: #4a148c,
-    A100: #ea80fc,
-    A200: #e040fb,
-    A400: #d500f9,
-    A700: #aa00ff,
-  ),
-  named: (
-    container: 100,
-  ),
-  aliases: (
-    lighter: 300,
-    darker: 600,
-  ),
-);
-
-$amber-palette: (
-  id: secondary,
-  default: 500,
-
-  tints: true,
-  colors: (
-    50: #fff8e1,
-    100: #ffecb3,
-    200: #ffe082,
-    300: #ffd54f,
-    400: #ffca28,
-    500: #ffc107,
-    600: #ffb300,
-    700: #ffa000,
-    800: #ff8f00,
-    900: #ff6f00,
-    A100: #ffe57f,
-    A200: #ffd740,
-    A400: #ffc400,
-    A700: #ffab00,
-  ),
-  named: (
-    container: 100,
-  ),
-  aliases: (
-    lighter: 300,
-    darker: 600,
-  ),
-);
-$grey-palette: (
-  id: grey,
-  default: 500,
-  tints: true,
-  colors: (
-    50: #fafafa,
-    100: #f5f5f5,
-    200: #eeeeee,
-    300: #e0e0e0,
-    400: #bdbdbd,
-    500: #9e9e9e,
-    600: #757575,
-    700: #616161,
-    800: #424242,
-    900: #212121,
-    A100: #ffffff,
-    A200: #eeeeee,
-    A400: #bdbdbd,
-    A700: #616161,
-  ),
-  named: (
-    container: 100,
-  ),
-  aliases: (
-    lighter: 300,
-    darker: 600,
-  ),
-);
-
-$themeD: (
-  id: my-theme,
-  label: "Asdfg",
-  description: "asadfas dsad asd asd as d",
-  default: true,
-  palettes: (
-    primary: (
-      light: $purple-palette,
-      dark: $dark-purple-palette,
+@include theming.include-themes(
+  (
+    (id: my-theme, palette: orange),
+    (
+      id: my-theme-2,
+      palette: (
+        primary: (
+          red,
+          blue,
+        ),
+      )
     ),
-    secondary: (
-      light: $amber-palette,
-      dark: $amber-palette,
-    ),
-    // error: palettes.$error-palette,
-    // background: palettes.$background-palette,
-    // overlay: palettes.$overlay-palette,
-    // opacity: palettes.$opacity-palette,,,,,,
-  ),
+    (
+      id: my-theme-3,
+      palette: (
+        primary: (
+          purple,
+          green,
+        ),
+      )
+    )
+  )
 );
 
-$theme2: (
-  id: my-theme-2,
-  label: "Asdfg 2",
-  description: "asadfas dsad asd asd as d",
-  default: false,
-  palettes: (
-    primary: (
-      light: $amber-palette,
-      dark: $amber-palette,
-    ),
-  ),
-);
+* {
+  box-sizing: border-box;
+}
 
-@include theming.apply-themes(($themeD, $theme2));
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}

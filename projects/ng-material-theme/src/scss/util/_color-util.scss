@@ -1,6 +1,0 @@
-@use "sass:math";
-
-@function brightness($color) {
-  $sum: red($color) + green($color) + blue($color);
-  @return percentage(math.div($sum, (255 * 3)));
-}

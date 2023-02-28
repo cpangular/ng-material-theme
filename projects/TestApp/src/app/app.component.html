@@ -1,44 +1,188 @@
-<mat-toolbar> Welcome </mat-toolbar>
-<mat-toolbar color="primary"> Welcome </mat-toolbar>
 <mat-toolbar color="accent"> Welcome </mat-toolbar>
-<mat-toolbar color="warn"> Welcome </mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav [opened]="true" mode="side">Start</mat-sidenav>
+  <mat-sidenav-content class="scrollbar-small">
+    <mat-toolbar color="primary"> Welcome </mat-toolbar>
+    <mat-toolbar color="warn"> Welcome </mat-toolbar>
+    <mat-toolbar> Welcome </mat-toolbar>
 
-<mat-button-toggle-group
-  name="colorMode"
-  aria-label="Color Mode"
-  [value]="themeManager.modeSetting$ | async"
-  (valueChange)="themeManager.setMode($event)"
->
-  <mat-button-toggle value="auto">Auto</mat-button-toggle>
-  <mat-button-toggle value="light">Light</mat-button-toggle>
-  <mat-button-toggle value="dark">Dark</mat-button-toggle>
-</mat-button-toggle-group>
-<br />
-<br />
-<mat-form-field appearance="fill">
-  <mat-label>Theme</mat-label>
-  <mat-select
-    [value]="themeManager.activeTheme$ | async"
-    (valueChange)="themeManager.setTheme($event)"
-  >
-    <mat-option
-      *ngFor="let theme of themeManager.themes$ | async"
-      [value]="theme.id"
+    <mat-button-toggle-group
+      name="colorMode"
+      aria-label="Color Mode"
+      [value]="themeManager.modeSetting$ | async"
+      (valueChange)="themeManager.setMode($event)"
     >
-      {{ theme.id }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+      <mat-button-toggle value="auto">Auto</mat-button-toggle>
+      <mat-button-toggle value="light">Light</mat-button-toggle>
+      <mat-button-toggle value="dark">Dark</mat-button-toggle>
+    </mat-button-toggle-group>
+    <br />
+    <br />
+    <mat-form-field appearance="fill">
+      <mat-label>Theme</mat-label>
+      <mat-select
+        [value]="themeManager.activeTheme$ | async"
+        (valueChange)="themeManager.setTheme($event)"
+      >
+        <mat-option
+          *ngFor="let theme of themeManager.themes$ | async"
+          [value]="theme.id"
+        >
+          {{ theme.id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<pre>Default Theme: {{ themeManager.defaultTheme$ | async | json }}</pre>
-<pre>Theme Setting: {{ themeManager.themeSetting$ | async | json }}</pre>
-<pre>Active Theme: {{ themeManager.activeTheme$ | async | json }}</pre>
-<pre>Mode Setting: {{ themeManager.modeSetting$ | async | json }}</pre>
-<pre>
-Prefers Color Scheme: {{ themeManager.prefersColorScheme$ | async | json }}</pre
->
-<pre>Mode: {{ themeManager.mode$ | async | json }}</pre>
-<pre>Themes: {{ themeManager.themes$ | async | json }}</pre>
+    <pre>Default Theme: {{ themeManager.defaultTheme$ | async | json }}</pre>
+    <pre>Theme Setting: {{ themeManager.themeSetting$ | async | json }}</pre>
+    <pre>Active Theme: {{ themeManager.activeTheme$ | async | json }}</pre>
+    <pre>Mode Setting: {{ themeManager.modeSetting$ | async | json }}</pre>
+    <pre>
+    Prefers Color Scheme: {{
+        themeManager.prefersColorScheme$ | async | json
+      }}</pre
+    >
+    <pre>Mode: {{ themeManager.mode$ | async | json }}</pre>
+    <pre>Themes: {{ themeManager.themes$ | async | json }}</pre>
 
-<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-<mat-spinner></mat-spinner>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-spinner></mat-spinner>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />s
+  </mat-sidenav-content>
+</mat-sidenav-container>

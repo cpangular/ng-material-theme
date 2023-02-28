@@ -1,6 +1,7 @@
 import { CssPropertyRecord } from "./CssPropertyRecord";
 
 export interface CssDensityDiffView {
+  readonly _type: "density";
   readonly sourceFile: string;
   readonly selectors: string[];
   readonly name: string;

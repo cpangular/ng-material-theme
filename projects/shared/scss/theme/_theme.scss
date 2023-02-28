@@ -1,0 +1,132 @@
+@use "sass:meta";
+@use "sass:list";
+@use "sass:map";
+@use "./palette";
+
+@use "../theme-color";
+@use "../theme-mode";
+
+@function config($config) {
+  $id: map.get($config, id);
+  $palette: palette.ensure-values(map.get($config, palette));
+  @return (id: $id, palette: $palette);
+}
+
+@function to-css-properties($config) {
+  $config: config($config);
+
+  $palette: palette.to-css-properties(map.get($config, palette));
+
+  @return (light: map.get($palette, light), dark: map.get($palette, dark));
+}
+
+@mixin include-root($config) {
+  $config: config($config);
+  $palette: map.get($config, palette);
+
+  :root {
+    @each $k, $v in $palette {
+      @include theme-color.include($k, list.nth($v, 1));
+    }
+  }
+
+  @include theme-mode.dark-mode() {
+    @each $k, $v in $palette {
+      @include theme-color.include($k, list.nth($v, 2));
+    }
+  }
+}
+
+@mixin -write-css-variables($vars, $failOnNull: true) {
+  @each $k, $v in $vars {
+    @if $failOnNull or $v != null {
+      #{$k}: #{$v};
+    }
+  }
+}
+
+@mixin -apply-palette($themeId, $palette, $darkMode) {
+  $light: map.get($palette, light);
+  @if not $darkMode {
+    @include -write-css-variables($light, false);
+  } @else {
+    $dark: map.get($palette, dark);
+    @each $k, $darkValue in $dark {
+      $lightValue: map.get($light, $k);
+      @if $lightValue != $darkValue and $darkValue {
+        #{$k}: #{$darkValue};
+      }
+    }
+  }
+}
+
+@mixin -apply-theme($theme) {
+  $themeId: map.get($theme, id);
+  $isDefaultTheme: map.get($theme, default);
+  $isHiddenTheme: map.get($theme, hidden);
+  $palette: palette.to-css-properties(map.get($theme, palette));
+
+  @at-root {
+    /*** Theme: #{$themeId} ***/
+    -theme- {
+      @include -write-css-variables(
+        (
+          --theme-def--id: #{$themeId},
+          --theme-def--is-default: $isDefaultTheme,
+          --theme-def--is-hidden: $isHiddenTheme,
+        ),
+        false
+      );
+    }
+
+    $selector: "[theme=#{$themeId}]";
+    @if $isDefaultTheme {
+      $selector: '#{$selector}, html:not([theme]), html[theme=""]';
+    }
+    #{$selector} {
+      /*** Theme: #{$themeId} - Light Mode Properties ***/
+      @include -apply-palette($themeId, $palette, false);
+      @at-root {
+        /*** Theme: #{$themeId} - Auto Dark Mode ***/
+        html[theme-mode=""]:is(&),
+        html[theme-mode=""] &,
+        html:not([theme-mode]):is(&),
+        html:not([theme-mode]) & {
+          @media (prefers-color-scheme: dark) {
+            /*** Theme: #{$themeId} - Dark Mode Properties ***/
+            @include -apply-palette($themeId, $palette, true);
+          }
+        }
+
+        /*** Theme: #{$themeId} - Explicit Dark Mode ***/
+        html[theme-mode="dark"]:is(&),
+        html[theme-mode="dark"] & {
+          /*** Theme: #{$themeId} - Dark Mode Properties ***/
+          @include -apply-palette($themeId, $palette, true);
+        }
+      }
+    }
+  }
+}
+
+$-first-include-themes: true;
+
+@mixin include-themes($themeConfigs, $noDefault: false) {
+  @if meta.type-of($themeConfigs) != list {
+    $themeConfigs: list.append((), $themeConfigs);
+  }
+
+  @each $theme in $themeConfigs {
+    $theme: config($theme);
+
+    @if $-first-include-themes {
+      $-first-include-themes: false !global;
+      $theme: map.set($theme, default, if($noDefault, false, true));
+    } @else {
+      $theme: map.set($theme, default, false);
+    }
+    @debug "theme:";
+    @debug $theme;
+    @include -apply-theme($theme);
+  }
+}

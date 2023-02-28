@@ -1,6 +1,7 @@
 import { CssPropertyRecord } from "./CssPropertyRecord";
 
 export interface CssDiffView {
+  readonly _type?: string;
   readonly sourceFile: string;
   readonly selectors: string[];
   readonly name: string;

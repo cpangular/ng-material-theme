@@ -1,4 +1,5 @@
 import Enumerable from "linq";
+import { ThemeRegistry } from "../../ThemeRegistry";
 import { CssColorModeDiffView } from "../../types/CssColorModeDiffView";
 import { CssDiffView } from "../../types/CssDiffView";
 import { ThemeFileUtil } from "../../types/ThemeFileUtil";
@@ -24,7 +25,7 @@ export function applyColorModeColorSwaps(themeFile: ThemeFileUtil): ColorModeCol
         const darkValue = group.first().darkMode.value;
         const rng = `${Math.round(Math.random() * 99999999)}`.padStart(8, "0");
         return {
-          variable: `--_generated_mode-ref--${source}--${rng}-${ret.generatedCount++}`,
+          variable: `--_ref-mode_--${source}--${rng}-${ret.generatedCount++}`,
           lightValue,
           darkValue,
           replacements: group.toArray(),
@@ -48,7 +49,7 @@ function buildPropertyTransforms(
   return Enumerable.from(result)
     .selectMany((v) =>
       (v.replacements as CssDiffView[]).map((r) => () => {
-        const variable = v.variable;
+        const variable = ThemeRegistry.registerGeneratedVariable(r.sourceFile, v.variable);
         const replacementNode = CssTree.parse(`var(${variable})`, { context: "value" });
         r.lightMode.node.value = CssTree.clone(replacementNode) as CssTree.Value;
         r.darkMode.node.value = CssTree.clone(replacementNode) as CssTree.Value;
@@ -80,7 +81,7 @@ function buildHeaderTransforms(
       }
     `;
   const darkModeRule = `
-      @include util.dark-mode-only(){
+      @include theme-mode.dark-mode(){
         // Automatically generated variables to handle dark-mode //
         // These should not be referenced outside this file. //
         ${darkModeModeVars.join("\n")}
@@ -90,7 +91,7 @@ function buildHeaderTransforms(
   const headers = [CssTree.parse(lightModeRule.trim(), { context: "rule" }), CssTree.parse(darkModeRule.trim(), { context: "rule" })];
   return headers.reverse().map((h) => {
     return () => {
-      themeFile.prependHeader(h as CssTree.Rule);
+      themeFile.prependRule(h as CssTree.Rule);
       themeFile.markChanged();
     };
   });

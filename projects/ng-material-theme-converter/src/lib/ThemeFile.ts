@@ -1,12 +1,13 @@
 import chalk from "chalk";
-import { existsSync, mkdirSync, readFileSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "fs";
 import Enumerable from "linq";
-import Path from "path";
+import { default as path, default as Path } from "path";
 import { ConvertOptions } from "./options/ConvertOptions";
 import { applyColorModeColorSwaps } from "./transformations/general/applyColorModeColorSwaps";
 import { applyMdcThemeTokensTransformations } from "./transformations/general/applyMdcThemeTokensTransformations";
 import { applyThemeColorTransformations } from "./transformations/general/applyThemeColorTransformations";
 import { applyThemePairedColorTransformations } from "./transformations/general/applyThemePairedColorTransformations";
+import { TRANSFORMS } from "./transformations/TRANSFORMS";
 import { CssColorModeDiffView } from "./types/CssColorModeDiffView";
 import { CssDensityDiffView } from "./types/CssDensityDiffView";
 import { CssDiffView } from "./types/CssDiffView";
@@ -21,8 +22,9 @@ import { loadThemeStyleSheet } from "./util/loadThemeStyleSheet";
 import { writeScssFile } from "./util/writeScssFile";
 
 export class ThemeFile implements ThemeFileUtil {
-  private readonly _outDir = "./dist";
-  private readonly _snapshotsDir = "./dist/snapshots";
+  private readonly _outDir = "./dist/scss/components";
+  private readonly _snapshotsDir = "./dist/.snapshots";
+  private readonly _cacheDir = "./dist/.cache";
   private readonly _configLight: ThemeConfig = { name: this.name, darkMode: false, density: 0 };
   private readonly _configDark: ThemeConfig = { name: this.name, darkMode: true, density: 0 };
   private readonly _configDense1: ThemeConfig = { name: this.name, darkMode: false, density: -1 };
@@ -57,6 +59,7 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   constructor(public readonly name: string, public readonly options: ConvertOptions) {
+    this.writeCache();
     this.logInfo("Loaded theme.");
     this.snapshot();
   }
@@ -90,21 +93,34 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   private get colorDiffView() {
-    return this.diffView?.where((r) => r.lightMode?.value !== r.darkMode?.value).cast<CssColorModeDiffView>();
+    return this.diffView
+      ?.where((r) => r.lightMode?.value !== r.darkMode?.value)
+      .select((r) => {
+        return {
+          ...r,
+          _type: "mode",
+        };
+      })
+      .cast<CssColorModeDiffView>();
   }
 
   private get densityDiffView() {
     return this.diffView
       ?.where((r) => r.density0?.value !== r.density1?.value || r.density0?.value !== r.density2?.value)
+      .select((r) => {
+        return {
+          ...r,
+          _type: "density",
+        };
+      })
       .cast<CssDensityDiffView>();
   }
 
   public convert() {
     if (this.options.transformations) {
+      this.applyIncludeTransformations();
       this.applyComponentTransformations();
       this.applyTokenTransformations();
-      this.applyColorTransformations();
-      this.applyDensityTransformations();
       this.applyAutoColorTransformations();
       this.applyAutoDensityTransformations();
     }
@@ -112,16 +128,86 @@ export class ThemeFile implements ThemeFileUtil {
     this.writeOutput();
 
     this.logInfo(chalk.greenBright("Conversion completed."));
+    this.printDiffReport();
     this.logInfo();
   }
 
+  private printDiffReport() {
+    const diffs = this.database.colorDifferencesView
+      .cast<CssDiffView>()
+      .concat(this.database.densityDifferencesView.cast<CssDiffView>())
+      .groupBy(
+        (v) => v.selectors.join(","),
+        (v) => v,
+        (selector, group) => ({
+          selector,
+          properties: group
+            .select((p) => {
+              if (p._type === "mode") {
+                console.log(p.name, p);
+                return {
+                  Property: p.name,
+                  "Light Mode": p.lightMode?.value,
+                  "Dark Mode": p.darkMode?.value,
+                };
+              }
+              return {
+                Property: p.name,
+                "Density 0": p.density0?.value,
+                "Density 1": p.density1?.value,
+                "Density 2": p.density2?.value,
+              };
+            })
+            .toArray(),
+        })
+      )
+      .toArray();
+
+    if (diffs.length) {
+      console.info();
+      this.logInfo(
+        chalk.red(
+          `There ${diffs.length === 1 ? "is" : "are"} ${chalk.yellow(diffs.length)} selector${
+            diffs.length === 1 ? "" : "s"
+          } with differences remaining.`
+        )
+      );
+
+      this.logInfo(chalk.yellowBright("Difference Report:"));
+      console.info();
+
+      console.group();
+      diffs.forEach((diff) => {
+        console.info(chalk.blue(diff.selector.split(",").join(",\n")));
+        console.table(diff.properties);
+        console.info();
+      });
+      console.groupEnd();
+    }
+  }
+
   public applyComponentTransformations() {
-    if (!this.options.componentTransformations) return;
-    this.snapshot();
+    if (!this.options.transformations) return;
+    let count = 0;
+    TRANSFORMS.forEach((transformFactory) => {
+      const result = transformFactory(this);
+      if (result?.length) {
+        count += result.length;
+        result.forEach((transform) => transform());
+        this.logInfo(
+          `${chalk.cyanBright(transformFactory.name)} applied ${chalk.yellow(result.length)} transformation` +
+            (result.length === 1 ? "" : "s")
+        );
+        this.snapshot();
+      }
+    });
+    if (count > 0) {
+      this.logInfo(`Applied ${chalk.yellow(count)} component transformation` + (count === 1 ? "" : "s"));
+    }
   }
 
   public applyTokenTransformations() {
-    if (!this.options.tokenTransformations) return;
+    if (!this.options.transformations) return;
 
     const mdcThemeVarReferences = applyMdcThemeTokensTransformations(this);
     if (mdcThemeVarReferences.length) {
@@ -132,20 +218,8 @@ export class ThemeFile implements ThemeFileUtil {
     }
   }
 
-  public applyColorTransformations() {
-    if (!this.options.colorTransformations) return;
-
-    this.snapshot();
-  }
-
-  public applyDensityTransformations() {
-    if (!this.options.densityTransformations) return;
-
-    this.snapshot();
-  }
-
   public applyAutoColorTransformations() {
-    if (!this.options.autoColorTransformations) return;
+    if (!this.options.transformations) return;
 
     const transformableColorPairs = applyThemePairedColorTransformations(this);
     if (transformableColorPairs.length) {
@@ -172,6 +246,7 @@ export class ThemeFile implements ThemeFileUtil {
       const modifiedCount = colorModeColorSwaps.modifiedCount;
       this.logInfo(`Generated ${chalk.yellow(generatedCount)} dynamic mode variables` + (generatedCount === 1 ? "" : "s"));
       this.logInfo(
+        /* spell-checker:ignore propert */
         `Replaced ${chalk.yellow(modifiedCount)} propert${modifiedCount === 1 ? "y" : "ies"} with dynamic mode variable` +
           (modifiedCount === 1 ? "" : "s")
       );
@@ -180,21 +255,94 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   public applyAutoDensityTransformations() {
-    if (!this.options.autoDensityTransformations) return;
+    if (!this.options.transformations) return;
     this.snapshot();
   }
 
-  public prependHeader(header: CssTree.Rule): void {
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetLight);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDark);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense1);
-    this.prependHeaderTo(header, this.currentSnapshot.styleSheetDense2);
+  public applyIncludeTransformations() {
+    if (!this.options.transformations) return;
+
+    const includeDir = `./src/scss/includes/components/${this.name}`;
+
+    const prependDir = path.join(includeDir, "prepend");
+    if (existsSync(prependDir)) {
+      const prependFiles = readdirSync(prependDir, { encoding: "utf-8" });
+      prependFiles.reverse().forEach((f) => {
+        const fPath = path.join(prependDir, f);
+        if (path.extname(f) === ".scss" && existsSync(fPath)) {
+          const scss = readFileSync(fPath, { encoding: "utf-8" });
+          const ast = CssTree.parse(scss) as CssTree.StyleSheet;
+
+          Enumerable.from(ast.children.toArray())
+            .where((n) => n.type === "Rule")
+            .cast<CssTree.Rule>()
+            .selectMany((n) => n.block.children.toArray())
+            .where((c) => c.type === "Raw")
+            .cast<CssTree.Raw>()
+            .where((c) => c.value.trimStart().startsWith("//"))
+            .forEach((c) => (c.value = `\n${c.value}\n`));
+
+          ast.children.forEach((node) => {
+            this.prependRule(node as CssTree.Rule);
+            this.markChanged();
+          });
+        }
+      });
+    }
+
+    const appendDir = path.join(includeDir, "append");
+    if (existsSync(appendDir)) {
+      const appendFiles = readdirSync(appendDir, { encoding: "utf-8" });
+      appendFiles.forEach((f) => {
+        const fPath = path.join(appendDir, f);
+        if (path.extname(f) === ".scss" && existsSync(fPath)) {
+          const scss = readFileSync(fPath, { encoding: "utf-8" });
+          const ast = CssTree.parse(scss) as CssTree.StyleSheet;
+
+          Enumerable.from(ast.children.toArray())
+            .where((n) => n.type === "Rule")
+            .cast<CssTree.Rule>()
+            .selectMany((n) => n.block.children.toArray())
+            .where((c) => c.type === "Raw")
+            .cast<CssTree.Raw>()
+            .where((c) => c.value.trimStart().startsWith("//"))
+            .forEach((c) => (c.value = `\n${c.value}\n`));
+
+          ast.children.forEach((node) => {
+            this.appendRule(node as CssTree.Rule);
+            this.markChanged();
+          });
+        }
+      });
+    }
+    this.snapshot();
   }
 
-  private prependHeaderTo(header: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
-    if (header) {
-      const item = styleSheet.children.createItem(header);
+  public prependRule(rule: CssTree.Rule): void {
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetLight);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDark);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDense1);
+    this.prependRuleTo(rule, this.currentSnapshot.styleSheetDense2);
+  }
+
+  private prependRuleTo(rule: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
+    if (rule) {
+      const item = styleSheet.children.createItem(rule);
       styleSheet.children.prepend(item);
+    }
+  }
+
+  public appendRule(rule: CssTree.Rule): void {
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetLight);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDark);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDense1);
+    this.appendRuleTo(rule, this.currentSnapshot.styleSheetDense2);
+  }
+
+  private appendRuleTo(rule: CssTree.Rule, styleSheet: CssTree.StyleSheet): void {
+    if (rule) {
+      const item = styleSheet.children.createItem(rule);
+      styleSheet.children.append(item);
     }
   }
 
@@ -206,8 +354,12 @@ export class ThemeFile implements ThemeFileUtil {
     this._changed = true;
   }
 
-  private get snapshotsDir() {
+  public get snapshotsDir() {
     return Path.join(this._snapshotsDir, this.name);
+  }
+
+  public get cacheDir() {
+    return Path.join(this._cacheDir, this.name);
   }
 
   private snapshot() {
@@ -270,19 +422,19 @@ export class ThemeFile implements ThemeFileUtil {
   }
 
   private loadThemeStyleSheetFromCache(config: ThemeConfig): ReturnType<typeof loadThemeStyleSheet> {
-    const filePath = Path.join(this.snapshotsDir, `_${this.name}`);
+    const filePath = Path.join(this.cacheDir, `_${this.name}`);
 
     let result: ReturnType<typeof loadThemeStyleSheet>;
     if (this.options.cache) {
       let cachePath = "";
       if (config.darkMode === false && config.density === 0) {
-        cachePath = `${filePath}.light_0.scss`;
+        cachePath = `${filePath}.mode-light.css`;
       } else if (config.darkMode === true && config.density === 0) {
-        cachePath = `${filePath}.dark_0.scss`;
+        cachePath = `${filePath}.mode-dark.css`;
       } else if (config.darkMode === false && config.density === -1) {
-        cachePath = `${filePath}.density-1_0.scss`;
+        cachePath = `${filePath}.density-1.css`;
       } else if (config.darkMode === false && config.density === -2) {
-        cachePath = `${filePath}.density-2_0.scss`;
+        cachePath = `${filePath}.density-2.css`;
       }
       if (cachePath && existsSync(cachePath)) {
         const source = readFileSync(cachePath, { encoding: "utf-8" });
@@ -299,28 +451,32 @@ export class ThemeFile implements ThemeFileUtil {
     return result;
   }
 
+  private writeCache() {
+    const cacheDir = this.cacheDir;
+    mkdirSync(cacheDir, { recursive: true });
+    const baseFileName = Path.join(cacheDir, `_${this.name}`);
+    writeScssFile(baseFileName + ".mode-light.css", this._themeData.light.source, false);
+    writeScssFile(baseFileName + ".mode-dark.css", this._themeData.dark.source, false);
+    writeScssFile(baseFileName + ".density-1.css", this._themeData.dense1.source, false);
+    writeScssFile(baseFileName + ".density-2.css", this._themeData.dense2.source, false);
+  }
+
   private writeSnapshots() {
-    // cache files
-    const snapshotsDir = this.snapshotsDir;
-    mkdirSync(snapshotsDir, { recursive: true });
-
-    const baseFileName = Path.join(snapshotsDir, `_${this.name}`);
-    writeScssFile(baseFileName + ".light_0.scss", this._themeData.light.source, false);
-    writeScssFile(baseFileName + ".dark_0.scss", this._themeData.dark.source, false);
-    writeScssFile(baseFileName + ".density-1_0.scss", this._themeData.dense1.source, false);
-    writeScssFile(baseFileName + ".density-2_0.scss", this._themeData.dense2.source, false);
-
     if (!this.options.writeSnapshots) return;
 
+    const snapshotsDir = this.snapshotsDir;
     this.logInfo("Writing snapshots.");
 
+    mkdirSync(snapshotsDir, { recursive: true });
     this._snapshots.forEach((snap, i) => {
+      if (i === this._snapshots.length - 1 && !this.changed) return;
+
       const filename = Path.join(snapshotsDir, `_${this.name}`);
 
-      const lightFileName = `${filename}.light_${i + 1}.scss`;
-      const darkFileName = `${filename}.dark_${i + 1}.scss`;
-      const density1FileName = `${filename}.density-1_${i + 1}.scss`;
-      const density2FileName = `${filename}.density-2_${i + 1}.scss`;
+      const lightFileName = `${filename}.mode-light__${i}.scss`;
+      const darkFileName = `${filename}.mode-dark__${i}.scss`;
+      const density1FileName = `${filename}.density-1__${i}.scss`;
+      const density2FileName = `${filename}.density-2__${i}.scss`;
 
       writeScssFile(lightFileName, this.serializeTheme(snap.styleSheetLight));
       writeScssFile(darkFileName, this.serializeTheme(snap.styleSheetDark));

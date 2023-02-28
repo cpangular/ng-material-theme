@@ -7,5 +7,6 @@ export interface ThemeFileUtil {
   readonly database: ThemeFileDatabase;
   logInfo(message?: any): void;
   markChanged(): void;
-  prependHeader(header: CssTree.Rule): void;
+  prependRule(rule: CssTree.Rule): void;
+  appendRule(rule: CssTree.Rule): void;
 }
