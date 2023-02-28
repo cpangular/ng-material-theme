@@ -28,7 +28,7 @@ importers:
       "@angular/platform-browser": ^15.1.0
       "@angular/platform-browser-dynamic": ^15.1.0
       "@angular/router": ^15.1.0
-      "@cpangular/ng-material-theme": 0.0.0-PLACEHOLDER
+      "@cpangular/ng-material-theme": ../ng-material-theme
       "@types/jasmine": ~4.3.0
       "@types/node": ^18.13.0
       Buffer: ^0.0.0
