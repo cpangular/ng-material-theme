@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { ThemeManager } from '@cpangular/ng-material-theme';
+import {
+  ThemeBuilder,
+  ThemeManager,
+} from '@cpangular/ng-material-theme/dist/scss/lib';
 
 @Component({
   selector: 'app-root',
@@ -10,43 +13,11 @@ export class AppComponent {
   protected readonly themeManager = ThemeManager.default;
 
   public constructor() {
-    // const a = {
-    //   a: 1,
-    //   qq: [1, 2, 3],
-    //   asdf: {
-    //     dfsd: 2,
-    //     sad: [
-    //       { sds: 1 }
-    //     ]
-    //   }
-    // };
-    const a = [1, 2, 3];
-
-    const aStr = JSON.stringify(a);
-    const scssStr = aStr.replaceAll(/[\{\[]/g, '(').replaceAll(/[\}\]]/g, ')');
-
-    console.log(scssStr);
+    const result = ThemeBuilder.run(`
+      body{
+        color: blue;
+      }
+    `);
+    console.log(result);
   }
 }
-
-`
-(
-  "a": 1,
-  "qq": (
-   1,
-   2,
-   3
-   ),
-  "asdf": (
-   "dfsd": 2,
-   "sad": (
-    (
-     "sds": 1
-     )
-    )
-
-   )
- )
-
-
-`;
