@@ -58,7 +58,7 @@
     "@material/radio": "^15.0.0-canary.684e33d25.0",
     "@material/ripple": "^15.0.0-canary.684e33d25.0",
     "@material/rtl": "^15.0.0-canary.684e33d25.0",
-    "@material/select": "^15.0.0-canary.684e33d25.0",
+    "@material/select": "^15.0.0-canary.604264203.0",
     "@material/shape": "^15.0.0-canary.684e33d25.0",
     "@material/slider": "^15.0.0-canary.684e33d25.0",
     "@material/snackbar": "^15.0.0-canary.684e33d25.0",
