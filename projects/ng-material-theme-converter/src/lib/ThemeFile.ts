@@ -144,7 +144,7 @@ export class ThemeFile implements ThemeFileUtil {
           properties: group
             .select((p) => {
               if (p._type === "mode") {
-                console.log(p.name, p);
+                // console.log(p.name, p);
                 return {
                   Property: p.name,
                   "Light Mode": p.lightMode?.value,
