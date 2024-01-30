@@ -38,7 +38,7 @@
     "@material/shape": "^15.0.0-canary.7f224ddd4.0",
     "@material/slider": "^15.0.0-canary.7f224ddd4.0",
     "@material/snackbar": "^15.0.0-canary.7f224ddd4.0",
-    "@material/switch": "^15.0.0-canary.7f224ddd4.0",
+    "@material/switch": "^15.0.0-canary.604264203.0",
     "@material/tab": "^15.0.0-canary.7f224ddd4.0",
     "@material/tab-bar": "^15.0.0-canary.7f224ddd4.0",
     "@material/tab-indicator": "^15.0.0-canary.7f224ddd4.0",
