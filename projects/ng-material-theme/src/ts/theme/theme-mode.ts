@@ -1,5 +1,7 @@
 import { ThemeMode } from "./models/ThemeMode";
 
+const STORAGE_KEY = "cpngThemeMode";
+
 export function getPreferredMode(): ThemeMode.LIGHT | ThemeMode.DARK {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? ThemeMode.DARK : ThemeMode.LIGHT;
 }
@@ -18,8 +20,10 @@ export function getModeSetting(): ThemeMode {
 export function setModeSetting(value: ThemeMode) {
   if (value === ThemeMode.AUTO) {
     document.documentElement.removeAttribute("theme-mode");
+    localStorage.removeItem(STORAGE_KEY);
   } else {
     document.documentElement.setAttribute("theme-mode", value);
+    localStorage.setItem(STORAGE_KEY, value);
   }
 }
 
@@ -50,4 +54,9 @@ export function toggleMode() {
   } else {
     applyLightMode();
   }
+}
+
+if (typeof document !== "undefined") {
+  const mode = (localStorage.getItem(STORAGE_KEY) as ThemeMode) ?? ThemeMode.AUTO;
+  setModeSetting(mode);
 }
