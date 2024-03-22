@@ -5,7 +5,7 @@
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
     "prepare": "run-s prepare:*",
-    "prepare:husky": "husky install",
+    "prepare:husky": "husky",
     "prepare:git": "git config pull.rebase false",
     "recursive": "pnpm run --if-present --recursive --stream --workspace-concurrency=1",
     "recursive-p": "pnpm run --if-present --recursive --stream --parallel",
@@ -40,5 +40,8 @@
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
     "typescript": "~5.3.2"
+  },
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
   }
 }
