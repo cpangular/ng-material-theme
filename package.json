@@ -4,7 +4,20 @@
   "private": true,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
-    
+    "prepare": "run-s prepare:*",
+    "prepare:husky": "husky install",
+    "prepare:git": "git config pull.rebase false",
+    "recursive": "pnpm run --if-present --recursive --stream --workspace-concurrency=1",
+    "recursive-p": "pnpm run --if-present --recursive --stream --parallel",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier --write --ignore-unknown .",
+    "fix:git.tags.remove": "pnpm run git.tags.remove",
+    "fix:syncpack": "syncpack fix-mismatches",
+    "pre-commit": "run-s pre-commit:*",
+    "pre-commit:git.tags.remove": "pnpm run git.tags.remove",
+    "git.tags.remove": "git tag | xargs git tag -d",
+    "git.clean": "git clean -dfX && pnpm i --force",
+    "git.reset": "git clean -dfx && git reset --hard && pnpm i --force"
   },
   "dependencies": {
     "@angular/animations": "^17.1.0",
@@ -22,6 +35,10 @@
   "devDependencies": {
     "@angular/cli": "^17.1.1",
     "@angular/compiler-cli": "^17.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "npm-run-all2": "^6.1.2",
+    "prettier": "^3.2.5",
     "typescript": "~5.3.2"
   }
 }
