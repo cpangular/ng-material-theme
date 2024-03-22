@@ -1,4 +1,0 @@
-@use "theme";
-@use "../../../apply-theme" as theming;
-
-@include theming.apply-theme(theme.$theme);
