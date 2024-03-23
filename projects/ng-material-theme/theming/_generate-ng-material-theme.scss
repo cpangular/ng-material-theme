@@ -228,15 +228,18 @@ $_matTertiaryAdapterPalette: (
   @include _gen-palette-aliases(tertiary, $select);
   @include _gen-palette-aliases(error, $select);
 
-  @include _gen-bg-palette-aliases(background, "neutral", (99, 10));
-  @include _gen-bg-palette-aliases(surface, "neutral", (99, 10));
+  @include _gen-bg-palette-aliases(background, neutral, (99, 10));
   @include _gen-bg-palette-aliases(
-    surface-variant,
-    "neutral-variant",
-    (90, 30)
+    background-variant,
+    neutral-variant,
+    (80, 20)
   );
+  @include _gen-bg-palette-aliases(surface, neutral, (99, 10));
+  @include _gen-bg-palette-aliases(surface-variant, neutral-variant, (90, 30));
 
   --color--outline: var(--palette--neutral-variant-50);
+  --color--scrim: var(--palette--neutral-0);
+  --color--shadow: var(--palette--neutral-0);
 }
 
 @mixin _gen-dark-aliases() {
@@ -246,15 +249,18 @@ $_matTertiaryAdapterPalette: (
   @include _gen-palette-aliases(tertiary, $select);
   @include _gen-palette-aliases(error, $select);
 
-  @include _gen-bg-palette-aliases(background, "neutral", (10, 90));
-  @include _gen-bg-palette-aliases(surface, "neutral", (10, 90));
+  @include _gen-bg-palette-aliases(background, neutral, (10, 90));
   @include _gen-bg-palette-aliases(
-    surface-variant,
-    "neutral-variant",
-    (30, 90)
+    background-variant,
+    neutral-variant,
+    (20, 80)
   );
+  @include _gen-bg-palette-aliases(surface, neutral, (10, 90));
+  @include _gen-bg-palette-aliases(surface-variant, neutral-variant, (30, 90));
 
   --color--outline: var(--palette--neutral-60);
+  --color--scrim: var(--palette--neutral-0);
+  --color--shadow: var(--palette--neutral-0);
 }
 
 @mixin generate($name, $isDefault: false, $typography: null, $density: null) {
