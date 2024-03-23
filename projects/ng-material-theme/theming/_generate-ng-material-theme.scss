@@ -1,5 +1,6 @@
 @use "@angular/material" as mat;
 @use "@angular/material-experimental" as matx;
+@use "sass:list";
 
 $_matAdapterPalette: (
   0: var(--palette--primary-0),
@@ -203,32 +204,57 @@ $_matTertiaryAdapterPalette: (
   ),
 );
 
+@mixin _gen-palette-aliases($name, $values) {
+  --color--#{$name}: var(--palette--#{$name}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(--palette--#{$name}-#{list.nth($values, 2)});
+
+  --color--#{$name}-container: var(--palette--#{$name}-#{list.nth($values, 3)});
+  --color--#{$name}-container--contrast: var(
+    --palette--#{$name}-#{list.nth($values, 4)}
+  );
+}
+
+@mixin _gen-bg-palette-aliases($name, $palName, $values) {
+  --color--#{$name}: var(--palette--#{$palName}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(
+    --palette--#{$palName}-#{list.nth($values, 2)}
+  );
+}
+
 @mixin _gen-light-aliases() {
-  --color--primary: var(--palette--primary-40);
-  --color--primary-lighter: var(--palette--primary-80);
-  --color--primary-darker: var(--palette--primary-10);
+  $select: (40, 98, 90, 10);
+  @include _gen-palette-aliases(primary, $select);
+  @include _gen-palette-aliases(secondary, $select);
+  @include _gen-palette-aliases(tertiary, $select);
+  @include _gen-palette-aliases(error, $select);
 
-  --color--secondary: var(--palette--secondary-40);
-  --color--secondary-lighter: var(--palette--secondary-80);
-  --color--secondary-darker: var(--palette--secondary-10);
+  @include _gen-bg-palette-aliases(background, "neutral", (99, 10));
+  @include _gen-bg-palette-aliases(surface, "neutral", (99, 10));
+  @include _gen-bg-palette-aliases(
+    surface-variant,
+    "neutral-variant",
+    (90, 30)
+  );
 
-  --color--tertiary: var(--palette--tertiary-40);
-  --color--tertiary-lighter: var(--palette--tertiary-80);
-  --color--tertiary-darker: var(--palette--tertiary-10);
+  --color--outline: var(--palette--neutral-variant-50);
 }
 
 @mixin _gen-dark-aliases() {
-  --color--primary: var(--palette--primary-80);
-  --color--primary-lighter: var(--palette--primary-90);
-  --color--primary-darker: var(--palette--primary-20);
+  $select: (80, 20, 30, 90);
+  @include _gen-palette-aliases(primary, $select);
+  @include _gen-palette-aliases(secondary, $select);
+  @include _gen-palette-aliases(tertiary, $select);
+  @include _gen-palette-aliases(error, $select);
 
-  --color--secondary: var(--palette--secondary-80);
-  --color--secondary-lighter: var(--palette--secondary-90);
-  --color--secondary-darker: var(--palette--secondary-20);
+  @include _gen-bg-palette-aliases(background, "neutral", (10, 90));
+  @include _gen-bg-palette-aliases(surface, "neutral", (10, 90));
+  @include _gen-bg-palette-aliases(
+    surface-variant,
+    "neutral-variant",
+    (30, 90)
+  );
 
-  --color--tertiary: var(--palette--tertiary-80);
-  --color--tertiary-lighter: var(--palette--tertiary-90);
-  --color--tertiary-darker: var(--palette--tertiary-20);
+  --color--outline: var(--palette--neutral-60);
 }
 
 @mixin generate($name, $isDefault: false, $typography: null, $density: null) {
