@@ -1,0 +1,38 @@
+@use "sass:map";
+@use "./generate-ng-material-theme" as material-theme;
+@use "./generate-palette-vars" as palette-vars;
+
+@mixin generate($name, $isDefault, $themeCfg) {
+  $primary: map.get($themeCfg, "primary");
+  $secondary: map.get($themeCfg, "secondary");
+  $tertiary: map.get($themeCfg, "tertiary");
+  $neutral: map.get($themeCfg, "neutral");
+  $neutral-variant: map.get($themeCfg, "neutral-variant");
+  $error: map.get($themeCfg, "error");
+  $typography: map.get($themeCfg, "typography");
+  $density: map.get($themeCfg, "density");
+
+  $selector: '[theme="#{$name}"]';
+  @if $isDefault {
+    $selector: "html, #{$selector}";
+  }
+  -theme-,
+  #{$selector} {
+    --theme: #{$name};
+    --theme-default: #{$isDefault};
+
+    @include palette-vars.generate(
+      $primary,
+      $secondary,
+      $tertiary,
+      $neutral,
+      $neutral-variant,
+      $error
+    );
+  }
+  @include material-theme.generate($name, $isDefault, $typography, $density);
+}
+
+@mixin generate-core {
+  @include material-theme.generate-core();
+}

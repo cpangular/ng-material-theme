@@ -1,0 +1,24 @@
+@use "./theme";
+
+// $themeCfg: (
+//     primary: #ff0000,
+//     secondary: null,
+//     tertiary: null,
+//     neutral: null,
+//     neutral-variant: null,
+//     error: null
+//     typography: null,
+//     density: null,
+// );
+
+@mixin core() {
+  @include theme.generate-core();
+}
+
+@mixin default-theme($name, $themeCfg) {
+  @include theme.generate($name, true, $themeCfg);
+}
+
+@mixin theme($name, $themeCfg) {
+  @include theme.generate($name, false, $themeCfg);
+}

@@ -1,0 +1,62 @@
+@mixin _generate-palette-vars($name, $vars) {
+  @each $k, $v in $vars {
+    --palette--#{$name}-#{$k}: #{$v};
+  }
+}
+
+@mixin _generate-variant-vars($name) {
+  @include _generate-palette-vars(
+    $name,
+    (
+      0: black,
+      5: color-mix(in oklab, var(--palette--#{$name}) 10%, black 90%),
+      10: color-mix(in oklab, var(--palette--#{$name}) 20%, black 80%),
+      20: color-mix(in oklab, var(--palette--#{$name}) 40%, black 60%),
+      25: color-mix(in oklab, var(--palette--#{$name}) 50%, black 50%),
+      30: color-mix(in oklab, var(--palette--#{$name}) 60%, black 40%),
+      35: color-mix(in oklab, var(--palette--#{$name}) 70%, black 30%),
+      40: color-mix(in oklab, var(--palette--#{$name}) 80%, black 20%),
+      50: var(--palette--#{$name}),
+      60: color-mix(in oklab, var(--palette--#{$name}) 80%, white 20%),
+      70: color-mix(in oklab, var(--palette--#{$name}) 60%, white 40%),
+      80: color-mix(in oklab, var(--palette--#{$name}) 40%, white 60%),
+      90: color-mix(in oklab, var(--palette--#{$name}) 20%, white 80%),
+      95: color-mix(in oklab, var(--palette--#{$name}) 10%, white 90%),
+      98: color-mix(in oklab, var(--palette--#{$name}) 4%, white 96%),
+      99: color-mix(in oklab, var(--palette--#{$name}) 2%, white 98%),
+      100: white,
+    )
+  );
+}
+
+@mixin generate(
+  $primary,
+  $secondary: null,
+  $tertiary: null,
+  $neutral: null,
+  $neutral-variant: null,
+  $error: null
+) {
+  $secondary: $secondary or
+    color-mix(in oklab, var(--palette--primary) 50%, #808080 50%);
+  $tertiary: $tertiary or var(--palette--primary);
+  $neutral: $neutral or
+    color-mix(in oklab, var(--palette--primary) 15%, #808080 85%);
+  $neutral-variant: $neutral-variant or
+    color-mix(in oklab, var(--palette--primary) 20%, #808080 80%);
+  $error: $error or #ff0000;
+
+  --palette--primary: #{$primary};
+  --palette--secondary: #{$secondary};
+  --palette--tertiary: #{$tertiary};
+  --palette--neutral: #{$neutral};
+  --palette--neutral-variant: #{$neutral-variant};
+  --palette--error: #{$error};
+
+  @include _generate-variant-vars(primary);
+  @include _generate-variant-vars(secondary);
+  @include _generate-variant-vars(tertiary);
+  @include _generate-variant-vars(neutral);
+  @include _generate-variant-vars(neutral-variant);
+  @include _generate-variant-vars(error);
+}

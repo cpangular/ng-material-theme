@@ -1,0 +1,15 @@
+@use "ng-material-theme/theming";
+
+$themeCfg: (
+  primary: #ff00ff,
+  secondary: null,
+  tertiary: null,
+  neutral: null,
+  neutral-variant: null,
+  error: null,
+  typography: null,
+  density: null,
+);
+
+@include theming.core();
+@include theming.default-theme("theme-name", $themeCfg);
