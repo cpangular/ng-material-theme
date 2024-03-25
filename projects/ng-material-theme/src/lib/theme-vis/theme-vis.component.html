@@ -1,29 +1,3 @@
-<table>
-  <tr>
-    <th></th>
-    @for (palette of palettes; track $index) {
-      <th>{{ palette }}</th>
-    }
-  </tr>
-  @for (shade of shades; track $index) {
-    <tr>
-      <th>{{ shade }}</th>
-      @for (palette of palettes; track $index) {
-        <td
-          [style.background-color]="
-            'var(--palette--' + palette + '-' + shade + ')'
-          "
-          [style.color]="
-            'var(--palette--' + palette + '-' + (shade <= 50 ? 90 : 20) + ')'
-          "
-        >
-          --palette-{{ palette }}-{{ shade }}
-        </td>
-      }
-    </tr>
-  }
-</table>
-
 <table class="light-aliases">
   <tr>
     <th colspan="3">Light Mode</th>
@@ -174,4 +148,30 @@
       --color--outline
     </td>
   </tr>
+</table>
+
+<table>
+  <tr>
+    <th></th>
+    @for (palette of palettes; track $index) {
+      <th>{{ palette }}</th>
+    }
+  </tr>
+  @for (shade of shades; track $index) {
+    <tr>
+      <th>{{ shade }}</th>
+      @for (palette of palettes; track $index) {
+        <td
+          [style.background-color]="
+            'var(--palette--' + palette + '-' + shade + ')'
+          "
+          [style.color]="
+            'var(--palette--' + palette + '-' + (shade <= 50 ? 90 : 20) + ')'
+          "
+        >
+          --palette-{{ palette }}-{{ shade }}
+        </td>
+      }
+    </tr>
+  }
 </table>
