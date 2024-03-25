@@ -56,6 +56,10 @@ export function getDocumentElement() {
   return getDocument()?.documentElement;
 }
 
+export function getBodyElement() {
+  return getDocument()?.body;
+}
+
 export function getLocalStorage() {
   return typeof localStorage !== "undefined" ? localStorage : undefined;
 }

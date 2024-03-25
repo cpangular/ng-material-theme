@@ -12,4 +12,4 @@ $themeCfg: (
 );
 
 @include theming.core();
-@include theming.default-theme("theme-name", $themeCfg);
+@include theming.default-theme("my-theme", $themeCfg);

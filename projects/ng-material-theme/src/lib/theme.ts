@@ -1,4 +1,9 @@
-import { getDocumentElement, getLocalStorage, getWindow } from "./util";
+import {
+  getBodyElement,
+  getDocumentElement,
+  getLocalStorage,
+  getWindow,
+} from "./util";
 
 export enum ThemeMode {
   AUTO = "auto",
@@ -10,7 +15,7 @@ const STORAGE_KEY_MODE = "cpngThemeMode";
 const STORAGE_KEY_THEME = "cpngTheme";
 
 export function getActiveTheme(
-  elm: HTMLElement | undefined = getDocumentElement(),
+  elm: HTMLElement | undefined = getBodyElement(),
 ) {
   if (!elm) {
     return undefined;
@@ -52,7 +57,7 @@ export function setThemeMode(mode: ThemeMode) {
 
 export function setTheme(
   theme: string | undefined,
-  elm: HTMLElement | undefined = getDocumentElement(),
+  elm: HTMLElement | undefined = getBodyElement(),
 ) {
   if (!elm) {
     return;

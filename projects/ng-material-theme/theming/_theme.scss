@@ -14,7 +14,7 @@
 
   $selector: '[theme="#{$name}"]';
   @if $isDefault {
-    $selector: "html, #{$selector}";
+    $selector: "body:not([theme]), #{$selector}";
   }
   -theme-,
   #{$selector} {

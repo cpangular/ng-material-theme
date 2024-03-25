@@ -466,7 +466,7 @@ $_matTertiaryAdapterPaletteDark: (
 @mixin generate($name, $isDefault: false, $typography: null, $density: null) {
   $selector: '[theme="#{$name}"]';
   @if $isDefault {
-    $selector: "html, #{$selector}";
+    $selector: "body:not([theme]), #{$selector}";
   }
 
   $typography: $typography or
@@ -513,14 +513,16 @@ $_matTertiaryAdapterPaletteDark: (
     )
   );
 
-  $darkSelector: 'html[theme-mode="dark"][theme="#{$name}"], html[theme-mode="dark"] [theme="#{$name}"]';
-  $prefDarkSelector: 'html[theme="#{$name}"]:not([theme-mode="light"]), html:not([theme-mode="light"]) [theme="#{$name}"]';
+  $darkSelector: 'html[theme-mode="dark"] [theme="#{$name}"]';
+  $prefDarkSelector: 'html:not([theme-mode="light"]) [theme="#{$name}"]';
 
   @if $isDefault {
-    $darkSelector: "html[theme-mode='dark']:not([theme]), #{$darkSelector}";
+    $darkSelector: "html[theme-mode="
+      dark
+      "] body:not([theme]), #{$darkSelector}";
     $prefDarkSelector: "html:not([theme-mode="
       light
-      "]):not([theme]), #{$prefDarkSelector}";
+      "])  body:not([theme]), #{$prefDarkSelector}";
   }
 
   #{$darkSelector} {
