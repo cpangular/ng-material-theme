@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @mixin _generate-palette-vars($name, $vars) {
   @each $k, $v in $vars {
     --palette--#{$name}-#{$k}: #{$v};
@@ -5,28 +7,36 @@
 }
 
 @mixin _generate-variant-vars($name) {
-  @include _generate-palette-vars(
-    $name,
-    (
-      0: black,
-      5: color-mix(in oklab, var(--palette--#{$name}) 10%, black 90%),
-      10: color-mix(in oklab, var(--palette--#{$name}) 20%, black 80%),
-      20: color-mix(in oklab, var(--palette--#{$name}) 40%, black 60%),
-      25: color-mix(in oklab, var(--palette--#{$name}) 50%, black 50%),
-      30: color-mix(in oklab, var(--palette--#{$name}) 60%, black 40%),
-      35: color-mix(in oklab, var(--palette--#{$name}) 70%, black 30%),
-      40: color-mix(in oklab, var(--palette--#{$name}) 80%, black 20%),
-      50: var(--palette--#{$name}),
-      60: color-mix(in oklab, var(--palette--#{$name}) 80%, white 20%),
-      70: color-mix(in oklab, var(--palette--#{$name}) 60%, white 40%),
-      80: color-mix(in oklab, var(--palette--#{$name}) 40%, white 60%),
-      90: color-mix(in oklab, var(--palette--#{$name}) 20%, white 80%),
-      95: color-mix(in oklab, var(--palette--#{$name}) 10%, white 90%),
-      98: color-mix(in oklab, var(--palette--#{$name}) 4%, white 96%),
-      99: color-mix(in oklab, var(--palette--#{$name}) 2%, white 98%),
-      100: white,
-    )
+  $levels: (
+    0: black,
+    4: color-mix(in oklab, var(--palette--#{$name}) 8%, black 92%),
+    5: color-mix(in oklab, var(--palette--#{$name}) 10%, black 90%),
+    6: color-mix(in oklab, var(--palette--#{$name}) 12%, black 88%),
+    10: color-mix(in oklab, var(--palette--#{$name}) 20%, black 80%),
+    12: color-mix(in oklab, var(--palette--#{$name}) 24%, black 76%),
+    17: color-mix(in oklab, var(--palette--#{$name}) 34%, black 66%),
+    20: color-mix(in oklab, var(--palette--#{$name}) 40%, black 60%),
+    22: color-mix(in oklab, var(--palette--#{$name}) 44%, black 56%),
+    24: color-mix(in oklab, var(--palette--#{$name}) 28%, black 52%),
+    25: color-mix(in oklab, var(--palette--#{$name}) 50%, black 50%),
+    30: color-mix(in oklab, var(--palette--#{$name}) 60%, black 40%),
+    35: color-mix(in oklab, var(--palette--#{$name}) 70%, black 30%),
+    40: color-mix(in oklab, var(--palette--#{$name}) 80%, black 20%),
+    50: var(--palette--#{$name}),
+    60: color-mix(in oklab, var(--palette--#{$name}) 80%, white 20%),
+    70: color-mix(in oklab, var(--palette--#{$name}) 60%, white 40%),
+    80: color-mix(in oklab, var(--palette--#{$name}) 40%, white 60%),
+    87: color-mix(in oklab, var(--palette--#{$name}) 26%, white 74%),
+    90: color-mix(in oklab, var(--palette--#{$name}) 20%, white 80%),
+    92: color-mix(in oklab, var(--palette--#{$name}) 16%, white 84%),
+    94: color-mix(in oklab, var(--palette--#{$name}) 12%, white 88%),
+    95: color-mix(in oklab, var(--palette--#{$name}) 10%, white 90%),
+    96: color-mix(in oklab, var(--palette--#{$name}) 8%, white 92%),
+    98: color-mix(in oklab, var(--palette--#{$name}) 4%, white 96%),
+    99: color-mix(in oklab, var(--palette--#{$name}) 2%, white 98%),
+    100: white,
   );
+  @include _generate-palette-vars($name, $levels);
 }
 
 @mixin generate(

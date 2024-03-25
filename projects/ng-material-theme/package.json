@@ -1,6 +1,10 @@
 {
   "name": "ng-material-theme",
   "version": "0.0.1",
+  "scripts": {
+    "build": "ng build ng-material-theme",
+    "watch": "ng build --watch ng-material-theme"
+  },
   "peerDependencies": {
     "@angular/common": "^17.3.0",
     "@angular/core": "^17.3.0"

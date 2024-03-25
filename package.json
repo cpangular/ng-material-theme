@@ -17,7 +17,9 @@
     "pre-commit:git.tags.remove": "pnpm run git.tags.remove",
     "git.tags.remove": "git tag | xargs git tag -d",
     "git.clean": "git clean -dfX && pnpm i --force",
-    "git.reset": "git clean -dfx && git reset --hard && pnpm i --force"
+    "git.reset": "git clean -dfx && git reset --hard && pnpm i --force",
+    "build": "pnpm run recursive build",
+    "build.watch": "pnpm run recursive-p watch"
   },
   "dependencies": {
     "@angular/animations": "^17.1.0",

@@ -1,0 +1,11 @@
+{
+  "name": "test-theme",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "ng build test-theme",
+    "watch": "ng serve test-theme"
+  },
+  "devDependencies": {
+    "ng-material-theme": "workspace:*"
+  }
+}
