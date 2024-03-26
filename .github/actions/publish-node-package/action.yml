@@ -30,8 +30,6 @@ runs:
       uses: actions/setup-node@v3.6.0
       with:
         node-version: ${{ inputs.nodeVersion }}
-        cache: "pnpm"
-        cache-dependency-path: pnpm-lock.yaml
         registry-url: https://npm.pkg.github.com/
         always-auth: true
         scope: ${{ github.repository_owner }}
@@ -47,8 +45,6 @@ runs:
       uses: actions/setup-node@v3.6.0
       with:
         node-version: ${{ inputs.nodeVersion }}
-        cache: "pnpm"
-        cache-dependency-path: pnpm-lock.yaml
         registry-url: "https://registry.npmjs.org"
         always-auth: true
         scope: ${{ github.repository_owner }}
