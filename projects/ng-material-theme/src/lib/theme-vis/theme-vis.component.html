@@ -1,0 +1,177 @@
+<table class="light-aliases">
+  <tr>
+    <th colspan="3">Light Mode</th>
+  </tr>
+  @for (palette of colorPalettes; track $index) {
+    <tr>
+      <th>{{ palette }}</th>
+
+      <td
+        [style.background-color]="'var(--palette--' + palette + '-' + 40 + ')'"
+        [style.color]="'var(--palette--' + palette + '-' + 95 + ')'"
+      >
+        --color--{{ palette }}
+      </td>
+
+      <td
+        [style.background-color]="'var(--palette--' + palette + '-' + 90 + ')'"
+        [style.color]="'var(--palette--' + palette + '-' + 10 + ')'"
+      >
+        --color--{{ palette }}-container
+      </td>
+    </tr>
+  }
+
+  @for (alias of bgAliases; track $index) {
+    <tr>
+      <th>{{ alias }}</th>
+      <td
+        [style.background-color]="
+          'var(--palette--' +
+          getBgPalette(alias) +
+          '-' +
+          getBgPaletteValue(alias, false, false) +
+          ')'
+        "
+        [style.color]="
+          'var(--palette--' +
+          getBgPalette(alias) +
+          '-' +
+          getBgPaletteValue(alias, false, true) +
+          ')'
+        "
+      >
+        --color--{{ alias }}
+      </td>
+      <td
+        [style.background-color]="
+          'var(--palette--' +
+          getBgPalette(alias + '-variant') +
+          '-' +
+          getBgPaletteValue(alias + '-variant', false, false) +
+          ')'
+        "
+        [style.color]="
+          'var(--palette--' +
+          getBgPalette(alias + '-variant') +
+          '-' +
+          getBgPaletteValue(alias + '-variant', false, true) +
+          ')'
+        "
+      >
+        --color--{{ alias }}-variant
+      </td>
+    </tr>
+  }
+
+  <tr>
+    <th>outline</th>
+    <td
+      colspan="2"
+      [style.background-color]="'var(--palette--neutral-variant-50)'"
+      [style.color]="'var(--palette--neutral-variant-90)'"
+    >
+      --color--outline
+    </td>
+  </tr>
+</table>
+
+<table class="dark-aliases">
+  <tr>
+    <th colspan="3">Dark Mode</th>
+  </tr>
+  @for (palette of colorPalettes; track $index) {
+    <tr>
+      <th>{{ palette }}</th>
+      <td
+        [style.background-color]="'var(--palette--' + palette + '-' + 80 + ')'"
+        [style.color]="'var(--palette--' + palette + '-' + 20 + ')'"
+      >
+        --color--{{ palette }}
+      </td>
+      <td
+        [style.background-color]="'var(--palette--' + palette + '-' + 30 + ')'"
+        [style.color]="'var(--palette--' + palette + '-' + 90 + ')'"
+      >
+        --color--{{ palette }}-container
+      </td>
+    </tr>
+  }
+  @for (alias of bgAliases; track $index) {
+    <tr>
+      <th>{{ alias }}</th>
+      <td
+        [style.background-color]="
+          'var(--palette--' +
+          getBgPalette(alias) +
+          '-' +
+          getBgPaletteValue(alias, true, false) +
+          ')'
+        "
+        [style.color]="
+          'var(--palette--' +
+          getBgPalette(alias) +
+          '-' +
+          getBgPaletteValue(alias, true, true) +
+          ')'
+        "
+      >
+        --color--{{ alias }}
+      </td>
+      <td
+        [style.background-color]="
+          'var(--palette--' +
+          getBgPalette(alias + '-variant') +
+          '-' +
+          getBgPaletteValue(alias + '-variant', true, false) +
+          ')'
+        "
+        [style.color]="
+          'var(--palette--' +
+          getBgPalette(alias + '-variant') +
+          '-' +
+          getBgPaletteValue(alias + '-variant', true, true) +
+          ')'
+        "
+      >
+        --color--{{ alias }}-variant
+      </td>
+    </tr>
+  }
+  <tr>
+    <th>outline</th>
+    <td
+      colspan="2"
+      [style.background-color]="'var(--palette--neutral-variant-60)'"
+      [style.color]="'var(--palette--neutral-variant-10)'"
+    >
+      --color--outline
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th></th>
+    @for (palette of palettes; track $index) {
+      <th>{{ palette }}</th>
+    }
+  </tr>
+  @for (shade of shades; track $index) {
+    <tr>
+      <th>{{ shade }}</th>
+      @for (palette of palettes; track $index) {
+        <td
+          [style.background-color]="
+            'var(--palette--' + palette + '-' + shade + ')'
+          "
+          [style.color]="
+            'var(--palette--' + palette + '-' + (shade <= 50 ? 90 : 20) + ')'
+          "
+        >
+          --palette-{{ palette }}-{{ shade }}
+        </td>
+      }
+    </tr>
+  }
+</table>
