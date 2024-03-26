@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "17.3.0-dev.0",
+  "version": "17.3.0-dev.3",
   "scripts": {
     "build": "ng build ng-material-theme",
     "watch": "ng build --watch ng-material-theme",
