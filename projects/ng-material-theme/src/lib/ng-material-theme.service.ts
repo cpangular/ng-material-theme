@@ -67,7 +67,7 @@ export class NgMaterialThemeService {
     initialValue: getActiveThemeMode(),
   });
 
-  protected readonly prefersColorMode = this._isBrowser
+  public readonly prefersColorMode = this._isBrowser
     ? toSignal(
         fromEvent(
           window.matchMedia("(prefers-color-scheme: dark)"),
