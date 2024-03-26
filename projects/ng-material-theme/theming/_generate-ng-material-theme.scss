@@ -469,12 +469,6 @@ $_matTertiaryAdapterPaletteDark: (
     $selector: "body:not([theme]), #{$selector}";
   }
 
-  $typography: $typography or
-    (
-      brand-family: "Roboto",
-      bold-weight: 500,
-    );
-
   $density: $density or
     (
       scale: -5,
