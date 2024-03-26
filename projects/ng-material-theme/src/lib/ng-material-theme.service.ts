@@ -12,6 +12,7 @@ import {
   getActiveTheme,
   getActiveThemeMode,
   getPreferredMode,
+  getThemeMode,
   setTheme,
   setThemeMode,
 } from "./theme";
@@ -51,20 +52,32 @@ export class NgMaterialThemeService {
     getDocumentElement(),
     config,
   );
+
   private readonly _activeTheme$ = this._docMutations$.pipe(
     map((m) => getActiveTheme()),
     distinctUntilChanged(),
   );
+
   private readonly _activeThemeMode$ = this._docMutations$.pipe(
     map((m) => getActiveThemeMode()),
+    distinctUntilChanged(),
+  );
+
+  private readonly _themeModeSetting$ = this._docMutations$.pipe(
+    map((m) => getThemeMode()),
     distinctUntilChanged(),
   );
 
   public readonly theme = toSignal(this._activeTheme$, {
     initialValue: getActiveTheme(),
   });
+
   public readonly mode = toSignal(this._activeThemeMode$, {
     initialValue: getActiveThemeMode(),
+  });
+
+  public readonly modeSetting = toSignal(this._themeModeSetting$, {
+    initialValue: getThemeMode(),
   });
 
   public readonly prefersColorMode = this._isBrowser
