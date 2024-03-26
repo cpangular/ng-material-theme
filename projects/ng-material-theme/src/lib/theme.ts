@@ -70,3 +70,8 @@ export function setTheme(
     getLocalStorage()?.removeItem(STORAGE_KEY_THEME);
   }
 }
+
+setTheme(getLocalStorage()?.getItem(STORAGE_KEY_THEME) ?? undefined);
+setThemeMode(
+  (getLocalStorage()?.getItem(STORAGE_KEY_MODE) as ThemeMode) ?? ThemeMode.AUTO,
+);
