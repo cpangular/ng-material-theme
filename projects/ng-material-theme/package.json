@@ -1,9 +1,12 @@
 {
-  "name": "ng-material-theme",
-  "version": "0.0.1",
+  "name": "@cpangular/ng-material-theme",
+  "version": "0.0.0-PLACEHOLDER",
   "scripts": {
     "build": "ng build ng-material-theme",
-    "watch": "ng build --watch ng-material-theme"
+    "watch": "ng build --watch ng-material-theme",
+    "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
+    "pack": "mkdir ./pack && cd ./dist/ng-material-theme && pnpm pack --pack-destination ../../pack",
+    "release": "pnpm publish ./pack/*.tgz --access public --no-git-checks"
   },
   "peerDependencies": {
     "@angular/common": "^17.3.0",

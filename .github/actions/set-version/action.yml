@@ -1,0 +1,13 @@
+name: "Set version"
+description: ""
+
+inputs:
+  version:
+    description: "Version"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: pnpm run actions-set-version ${{ inputs.version }}
+      shell: bash

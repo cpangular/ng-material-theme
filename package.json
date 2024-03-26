@@ -19,7 +19,15 @@
     "git.clean": "git clean -dfX && pnpm i --force",
     "git.reset": "git clean -dfx && git reset --hard && pnpm i --force",
     "build": "pnpm run recursive build",
-    "build.watch": "pnpm run recursive-p watch"
+    "build.watch": "pnpm run recursive-p watch",
+    "pack": "pnpm run recursive pack",
+    "release": "pnpm run recursive release",
+    "test": "pnpm  run recursive test",
+    "actions-build": "pnpm run build",
+    "actions-pack": "pnpm run pack",
+    "actions-publish": "pnpm run release",
+    "actions-test": "pnpm run test",
+    "actions-set-version": "pnpm run set-version"
   },
   "dependencies": {
     "@angular/animations": "^17.1.0",

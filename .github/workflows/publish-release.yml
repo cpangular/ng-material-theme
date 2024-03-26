@@ -1,0 +1,58 @@
+name: Publish Node Package
+
+on:
+  push:
+    branches:
+      - "release/*"
+
+jobs:
+  setup:
+    name: Setup Release Information
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      isPrerelease: ${{ steps.version.outputs.isPrerelease }}
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3.3.0
+      - name: Check Version
+        id: version
+        uses: ./.github/actions/check-version
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3.3.0
+
+      - name: Setup Node & Dependencies
+        uses: ./.github/actions/setup-node
+
+      - name: Set Version
+        uses: ./.github/actions/set-version
+        with:
+          version: ${{ needs.setup.outputs.version }}
+
+      - name: Build
+        uses: ./.github/actions/build
+
+      - name: Pack
+        uses: ./.github/actions/pack
+
+      - name: Publish
+        uses: ./.github/actions/publish-node-package
+        with:
+          toGithub: true
+          toNpm: true
+          npmToken: ${{ secrets.NPM_TOKEN  }}
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3.3.0
+
+      - name: Create Release
+        uses: ./.github/actions/create-release
