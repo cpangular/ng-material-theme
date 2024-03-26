@@ -1,18 +1,24 @@
-import { Injectable } from "@angular/core";
+import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { Observable, distinctUntilChanged, map } from "rxjs";
+import {
+  Observable,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  startWith,
+} from "rxjs";
 import {
   ThemeMode,
   getActiveTheme,
   getActiveThemeMode,
+  getPreferredMode,
   setTheme,
   setThemeMode,
 } from "./theme";
 import { getDocumentElement } from "./util";
+import { isPlatformBrowser } from "@angular/common";
 
 const config: MutationObserverInit = { attributes: true };
-
-console.clear();
 
 const observeOnMutation = (
   target: Node | undefined,
@@ -39,6 +45,8 @@ const observeOnMutation = (
   providedIn: "root",
 })
 export class NgMaterialThemeService {
+  private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   private readonly _docMutations$ = observeOnMutation(
     getDocumentElement(),
     config,
@@ -58,6 +66,19 @@ export class NgMaterialThemeService {
   public readonly mode = toSignal(this._activeThemeMode$, {
     initialValue: getActiveThemeMode(),
   });
+
+  protected readonly prefersColorMode = this._isBrowser
+    ? toSignal(
+        fromEvent(
+          window.matchMedia("(prefers-color-scheme: dark)"),
+          "change",
+        ).pipe(
+          map((_) => getPreferredMode()),
+          distinctUntilChanged(),
+        ),
+        { initialValue: getPreferredMode() },
+      )
+    : signal<ThemeMode.LIGHT>(ThemeMode.LIGHT).asReadonly();
 
   public setTheme(theme: string | undefined) {
     setTheme(theme);
