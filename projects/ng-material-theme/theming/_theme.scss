@@ -10,7 +10,7 @@
   $neutral: map.get($themeCfg, "neutral");
   $neutral-variant: map.get($themeCfg, "neutral-variant");
   $error: map.get($themeCfg, "error");
-  $typography: map.get($themeCfg, "typography");
+  $typography: prepareTypography(map.get($themeCfg, "typography"));
   $density: map.get($themeCfg, "density");
 
   $selector: '[theme="#{$name}"]';
@@ -30,15 +30,20 @@
       $neutral-variant,
       $error
     );
+    @include typography-vars.generate($typography);
   }
-  $typography: prepareTypography($typography);
-  @include typography-vars.generate($typography);
 
   @include material-theme.generate($name, $isDefault, $typography, $density);
 }
 
 @mixin generate-core {
   @include material-theme.generate-core();
+
+  body {
+    background-color: var(--color--background);
+    color: var(--color--background--contrast);
+    font-family: var(--typography--plain-family);
+  }
 }
 
 @function prepareTypography($typography) {
@@ -49,7 +54,7 @@
         "Helvetica Neue",
         sans-serif,
       ),
-      plain-weight: 400,
+      regular-weight: 400,
       medium-weight: 500,
       bold-weight: 700,
     );
