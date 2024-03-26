@@ -44,9 +44,11 @@
 @function prepareTypography($typography) {
   $typography: $typography or
     (
-      plain-family: Roboto,
-      "Helvetica Neue",
-      sans-serif,
+      plain-family: (
+        Roboto,
+        "Helvetica Neue",
+        sans-serif,
+      ),
       plain-weight: 400,
       medium-weight: 500,
       bold-weight: 700,
