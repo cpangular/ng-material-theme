@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "0.0.0-PLACEHOLDER",
+  "version": "17.3.0-dev.0",
   "scripts": {
     "build": "ng build ng-material-theme",
     "watch": "ng build --watch ng-material-theme",
@@ -15,5 +15,10 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": "https://github.com/cpangular/ng-material-theme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  }
 }
