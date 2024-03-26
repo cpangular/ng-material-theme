@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "./generate-ng-material-theme" as material-theme;
 @use "./generate-palette-vars" as palette-vars;
+@use "./generate-typography-vars" as typography-vars;
 
 @mixin generate($name, $isDefault, $themeCfg) {
   $primary: map.get($themeCfg, "primary");
@@ -9,7 +10,7 @@
   $neutral: map.get($themeCfg, "neutral");
   $neutral-variant: map.get($themeCfg, "neutral-variant");
   $error: map.get($themeCfg, "error");
-  $typography: map.get($themeCfg, "typography");
+  $typography: prepareTypography(map.get($themeCfg, "typography"));
   $density: map.get($themeCfg, "density");
 
   $selector: '[theme="#{$name}"]';
@@ -29,10 +30,33 @@
       $neutral-variant,
       $error
     );
+    @include typography-vars.generate($typography);
   }
+
   @include material-theme.generate($name, $isDefault, $typography, $density);
 }
 
 @mixin generate-core {
   @include material-theme.generate-core();
+
+  body {
+    background-color: var(--color--background);
+    color: var(--color--background--contrast);
+    font-family: var(--typography--plain-family);
+  }
+}
+
+@function prepareTypography($typography) {
+  $typography: $typography or
+    (
+      plain-family: (
+        Roboto,
+        "Helvetica Neue",
+        sans-serif,
+      ),
+      regular-weight: 400,
+      medium-weight: 500,
+      bold-weight: 700,
+    );
+  @return $typography;
 }

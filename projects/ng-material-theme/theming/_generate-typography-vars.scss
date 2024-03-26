@@ -1,0 +1,5 @@
+@mixin generate($typography) {
+  @each $name, $value in $typography {
+    --typography--#{$name}: #{$value};
+  }
+}
