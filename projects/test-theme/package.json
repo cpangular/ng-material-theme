@@ -6,6 +6,6 @@
     "watch": "ng serve test-theme"
   },
   "devDependencies": {
-    "ng-material-theme": "workspace:*"
+    "@cpangular/ng-material-theme": "workspace:*"
   }
 }
