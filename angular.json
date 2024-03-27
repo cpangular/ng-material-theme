@@ -63,7 +63,10 @@
               "projects/test-theme/src/favicon.ico",
               "projects/test-theme/src/assets"
             ],
-            "styles": ["projects/test-theme/src/styles.scss"],
+            "styles": [
+              "dist/ng-material-theme/css/core.css",
+              "projects/test-theme/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {

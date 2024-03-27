@@ -22,7 +22,7 @@ $subThemeCfg: (
   density: null,
 );
 
-@include theming.core();
+// @include theming.core();
 @include theming.default-theme("my-theme", $themeCfg);
 
 @include theming.theme("my-sub-theme", $subThemeCfg);
