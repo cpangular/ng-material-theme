@@ -39,6 +39,23 @@
   @include _generate-palette-vars($name, $levels);
 }
 
+@mixin _gen-palette-aliases($name, $values) {
+  --color--#{$name}: var(--palette--#{$name}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(--palette--#{$name}-#{list.nth($values, 2)});
+
+  --color--#{$name}-container: var(--palette--#{$name}-#{list.nth($values, 3)});
+  --color--#{$name}-container--contrast: var(
+    --palette--#{$name}-#{list.nth($values, 4)}
+  );
+}
+
+@mixin _gen-bg-palette-aliases($name, $palName, $values) {
+  --color--#{$name}: var(--palette--#{$palName}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(
+    --palette--#{$palName}-#{list.nth($values, 2)}
+  );
+}
+
 @mixin generate(
   $primary,
   $secondary: null,

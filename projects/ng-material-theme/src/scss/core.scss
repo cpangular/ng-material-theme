@@ -1,3 +1,9 @@
-@use "../../theming" as theming;
+@use "@angular/material" as mat;
 
-@include theming.core();
+@include mat.core();
+
+body {
+  background-color: var(--color--background);
+  color: var(--color--background--contrast);
+  font-family: var(--typography--plain-family);
+}

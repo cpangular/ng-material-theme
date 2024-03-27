@@ -1,0 +1,101 @@
+@use "@angular/material" as mat;
+@use "@angular/material-experimental" as matx;
+@use "sass:list";
+
+@mixin _gen-palette-aliases($name, $values) {
+  --color--#{$name}: var(--palette-ref--#{$name}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(
+    --palette-ref--#{$name}-#{list.nth($values, 2)}
+  );
+
+  --color--#{$name}-container: var(
+    --palette-ref--#{$name}-#{list.nth($values, 3)}
+  );
+  --color--#{$name}-container--contrast: var(
+    --palette-ref--#{$name}-#{list.nth($values, 4)}
+  );
+}
+
+@mixin _gen-bg-palette-aliases($name, $palName, $values) {
+  --color--#{$name}: var(--palette-ref--#{$palName}-#{list.nth($values, 1)});
+  --color--#{$name}--contrast: var(
+    --palette-ref--#{$palName}-#{list.nth($values, 2)}
+  );
+}
+
+@mixin _gen-light-aliases() {
+  $select: (40, 98, 90, 10);
+  @include _gen-palette-aliases(primary, $select);
+  @include _gen-palette-aliases(secondary, $select);
+  @include _gen-palette-aliases(tertiary, $select);
+  @include _gen-palette-aliases(error, $select);
+
+  @include _gen-bg-palette-aliases(background, neutral, (99, 10));
+  @include _gen-bg-palette-aliases(
+    background-variant,
+    neutral-variant,
+    (80, 20)
+  );
+  @include _gen-bg-palette-aliases(surface, neutral, (99, 10));
+  @include _gen-bg-palette-aliases(surface-variant, neutral-variant, (90, 30));
+
+  --color--outline: var(--palette-ref--neutral-variant-50);
+  --color--scrim: var(--palette-ref--neutral-0);
+  --color--shadow: var(--palette-ref--neutral-0);
+  --color--black: black;
+  --color--white: white;
+}
+
+@mixin _gen-dark-aliases() {
+  $select: (80, 20, 30, 90);
+  @include _gen-palette-aliases(primary, $select);
+  @include _gen-palette-aliases(secondary, $select);
+  @include _gen-palette-aliases(tertiary, $select);
+  @include _gen-palette-aliases(error, $select);
+
+  @include _gen-bg-palette-aliases(background, neutral, (10, 90));
+  @include _gen-bg-palette-aliases(
+    background-variant,
+    neutral-variant,
+    (20, 80)
+  );
+  @include _gen-bg-palette-aliases(surface, neutral, (20, 90));
+  @include _gen-bg-palette-aliases(surface-variant, neutral-variant, (30, 90));
+
+  --color--outline: var(--palette-ref--neutral-60);
+  --color--scrim: var(--palette-ref--neutral-0);
+  --color--shadow: var(--palette-ref--neutral-0);
+  --color--black: black;
+  --color--white: white;
+}
+
+@mixin generate($name, $isDefault: false) {
+  $selector: '[theme="#{$name}"]';
+  @if $isDefault {
+    $selector: "body:not([theme]), #{$selector}";
+  }
+
+  #{$selector} {
+    @include _gen-light-aliases();
+  }
+
+  $darkSelector: 'html[theme-mode="dark"] [theme="#{$name}"]';
+  $prefDarkSelector: 'html:not([theme-mode]) [theme="#{$name}"]';
+
+  @if $isDefault {
+    $darkSelector: "html[theme-mode="
+      dark
+      "] body:not([theme]), #{$darkSelector}";
+    $prefDarkSelector: "html:not([theme-mode])  body:not([theme]), #{$prefDarkSelector}";
+  }
+
+  #{$darkSelector} {
+    @include _gen-dark-aliases();
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #{$prefDarkSelector} {
+      @include _gen-dark-aliases();
+    }
+  }
+}

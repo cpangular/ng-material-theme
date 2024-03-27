@@ -132,11 +132,6 @@ colors.children.forEach((child) => {
                     values[k as keyof typeof values],
                   );
                   if (rgba.HEX === v.HEX) {
-                    console.log(
-                      "match",
-                      match[0],
-                      `var(${toPaletteVar(paletteName, k)})`,
-                    );
                     final = final.replace(
                       match[0],
                       `color-mix(in oklab, var(${toPaletteVar(paletteName, k)}) ${Math.round((rgba.RGBAObject.A || 1) * 10000) / 100}%, transparent 0%)`,
@@ -247,26 +242,19 @@ filterDensity(density_5);
 filterNonDensity(base);
 
 const coreThemeCss = `
+    /* Material Theme Color Variables */
     ${generate(colors)}
+    /* Material Theme Base Variables */
     ${generate(base)}
+    /* Material Theme Density Variables */
     ${generate(density_0)}
     ${generate(density_1)}
     ${generate(density_2)}
     ${generate(density_3)}
     ${generate(density_4)}
     ${generate(density_5)}
+    /* Material Theme Core */
     ${coreResult.css}
 `;
 
 await writeScssFile("./css/core.css", coreThemeCss);
-
-/*
-await writeScssFile("./css/base.css", generate(base));
-await writeScssFile("./css/density-0.css", generate(density_0));
-await writeScssFile("./css/density-1.css", generate(density_1));
-await writeScssFile("./css/density-2.css", generate(density_2));
-await writeScssFile("./css/density-3.css", generate(density_3));
-await writeScssFile("./css/density-4.css", generate(density_4));
-await writeScssFile("./css/density-5.css", generate(density_5));
-await writeScssFile("./css/colors.css", generate(colors));
-*/
