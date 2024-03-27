@@ -75,6 +75,8 @@ function toPaletteVar(paletteName: string, weight: string) {
     case "neutral":
       if (weight === "0") return `--color--black`;
       if (weight === "10") return `--color--background`;
+      if (weight === "12") return `--color--surface-variant`;
+      if (weight === "17") return `--color--surface-variant`;
       if (weight === "90") return `--color--background--contrast`;
       if (weight === "20") return `--color--surface`;
     case "neutral-variant":
