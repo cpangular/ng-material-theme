@@ -11,12 +11,6 @@ const coreResult = compile("./src/scss/core.scss", {
   loadPaths: ["./node_modules"],
 });
 
-const themeResult = compile("./src/scss/theme.scss", {
-  loadPaths: ["./node_modules"],
-});
-
-const theme = parse(themeResult.css) as StyleSheet;
-
 function toScss(value: any): string {
   switch (typeof value) {
     case "string":
@@ -100,7 +94,6 @@ colors.children.forEach((child) => {
   if (child.type === "Rule") {
     child.block.children.forEach((c) => {
       if (c.type === "Declaration") {
-        //  console.log(child.property, child.value);
         colorVars.set(c.property, generate(c.value));
         let pValue = generate(c.value).toLowerCase().trim();
         if (c.property === "--mat-snack-bar-button-color") {
@@ -126,13 +119,9 @@ colors.children.forEach((child) => {
             }
           }
         } catch {
-          console.log("-- not color ", c.property, pValue);
-
           const findRgbRegExp = /rgba\(.*?\)/gim;
-
-          const matches = Array.from(pValue.matchAll(findRgbRegExp));
           let final = pValue;
-
+          const matches = Array.from(pValue.matchAll(findRgbRegExp));
           if (matches.length > 0) {
             for (const match of matches) {
               const rgba = new ColorTranslator(match[0]);
@@ -159,18 +148,18 @@ colors.children.forEach((child) => {
             }
           }
         }
-
-        // if (pValue === colorKeys.primary[40]) {
-        //     c.value = parse('var(--color-primary)', { context: "value" }) as Value;
-        // }
       }
     });
   }
 });
 
-// const themeVars = new Map<string, string>();
+const baseResult = compile("./src/scss/base.scss", {
+  loadPaths: ["./node_modules"],
+});
 
-theme.children.forEach((child) => {
+const base = parse(baseResult.css) as StyleSheet;
+
+base.children.forEach((child) => {
   if (child.type === "Rule") {
     child.block.children = child.block.children.filter((c) => {
       if (c.type === "Declaration") {
@@ -181,9 +170,103 @@ theme.children.forEach((child) => {
   }
 });
 
-// console.log(colorVars);
-// console.log(themeVars);
+const densityMap = new Map<string, Set<string>>();
 
-await writeScssFile("./css/core.css", coreResult.css);
-await writeScssFile("./css/theme.css", generate(theme));
+function genDensity(densityScale: number) {
+  const densityResult = compile(
+    `./src/scss/density-${densityScale * -1}.scss`,
+    {
+      loadPaths: ["./node_modules"],
+    },
+  );
+  const density = parse(densityResult.css) as StyleSheet;
+
+  density.children.forEach((child) => {
+    if (child.type === "Rule") {
+      child.block.children = child.block.children.filter((c) => {
+        if (c.type === "Declaration") {
+          return !colorVars.has(c.property);
+        }
+        return true;
+      });
+      child.block.children.forEach((c) => {
+        if (c.type === "Declaration") {
+          if (!densityMap.has(c.property)) {
+            densityMap.set(c.property, new Set());
+          }
+          const propDensity = densityMap.get(c.property)!;
+          propDensity.add(generate(c.value));
+        }
+      });
+    }
+  });
+  return density;
+}
+
+function filterDensity(density: StyleSheet) {
+  density.children.forEach((child) => {
+    if (child.type === "Rule") {
+      child.block.children = child.block.children.filter((c) => {
+        if (c.type === "Declaration") {
+          return (densityMap.get(c.property)?.size || 0) > 1;
+        }
+        return true;
+      });
+    }
+  });
+  return density;
+}
+function filterNonDensity(density: StyleSheet) {
+  density.children.forEach((child) => {
+    if (child.type === "Rule") {
+      child.block.children = child.block.children.filter((c) => {
+        if (c.type === "Declaration") {
+          return (densityMap.get(c.property)?.size || 0) <= 1;
+        }
+        return true;
+      });
+    }
+  });
+  return density;
+}
+
+const density_0 = genDensity(0);
+const density_1 = genDensity(-1);
+const density_2 = genDensity(-2);
+const density_3 = genDensity(-3);
+const density_4 = genDensity(-4);
+const density_5 = genDensity(-5);
+
+filterDensity(density_0);
+filterDensity(density_1);
+filterDensity(density_2);
+filterDensity(density_3);
+filterDensity(density_4);
+filterDensity(density_5);
+
+filterNonDensity(base);
+
+const coreThemeCss = `
+    ${generate(colors)}
+    ${generate(base)}
+    ${generate(density_0)}
+    ${generate(density_1)}
+    ${generate(density_2)}
+    ${generate(density_3)}
+    ${generate(density_4)}
+    ${generate(density_5)}
+    ${coreResult.css}
+`;
+
+await writeScssFile("./css/core.css", coreThemeCss);
+
+/*
+await writeScssFile("./css/base.css", generate(base));
+await writeScssFile("./css/density-0.css", generate(density_0));
+await writeScssFile("./css/density-1.css", generate(density_1));
+await writeScssFile("./css/density-2.css", generate(density_2));
+await writeScssFile("./css/density-3.css", generate(density_3));
+await writeScssFile("./css/density-4.css", generate(density_4));
+await writeScssFile("./css/density-5.css", generate(density_5));
 await writeScssFile("./css/colors.css", generate(colors));
+*/

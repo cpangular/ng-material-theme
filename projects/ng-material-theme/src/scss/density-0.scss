@@ -5,7 +5,7 @@
 $theme: matx.define-theme(
   (
     color: (
-      theme-type: light,
+      theme-type: dark,
       primary: matx.$m3-violet-palette,
     ),
     typography: (
@@ -16,11 +16,11 @@ $theme: matx.define-theme(
       regular-weight: var(--typography--bold-regular, 400),
     ),
     density: (
-      scale: -4,
+      scale: 0,
     ),
   )
 );
 
-.theme {
+[theme-density="0"] {
   @include mat.all-component-themes($theme);
 }
