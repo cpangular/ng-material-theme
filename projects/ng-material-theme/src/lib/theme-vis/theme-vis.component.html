@@ -7,15 +7,19 @@
       <th>{{ palette }}</th>
 
       <td
-        [style.background-color]="'var(--palette--' + palette + '-' + 40 + ')'"
-        [style.color]="'var(--palette--' + palette + '-' + 95 + ')'"
+        [style.background-color]="
+          'var(--palette-ref--' + palette + '-' + 40 + ')'
+        "
+        [style.color]="'var(--palette-ref--' + palette + '-' + 95 + ')'"
       >
         --color--{{ palette }}
       </td>
 
       <td
-        [style.background-color]="'var(--palette--' + palette + '-' + 90 + ')'"
-        [style.color]="'var(--palette--' + palette + '-' + 10 + ')'"
+        [style.background-color]="
+          'var(--palette-ref--' + palette + '-' + 90 + ')'
+        "
+        [style.color]="'var(--palette-ref--' + palette + '-' + 10 + ')'"
       >
         --color--{{ palette }}-container
       </td>
@@ -27,14 +31,14 @@
       <th>{{ alias }}</th>
       <td
         [style.background-color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias) +
           '-' +
           getBgPaletteValue(alias, false, false) +
           ')'
         "
         [style.color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias) +
           '-' +
           getBgPaletteValue(alias, false, true) +
@@ -45,14 +49,14 @@
       </td>
       <td
         [style.background-color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias + '-variant') +
           '-' +
           getBgPaletteValue(alias + '-variant', false, false) +
           ')'
         "
         [style.color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias + '-variant') +
           '-' +
           getBgPaletteValue(alias + '-variant', false, true) +
@@ -68,8 +72,8 @@
     <th>outline</th>
     <td
       colspan="2"
-      [style.background-color]="'var(--palette--neutral-variant-50)'"
-      [style.color]="'var(--palette--neutral-variant-90)'"
+      [style.background-color]="'var(--palette-ref--neutral-variant-50)'"
+      [style.color]="'var(--palette-ref--neutral-variant-90)'"
     >
       --color--outline
     </td>
@@ -84,14 +88,18 @@
     <tr>
       <th>{{ palette }}</th>
       <td
-        [style.background-color]="'var(--palette--' + palette + '-' + 80 + ')'"
-        [style.color]="'var(--palette--' + palette + '-' + 20 + ')'"
+        [style.background-color]="
+          'var(--palette-ref--' + palette + '-' + 80 + ')'
+        "
+        [style.color]="'var(--palette-ref--' + palette + '-' + 20 + ')'"
       >
         --color--{{ palette }}
       </td>
       <td
-        [style.background-color]="'var(--palette--' + palette + '-' + 30 + ')'"
-        [style.color]="'var(--palette--' + palette + '-' + 90 + ')'"
+        [style.background-color]="
+          'var(--palette-ref--' + palette + '-' + 30 + ')'
+        "
+        [style.color]="'var(--palette-ref--' + palette + '-' + 90 + ')'"
       >
         --color--{{ palette }}-container
       </td>
@@ -102,14 +110,14 @@
       <th>{{ alias }}</th>
       <td
         [style.background-color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias) +
           '-' +
           getBgPaletteValue(alias, true, false) +
           ')'
         "
         [style.color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias) +
           '-' +
           getBgPaletteValue(alias, true, true) +
@@ -120,14 +128,14 @@
       </td>
       <td
         [style.background-color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias + '-variant') +
           '-' +
           getBgPaletteValue(alias + '-variant', true, false) +
           ')'
         "
         [style.color]="
-          'var(--palette--' +
+          'var(--palette-ref--' +
           getBgPalette(alias + '-variant') +
           '-' +
           getBgPaletteValue(alias + '-variant', true, true) +
@@ -142,8 +150,8 @@
     <th>outline</th>
     <td
       colspan="2"
-      [style.background-color]="'var(--palette--neutral-variant-60)'"
-      [style.color]="'var(--palette--neutral-variant-10)'"
+      [style.background-color]="'var(--palette-ref--neutral-variant-60)'"
+      [style.color]="'var(--palette-ref--neutral-variant-10)'"
     >
       --color--outline
     </td>
@@ -163,13 +171,17 @@
       @for (palette of palettes; track $index) {
         <td
           [style.background-color]="
-            'var(--palette--' + palette + '-' + shade + ')'
+            'var(--palette-ref--' + palette + '-' + shade + ')'
           "
           [style.color]="
-            'var(--palette--' + palette + '-' + (shade <= 50 ? 90 : 20) + ')'
+            'var(--palette-ref--' +
+            palette +
+            '-' +
+            (shade <= 50 ? 90 : 20) +
+            ')'
           "
         >
-          --palette-{{ palette }}-{{ shade }}
+          --palette-ref--{{ palette }}-{{ shade }}
         </td>
       }
     </tr>

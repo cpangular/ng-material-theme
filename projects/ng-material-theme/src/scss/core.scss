@@ -1,0 +1,9 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+body {
+  background-color: var(--color--background);
+  color: var(--color--background--contrast);
+  font-family: var(--typography--plain-family);
+}

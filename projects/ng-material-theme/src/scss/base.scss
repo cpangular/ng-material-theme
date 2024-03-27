@@ -1,0 +1,27 @@
+@use "../../theming" as theming;
+@use "@angular/material" as mat;
+@use "@angular/material-experimental" as matx;
+
+$theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: matx.$m3-violet-palette,
+    ),
+    typography: (
+      brand-family: var(--typography--brand-family, (Roboto, sans-serif)),
+      plain-family: var(--typography--plain-family, (Roboto, sans-serif)),
+      bold-weight: var(--typography--bold-weight, 700),
+      medium-weight: var(--typography--medium-weight, 500),
+      regular-weight: var(--typography--regular-weight, 400),
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+body,
+[theme] {
+  @include mat.all-component-themes($theme);
+}

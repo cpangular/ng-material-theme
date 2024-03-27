@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "./generate-ng-material-theme" as material-theme;
+@use "./generate-theme-aliases" as palette-aliases;
 @use "./generate-palette-vars" as palette-vars;
 @use "./generate-typography-vars" as typography-vars;
 
@@ -32,18 +32,7 @@
     );
     @include typography-vars.generate($typography);
   }
-
-  @include material-theme.generate($name, $isDefault, $typography, $density);
-}
-
-@mixin generate-core {
-  @include material-theme.generate-core();
-
-  body {
-    background-color: var(--color--background);
-    color: var(--color--background--contrast);
-    font-family: var(--typography--plain-family);
-  }
+  @include palette-aliases.generate($name, $isDefault);
 }
 
 @function prepareTypography($typography) {

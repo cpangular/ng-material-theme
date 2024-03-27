@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "17.3.0-dev.9",
+  "version": "17.3.0-dev.10",
   "private": true,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "scripts": {
@@ -52,12 +52,17 @@
     "@angular-devkit/build-angular": "^17.3.1",
     "@angular/cli": "^17.1.1",
     "@angular/compiler-cli": "^17.1.0",
+    "@types/css-tree": "^2.3.7",
+    "@types/node": "^20.11.30",
+    "css-tree": "^2.3.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "ng-packagr": "^17.3.0",
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
+    "sass": "^1.72.0",
     "syncpack": "^12.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.3.2"
   },
   "lint-staged": {

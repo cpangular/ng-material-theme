@@ -1,0 +1,48 @@
+@use "@angular/material-experimental" as matx;
+@use "@angular/material" as mat;
+@use "sass:map";
+@use "../color-keys.json";
+
+$primaryKeys: color-keys.$primary;
+$primaryKeys: map.merge(
+  $primaryKeys,
+  (
+    secondary: color-keys.$secondary,
+    error: color-keys.$error,
+    neutral: color-keys.$neutral,
+    neutral-variant: color-keys.$neutral-variant,
+  )
+);
+
+$tertiaryKeys: color-keys.$tertiary;
+$tertiaryKeys: map.merge(
+  $tertiaryKeys,
+  (
+    secondary: color-keys.$secondary,
+    error: color-keys.$error,
+    neutral: color-keys.$neutral,
+    neutral-variant: color-keys.$neutral-variant,
+  )
+);
+
+$theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: $primaryKeys,
+      tertiary: $tertiaryKeys,
+    ),
+    typography: (
+      brand-family: "Comic Sans",
+      bold-weight: 900,
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+
+body,
+[theme] {
+  @include mat.all-component-colors($theme);
+}
