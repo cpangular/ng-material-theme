@@ -49,13 +49,19 @@ importers:
     devDependencies:
       "@angular-devkit/build-angular":
         specifier: ^17.3.1
-        version: 17.3.1(@angular/compiler-cli@17.3.1)(ng-packagr@17.3.0)(typescript@5.3.3)
+        version: 17.3.1(@angular/compiler-cli@17.3.1)(@types/node@20.11.30)(ng-packagr@17.3.0)(typescript@5.3.3)
       "@angular/cli":
         specifier: ^17.1.1
         version: 17.3.1
       "@angular/compiler-cli":
         specifier: ^17.1.0
         version: 17.3.1(@angular/compiler@17.3.1)(typescript@5.3.3)
+      "@types/css-tree":
+        specifier: ^2.3.7
+        version: 2.3.7
+      css-tree:
+        specifier: ^2.3.1
+        version: 2.3.1
       husky:
         specifier: ^9.0.11
         version: 9.0.11
@@ -71,9 +77,15 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
+      sass:
+        specifier: ^1.72.0
+        version: 1.72.0
       syncpack:
         specifier: ^12.3.0
         version: 12.3.0(typescript@5.3.3)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.11.30)(typescript@5.3.3)
       typescript:
         specifier: ~5.3.2
         version: 5.3.3
@@ -89,6 +101,19 @@ importers:
       tslib:
         specifier: ^2.3.0
         version: 2.6.2
+    devDependencies:
+      "@types/css-tree":
+        specifier: ^2.3.7
+        version: 2.3.7
+      css-tree:
+        specifier: ^2.3.1
+        version: 2.3.1
+      sass:
+        specifier: ^1.72.0
+        version: 1.72.0
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.11.30)(typescript@5.3.3)
 
   projects/test-theme:
     devDependencies:
@@ -126,7 +151,7 @@ packages:
       - chokidar
     dev: true
 
-  /@angular-devkit/build-angular@17.3.1(@angular/compiler-cli@17.3.1)(ng-packagr@17.3.0)(typescript@5.3.3):
+  /@angular-devkit/build-angular@17.3.1(@angular/compiler-cli@17.3.1)(@types/node@20.11.30)(ng-packagr@17.3.0)(typescript@5.3.3):
     resolution:
       {
         integrity: sha512-e+hZvLVH5AvHCFbVtKRd5oJeFsEmjg7kK1V6hsVxH4YE2f2x399TSr+AGxwV+R3jnjZ67ujIeXXd0Uuf1RwcSg==,
@@ -234,7 +259,7 @@ packages:
       tslib: 2.6.2
       typescript: 5.3.3
       undici: 6.7.1
-      vite: 5.1.5(less@4.2.0)(sass@1.71.1)(terser@5.29.1)
+      vite: 5.1.5(@types/node@20.11.30)(less@4.2.0)(sass@1.72.0)
       watchpack: 2.4.0
       webpack: 5.90.3(esbuild@0.20.1)
       webpack-dev-middleware: 6.1.1(webpack@5.90.3)
@@ -2268,6 +2293,16 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@cspotcode/source-map-support@0.8.1:
+    resolution:
+      {
+        integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==,
+      }
+    engines: { node: ">=12" }
+    dependencies:
+      "@jridgewell/trace-mapping": 0.3.9
+    dev: true
+
   /@discoveryjs/json-ext@0.5.7:
     resolution:
       {
@@ -3203,6 +3238,16 @@ packages:
     resolution:
       {
         integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==,
+      }
+    dependencies:
+      "@jridgewell/resolve-uri": 3.1.2
+      "@jridgewell/sourcemap-codec": 1.4.15
+    dev: true
+
+  /@jridgewell/trace-mapping@0.3.9:
+    resolution:
+      {
+        integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==,
       }
     dependencies:
       "@jridgewell/resolve-uri": 3.1.2
@@ -4495,6 +4540,34 @@ packages:
       "@sigstore/protobuf-specs": 0.3.0
     dev: true
 
+  /@tsconfig/node10@1.0.11:
+    resolution:
+      {
+        integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==,
+      }
+    dev: true
+
+  /@tsconfig/node12@1.0.11:
+    resolution:
+      {
+        integrity: sha512-cqefuRsh12pWyGsIoBKJA9luFu3mRxCA+ORZvA4ktLSzIuCUtWVxGIuXigEwO5/ywWFMZ2QEGKWvkZG1zDMTag==,
+      }
+    dev: true
+
+  /@tsconfig/node14@1.0.3:
+    resolution:
+      {
+        integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==,
+      }
+    dev: true
+
+  /@tsconfig/node16@1.0.4:
+    resolution:
+      {
+        integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==,
+      }
+    dev: true
+
   /@tufjs/canonical-json@2.0.0:
     resolution:
       {
@@ -4550,6 +4623,13 @@ packages:
       }
     dependencies:
       "@types/node": 20.11.30
+    dev: true
+
+  /@types/css-tree@2.3.7:
+    resolution:
+      {
+        integrity: sha512-LUlutQBpR2TgqZJdvXCPOx9EME7a4PHSEo2Y2c8POFpj1E9a6V94PUZNwjVdfHWyb8RQZoNHTYOKs980+sOi+g==,
+      }
     dev: true
 
   /@types/eslint-scope@3.7.7:
@@ -4743,7 +4823,7 @@ packages:
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      vite: 5.1.5(less@4.2.0)(sass@1.71.1)(terser@5.29.1)
+      vite: 5.1.5(@types/node@20.11.30)(less@4.2.0)(sass@1.72.0)
     dev: true
 
   /@webassemblyjs/ast@1.12.1:
@@ -4948,6 +5028,14 @@ packages:
       acorn: 8.11.3
     dev: true
 
+  /acorn-walk@8.3.2:
+    resolution:
+      {
+        integrity: sha512-cjkyv4OtNCIeqhHrfS81QWXoCBPExR/J62oyEqepVw8WaQeSqpW2uhuLPh1m9eWhDuOo/jUXVTlifvesOWp/4A==,
+      }
+    engines: { node: ">=0.4.0" }
+    dev: true
+
   /acorn@8.11.3:
     resolution:
       {
@@ -5142,6 +5230,13 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    dev: true
+
+  /arg@4.1.3:
+    resolution:
+      {
+        integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==,
+      }
     dev: true
 
   /argparse@1.0.10:
@@ -5897,6 +5992,13 @@ packages:
       typescript: 5.3.3
     dev: true
 
+  /create-require@1.1.1:
+    resolution:
+      {
+        integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==,
+      }
+    dev: true
+
   /critters@0.0.22:
     resolution:
       {
@@ -5961,6 +6063,17 @@ packages:
       domhandler: 5.0.3
       domutils: 3.1.0
       nth-check: 2.1.1
+    dev: true
+
+  /css-tree@2.3.1:
+    resolution:
+      {
+        integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==,
+      }
+    engines: { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0 }
+    dependencies:
+      mdn-data: 2.0.30
+      source-map-js: 1.2.0
     dev: true
 
   /css-what@6.1.0:
@@ -6093,6 +6206,14 @@ packages:
       {
         integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==,
       }
+    dev: true
+
+  /diff@4.0.2:
+    resolution:
+      {
+        integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==,
+      }
+    engines: { node: ">=0.3.1" }
     dev: true
 
   /dir-glob@3.0.1:
@@ -8163,6 +8284,13 @@ packages:
       semver: 6.3.1
     dev: true
 
+  /make-error@1.3.6:
+    resolution:
+      {
+        integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==,
+      }
+    dev: true
+
   /make-fetch-happen@13.0.0:
     resolution:
       {
@@ -8183,6 +8311,13 @@ packages:
       ssri: 10.0.5
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /mdn-data@2.0.30:
+    resolution:
+      {
+        integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==,
+      }
     dev: true
 
   /media-typer@0.3.0:
@@ -10723,6 +10858,40 @@ packages:
     hasBin: true
     dev: true
 
+  /ts-node@10.9.2(@types/node@20.11.30)(typescript@5.3.3):
+    resolution:
+      {
+        integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==,
+      }
+    hasBin: true
+    peerDependencies:
+      "@swc/core": ">=1.2.50"
+      "@swc/wasm": ">=1.2.50"
+      "@types/node": "*"
+      typescript: ">=2.7"
+    peerDependenciesMeta:
+      "@swc/core":
+        optional: true
+      "@swc/wasm":
+        optional: true
+    dependencies:
+      "@cspotcode/source-map-support": 0.8.1
+      "@tsconfig/node10": 1.0.11
+      "@tsconfig/node12": 1.0.11
+      "@tsconfig/node14": 1.0.3
+      "@tsconfig/node16": 1.0.4
+      "@types/node": 20.11.30
+      acorn: 8.11.3
+      acorn-walk: 8.3.2
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.3.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
   /ts-toolbelt@9.6.0:
     resolution:
       {
@@ -10917,6 +11086,13 @@ packages:
     hasBin: true
     dev: true
 
+  /v8-compile-cache-lib@3.0.1:
+    resolution:
+      {
+        integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==,
+      }
+    dev: true
+
   /validate-npm-package-license@3.0.4:
     resolution:
       {
@@ -10945,7 +11121,7 @@ packages:
     engines: { node: ">= 0.8" }
     dev: true
 
-  /vite@5.1.5(less@4.2.0)(sass@1.71.1)(terser@5.29.1):
+  /vite@5.1.5(@types/node@20.11.30)(less@4.2.0)(sass@1.72.0):
     resolution:
       {
         integrity: sha512-BdN1xh0Of/oQafhU+FvopafUp6WaYenLU/NFoL5WyJL++GxkNfieKzBhM24H3HVsPQrlAqB7iJYTHabzaRed5Q==,
@@ -10976,12 +11152,12 @@ packages:
       terser:
         optional: true
     dependencies:
+      "@types/node": 20.11.30
       esbuild: 0.19.12
       less: 4.2.0
       postcss: 8.4.35
       rollup: 4.13.0
-      sass: 1.71.1
-      terser: 5.29.1
+      sass: 1.72.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
@@ -11358,6 +11534,14 @@ packages:
       string-width: 4.2.3
       y18n: 5.0.8
       yargs-parser: 21.1.1
+    dev: true
+
+  /yn@3.1.1:
+    resolution:
+      {
+        integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==,
+      }
+    engines: { node: ">=6" }
     dev: true
 
   /yocto-queue@1.0.0:

@@ -2,7 +2,9 @@
   "name": "@cpangular/ng-material-theme",
   "version": "17.3.0-dev.3",
   "scripts": {
-    "build": "ng build ng-material-theme",
+    "build": "run-s build:*",
+    "build:css": "ts-node src/build-css.ts",
+    "build:ng": "ng build ng-material-theme",
     "watch": "ng build --watch ng-material-theme",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "pack": "cd ../../ && mkdir ./pack && cd ./dist/ng-material-theme && pnpm pack --pack-destination ../../pack",
@@ -20,5 +22,11 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
+  },
+  "devDependencies": {
+    "@types/css-tree": "^2.3.7",
+    "css-tree": "^2.3.1",
+    "sass": "^1.72.0",
+    "ts-node": "^10.9.2"
   }
 }
