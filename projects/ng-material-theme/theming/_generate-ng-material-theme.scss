@@ -442,6 +442,14 @@ $_matTertiaryAdapterPaletteDark: (
   --color--shadow: var(--palette--neutral-0);
 }
 
+@mixin _gen-light-fixes() {
+  --mat-ripple-color: color-mix(
+    in oklab,
+    var(--mat-ripple-color) 10%,
+    transparent 0%
+  );
+}
+
 @mixin _gen-dark-aliases() {
   $select: (80, 20, 30, 90);
   @include _gen-palette-aliases(primary, $select);
@@ -461,6 +469,14 @@ $_matTertiaryAdapterPaletteDark: (
   --color--outline: var(--palette--neutral-60);
   --color--scrim: var(--palette--neutral-0);
   --color--shadow: var(--palette--neutral-0);
+}
+
+@mixin _gen-dark-fixes() {
+  --mat-ripple-color: color-mix(
+    in oklab,
+    var(--mat-ripple-color) 10%,
+    transparent 0%
+  );
 }
 
 @mixin generate($name, $isDefault: false, $typography: null, $density: null) {
@@ -493,6 +509,7 @@ $_matTertiaryAdapterPaletteDark: (
     } @else {
       @include mat.all-component-colors($light);
     }
+    @include _gen-light-fixes();
   }
 
   $dark: matx.define-theme(
@@ -522,12 +539,14 @@ $_matTertiaryAdapterPaletteDark: (
   #{$darkSelector} {
     @include _gen-dark-aliases();
     @include mat.all-component-colors($dark);
+    @include _gen-dark-fixes();
   }
 
   @media (prefers-color-scheme: dark) {
     #{$prefDarkSelector} {
       @include _gen-dark-aliases();
       @include mat.all-component-colors($dark);
+      @include _gen-dark-fixes();
     }
   }
 }
