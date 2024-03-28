@@ -44,6 +44,8 @@
   --color--shadow: var(--palette-ref--neutral-0);
   --color--black: black;
   --color--white: white;
+  --color--lower: white;
+  --color--higher: black;
 }
 
 @mixin _gen-dark-aliases() {
@@ -67,6 +69,8 @@
   --color--shadow: var(--palette-ref--neutral-0);
   --color--black: black;
   --color--white: white;
+  --color--lower: black;
+  --color--higher: white;
 }
 
 @mixin generate($name, $isDefault: false) {

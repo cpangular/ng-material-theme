@@ -3,7 +3,31 @@
 @include mat.core();
 
 body {
-  background-color: var(--color--background);
-  color: var(--color--background--contrast);
+  --background-color: var(--color--background);
+  --color: var(--color--background--contrast);
+  background-color: var(--background-color);
+  color: var(--color);
   font-family: var(--typography--plain-family);
+}
+
+html {
+  ::-webkit-scrollbar {
+    box-sizing: border-box;
+    width: var(--size--scrollbar, 4px);
+    height: var(--size--scrollbar, 4px);
+  }
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  &:hover {
+    background-color: var(--color--surface-variant);
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color--background-variant);
+  &:hover {
+    background-color: var(--color--primary);
+  }
 }
