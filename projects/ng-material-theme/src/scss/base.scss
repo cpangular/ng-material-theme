@@ -25,3 +25,7 @@ body,
 [theme] {
   @include mat.all-component-themes($theme);
 }
+
+.mat-mdc-form-field-flex {
+  position: static !important;
+}
