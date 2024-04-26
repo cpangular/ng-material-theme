@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "17.3.0-dev.3",
+  "version": "17.3.0-dev.4",
   "scripts": {
     "build": "run-s build:*",
     "build:css": "tsx --tsconfig tsconfig.json src/build-css.mts",
