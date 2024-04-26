@@ -24,9 +24,6 @@ $theme: matx.define-theme(
 body,
 [theme] {
   @include mat.all-component-themes($theme);
-  &[legacyThemeColors] {
-    @include matx.color-variants-back-compat($theme);
-  }
 }
 
 .mat-mdc-form-field-flex {
