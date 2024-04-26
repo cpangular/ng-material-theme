@@ -46,3 +46,7 @@ body,
 [theme] {
   @include mat.all-component-colors($theme);
 }
+
+[legacyThemeColors] {
+  @include matx.color-variants-back-compat($theme);
+}
