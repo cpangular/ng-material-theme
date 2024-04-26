@@ -12,6 +12,7 @@
   $error: map.get($themeCfg, "error");
   $typography: prepareTypography(map.get($themeCfg, "typography"));
   $density: map.get($themeCfg, "density");
+  $includeLegacyColorClasses: map.get($themeCfg, "includeLegacyColorClasses");
 
   $selector: '[theme="#{$name}"]';
   @if $isDefault {
