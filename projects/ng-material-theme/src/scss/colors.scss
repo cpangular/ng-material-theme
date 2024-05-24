@@ -1,4 +1,3 @@
-@use "@angular/material-experimental" as matx;
 @use "@angular/material" as mat;
 @use "sass:map";
 @use "../color-keys.json";
@@ -25,7 +24,7 @@ $tertiaryKeys: map.merge(
   )
 );
 
-$theme: matx.define-theme(
+$theme: mat.define-theme(
   (
     color: (
       theme-type: dark,
@@ -48,5 +47,5 @@ body,
 }
 
 [legacyThemeColors] {
-  @include matx.color-variants-back-compat($theme);
+  @include mat.color-variants-backwards-compatibility($theme);
 }
