@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/ng-material-theme",
-  "version": "17.3.0-dev.4",
+  "version": "17.3.0-dev.14",
   "scripts": {
     "build": "run-s build:*",
     "build:css": "tsx --tsconfig tsconfig.json src/build-css.mts",
@@ -12,11 +12,10 @@
     "release": "pnpm publish ../../pack/*.tgz --access public --no-git-checks"
   },
   "peerDependencies": {
-    "@angular/cdk": "^17.3.1",
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0",
-    "@angular/material": "^17.3.1",
-    "@angular/material-experimental": "^17.3.1"
+    "@angular/cdk": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/material": "^18.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -28,9 +27,8 @@
     "registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
-    "@angular/cdk": "^17.3.1",
-    "@angular/material": "^17.3.1",
-    "@angular/material-experimental": "^17.3.1",
+    "@angular/cdk": "^18.0.0",
+    "@angular/material": "^18.0.0",
     "@material/animation": "^15.0.0-canary.7f224ddd4.0",
     "@material/base": "^15.0.0-canary.7f224ddd4.0",
     "@material/button": "^15.0.0-canary.7f224ddd4.0",

@@ -1,5 +1,4 @@
 @use "@angular/material" as mat;
-@use "@angular/material-experimental" as matx;
 @use "sass:list";
 
 @mixin _gen-palette-aliases($name, $values) {
