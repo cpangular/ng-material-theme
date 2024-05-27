@@ -40,18 +40,13 @@ jobs:
       - name: Pack
         uses: ./.github/actions/pack
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: pack
-          if-no-files-found: error
-          path: ./pack/
-
       - name: Publish
         uses: ./.github/actions/publish-node-package
         with:
           toGithub: true
           toNpm: true
           npmToken: ${{ secrets.NPM_TOKEN  }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
   create-release:
     runs-on: ubuntu-latest
