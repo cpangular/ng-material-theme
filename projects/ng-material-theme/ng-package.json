@@ -3,6 +3,7 @@
   "dest": "../../dist/ng-material-theme",
   "assets": ["theming", "css"],
   "deleteDestPath": false,
+  "allowedNonPeerDependencies": ["."],
   "lib": {
     "entryFile": "src/public-api.ts"
   }

@@ -56,6 +56,153 @@ importers:
       "@angular/material":
         specifier: ^18.0.0
         version: 18.0.0(@angular/animations@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6)))(@angular/cdk@18.0.0(@angular/common@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/common@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(@angular/forms@18.0.0(@angular/common@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(@angular/platform-browser@18.0.0(@angular/animations@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6)))(@angular/common@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6)))(rxjs@7.8.1))(@angular/platform-browser@18.0.0(@angular/animations@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6)))(@angular/common@18.0.0(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6))(rxjs@7.8.1))(@angular/core@18.0.0(rxjs@7.8.1)(zone.js@0.14.6)))(rxjs@7.8.1)
+      "@material/animation":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/auto-init":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/banner":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/base":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/card":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/checkbox":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/chips":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/circular-progress":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/data-table":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/density":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/dialog":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/dom":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/drawer":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/elevation":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/fab":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/feature-targeting":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/floating-label":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/focus-ring":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/form-field":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/icon-button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/image-list":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/layout-grid":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/line-ripple":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/linear-progress":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/list":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/menu":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/menu-surface":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/notched-outline":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/radio":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/ripple":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/rtl":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/segmented-button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/select":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/shape":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/slider":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/snackbar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/switch":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-bar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-indicator":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-scroller":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/textfield":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/theme":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tokens":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tooltip":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/top-app-bar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/touch-target":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/typography":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
       "@types/css-tree":
         specifier: ^2.3.7
         version: 2.3.7
@@ -101,6 +248,153 @@ importers:
       "@angular/core":
         specifier: ^18.0.0
         version: 18.0.0(rxjs@7.8.1)(zone.js@0.14.6)
+      "@material/animation":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/auto-init":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/banner":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/base":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/card":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/checkbox":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/chips":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/circular-progress":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/data-table":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/density":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/dialog":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/dom":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/drawer":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/elevation":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/fab":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/feature-targeting":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/floating-label":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/focus-ring":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/form-field":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/icon-button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/image-list":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/layout-grid":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/line-ripple":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/linear-progress":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/list":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/menu":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/menu-surface":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/notched-outline":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/radio":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/ripple":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/rtl":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/segmented-button":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/select":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/shape":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/slider":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/snackbar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/switch":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-bar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-indicator":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tab-scroller":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/textfield":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/theme":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tokens":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/tooltip":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/top-app-bar":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/touch-target":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
+      "@material/typography":
+        specifier: 15.0.0-canary.7f224ddd4.0
+        version: 15.0.0-canary.7f224ddd4.0
       tslib:
         specifier: ^2.3.0
         version: 2.6.2
