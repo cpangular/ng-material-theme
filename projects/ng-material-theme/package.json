@@ -72,8 +72,7 @@
   "sideEffects": false,
   "repository": "https://github.com/cpangular/ng-material-theme",
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "devDependencies": {
     "@angular/cdk": "^18.0.0",
