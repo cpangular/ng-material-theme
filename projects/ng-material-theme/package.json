@@ -9,7 +9,7 @@
     "watch": "ng build --watch ng-material-theme",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
     "pack": "cd ../../ && mkdir ./pack && cd ./dist/ng-material-theme && pnpm pack --pack-destination ../../pack",
-    "release": "cd ../../pack/ && ls -al && pnpm publish ./*.tgz --access public --no-git-checks"
+    "release": "cd ../../pack/ && ls -al && npm publish ./*.tgz --access public --no-git-checks"
   },
   "peerDependencies": {
     "@angular/cdk": "^18.0.0",
