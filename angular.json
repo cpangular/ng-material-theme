@@ -55,7 +55,7 @@
             "index": "projects/test-theme/src/index.html",
             "browser": "projects/test-theme/src/main.ts",
             "stylePreprocessorOptions": {
-              "includePaths": ["dist"]
+              "includePaths": ["dist", "node_modules"]
             },
             "polyfills": ["zone.js"],
             "tsConfig": "projects/test-theme/tsconfig.app.json",
