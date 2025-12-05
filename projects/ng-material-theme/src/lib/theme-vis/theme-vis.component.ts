@@ -3,7 +3,6 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "lib-theme-vis",
-  standalone: true,
   imports: [],
   templateUrl: "./theme-vis.component.html",
   styleUrl: "./theme-vis.component.scss",

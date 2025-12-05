@@ -4,7 +4,6 @@ import { ThemeVisComponent } from "../../../ng-material-theme/src/lib/theme-vis/
 
 @Component({
   selector: "app-root",
-  standalone: true,
   imports: [RouterOutlet, ThemeVisComponent],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
