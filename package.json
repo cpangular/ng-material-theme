@@ -48,10 +48,10 @@
   },
   "devDependencies": {
     "@angular/build": "^20.3.13",
-    "@angular/cdk": "^19.2.19",
+    "@angular/cdk": "^20.2.14",
     "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.3.15",
-    "@angular/material": "^19.2.19",
+    "@angular/material": "^20.2.14",
     "@material/animation": "15.0.0-canary.7f224ddd4.0",
     "@material/auto-init": "15.0.0-canary.7f224ddd4.0",
     "@material/banner": "15.0.0-canary.7f224ddd4.0",
