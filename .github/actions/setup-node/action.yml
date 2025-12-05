@@ -5,21 +5,21 @@ inputs:
   pnpmVersion:
     description: "The version of pnpm to install"
     required: false
-    default: "9.1.2"
+    default: "10.6.4"
   nodeVersion:
     description: "The version of NodeJs to install"
     required: false
-    default: "20.13.1"
+    default: "22.14.0"
 
 runs:
   using: "composite"
   steps:
-    - uses: pnpm/action-setup@v2.2.4
+    - uses: pnpm/action-setup@v4
       with:
         version: ${{ inputs.pnpmVersion }}
         run_install: false
 
-    - uses: actions/setup-node@v3.6.0
+    - uses: actions/setup-node@v4
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
