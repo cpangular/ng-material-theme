@@ -5463,10 +5463,119 @@ body {
 .color-swatch.error-lower-2 .swatch-disabled .contrast-deemphasized {
   color: var(--color--error-lower-2-disabled--contrast--deemphasized);
 }
-.color-swatch.surface {
+
+.semantic-swatch {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.semantic-swatch .swatch-body {
+  flex: 1;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.semantic-swatch .swatch-label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+.semantic-swatch .token-name {
+  font-size: 0.72rem;
+  opacity: 0.65;
+  font-family: "Courier New", monospace;
+}
+.semantic-swatch.swatch-background .swatch-body {
+  background: var(--color--background);
+  color: var(--color--on-background);
+}
+.semantic-swatch.swatch-background .swatch-body .swatch-label {
+  color: var(--color--on-background);
+}
+.semantic-swatch.swatch-background .swatch-body .token-name {
+  color: var(--color--on-background);
+}
+.semantic-swatch.swatch-surface .swatch-body {
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-dim .swatch-body {
+  background: var(--color--surface-dim);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-dim .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-dim .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-bright .swatch-body {
+  background: var(--color--surface-bright);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-bright .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-bright .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-lowest .swatch-body {
+  background: var(--color--surface-container-lowest);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-lowest .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-lowest .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-low .swatch-body {
+  background: var(--color--surface-container-low);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-low .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-low .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container .swatch-body {
   background: var(--color--surface-container);
   color: var(--color--on-surface);
-  border: 1px solid var(--color--neutral-lighter-1);
+}
+.semantic-swatch.swatch-surface-container .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-high .swatch-body {
+  background: var(--color--surface-container-high);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-high .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-high .swatch-body .token-name {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-highest .swatch-body {
+  background: var(--color--surface-container-highest);
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-highest .swatch-body .swatch-label {
+  color: var(--color--on-surface);
+}
+.semantic-swatch.swatch-surface-container-highest .swatch-body .token-name {
+  color: var(--color--on-surface);
 }
 
 .tint-demo {

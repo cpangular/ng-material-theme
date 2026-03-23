@@ -126,6 +126,10 @@
     @include derivation.derive-colors();
     @include derivation.generate-neutral-surfaces();
 
+    // Generate variants for background and surface
+    @include variants.generate-all-variants(background, ());
+    @include variants.generate-all-variants(surface, ());
+
     // Generate variants for all standard palettes (if not already done)
     // This ensures secondary, tertiary, neutral, and error get their lighter/darker variants
     @each $palette in (secondary, tertiary, neutral, error) {
