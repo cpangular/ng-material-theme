@@ -56,21 +56,6 @@
   }
 }
 
-// Mixin to set contrast color with override support
-@mixin set-contrast-color($name, $base-color, $variant: null) {
-  $var-prefix: if(
-    $variant,
-    --color--#{$name}-#{$variant}--contrast,
-    --color--#{$name}--contrast
-  );
-
-  // Calculate optimal contrast, but allow user override
-  #{$var-prefix}--base: var(
-    #{$var-prefix}--base-override,
-    #{calculate-optimal-contrast($base-color)}
-  );
-}
-
 // Calculate contrast ratio between two colors (for validation)
 @function contrast-ratio($fg, $lum1, $lum2) {
   $lighter: math.max($lum1, $lum2);

@@ -320,19 +320,26 @@
     --color--#{$name}--contrast
   );
 
-  // Base contrast (black or white, user can override)
-  // For variants: compute dynamically from the variant's actual lightness at runtime
-  // oklch clamp trick: L < 0.6 → white (1), L >= 0.6 → black (0)
-  @if $variant {
-    #{$var-prefix}--base: var(
-      #{$var-prefix}--base-override,
-      oklch(from var(#{$var-name}) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  // Base contrast:
+  // - For the palette base (no $variant): derive --light and --dark individually
+  //   from the palette's two input colors, then produce --base via light-dark().
+  // - For variants: the variant color is already a single mode-resolved value,
+  //   so compute --base with a single oklch formula.
+  @if not $variant {
+    #{$var-prefix}--base--light: oklch(
+      from var(--color--#{$name}--light) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    );
+    #{$var-prefix}--base--dark: oklch(
+      from var(--color--#{$name}--dark) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    );
+    #{$var-prefix}--base: light-dark(
+      var(#{$var-prefix}--base--light),
+      var(#{$var-prefix}--base--dark)
     );
   } @else {
-    #{$var-prefix}--base: var(
-      #{$var-prefix}--base-override,
-      black
-    ); // Default to black, should be calculated
+    #{$var-prefix}--base: oklch(
+      from var(#{$var-name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    );
   }
 
   // Blended contrast variants (use palette-specific blend vars)

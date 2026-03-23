@@ -4,41 +4,59 @@
 
 // Derive secondary, tertiary, neutral, and error colors if not provided
 @mixin derive-colors() {
-  // Primary: use override or default to Material purple
-  --color--primary: var(--color--primary-override, #3f51b5);
-
-  // Secondary: shift primary hue by 30deg, reduce saturation slightly
-  --color--secondary: var(
-    --color--secondary-override,
-    color-mix(in oklab, var(--color--primary) 50%, #808080 50%)
+  // Each palette is the light-dark() of its two input vars.
+  // @property initial-value on --light and --dark provides the static default
+  // when no user config is present.
+  --color--primary: light-dark(
+    var(--color--primary--light),
+    var(--color--primary--dark)
+  );
+  --color--secondary: light-dark(
+    var(--color--secondary--light),
+    var(--color--secondary--dark)
+  );
+  --color--tertiary: light-dark(
+    var(--color--tertiary--light),
+    var(--color--tertiary--dark)
+  );
+  --color--neutral: light-dark(
+    var(--color--neutral--light),
+    var(--color--neutral--dark)
+  );
+  --color--neutral-variant: light-dark(
+    var(--color--neutral-variant--light),
+    var(--color--neutral-variant--dark)
+  );
+  --color--error: light-dark(
+    var(--color--error--light),
+    var(--color--error--dark)
   );
 
-  // Tertiary: shift primary hue by 60deg
-  --color--tertiary: var(
-    --color--tertiary-override,
-    color-mix(in oklab, var(--color--primary) 40%, #00bcd4 60%)
+  // Inverse: swap light↔dark
+  --color--primary-inverse: light-dark(
+    var(--color--primary--dark),
+    var(--color--primary--light)
   );
-
-  // Neutral: desaturated primary (used for surface/background)
-  --color--neutral: var(
-    --color--neutral-override,
-    light-dark(
-      color-mix(in oklab, var(--color--primary) 5%, #dadada 95%),
-      color-mix(in oklab, var(--color--primary) 5%, #1c1b1f 95%)
-    )
+  --color--secondary-inverse: light-dark(
+    var(--color--secondary--dark),
+    var(--color--secondary--light)
   );
-
-  // Neutral variant: slightly more chromatic than neutral (for outlines, input borders, chips)
-  --color--neutral-variant: var(
-    --color--neutral-variant-override,
-    light-dark(
-      color-mix(in oklab, var(--color--primary) 10%, #dadada 90%),
-      color-mix(in oklab, var(--color--primary) 10%, #1c1b1f 90%)
-    )
+  --color--tertiary-inverse: light-dark(
+    var(--color--tertiary--dark),
+    var(--color--tertiary--light)
   );
-
-  // Error: default red if not provided
-  --color--error: var(--color--error-override, #f44336);
+  --color--neutral-inverse: light-dark(
+    var(--color--neutral--dark),
+    var(--color--neutral--light)
+  );
+  --color--neutral-variant-inverse: light-dark(
+    var(--color--neutral-variant--dark),
+    var(--color--neutral-variant--light)
+  );
+  --color--error-inverse: light-dark(
+    var(--color--error--dark),
+    var(--color--error--light)
+  );
 }
 
 // Generate MD3 role aliases — maps semantic MD3 names to palette variants
@@ -77,71 +95,4 @@
   // Outline: from neutral-variant (more chromatic than neutral)
   --color--outline: var(--color--neutral-variant-lower-1);
   --color--outline-variant: var(--color--neutral-variant-lighter-1);
-}
-
-// Generate surface and background colors from neutral palette
-// Uses light-dark() for automatic mode switching based on color-scheme
-@mixin generate-neutral-surfaces() {
-  // Surface and background colors derived from neutral palette
-  // light-dark() automatically picks the right value based on color-scheme
-
-  // Surface color: near-white in light mode, near-black in dark mode
-  --color--surface: var(
-    --color--surface-override,
-    light-dark(
-      color-mix(in oklab, var(--color--neutral) 5%, white 95%),
-      color-mix(in oklab, var(--color--neutral) 8%, #1c1b1f 92%)
-    )
-  );
-
-  // Background color: white in light, dark in dark mode
-  --color--background: var(
-    --color--background-override,
-    light-dark(#ffffff, #1c1b1f)
-  );
-
-  // On-surface text colors
-  --color--on-surface: var(
-    --color--on-surface-override,
-    light-dark(#1c1b1f, #e6e1e5)
-  );
-  --color--on-background: var(
-    --color--on-background-override,
-    light-dark(#1c1b1f, #e6e1e5)
-  );
-
-  // Surface variants (container colors for Material components)
-  // Dim: slightly darker/lighter than surface
-  --color--surface-dim: light-dark(
-    color-mix(in oklab, var(--color--surface) 85%, black 15%),
-    color-mix(in oklab, var(--color--surface) 85%, black 15%)
-  );
-
-  // Bright: slightly lighter/brighter than surface
-  --color--surface-bright: light-dark(
-    color-mix(in oklab, var(--color--surface) 85%, white 15%),
-    color-mix(in oklab, var(--color--surface) 85%, white 15%)
-  );
-
-  // Container levels: progressive elevation
-  --color--surface-container-lowest: light-dark(
-    color-mix(in oklab, var(--color--surface) 96%, white 4%),
-    color-mix(in oklab, var(--color--surface) 96%, black 4%)
-  );
-  --color--surface-container-low: light-dark(
-    color-mix(in oklab, var(--color--surface) 94%, white 6%),
-    color-mix(in oklab, var(--color--surface) 94%, black 6%)
-  );
-  --color--surface-container: light-dark(
-    color-mix(in oklab, var(--color--surface) 92%, black 8%),
-    color-mix(in oklab, var(--color--surface) 92%, white 8%)
-  );
-  --color--surface-container-high: light-dark(
-    color-mix(in oklab, var(--color--surface) 88%, black 12%),
-    color-mix(in oklab, var(--color--surface) 88%, white 12%)
-  );
-  --color--surface-container-highest: light-dark(
-    color-mix(in oklab, var(--color--surface) 84%, black 16%),
-    color-mix(in oklab, var(--color--surface) 84%, white 16%)
-  );
 }

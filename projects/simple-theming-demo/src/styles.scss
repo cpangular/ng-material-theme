@@ -12,22 +12,22 @@
   (
     colors: (
       // Deep purple in light mode, light purple in dark mode
-      primary: (#6200ee, #bb86fc),
-      // Teal in both modes
-      secondary: #03dac6,
-      // Pink in light, lighter pink in dark - with custom disabled saturation
-      tertiary:
-        (
-          value: (
-            #ff4081,
-            #f48fb1,
-          ),
-          disabled-saturation: 30%
-        ),
-      // Neutral grays
-      // neutral: (#1c1b1f, #e6e1e5),
-      // Error red - with more saturation retained when disabled
-      error: (value: #b00020, disabled-saturation: 60%),
+      // primary: (#6200ee, #bb86fc),
+      // // Teal in both modes
+      // secondary: #03dac6,
+      // // Pink in light, lighter pink in dark - with custom disabled saturation
+      // tertiary:
+      //   (
+      //     value: (
+      //       #ff4081,
+      //       #f48fb1,
+      //     ),
+      //     disabled-saturation: 30%
+      //   ),
+      // // Neutral grays
+      // // neutral: (#1c1b1f, #e6e1e5),
+      // // Error red - with more saturation retained when disabled
+      // error: (value: #b00020, disabled-saturation: 60%),
     ),
   ),
   $is-default: true
@@ -346,6 +346,52 @@ body {
   }
   &.error-lower-2 {
     @include color-swatch-variant("error", "lower-2");
+  }
+}
+
+// Fixed roles swatch (single full-width, no disabled split)
+.color-swatch-fixed {
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 80px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .swatch-label {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .swatch-sublabel {
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+
+  &.primary-fixed {
+    background: var(--mat-sys-primary-fixed);
+    color: var(--mat-sys-on-primary-fixed);
+  }
+  &.primary-fixed-dim {
+    background: var(--mat-sys-primary-fixed-dim);
+    color: var(--mat-sys-on-primary-fixed-variant);
+  }
+  &.secondary-fixed {
+    background: var(--mat-sys-secondary-fixed);
+    color: var(--mat-sys-on-secondary-fixed);
+  }
+  &.secondary-fixed-dim {
+    background: var(--mat-sys-secondary-fixed-dim);
+    color: var(--mat-sys-on-secondary-fixed-variant);
+  }
+  &.tertiary-fixed {
+    background: var(--mat-sys-tertiary-fixed);
+    color: var(--mat-sys-on-tertiary-fixed);
+  }
+  &.tertiary-fixed-dim {
+    background: var(--mat-sys-tertiary-fixed-dim);
+    color: var(--mat-sys-on-tertiary-fixed-variant);
   }
 }
 

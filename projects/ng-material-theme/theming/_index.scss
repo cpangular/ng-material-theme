@@ -11,8 +11,11 @@
 
 // Main API
 @mixin core() {
-  // Register all @property declarations for animations
-  @include props.register-all-properties();
+  // Register theme-level @property declarations (blend, opacity, contrast, disabled)
+  @include props.register-theme-level-properties();
+
+  // Register per-palette @property declarations (base color + all overrides)
+  @include props.register-all-palette-properties();
 
   // Density selectors
   @include dens.density-selectors();

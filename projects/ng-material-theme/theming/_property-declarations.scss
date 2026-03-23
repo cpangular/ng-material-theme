@@ -1,107 +1,238 @@
-// CSS @property Declarations for Animation Support
-// Register CSS custom properties to enable smooth transitions
+// CSS @property Declarations
+// Registers ALL custom properties used by the theming system.
+// Must be called from root-level context (not inside a selector).
 
-@mixin register-color-properties() {
-  // Base colors
-  @property --color--primary {
+@use "sass:map";
+@use "./contrast-utils" as contrast-utils;
+
+// ── Shared defaults ───────────────────────────────────────────────────────────
+
+// Default base colors for each standard palette.
+// Exposed so _theme.scss can use the primary default for custom palettes.
+$palette-defaults: (
+  "primary": #555555,
+  "secondary": #777777,
+  "tertiary": #999999,
+  "neutral": #cccccc,
+  "neutral-variant": #aaaaaa,
+  "error": #cc0000,
+);
+
+// Opacity level defaults (position → value). Single source of truth.
+$_opacity-defaults: (
+  1: 2%,
+  2: 8%,
+  3: 12%,
+  4: 16%,
+  5: 25%,
+  6: 40%,
+  7: 55%,
+  8: 70%,
+  9: 90%,
+);
+
+// Blend percentage defaults.
+$_blend-defaults: (
+  "darker-2": 30%,
+  "darker-1": 80%,
+  "lighter-1": 30%,
+  "lighter-2": 5%,
+);
+
+// Contrast-blend defaults. Keys are the CSS var suffix after `--contrast-blend`.
+$_contrast-blend-defaults: (
+  "--emphasized": 100%,
+  "": 90%,
+  "--deemphasized": 80%,
+);
+
+// ── Private helpers ───────────────────────────────────────────────────────────
+
+// Register the 4 computed contrast @property vars for a given CSS var prefix.
+// e.g. $prefix = --color--primary--contrast
+// --base is the derived light-dark() result; --base--light/--dark are only
+// registered for the base palette slot (see register-palette-properties).
+@mixin _register-contrast-vars($prefix) {
+  @property #{$prefix}--base {
     syntax: "<color>";
     inherits: true;
-    initial-value: #3f51b5;
+    initial-value: black;
   }
-  @property --color--secondary {
+  @property #{$prefix}--emphasized {
     syntax: "<color>";
     inherits: true;
-    initial-value: #ff4081;
+    initial-value: black;
   }
-  @property --color--tertiary {
+  @property #{$prefix} {
     syntax: "<color>";
     inherits: true;
-    initial-value: #00bcd4;
+    initial-value: black;
   }
-  @property --color--neutral {
+  @property #{$prefix}--deemphasized {
     syntax: "<color>";
     inherits: true;
-    initial-value: #9e9e9e;
-  }
-  @property --color--error {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #f44336;
+    initial-value: black;
   }
 }
 
-@mixin register-theme-level-properties() {
-  // Theme-level blend percentages
-  @property --theme--blend--darker-2 {
-    syntax: "<percentage>";
+// Register color, contrast, disabled color, and disabled contrast for one slot.
+// e.g. $slot = --color--primary-darker-2  or  --color--primary
+@mixin _register-color-slot($slot, $default-color) {
+  @property #{$slot} {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 30%;
+    initial-value: #{$default-color};
   }
-  @property --theme--blend--darker-1 {
-    syntax: "<percentage>";
+  @include _register-contrast-vars(#{$slot}--contrast);
+
+  @property #{$slot}-disabled {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 80%;
+    initial-value: #{$default-color};
   }
-  @property --theme--blend--lighter-1 {
-    syntax: "<percentage>";
+  @include _register-contrast-vars(#{$slot}-disabled--contrast);
+}
+
+// ── Public API ────────────────────────────────────────────────────────────────
+
+// Register ALL @property declarations for a single palette.
+// Call this at root level once per palette name.
+@mixin register-palette-properties($name, $default-color) {
+  // Light and dark base color inputs.
+  // createTheme sets these; derive-colors() produces --color--#{$name} via light-dark().
+  @property --color--#{$name}--light {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 30%;
+    initial-value: #{$default-color};
   }
-  @property --theme--blend--lighter-2 {
-    syntax: "<percentage>";
+  @property --color--#{$name}--dark {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 5%;
+    initial-value: #{$default-color};
   }
 
-  // Theme-level opacity levels (9 levels)
-  // 2-4 align with MD3 state layers (hover 8%, focus/pressed 12%, dragged 16%)
-  @property --theme--opacity--1 {
-    syntax: "<percentage>";
+  // Base color + contrast + disabled
+  @include _register-color-slot(--color--#{$name}, $default-color);
+
+  // Light/dark contrast input vars for the base palette slot.
+  // generate-contrast-colors() computes --base via light-dark() from these.
+  // createTheme may set them explicitly; the initial-value is the SCSS-computed
+  // optimal contrast of the palette's default color.
+  $default-contrast: contrast-utils.calculate-optimal-contrast($default-color);
+  @property --color--#{$name}--contrast--base--light {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 2%;
+    initial-value: #{$default-contrast};
   }
-  @property --theme--opacity--2 {
-    syntax: "<percentage>";
+  @property --color--#{$name}--contrast--base--dark {
+    syntax: "<color>";
     inherits: true;
-    initial-value: 8%;
+    initial-value: #{$default-contrast};
   }
-  @property --theme--opacity--3 {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 12%;
+
+  // Lighter/darker and mode-relative variants
+  @each $variant
+    in (
+      darker-2,
+      darker-1,
+      lighter-1,
+      lighter-2,
+      higher-2,
+      higher-1,
+      lower-1,
+      lower-2
+    )
+  {
+    @include _register-color-slot(
+      --color--#{$name}-#{$variant},
+      $default-color
+    );
   }
-  @property --theme--opacity--4 {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 16%;
+
+  // Tints (9 opacity levels)
+  @each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
+    @property --color--#{$name}-tint-#{$i} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
   }
-  @property --theme--opacity--5 {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 25%;
+
+  // Blend percentages: computed only (overrides must stay unregistered so
+  // var(--X-blend-override, var(--theme--blend)) fallback chain works)
+  @each $label, $default in $_blend-defaults {
+    @property --color--#{$name}--blend--#{$label} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
   }
-  @property --theme--opacity--6 {
+
+  // Opacity levels: computed only
+  @each $i, $val in $_opacity-defaults {
+    @property --color--#{$name}--opacity--#{$i} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$val};
+    }
+  }
+
+  // Contrast blends: computed only
+  @each $suffix, $default in $_contrast-blend-defaults {
+    @property --color--#{$name}--contrast-blend#{$suffix} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
+  }
+
+  // Disabled state: computed only
+  @property --color--#{$name}--disabled-saturation {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 40%;
   }
-  @property --theme--opacity--7 {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 55%;
-  }
-  @property --theme--opacity--8 {
+  @property --color--#{$name}--disabled-foreground-opacity {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 70%;
   }
-  @property --theme--opacity--9 {
+  @property --color--#{$name}--disabled-background-opacity {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 90%;
+    initial-value: 80%;
+  }
+}
+
+// Register all six standard palettes.  Call once from core().
+@mixin register-all-palette-properties() {
+  @each $name, $color in $palette-defaults {
+    @include register-palette-properties($name, $color);
+  }
+}
+
+// ── Theme-level properties ────────────────────────────────────────────────────
+
+@mixin register-theme-level-properties() {
+  // Blend percentages
+  @each $label, $default in $_blend-defaults {
+    @property --theme--blend--#{$label} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
   }
 
-  // Theme-level contrast blends
+  // Opacity levels (9 levels; 2–4 align with MD3 state layers)
+  @each $i, $val in $_opacity-defaults {
+    @property --theme--opacity--#{$i} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$val};
+    }
+  }
+
+  // Contrast blends
   @property --theme--contrast-blend--emphasized {
     syntax: "<percentage>";
     inherits: true;
@@ -134,116 +265,4 @@
     inherits: true;
     initial-value: 80%;
   }
-}
-
-@mixin register-palette-property-declarations($name) {
-  // Override variables (blend percentages)
-  @property --color--#{$name}--blend--darker-2-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 30%;
-  }
-  @property --color--#{$name}--blend--darker-1-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
-  }
-  @property --color--#{$name}--blend--lighter-1-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 30%;
-  }
-  @property --color--#{$name}--blend--lighter-2-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 5%;
-  }
-
-  // Override variables (opacity levels)
-  @property --color--#{$name}--opacity--1-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 2%;
-  }
-  @property --color--#{$name}--opacity--2-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 8%;
-  }
-  @property --color--#{$name}--opacity--3-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 12%;
-  }
-  @property --color--#{$name}--opacity--4-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 16%;
-  }
-  @property --color--#{$name}--opacity--5-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 25%;
-  }
-  @property --color--#{$name}--opacity--6-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 40%;
-  }
-  @property --color--#{$name}--opacity--7-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 55%;
-  }
-  @property --color--#{$name}--opacity--8-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 70%;
-  }
-  @property --color--#{$name}--opacity--9-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 90%;
-  }
-
-  // Override variables (contrast blends)
-  @property --color--#{$name}--contrast-blend--emphasized-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 100%;
-  }
-  @property --color--#{$name}--contrast-blend-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 90%;
-  }
-  @property --color--#{$name}--contrast-blend--deemphasized-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
-  }
-
-  // Disabled foreground opacity override
-  @property --color--#{$name}--disabled-foreground-opacity-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 70%;
-  }
-
-  // Disabled background opacity override
-  @property --color--#{$name}--disabled-background-opacity-override {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
-  }
-}
-
-@mixin register-all-properties() {
-  @include register-color-properties();
-  @include register-theme-level-properties();
-  @include register-palette-property-declarations("primary");
-  @include register-palette-property-declarations("secondary");
-  @include register-palette-property-declarations("tertiary");
-  @include register-palette-property-declarations("neutral");
-  @include register-palette-property-declarations("error");
 }
