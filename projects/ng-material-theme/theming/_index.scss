@@ -1,0 +1,24 @@
+// ng-material-theme Public API
+// Main entry point for the theming system
+
+// Advanced utilities (for direct access if needed)
+@forward "./color-variants" show generate-all-variants;
+@forward "./contrast-utils" show calculate-optimal-contrast;
+
+@use "./theme" as internal-theme;
+@use "./property-declarations" as props;
+@use "./density" as dens;
+
+// Main API
+@mixin core() {
+  // Register all @property declarations for animations
+  @include props.register-all-properties();
+
+  // Density selectors
+  @include dens.density-selectors();
+}
+
+// Re-export theme mixin
+@mixin createTheme($name, $config, $is-default: false) {
+  @include internal-theme.createTheme($name, $config, $is-default);
+}

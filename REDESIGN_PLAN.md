@@ -18,6 +18,26 @@ Complete rewrite of ng-material-theme library to leverage Angular Material 21's 
 2. **Runtime Capabilities**: JavaScript APIs for dynamic theme creation, mode switching, persistence
 3. **Material Adapter**: Bridge layer mapping custom tokens to Angular Material M3 system tokens
 
+### Light/Dark Mode Strategy
+
+**CSS `light-dark()` with `color-scheme`**: Instead of separate light/dark themes, we use CSS's native `light-dark(light-value, dark-value)` function which automatically picks the right value based on the `color-scheme` property.
+
+**Benefits**:
+
+- Single theme definition supports both modes
+- Mode switching is instant (just change `color-scheme`)
+- No theme name suffixes needed
+- Simpler configuration
+
+**Color values can be**:
+
+- **Single value**: Used in both light and dark modes
+  - `primary: '#6200ee'` → `--color--primary: #6200ee;`
+- **Array [light, dark]**: Different values per mode
+  - `primary: ['#6200ee', '#bb86fc']` → `--color--primary: light-dark(#6200ee, #bb86fc);`
+
+**Mode switching**: Just set `color-scheme: light` or `color-scheme: dark` on the document element, and all `light-dark()` values automatically update.
+
 ### Color Variable Structure (OOP-like naming)
 
 **Convention**: Single dash `-` separates words, double dash `--` separates namespaces (like `.` in OOP)
@@ -1070,8 +1090,7 @@ Main theme generation that ties everything together.
 @use "./mat-theme-bridge" as bridge;
 
 @mixin createTheme($name, $config, $is-default: false) {
-  // Parse config
-  $mode: map-get($config, "mode"); // Required: 'light' or 'dark'
+  // Parse config (no mode property!)
   $colors: map-get($config, "colors");
   $typography: map-get($config, "typography");
   $density: map-get($config, "density", 0);
@@ -1079,8 +1098,8 @@ Main theme generation that ties everything together.
   $opacities: map-get($config, "opacities");
   $contrast-blends: map-get($config, "contrast-blends");
 
-  // Append mode suffix to theme name for paired themes
-  $theme-name: "#{$name}-#{$mode}";
+  // No mode suffix - themes are universal with light-dark()
+  $theme-name: $name;
 
   // Generate theme selector
   $selector: if(
@@ -1108,16 +1127,38 @@ Main theme generation that ties everything together.
       @if type-of($palette-config) == "string" {
         // Simple form: colors: (primary: '#3f51b5')
         --color--#{$palette-name}: #{$palette-config};
+      } @else if type-of($palette-config) == "list" {
+        // Array form: colors: (primary: ('#6200ee', '#bb86fc'))
+        // Generates: --color--primary: light-dark(#6200ee, #bb86fc);
+        $light: nth($palette-config, 1);
+        $dark: nth($palette-config, 2);
+        --color--#{$palette-name}: light-dark(#{$light}, #{$dark});
       } @else {
         // Object form: colors: (primary: (value: '#3f51b5', contrast: white))
-        --color--#{$palette-name}: #{map-get($palette-config, "value")};
+        // or: colors: (primary: (value: ('#6200ee', '#bb86fc'), contrast: (black, white)))
+        $value: map-get($palette-config, "value");
+
+        @if type-of($value) == "list" {
+          $light: nth($value, 1);
+          $dark: nth($value, 2);
+          --color--#{$palette-name}: light-dark(#{$light}, #{$dark});
+        } @else {
+          --color--#{$palette-name}: #{$value};
+        }
 
         // User contrast override
         @if map-has-key($palette-config, "contrast") {
-          --color--#{$palette-name}--contrast--base-override: #{map-get(
-              $palette-config,
-              "contrast"
-            )};
+          $contrast: map-get($palette-config, "contrast");
+          @if type-of($contrast) == "list" {
+            $light-contrast: nth($contrast, 1);
+            $dark-contrast: nth($contrast, 2);
+            --color--#{$palette-name}--contrast--base-override: light-dark(
+              #{$light-contrast},
+              #{$dark-contrast}
+            );
+          } @else {
+            --color--#{$palette-name}--contrast--base-override: #{$contrast};
+          }
         }
       }
 
@@ -1126,8 +1167,8 @@ Main theme generation that ties everything together.
     }
 
     // Auto-derive missing colors and generate neutral palette surface/background
-    @include derivation.derive-colors($mode);
-    @include derivation.generate-neutral-surfaces($mode);
+    @include derivation.derive-colors();
+    @include derivation.generate-neutral-surfaces();
 
     // Typography
     @include typo.generate-typography($typography);
@@ -1274,69 +1315,70 @@ JavaScript API to generate theme CSS at runtime (identical to build-time output)
 
 ```typescript
 export interface ThemeConfig {
-  mode: "light" | "dark"; // Required: determines contrast defaults and neutral palette surface/background colors
+  // No mode property - use light-dark() with color-scheme instead!
 
   // Theme-level defaults (optional)
   blends?: {
-    "darker-2"?: string;
-    "darker-1"?: string;
-    "lighter-1"?: string;
-    "lighter-2"?: string;
+    "darker-2"?: string | [string, string]; // single value or [light, dark]
+    "darker-1"?: string | [string, string];
+    "lighter-1"?: string | [string, string];
+    "lighter-2"?: string | [string, string];
   };
   opacities?: {
-    opacity1?: string; // 10%
-    opacity2?: string; // 20%
-    opacity3?: string; // 30%
-    opacity4?: string; // 40%
-    opacity5?: string; // 50%
-    opacity6?: string; // 70%
-    opacity7?: string; // 90%
+    opacity1?: string | [string, string]; // 10% or ['10%', '15%']
+    opacity2?: string | [string, string]; // 20%
+    opacity3?: string | [string, string]; // 30%
+    opacity4?: string | [string, string]; // 40%
+    opacity5?: string | [string, string]; // 50%
+    opacity6?: string | [string, string]; // 70%
+    opacity7?: string | [string, string]; // 90%
   };
   contrastBlends?: {
-    emphasized?: string;
-    default?: string;
-    deemphasized?: string;
-    disabled?: string;
+    emphasized?: string | [string, string];
+    default?: string | [string, string];
+    deemphasized?: string | [string, string];
+    disabled?: string | [string, string];
   };
 
   colors: {
     // Standard Material palettes
-    primary?: string | PaletteConfig;
-    secondary?: string | PaletteConfig;
-    tertiary?: string | PaletteConfig;
-    neutral?: string | PaletteConfig;
-    error?: string | PaletteConfig;
+    // Can be: string (same for light/dark), [light, dark], or PaletteConfig
+    primary?: string | [string, string] | PaletteConfig;
+    secondary?: string | [string, string] | PaletteConfig;
+    tertiary?: string | [string, string] | PaletteConfig;
+    neutral?: string | [string, string] | PaletteConfig;
+    error?: string | [string, string] | PaletteConfig;
     // Custom palettes (not mapped to Material components)
-    [key: string]: string | PaletteConfig | undefined;
+    [key: string]: string | [string, string] | PaletteConfig | undefined;
   };
   typography?: TypographyConfig;
   density?: number;
 }
 
 export interface PaletteConfig {
-  value: string;
-  contrast?: string; // user override for base contrast
+  value: string | [string, string]; // Color value(s)
+  contrast?: string | [string, string]; // User override for base contrast
 
   // Per-palette blend overrides
-  "blend-darker-2"?: string;
-  "blend-darker-1"?: string;
-  "blend-lighter-1"?: string;
-  "blend-lighter-2"?: string;
+  "blend-darker-2"?: string | [string, string];
+  "blend-darker-1"?: string | [string, string];
+  "blend-lighter-1"?: string | [string, string];
+  "blend-lighter-2"?: string | [string, string];
 
   // Per-palette opacity overrides
-  opacity1?: string; // override for opacity-1 (10%)
-  opacity2?: string; // override for opacity-2 (20%)
-  opacity3?: string; // override for opacity-3 (30%)
-  opacity4?: string; // override for opacity-4 (40%)
-  opacity5?: string; // override for opacity-5 (50%)
-  opacity6?: string; // override for opacity-6 (70%)
-  opacity7?: string; // override for opacity-7 (90%)
+  opacity1?: string | [string, string];
+  opacity2?: string | [string, string];
+  opacity3?: string | [string, string];
+  opacity4?: string | [string, string];
+  opacity5?: string | [string, string];
+  opacity6?: string | [string, string];
+  opacity7?: string | [string, string];
 
   // Per-palette contrast blend overrides
-  "contrast-blend-emphasized"?: string;
-  "contrast-blend"?: string;
-  "contrast-blend-deemphasized"?: string;
-  "contrast-blend-disabled"?: string;
+  "contrast-blend-emphasized"?: string | [string, string];
+  "contrast-blend"?: string | [string, string];
+  "contrast-blend-deemphasized"?: string | [string, string];
+  "contrast-blend-disabled"?: string | [string, string];
 }
 
 export function generateThemeCSS(
@@ -1346,8 +1388,8 @@ export function generateThemeCSS(
 ): string {
   let css = "";
 
-  // Append mode suffix to theme name for paired themes
-  const themeName = `${name}-${config.mode}`;
+  // No mode suffix - themes are universal with light-dark()
+  const themeName = name;
 
   const selector = isDefault
     ? `:root, [theme="${themeName}"]`
@@ -1676,11 +1718,9 @@ import {
 
 @Injectable({ providedIn: "root" })
 export class NgMaterialThemeService {
-  // Theme name WITH mode suffix (e.g., 'branded-light')
-  readonly currentTheme = signal<string>("default-light");
+  // Current theme name (no mode suffix)
+  readonly currentTheme = signal<string>("default");
   readonly currentMode = signal<"light" | "dark">("light");
-  // Base theme name WITHOUT suffix (e.g., 'branded')
-  private baseThemeName = signal<string>("default");
 
   // New methods
   createRuntimeTheme(
@@ -1717,26 +1757,17 @@ export class NgMaterialThemeService {
     generateThemeCSS(name, config);
   }
 
-  // Existing methods remain
+  // Theme and mode management
   setTheme(name: string): void {
-    // Takes base name only, constructs full name with current mode
-    this.baseThemeName.set(name);
-    const mode = this.currentMode();
-    const fullThemeName = `${name}-${mode}`;
-
-    this.currentTheme.set(fullThemeName);
-    this.currentMode.set(mode);
+    // Set theme (no mode suffix needed with light-dark())
     this.currentTheme.set(name);
     document.documentElement.setAttribute("theme", name);
   }
 
   setMode(mode: "light" | "dark"): void {
-    // Automatically switch to paired theme (baseName-mode)
-    const fullThemeName = `${this.baseThemeName()}-${mode}`;
+    // Just set color-scheme, light-dark() automatically updates
     this.currentMode.set(mode);
-    this.currentTheme.set(fullThemeName);
-    document.documentElement.setAttribute("theme", fullThemeName);
-    document.documentElement.setAttribute("theme-mode", mode);
+    document.documentElement.style.colorScheme = mode;
   }
 }
 ```
@@ -1750,29 +1781,16 @@ export class NgMaterialThemeService {
 Utility functions (keep existing).
 
 ```typescript
-// Track base theme name for mode switching
-let baseTheme = "default";
-
 export function setTheme(name: string): void {
-  // Takes base name only, constructs full name with current mode
-  baseTheme = name;
-  const mode = getActiveMode(); // Use current mode
-  const fullThemeName = `${name}-${mode}`;
-
-  document.documentElement.setAttribute("theme", fullThemeName);
-  document.documentElement.setAttribute("theme-mode", mode);
-  localStorage.setItem("theme", fullThemeName);
-  localStorage.setItem("theme-mode", mode);
+  // Set theme attribute (no mode suffix)
+  document.documentElement.setAttribute("theme", name);
+  localStorage.setItem("theme", name);
 }
 
-export function setThemeMode(mode: "light" | "dark"): void {
-  // Automatically switch to paired theme (baseName-mode)
-  const fullThemeName = `${baseTheme}-${mode}`;
-
-  document.documentElement.setAttribute("theme", fullThemeName);
-  document.documentElement.setAttribute("theme-mode", mode);
-  localStorage.setItem("theme", fullThemeName);
-  localStorage.setItem("theme-mode", mode);
+export function setMode(mode: "light" | "dark"): void {
+  // Just set color-scheme property - light-dark() automatically responds
+  document.documentElement.style.colorScheme = mode;
+  localStorage.setItem("color-scheme", mode);
 }
 
 export function getActiveTheme(): string {
@@ -1780,10 +1798,8 @@ export function getActiveTheme(): string {
 }
 
 export function getActiveMode(): "light" | "dark" {
-  return (
-    (document.documentElement.getAttribute("theme-mode") as "light" | "dark") ||
-    "light"
-  );
+  const stored = localStorage.getItem("color-scheme") as "light" | "dark";
+  return stored || "light";
 }
 ```
 
@@ -1804,11 +1820,10 @@ Complete examples showing all configuration patterns.
 
 @include theming.core();
 
-// Simplest form - just colors, everything else uses built-in defaults
+// Simplest form - single color values (same in light/dark mode)
 @include theming.createTheme(
   "simple",
   (
-    mode: "light",
     colors: (
       primary: "#6200ee",
       secondary: "#03dac6",
@@ -1826,6 +1841,43 @@ Complete examples showing all configuration patterns.
 - Blends: 80%/90%/90%/80%
 - Opacities: 10%/20%/30%/40%/50%/70%/90%
 - Contrast blends: 100%/90%/80%/50%
+- Same colors in light and dark modes (use `color-scheme` to control surfaces)
+
+---
+
+#### Example 1b: Light/dark color variations
+
+```scss
+// Use array [light, dark] for different colors per mode
+@include theming.createTheme(
+  "adaptive",
+  (
+    colors: (
+      // Light mode: deep purple, Dark mode: light purple
+      primary: ("#6200ee", "#bb86fc"),
+      // Light mode: teal, Dark mode: cyan
+      secondary: ("#03dac6", "#00e5ff"),
+      tertiary: ("#bb86fc", "#6200ee"),
+      neutral: ("#1c1b1f", "#e6e1e5"),
+      error: ("#b00020", "#f44336"),
+    ),
+  ),
+  $is-default: true
+);
+```
+
+**Generated CSS**:
+
+```css
+:root,
+[theme="adaptive"] {
+  --color--primary: light-dark(#6200ee, #bb86fc);
+  --color--secondary: light-dark(#03dac6, #00e5ff);
+  /* ... */
+}
+```
+
+**Usage**: Just set `color-scheme: light` or `color-scheme: dark` and all `light-dark()` values update automatically!
 
 ---
 
@@ -1840,7 +1892,6 @@ Complete examples showing all configuration patterns.
 @include theming.createTheme(
   "branded",
   (
-    mode: "light",
     // Theme-wide defaults (apply to all color palettes)
     blends:
       (
@@ -1849,7 +1900,7 @@ Complete examples showing all configuration patterns.
         darker-1: 85%,
         lighter-1: 92%,
         // Custom: make lighter variants more subtle
-        lighter-2: 85%,
+        lighter-2: 85%
       ),
     opacities: (
       opacity1: 8%,
@@ -1859,7 +1910,7 @@ Complete examples showing all configuration patterns.
       opacity4: 35%,
       opacity5: 50%,
       opacity6: 65%,
-      opacity7: 85%,
+      opacity7: 85%
     ),
     contrast-blends: (
       emphasized: 100%,
@@ -1872,14 +1923,22 @@ Complete examples showing all configuration patterns.
     // All palettes inherit the theme-level defaults above
     colors:
       (
-        primary: "#6200ee",
+        primary: (
+          "#6200ee",
+          "#bb86fc",
+        ),
+        // Light/dark variations
         secondary: "#03dac6",
+        // Or single value
         tertiary: "#bb86fc",
-        neutral: "#1c1b1f",
-        error: "#b00020",
+        neutral: (
+          "#1c1b1f",
+          "#e6e1e5",
+        ),
+        error: "#b00020"
       ),
     typography: null,
-    density: 0,
+    density: 0
   ),
   $is-default: true
 );
@@ -1937,7 +1996,7 @@ Complete examples showing all configuration patterns.
         // Primary needs stronger darks
         opacity2: 25%,
         // Primary needs different tint (opacity-2 normally 20%)
-        contrast-blend: 95% // Primary needs higher contrast,
+        contrast-blend: 95% // Primary needs higher contrast,,
       ),
 
       secondary: "#03dac6",
@@ -1948,7 +2007,7 @@ Complete examples showing all configuration patterns.
           value: "#bb86fc",
           opacity5: 55%,
           // Only override one opacity for tertiary
-          contrast-blend-disabled: 60% // Different disabled contrast,
+          contrast-blend-disabled: 60% // Different disabled contrast,,
         ),
 
       neutral: (
@@ -1995,7 +2054,7 @@ Complete examples showing all configuration patterns.
       lighter-1: 90%,
     ),
     contrast-blends: (
-      default: 95% // Higher contrast for light theme,
+      default: 95% // Higher contrast for light theme,,
     ),
     colors: (
       primary: "#6200ee",
@@ -2016,12 +2075,12 @@ Complete examples showing all configuration patterns.
       lighter-1: 85%,
     ),
     contrast-blends: (
-      default: 85% // Lower contrast for dark theme,
+      default: 85% // Lower contrast for dark theme,,
     ),
     colors: (
       primary: (
         value: "#bb86fc",
-        blend-darker-1: 75% // Even more intense for dark primary,
+        blend-darker-1: 75% // Even more intense for dark primary,,
       ),
       secondary: "#03dac6",
     ),
@@ -2043,15 +2102,17 @@ import { NgMaterialThemeService } from "@cpangular/ng-material-theme";
 
 @Component({
   selector: "app-root",
-  template: `<button (click)="createSimpleTheme()">Simple Theme</button>`,
+  template: `
+    <button (click)="createSimpleTheme()">Simple Theme</button>
+    <button (click)="toggleMode()">Toggle Mode</button>
+  `,
 })
 export class AppComponent {
   constructor(private themeService: NgMaterialThemeService) {}
 
   createSimpleTheme() {
-    // Simplest form - just colors
+    // Simplest form - just colors (same in light/dark)
     const themeCSS = this.themeService.createRuntimeTheme("simple", {
-      mode: "light",
       colors: {
         primary: "#ff5722",
         secondary: "#4caf50",
@@ -2061,6 +2122,30 @@ export class AppComponent {
     // Uses all built-in defaults for blends/opacities/contrast-blends
     this.themeService.setTheme("simple");
   }
+
+  toggleMode() {
+    const current = this.themeService.currentMode();
+    this.themeService.setMode(current === "light" ? "dark" : "light");
+  }
+}
+```
+
+---
+
+#### Runtime Example 1b: Light/Dark variations
+
+```typescript
+createAdaptiveTheme() {
+  // Use array [light, dark] for different colors per mode
+  const themeCSS = this.themeService.createRuntimeTheme("adaptive", {
+    colors: {
+      primary: ["#6200ee", "#bb86fc"], // Deep purple in light, light purple in dark
+      secondary: ["#03dac6", "#00e5ff"], // Teal in light, cyan in dark
+      tertiary: "#ff4081", // Same in both modes
+    },
+  });
+
+  this.themeService.setTheme("adaptive");
 }
 ```
 
@@ -2072,7 +2157,6 @@ export class AppComponent {
 createBrandedTheme() {
   // Set custom defaults that apply to ALL palettes
   const themeCSS = this.themeService.createRuntimeTheme('branded', {
-    mode: 'light',
     // Theme-wide defaults
     blends: {
       'darker-1': '85%',
@@ -2083,15 +2167,16 @@ createBrandedTheme() {
       opacity2: '15%',
       opacity5: '50%'
     },
-    'contrast-blends': {
+    contrastBlends: {
       'default': '95%'
     },
 
     // All palettes inherit these defaults
+    // Can use single values or [light, dark] arrays
     colors: {
-      primary: '#6200ee',
-      secondary: '#03dac6',
-      tertiary: '#bb86fc'
+      primary: ['#6200ee', '#bb86fc'],
+      secondary: '#03dac6', // Same in both modes
+      tertiary: ['#ff4081', '#f48fb1']
     },
     density: 0
   });
@@ -2110,7 +2195,6 @@ createBrandedTheme() {
 createCustomTheme() {
   // Theme defaults + selective per-palette overrides
   const themeCSS = this.themeService.createRuntimeTheme('custom', {
-    mode: 'light',
     // Theme-wide defaults
     blends: {
       'darker-1': '88%',
@@ -2120,8 +2204,8 @@ createCustomTheme() {
       opacity1: '10%',
       opacity2: '20%'
     },
-    'contrast-blends': {
-      'default': '90%'
+    contrastBlends: {
+      default: '90%'
     },
 
     colors: {
@@ -2146,13 +2230,12 @@ createCustomTheme() {
 
 ---
 
-#### Runtime Example 4: Dynamic user customization
+#### Runtime Example 4: Dynamic user customization with light/dark
 
 ```typescript
 createUserTheme(userPreferences: any) {
-  // Allow user to customize at both levels
+  // Allow user to customize at both levels with light/dark support
   const themeCSS = this.themeService.createRuntimeTheme('user-custom', {
-    mode: 'light',
     // User sets theme-wide preferences
     blends: {
       'darker-1': userPreferences.globalDarkerBlend || '90%'
@@ -2163,15 +2246,16 @@ createUserTheme(userPreferences: any) {
 
     colors: {
       primary: {
-        value: userPreferences.primaryColor,
+        // Support light/dark arrays in object notation too!
+        value: [userPreferences.primaryColorLight, userPreferences.primaryColorDark],
         // User can fine-tune primary specifically
         'blend-darker-1': userPreferences.primaryDarkerBlend
       },
-      secondary: userPreferences.secondaryColor,
+      secondary: userPreferences.secondaryColor, // Single value (same in both modes)
 
       // Custom palettes (not used by Material, but available for custom components)
       brand: userPreferences.brandColor,
-      accent: userPreferences.accentColor,
+      accent: [userPreferences.accentLight, userPreferences.accentDark],
       status: {
         value: userPreferences.statusColor,
         opacity5: '60%'  // Custom palette can have overrides too
@@ -2255,7 +2339,7 @@ colors: (
     // per-palette blend
     opacity2: 25%,
     // per-palette opacity (opacity-2)
-    contrast-blend: 90% // per-palette contrast blend,
+    contrast-blend: 90% // per-palette contrast blend,,
   )
 );
 ```

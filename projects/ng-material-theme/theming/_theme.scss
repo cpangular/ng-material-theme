@@ -1,0 +1,149 @@
+// Main Theme Mixin
+// Brings together all the pieces to create a complete theme
+
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+@use "./color-variants" as variants;
+@use "./color-derivation" as derivation;
+@use "./contrast-utils" as contrast;
+@use "./material-bridge" as bridge;
+@use "./typography" as typo;
+@use "./density" as dens;
+
+@mixin createTheme($name, $config, $is-default: false) {
+  // Parse config (no mode property with light-dark()!)
+  $colors: map.get($config, "colors");
+  $typography: map.get($config, "typography");
+  $density: map.get($config, "density") or 0;
+  $blends: map.get($config, "blends");
+  $opacities: map.get($config, "opacities");
+  $contrast-blends: map.get($config, "contrast-blends");
+
+  // No mode suffix - themes are universal with light-dark()
+  $theme-name: $name;
+
+  // Generate theme selector
+  $selector: if(
+    $is-default,
+    ':root, [theme="#{$theme-name}"]',
+    '[theme="#{$theme-name}"]'
+  );
+
+  #{$selector} {
+    // Generate theme-level defaults (if provided)
+    @if $blends {
+      @include variants.generate-theme-defaults($blends);
+    }
+    @if $opacities {
+      @include variants.generate-theme-opacity-defaults($opacities);
+    }
+    @if $contrast-blends {
+      @include variants.generate-theme-contrast-blend-defaults(
+        $contrast-blends
+      );
+    }
+
+    // Set base colors (user-provided)
+    @each $palette-name, $palette-config in $colors {
+      @if meta.type-of($palette-config) ==
+        "string" or
+        meta.type-of($palette-config) ==
+        "color"
+      {
+        // Simple form: colors: (primary: '#3f51b5') or colors: (primary: #3f51b5)
+        // Use -override so derivation system respects user values
+        --color--#{$palette-name}-override: #{$palette-config};
+        // Calculate optimal contrast color
+        $optimal-contrast: contrast.calculate-optimal-contrast($palette-config);
+        --color--#{$palette-name}--contrast--base-override: #{$optimal-contrast};
+        // Generate all variants with empty config (no overrides)
+        @include variants.generate-all-variants($palette-name, ());
+      } @else if meta.type-of($palette-config) == "list" {
+        // Array form: colors: (primary: ('#6200ee', '#bb86fc'))
+        // Generates: --color--primary-override: light-dark(#6200ee, #bb86fc);
+        $light: list.nth($palette-config, 1);
+        $dark: list.nth($palette-config, 2);
+        --color--#{$palette-name}-override: light-dark(#{$light}, #{$dark});
+        // Calculate optimal contrast for both light and dark values
+        $light-contrast: contrast.calculate-optimal-contrast($light);
+        $dark-contrast: contrast.calculate-optimal-contrast($dark);
+        --color--#{$palette-name}--contrast--base-override: light-dark(
+          #{$light-contrast},
+          #{$dark-contrast}
+        );
+        // Generate all variants with empty config (no overrides)
+        @include variants.generate-all-variants($palette-name, ());
+      } @else {
+        // Object form: colors: (primary: (value: '#3f51b5', contrast: white))
+        // or: colors: (primary: (value: ('#6200ee', '#bb86fc'), contrast: (black, white)))
+        $value: map.get($palette-config, "value");
+
+        @if meta.type-of($value) == "list" {
+          $light: list.nth($value, 1);
+          $dark: list.nth($value, 2);
+          --color--#{$palette-name}-override: light-dark(#{$light}, #{$dark});
+        } @else {
+          --color--#{$palette-name}-override: #{$value};
+        }
+
+        // User contrast override (or calculate if not provided)
+        @if map.has-key($palette-config, "contrast") {
+          $contrast: map.get($palette-config, "contrast");
+          @if meta.type-of($contrast) == "list" {
+            $light-contrast: list.nth($contrast, 1);
+            $dark-contrast: list.nth($contrast, 2);
+            --color--#{$palette-name}--contrast--base-override: light-dark(
+              #{$light-contrast},
+              #{$dark-contrast}
+            );
+          } @else {
+            --color--#{$palette-name}--contrast--base-override: #{$contrast};
+          }
+        } @else {
+          // No user override, calculate optimal contrast
+          @if meta.type-of($value) == "list" {
+            $light: list.nth($value, 1);
+            $dark: list.nth($value, 2);
+            $light-contrast: contrast.calculate-optimal-contrast($light);
+            $dark-contrast: contrast.calculate-optimal-contrast($dark);
+            --color--#{$palette-name}--contrast--base-override: light-dark(
+              #{$light-contrast},
+              #{$dark-contrast}
+            );
+          } @else {
+            $optimal-contrast: contrast.calculate-optimal-contrast($value);
+            --color--#{$palette-name}--contrast--base-override: #{$optimal-contrast};
+          }
+        }
+
+        // Generate all variants for this palette (includes overrides and computed values)
+        @include variants.generate-all-variants($palette-name, $palette-config);
+      }
+    }
+
+    // Auto-derive missing colors and generate neutral palette surface/background
+    @include derivation.derive-colors();
+    @include derivation.generate-neutral-surfaces();
+
+    // Generate variants for all standard palettes (if not already done)
+    // This ensures secondary, tertiary, neutral, and error get their lighter/darker variants
+    @each $palette in (secondary, tertiary, neutral, error) {
+      @if not map.has-key($colors, $palette) {
+        // This palette wasn't in the user config, so generate its variants now
+        @include variants.generate-all-variants($palette, ());
+      }
+    }
+
+    // Typography
+    @if $typography {
+      @include typo.generate-typography($typography);
+    }
+
+    // Density
+    @include dens.apply-density($density);
+
+    // Map to Material M3 tokens
+    @include bridge.map-to-material();
+  }
+}

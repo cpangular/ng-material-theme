@@ -1,0 +1,79 @@
+// Contrast Calculation Utilities
+// Calculate optimal contrast color (black or white) based on relative luminance
+
+@use "sass:color";
+@use "sass:math";
+@use "sass:meta";
+
+// Calculate relative luminance and return optimal contrast color
+// Returns 'black' or 'white' for optimal contrast readability
+@function calculate-optimal-contrast($color-value) {
+  // Convert to RGB and calculate relative luminance
+  // This is a simplified WCAG contrast calculation
+
+  @if meta.type-of($color-value) != "color" {
+    @return black; // Default fallback
+  }
+
+  // Get RGB channels (0-255)
+  $r: color.channel($color-value, "red", $space: rgb);
+  $g: color.channel($color-value, "green", $space: rgb);
+  $b: color.channel($color-value, "blue", $space: rgb);
+
+  // Convert to 0-1 range
+  $r: math.div($r, 255);
+  $g: math.div($g, 255);
+  $b: math.div($b, 255);
+
+  // Apply gamma correction
+  @if $r <= 0.03928 {
+    $r: math.div($r, 12.92);
+  } @else {
+    $r: math.pow(math.div($r + 0.055, 1.055), 2.4);
+  }
+
+  @if $g <= 0.03928 {
+    $g: math.div($g, 12.92);
+  } @else {
+    $g: math.pow(math.div($g + 0.055, 1.055), 2.4);
+  }
+
+  @if $b <= 0.03928 {
+    $b: math.div($b, 12.92);
+  } @else {
+    $b: math.pow(math.div($b + 0.055, 1.055), 2.4);
+  }
+
+  // Calculate relative luminance
+  $luminance: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+
+  // Return white for dark colors, black for light colors
+  // Threshold at 0.5 relative luminance
+  @if $luminance > 0.5 {
+    @return black;
+  } @else {
+    @return white;
+  }
+}
+
+// Mixin to set contrast color with override support
+@mixin set-contrast-color($name, $base-color, $variant: null) {
+  $var-prefix: if(
+    $variant,
+    --color--#{$name}-#{$variant}--contrast,
+    --color--#{$name}--contrast
+  );
+
+  // Calculate optimal contrast, but allow user override
+  #{$var-prefix}--base: var(
+    #{$var-prefix}--base-override,
+    #{calculate-optimal-contrast($base-color)}
+  );
+}
+
+// Calculate contrast ratio between two colors (for validation)
+@function contrast-ratio($fg, $lum1, $lum2) {
+  $lighter: math.max($lum1, $lum2);
+  $darker: math.min($lum1, $lum2);
+  @return math.div($lighter + 0.05, $darker + 0.05);
+}

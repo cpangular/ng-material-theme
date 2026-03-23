@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ng-material-theme - Simple Theming Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Set color-scheme to light by default */
+      :root {
+        color-scheme: light;
+      }
+
+      /* Uncomment this to see dark mode */
+      /* :root {
+      color-scheme: dark;
+    } */
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <header class="demo-header">
+        <h1>ng-material-theme</h1>
+        <p>Material Design 3 Theme System with CSS light-dark() Support</p>
+      </header>
+
+      <div class="mode-note">
+        <p>
+          <strong>💡 Tip:</strong> This theme uses CSS
+          <code>light-dark()</code> function. To see dark mode, change
+          <code>color-scheme: light</code> to <code>color-scheme: dark</code> in
+          the HTML <code>&lt;style&gt;</code> section. All colors automatically
+          update!
+        </p>
+      </div>
+
+      <br />
+
+      <div class="color-grid">
+        <!-- Helper macro: each swatch = normal left half + disabled right half -->
+
+        <!-- Primary Palette -->
+        <div class="color-card">
+          <h2>Primary Palette</h2>
+          <div class="color-palette">
+            <div class="color-swatch primary-darker-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-darker-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Primary</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-lighter-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-lighter-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top: 1rem; font-size: 1rem; opacity: 0.7">
+            Mode-Relative
+          </h3>
+          <div class="color-palette">
+            <div class="color-swatch primary-lower-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-lower-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-higher-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch primary-higher-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Palette -->
+        <div class="color-card">
+          <h2>Secondary Palette</h2>
+          <div class="color-palette">
+            <div class="color-swatch secondary-darker-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-darker-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Secondary</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-lighter-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-lighter-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top: 1rem; font-size: 1rem; opacity: 0.7">
+            Mode-Relative
+          </h3>
+          <div class="color-palette">
+            <div class="color-swatch secondary-lower-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-lower-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-higher-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch secondary-higher-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tertiary Palette -->
+        <div class="color-card">
+          <h2>Tertiary Palette</h2>
+          <div class="color-palette">
+            <div class="color-swatch tertiary-darker-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-darker-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Tertiary</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-lighter-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-lighter-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top: 1rem; font-size: 1rem; opacity: 0.7">
+            Mode-Relative
+          </h3>
+          <div class="color-palette">
+            <div class="color-swatch tertiary-lower-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-lower-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-higher-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch tertiary-higher-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Palette -->
+        <div class="color-card">
+          <h2>Error Palette</h2>
+          <div class="color-palette">
+            <div class="color-swatch error-darker-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-darker-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Darker-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Error</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-lighter-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-lighter-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lighter-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 style="margin-top: 1rem; font-size: 1rem; opacity: 0.7">
+            Mode-Relative
+          </h3>
+          <div class="color-palette">
+            <div class="color-swatch error-lower-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-lower-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Lower-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-higher-1">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-1</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="color-swatch error-higher-2">
+              <div class="swatch-half swatch-normal">
+                <span class="swatch-label">Higher-2</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+              <div class="swatch-half swatch-disabled">
+                <span class="swatch-label">Disabled</span>
+                <div class="contrast-variants">
+                  <div class="contrast-item contrast-emphasized">
+                    <span>Emphasized</span>
+                  </div>
+                  <div class="contrast-item contrast-deemphasized">
+                    <span>Deemphasized</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tint Demonstration -->
+      <div class="tint-demo">
+        <h2>Primary Tints (Transparent Overlays)</h2>
+        <p style="margin-bottom: 1rem; opacity: 0.7">
+          7 opacity levels: 10%, 20%, 30%, 40%, 50%, 70%, 90%
+        </p>
+        <div class="tint-grid">
+          <div class="tint-item tint-1">10%</div>
+          <div class="tint-item tint-2">20%</div>
+          <div class="tint-item tint-3">30%</div>
+          <div class="tint-item tint-4">40%</div>
+          <div class="tint-item tint-5">50%</div>
+          <div class="tint-item tint-6">70%</div>
+          <div class="tint-item tint-7">90%</div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="color-card" style="grid-column: 1 / -1">
+        <h2>Features</h2>
+        <ul style="line-height: 2; margin: 0">
+          <li>
+            ✨ <strong>CSS light-dark() Support</strong> - Single theme
+            definition for both modes
+          </li>
+          <li>
+            🎨 <strong>Color Variants</strong> - Automatic lighter/darker/tint
+            generation using color-mix()
+          </li>
+          <li>
+            🔄 <strong>Instant Mode Switching</strong> - Just change
+            color-scheme property
+          </li>
+          <li>
+            ⚡ <strong>Modern CSS</strong> - OKLab color space, CSS @property
+            for animations
+          </li>
+          <li>
+            🎯 <strong>Material M3 Compatible</strong> - Maps to Angular
+            Material design tokens
+          </li>
+          <li>
+            🛠️ <strong>Flexible Configuration</strong> - Theme-level and
+            per-palette overrides
+          </li>
+        </ul>
+      </div>
+
+      <!-- Architecture -->
+      <div class="color-card" style="grid-column: 1 / -1">
+        <h2>Architecture</h2>
+        <p style="line-height: 1.8; margin: 0.5rem 0 0 0">
+          This theming system provides a custom design token layer that
+          generates practical color variants at build time using SCSS and CSS
+          <code>color-mix()</code>. All colors support light/dark mode through
+          CSS <code>light-dark()</code> function, controlled by the
+          <code>color-scheme</code> property.
+        </p>
+        <br />
+        <p style="line-height: 1.8; margin: 0">
+          <strong>Configuration Hierarchy:</strong><br />
+          <code>palette-override → theme-default → built-in-default</code>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

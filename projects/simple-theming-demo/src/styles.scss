@@ -1,0 +1,371 @@
+// Simple Theming Demo
+// Demonstrates the ng-material-theme system with light-dark() support
+
+@use "theming" as theme;
+
+// Initialize the theming system
+@include theme.core();
+
+// Create a default theme with light/dark color variations
+@include theme.createTheme(
+  "demo",
+  (
+    colors: (
+      // Deep purple in light mode, light purple in dark mode
+      primary: (#6200ee, #bb86fc),
+      // Teal in both modes
+      secondary: #03dac6,
+      // Pink in light, lighter pink in dark - with custom disabled saturation
+      tertiary:
+        (
+          value: (
+            #ff4081,
+            #f48fb1,
+          ),
+          disabled-saturation: 30%
+        ),
+      // Neutral grays
+      neutral: (#1c1b1f, #e6e1e5),
+      // Error red - with more saturation retained when disabled
+      error: (value: #b00020, disabled-saturation: 60%),
+    ),
+  ),
+  $is-default: true
+);
+
+// Basic styling to demonstrate the theme
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--color--background);
+  color: var(--color--on-background);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.demo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.demo-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+    color: var(--color--primary);
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: var(--color--on-background);
+    opacity: 0.7;
+  }
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.color-card {
+  background: var(--color--surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: var(--color--on-surface);
+  }
+
+  h3 {
+    color: var(--color--on-surface);
+  }
+}
+
+.color-palette {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Mixin for split swatch: normal (left) / disabled (right)
+@mixin color-swatch-variant($palette, $variant: null) {
+  $base: if($variant, --color--#{$palette}-#{$variant}, --color--#{$palette});
+  $dis: #{$base}-disabled;
+
+  .swatch-normal {
+    background: var(#{$base});
+    .swatch-label {
+      color: var(#{$base}--contrast);
+    }
+    .contrast-emphasized {
+      color: var(#{$base}--contrast--emphasized);
+    }
+    .contrast-deemphasized {
+      color: var(#{$base}--contrast--deemphasized);
+    }
+  }
+  .swatch-disabled {
+    background: var(#{$dis});
+    .swatch-label {
+      color: var(#{$dis}--contrast);
+    }
+    .contrast-emphasized {
+      color: var(#{$dis}--contrast--emphasized);
+    }
+    .contrast-deemphasized {
+      color: var(#{$dis}--contrast--deemphasized);
+    }
+  }
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .swatch-half {
+    flex: 1;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .swatch-disabled {
+    border-left: 2px solid rgba(128, 128, 128, 0.25);
+  }
+
+  .swatch-label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .contrast-variants {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+
+    .contrast-item {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  }
+
+  // Primary
+  &.primary {
+    @include color-swatch-variant("primary");
+  }
+  &.primary-darker-2 {
+    @include color-swatch-variant("primary", "darker-2");
+  }
+  &.primary-darker-1 {
+    @include color-swatch-variant("primary", "darker-1");
+  }
+  &.primary-lighter-1 {
+    @include color-swatch-variant("primary", "lighter-1");
+  }
+  &.primary-lighter-2 {
+    @include color-swatch-variant("primary", "lighter-2");
+  }
+  &.primary-higher-2 {
+    @include color-swatch-variant("primary", "higher-2");
+  }
+  &.primary-higher-1 {
+    @include color-swatch-variant("primary", "higher-1");
+  }
+  &.primary-lower-1 {
+    @include color-swatch-variant("primary", "lower-1");
+  }
+  &.primary-lower-2 {
+    @include color-swatch-variant("primary", "lower-2");
+  }
+
+  // Secondary
+  &.secondary {
+    @include color-swatch-variant("secondary");
+  }
+  &.secondary-darker-2 {
+    @include color-swatch-variant("secondary", "darker-2");
+  }
+  &.secondary-darker-1 {
+    @include color-swatch-variant("secondary", "darker-1");
+  }
+  &.secondary-lighter-1 {
+    @include color-swatch-variant("secondary", "lighter-1");
+  }
+  &.secondary-lighter-2 {
+    @include color-swatch-variant("secondary", "lighter-2");
+  }
+  &.secondary-higher-2 {
+    @include color-swatch-variant("secondary", "higher-2");
+  }
+  &.secondary-higher-1 {
+    @include color-swatch-variant("secondary", "higher-1");
+  }
+  &.secondary-lower-1 {
+    @include color-swatch-variant("secondary", "lower-1");
+  }
+  &.secondary-lower-2 {
+    @include color-swatch-variant("secondary", "lower-2");
+  }
+
+  // Tertiary
+  &.tertiary {
+    @include color-swatch-variant("tertiary");
+  }
+  &.tertiary-darker-2 {
+    @include color-swatch-variant("tertiary", "darker-2");
+  }
+  &.tertiary-darker-1 {
+    @include color-swatch-variant("tertiary", "darker-1");
+  }
+  &.tertiary-lighter-1 {
+    @include color-swatch-variant("tertiary", "lighter-1");
+  }
+  &.tertiary-lighter-2 {
+    @include color-swatch-variant("tertiary", "lighter-2");
+  }
+  &.tertiary-higher-2 {
+    @include color-swatch-variant("tertiary", "higher-2");
+  }
+  &.tertiary-higher-1 {
+    @include color-swatch-variant("tertiary", "higher-1");
+  }
+  &.tertiary-lower-1 {
+    @include color-swatch-variant("tertiary", "lower-1");
+  }
+  &.tertiary-lower-2 {
+    @include color-swatch-variant("tertiary", "lower-2");
+  }
+
+  // Error
+  &.error {
+    @include color-swatch-variant("error");
+  }
+  &.error-darker-2 {
+    @include color-swatch-variant("error", "darker-2");
+  }
+  &.error-darker-1 {
+    @include color-swatch-variant("error", "darker-1");
+  }
+  &.error-lighter-1 {
+    @include color-swatch-variant("error", "lighter-1");
+  }
+  &.error-lighter-2 {
+    @include color-swatch-variant("error", "lighter-2");
+  }
+  &.error-higher-2 {
+    @include color-swatch-variant("error", "higher-2");
+  }
+  &.error-higher-1 {
+    @include color-swatch-variant("error", "higher-1");
+  }
+  &.error-lower-1 {
+    @include color-swatch-variant("error", "lower-1");
+  }
+  &.error-lower-2 {
+    @include color-swatch-variant("error", "lower-2");
+  }
+
+  &.surface {
+    background: var(--color--surface-container);
+    color: var(--color--on-surface);
+    border: 1px solid var(--color--neutral-lighter-1);
+  }
+}
+
+.tint-demo {
+  padding: 1.5rem;
+  background: var(--color--surface);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0 0 1rem 0;
+    color: var(--color--on-surface);
+  }
+
+  .tint-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+  }
+
+  .tint-item {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color--on-surface);
+    border: 1px solid var(--color--neutral-lighter-1);
+
+    &.tint-1 {
+      background: var(--color--primary-tint-1);
+    }
+    &.tint-2 {
+      background: var(--color--primary-tint-2);
+    }
+    &.tint-3 {
+      background: var(--color--primary-tint-3);
+    }
+    &.tint-4 {
+      background: var(--color--primary-tint-4);
+    }
+    &.tint-5 {
+      background: var(--color--primary-tint-5);
+    }
+    &.tint-6 {
+      background: var(--color--primary-tint-6);
+    }
+    &.tint-7 {
+      background: var(--color--primary-tint-7);
+    }
+  }
+}
+
+.mode-note {
+  padding: 1.5rem;
+  background: var(--color--surface-container);
+  border-radius: 12px;
+  border-left: 4px solid var(--color--primary);
+
+  p {
+    margin: 0;
+    color: var(--color--on-surface);
+    line-height: 1.6;
+
+    code {
+      background: var(--color--surface-container-high);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: "Courier New", monospace;
+      font-size: 0.9em;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+// Typography System
+// Simplified typography matching Material M3 design tokens
+
+@mixin generate-typography($config: null) {
+  // For now, we'll use simple defaults
+  // Material M3 will use its own typography system
+  // This can be expanded later if custom typography is needed
+
+  @if $config {
+    // Apply custom typography config if provided
+    // Future implementation
+  }
+}

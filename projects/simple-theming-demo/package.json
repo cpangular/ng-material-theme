@@ -1,0 +1,15 @@
+{
+  "name": "@cpangular/simple-theming-demo",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Simple demonstration of ng-material-theme with light-dark() support",
+  "scripts": {
+    "build": "sass src/styles.scss dist/styles.css --load-path=../ng-material-theme",
+    "watch": "sass src/styles.scss dist/styles.css --load-path=../ng-material-theme --watch",
+    "serve": "npm run build && npx http-server dist -p 8080 -o"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0",
+    "http-server": "^14.1.1"
+  }
+}
