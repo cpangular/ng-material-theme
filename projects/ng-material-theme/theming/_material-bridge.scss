@@ -50,7 +50,187 @@
   --mat-sys-background: var(--color--background);
   --mat-sys-on-background: var(--color--on-background);
 
-  // Outline colors (from neutral)
-  --mat-sys-outline: var(--color--neutral-darker-1);
-  --mat-sys-outline-variant: var(--color--neutral-lighter-1);
+  // Outline colors (from neutral-variant)
+  --mat-sys-outline: var(--color--outline);
+  --mat-sys-outline-variant: var(--color--outline-variant);
+
+  // Inverse surface (flipped-mode neutral)
+  --mat-sys-inverse-surface: var(--color--inverse-surface);
+  --mat-sys-inverse-on-surface: var(--color--inverse-on-surface);
+  --mat-sys-inverse-primary: var(--color--primary-inverse);
+
+  // Surface tint (primary at low opacity for elevation overlays)
+  --mat-sys-surface-tint: var(--color--surface-tint);
+
+  // Shadow and scrim
+  --mat-sys-shadow: var(--color--shadow);
+  --mat-sys-scrim: var(--color--scrim);
+
+  // State layer opacities (reuse opacity levels 2-4)
+  --mat-sys-hover-state-layer-opacity: var(--theme--opacity--2); /* 8% */
+  --mat-sys-focus-state-layer-opacity: var(--theme--opacity--3); /* 12% */
+  --mat-sys-pressed-state-layer-opacity: var(--theme--opacity--3); /* 12% */
+  --mat-sys-dragged-state-layer-opacity: var(--theme--opacity--4); /* 16% */
+
+  // Fixed palette roles (mode-invariant tonal refs — same value in light and dark)
+  // These are intentionally symmetrical; override the --light/--dark vars to decouple
+  --mat-sys-primary-fixed--light: var(--color--primary-lighter-2);
+  --mat-sys-primary-fixed--dark: var(--color--primary-lighter-2);
+  --mat-sys-primary-fixed: light-dark(
+    var(--mat-sys-primary-fixed--light),
+    var(--mat-sys-primary-fixed--dark)
+  );
+  --mat-sys-primary-fixed-dim--light: var(--color--primary-lighter-1);
+  --mat-sys-primary-fixed-dim--dark: var(--color--primary-lighter-1);
+  --mat-sys-primary-fixed-dim: light-dark(
+    var(--mat-sys-primary-fixed-dim--light),
+    var(--mat-sys-primary-fixed-dim--dark)
+  );
+  --mat-sys-on-primary-fixed--light: var(--color--primary-lighter-2--contrast);
+  --mat-sys-on-primary-fixed--dark: var(--color--primary-lighter-2--contrast);
+  --mat-sys-on-primary-fixed: light-dark(
+    var(--mat-sys-on-primary-fixed--light),
+    var(--mat-sys-on-primary-fixed--dark)
+  );
+  --mat-sys-on-primary-fixed-variant--light: var(
+    --color--primary-lighter-1--contrast
+  );
+  --mat-sys-on-primary-fixed-variant--dark: var(
+    --color--primary-lighter-1--contrast
+  );
+  --mat-sys-on-primary-fixed-variant: light-dark(
+    var(--mat-sys-on-primary-fixed-variant--light),
+    var(--mat-sys-on-primary-fixed-variant--dark)
+  );
+
+  --mat-sys-secondary-fixed--light: var(--color--secondary-lighter-2);
+  --mat-sys-secondary-fixed--dark: var(--color--secondary-lighter-2);
+  --mat-sys-secondary-fixed: light-dark(
+    var(--mat-sys-secondary-fixed--light),
+    var(--mat-sys-secondary-fixed--dark)
+  );
+  --mat-sys-secondary-fixed-dim--light: var(--color--secondary-lighter-1);
+  --mat-sys-secondary-fixed-dim--dark: var(--color--secondary-lighter-1);
+  --mat-sys-secondary-fixed-dim: light-dark(
+    var(--mat-sys-secondary-fixed-dim--light),
+    var(--mat-sys-secondary-fixed-dim--dark)
+  );
+  --mat-sys-on-secondary-fixed--light: var(
+    --color--secondary-lighter-2--contrast
+  );
+  --mat-sys-on-secondary-fixed--dark: var(
+    --color--secondary-lighter-2--contrast
+  );
+  --mat-sys-on-secondary-fixed: light-dark(
+    var(--mat-sys-on-secondary-fixed--light),
+    var(--mat-sys-on-secondary-fixed--dark)
+  );
+  --mat-sys-on-secondary-fixed-variant--light: var(
+    --color--secondary-lighter-1--contrast
+  );
+  --mat-sys-on-secondary-fixed-variant--dark: var(
+    --color--secondary-lighter-1--contrast
+  );
+  --mat-sys-on-secondary-fixed-variant: light-dark(
+    var(--mat-sys-on-secondary-fixed-variant--light),
+    var(--mat-sys-on-secondary-fixed-variant--dark)
+  );
+
+  --mat-sys-tertiary-fixed--light: var(--color--tertiary-lighter-2);
+  --mat-sys-tertiary-fixed--dark: var(--color--tertiary-lighter-2);
+  --mat-sys-tertiary-fixed: light-dark(
+    var(--mat-sys-tertiary-fixed--light),
+    var(--mat-sys-tertiary-fixed--dark)
+  );
+  --mat-sys-tertiary-fixed-dim--light: var(--color--tertiary-lighter-1);
+  --mat-sys-tertiary-fixed-dim--dark: var(--color--tertiary-lighter-1);
+  --mat-sys-tertiary-fixed-dim: light-dark(
+    var(--mat-sys-tertiary-fixed-dim--light),
+    var(--mat-sys-tertiary-fixed-dim--dark)
+  );
+  --mat-sys-on-tertiary-fixed--light: var(
+    --color--tertiary-lighter-2--contrast
+  );
+  --mat-sys-on-tertiary-fixed--dark: var(--color--tertiary-lighter-2--contrast);
+  --mat-sys-on-tertiary-fixed: light-dark(
+    var(--mat-sys-on-tertiary-fixed--light),
+    var(--mat-sys-on-tertiary-fixed--dark)
+  );
+  --mat-sys-on-tertiary-fixed-variant--light: var(
+    --color--tertiary-lighter-1--contrast
+  );
+  --mat-sys-on-tertiary-fixed-variant--dark: var(
+    --color--tertiary-lighter-1--contrast
+  );
+  --mat-sys-on-tertiary-fixed-variant: light-dark(
+    var(--mat-sys-on-tertiary-fixed-variant--light),
+    var(--mat-sys-on-tertiary-fixed-variant--dark)
+  );
+
+  // Raw tonal palette reference tokens
+  --mat-sys-neutral10--light: var(--color--neutral-darker-2);
+  --mat-sys-neutral10--dark: var(--color--neutral-darker-2);
+  --mat-sys-neutral10: light-dark(
+    var(--mat-sys-neutral10--light),
+    var(--mat-sys-neutral10--dark)
+  );
+  --mat-sys-neutral-variant20--light: var(--color--neutral-variant-darker-2);
+  --mat-sys-neutral-variant20--dark: var(--color--neutral-variant-darker-2);
+  --mat-sys-neutral-variant20: light-dark(
+    var(--mat-sys-neutral-variant20--light),
+    var(--mat-sys-neutral-variant20--dark)
+  );
+
+  // Elevation levels (MD3 box-shadow scale, shadow color from primary-darker-2)
+  --mat-sys-shadow-color: var(--color--primary-darker-2);
+  --mat-sys-level0: 0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
+    0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level1: 0px 2px 1px -1px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 1px 1px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 3px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level2: 0px 3px 3px -2px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 3px 4px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 8px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level3: 0px 3px 5px -1px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 6px 10px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 18px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level4: 0px 5px 5px -3px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 8px 10px 1px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 3px 14px 2px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level5: 0px 7px 8px -4px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 12px 17px 2px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 5px 22px 4px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+
+  // Shape / corner radius tokens
+  --mat-sys-corner-none: 0;
+  --mat-sys-corner-extra-small: 4px;
+  --mat-sys-corner-extra-small-top: 4px 4px 0 0;
+  --mat-sys-corner-small: 8px;
+  --mat-sys-corner-medium: 12px;
+  --mat-sys-corner-large: 16px;
+  --mat-sys-corner-large-start: 16px 0 0 16px;
+  --mat-sys-corner-large-end: 0 16px 16px 0;
+  --mat-sys-corner-large-top: 16px 16px 0 0;
+  --mat-sys-corner-extra-large: 28px;
+  --mat-sys-corner-extra-large-top: 28px 28px 0 0;
+  --mat-sys-corner-full: 9999px;
 }

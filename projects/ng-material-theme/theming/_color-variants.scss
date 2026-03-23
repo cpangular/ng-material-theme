@@ -6,10 +6,10 @@
 // Theme-level defaults generation
 @mixin generate-theme-defaults($theme-config) {
   // Theme-wide blend percentages
-  --theme--blend--darker-2: #{map.get($theme-config, "darker-2") or 80%};
-  --theme--blend--darker-1: #{map.get($theme-config, "darker-1") or 90%};
-  --theme--blend--lighter-1: #{map.get($theme-config, "lighter-1") or 90%};
-  --theme--blend--lighter-2: #{map.get($theme-config, "lighter-2") or 80%};
+  --theme--blend--darker-2: #{map.get($theme-config, "darker-2") or 30%};
+  --theme--blend--darker-1: #{map.get($theme-config, "darker-1") or 80%};
+  --theme--blend--lighter-1: #{map.get($theme-config, "lighter-1") or 30%};
+  --theme--blend--lighter-2: #{map.get($theme-config, "lighter-2") or 5%};
 
   // Disabled state desaturation (percentage of base color, rest is gray)
   --theme--disabled-saturation: #{map.get($theme-config, "disabled-saturation")
@@ -29,14 +29,18 @@
 }
 
 @mixin generate-theme-opacity-defaults($opacity-config) {
-  // Theme-wide opacity levels (indices 1-7, values 10/20/30/40/50/70/90%)
-  --theme--opacity--1: #{map.get($opacity-config, "opacity1") or 10%};
-  --theme--opacity--2: #{map.get($opacity-config, "opacity2") or 20%};
-  --theme--opacity--3: #{map.get($opacity-config, "opacity3") or 30%};
-  --theme--opacity--4: #{map.get($opacity-config, "opacity4") or 40%};
-  --theme--opacity--5: #{map.get($opacity-config, "opacity5") or 50%};
-  --theme--opacity--6: #{map.get($opacity-config, "opacity6") or 70%};
-  --theme--opacity--7: #{map.get($opacity-config, "opacity7") or 90%};
+  // Theme-wide opacity levels (9 levels)
+  // 2-4 align with MD3 state layers (hover 8%, focus/pressed 12%, dragged 16%)
+  // 5-9 fill the visual tint range
+  --theme--opacity--1: #{map.get($opacity-config, "opacity1") or 2%};
+  --theme--opacity--2: #{map.get($opacity-config, "opacity2") or 8%};
+  --theme--opacity--3: #{map.get($opacity-config, "opacity3") or 12%};
+  --theme--opacity--4: #{map.get($opacity-config, "opacity4") or 16%};
+  --theme--opacity--5: #{map.get($opacity-config, "opacity5") or 25%};
+  --theme--opacity--6: #{map.get($opacity-config, "opacity6") or 40%};
+  --theme--opacity--7: #{map.get($opacity-config, "opacity7") or 55%};
+  --theme--opacity--8: #{map.get($opacity-config, "opacity8") or 70%};
+  --theme--opacity--9: #{map.get($opacity-config, "opacity9") or 90%};
 }
 
 @mixin generate-theme-contrast-blend-defaults($contrast-config) {
@@ -97,8 +101,8 @@
     var(--theme--blend--lighter-2)
   );
 
-  // Opacity overrides (index-based 1-7, not value-based)
-  @each $opacity in (1, 2, 3, 4, 5, 6, 7) {
+  // Opacity overrides (index-based 1-9, not value-based)
+  @each $opacity in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
     @if map.has-key($config, "opacity#{$opacity}") {
       --color--#{$name}--opacity--#{$opacity}-override: #{map.get(
           $config,
@@ -299,6 +303,12 @@
   --color--#{$name}-tint-7: oklch(
     from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--7)
   );
+  --color--#{$name}-tint-8: oklch(
+    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--8)
+  );
+  --color--#{$name}-tint-9: oklch(
+    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--9)
+  );
 }
 
 // Contrast color generation (for main and all variants)
@@ -311,11 +321,12 @@
   );
 
   // Base contrast (black or white, user can override)
-  // For variants, inherit from base color's contrast if not overridden
+  // For variants: compute dynamically from the variant's actual lightness at runtime
+  // oklch clamp trick: L < 0.6 → white (1), L >= 0.6 → black (0)
   @if $variant {
     #{$var-prefix}--base: var(
       #{$var-prefix}--base-override,
-      var(--color--#{$name}--contrast--base)
+      oklch(from var(#{$var-name}) clamp(0, (0.6 - l) * 9999, 1) 0 0)
     );
   } @else {
     #{$var-prefix}--base: var(

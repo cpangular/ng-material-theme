@@ -25,7 +25,7 @@
           disabled-saturation: 30%
         ),
       // Neutral grays
-      neutral: (#1c1b1f, #e6e1e5),
+      // neutral: (#1c1b1f, #e6e1e5),
       // Error red - with more saturation retained when disabled
       error: (value: #b00020, disabled-saturation: 60%),
     ),
@@ -261,6 +261,64 @@ body {
     @include color-swatch-variant("tertiary", "lower-2");
   }
 
+  // Neutral
+  &.neutral {
+    @include color-swatch-variant("neutral");
+  }
+  &.neutral-darker-2 {
+    @include color-swatch-variant("neutral", "darker-2");
+  }
+  &.neutral-darker-1 {
+    @include color-swatch-variant("neutral", "darker-1");
+  }
+  &.neutral-lighter-1 {
+    @include color-swatch-variant("neutral", "lighter-1");
+  }
+  &.neutral-lighter-2 {
+    @include color-swatch-variant("neutral", "lighter-2");
+  }
+  &.neutral-higher-2 {
+    @include color-swatch-variant("neutral", "higher-2");
+  }
+  &.neutral-higher-1 {
+    @include color-swatch-variant("neutral", "higher-1");
+  }
+  &.neutral-lower-1 {
+    @include color-swatch-variant("neutral", "lower-1");
+  }
+  &.neutral-lower-2 {
+    @include color-swatch-variant("neutral", "lower-2");
+  }
+
+  // Neutral Variant
+  &.neutral-variant {
+    @include color-swatch-variant("neutral-variant");
+  }
+  &.neutral-variant-darker-2 {
+    @include color-swatch-variant("neutral-variant", "darker-2");
+  }
+  &.neutral-variant-darker-1 {
+    @include color-swatch-variant("neutral-variant", "darker-1");
+  }
+  &.neutral-variant-lighter-1 {
+    @include color-swatch-variant("neutral-variant", "lighter-1");
+  }
+  &.neutral-variant-lighter-2 {
+    @include color-swatch-variant("neutral-variant", "lighter-2");
+  }
+  &.neutral-variant-higher-2 {
+    @include color-swatch-variant("neutral-variant", "higher-2");
+  }
+  &.neutral-variant-higher-1 {
+    @include color-swatch-variant("neutral-variant", "higher-1");
+  }
+  &.neutral-variant-lower-1 {
+    @include color-swatch-variant("neutral-variant", "lower-1");
+  }
+  &.neutral-variant-lower-2 {
+    @include color-swatch-variant("neutral-variant", "lower-2");
+  }
+
   // Error
   &.error {
     @include color-swatch-variant("error");
@@ -289,142 +347,6 @@ body {
   &.error-lower-2 {
     @include color-swatch-variant("error", "lower-2");
   }
-
-  // Background
-  &.background {
-    @include color-swatch-variant("background");
-  }
-  &.background-darker-2 {
-    @include color-swatch-variant("background", "darker-2");
-  }
-  &.background-darker-1 {
-    @include color-swatch-variant("background", "darker-1");
-  }
-  &.background-lighter-1 {
-    @include color-swatch-variant("background", "lighter-1");
-  }
-  &.background-lighter-2 {
-    @include color-swatch-variant("background", "lighter-2");
-  }
-  &.background-higher-2 {
-    @include color-swatch-variant("background", "higher-2");
-  }
-  &.background-higher-1 {
-    @include color-swatch-variant("background", "higher-1");
-  }
-  &.background-lower-1 {
-    @include color-swatch-variant("background", "lower-1");
-  }
-  &.background-lower-2 {
-    @include color-swatch-variant("background", "lower-2");
-  }
-
-  // Surface
-  &.surface-base {
-    @include color-swatch-variant("surface");
-  }
-  &.surface-darker-2 {
-    @include color-swatch-variant("surface", "darker-2");
-  }
-  &.surface-darker-1 {
-    @include color-swatch-variant("surface", "darker-1");
-  }
-  &.surface-lighter-1 {
-    @include color-swatch-variant("surface", "lighter-1");
-  }
-  &.surface-lighter-2 {
-    @include color-swatch-variant("surface", "lighter-2");
-  }
-  &.surface-higher-2 {
-    @include color-swatch-variant("surface", "higher-2");
-  }
-  &.surface-higher-1 {
-    @include color-swatch-variant("surface", "higher-1");
-  }
-  &.surface-lower-1 {
-    @include color-swatch-variant("surface", "lower-1");
-  }
-  &.surface-lower-2 {
-    @include color-swatch-variant("surface", "lower-2");
-  }
-}
-
-@mixin semantic-swatch($bg, $fg) {
-  background: var(#{$bg});
-  color: var(#{$fg});
-  .swatch-label {
-    color: var(#{$fg});
-  }
-  .token-name {
-    color: var(#{$fg});
-  }
-}
-
-.semantic-swatch {
-  display: flex;
-  flex-direction: row;
-  border-radius: 8px;
-  overflow: hidden;
-
-  .swatch-body {
-    flex: 1;
-    padding: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .swatch-label {
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .token-name {
-    font-size: 0.72rem;
-    opacity: 0.65;
-    font-family: "Courier New", monospace;
-  }
-
-  &.swatch-background .swatch-body {
-    @include semantic-swatch(--color--background, --color--on-background);
-  }
-  &.swatch-surface .swatch-body {
-    @include semantic-swatch(--color--surface, --color--on-surface);
-  }
-  &.swatch-surface-dim .swatch-body {
-    @include semantic-swatch(--color--surface-dim, --color--on-surface);
-  }
-  &.swatch-surface-bright .swatch-body {
-    @include semantic-swatch(--color--surface-bright, --color--on-surface);
-  }
-  &.swatch-surface-container-lowest .swatch-body {
-    @include semantic-swatch(
-      --color--surface-container-lowest,
-      --color--on-surface
-    );
-  }
-  &.swatch-surface-container-low .swatch-body {
-    @include semantic-swatch(
-      --color--surface-container-low,
-      --color--on-surface
-    );
-  }
-  &.swatch-surface-container .swatch-body {
-    @include semantic-swatch(--color--surface-container, --color--on-surface);
-  }
-  &.swatch-surface-container-high .swatch-body {
-    @include semantic-swatch(
-      --color--surface-container-high,
-      --color--on-surface
-    );
-  }
-  &.swatch-surface-container-highest .swatch-body {
-    @include semantic-swatch(
-      --color--surface-container-highest,
-      --color--on-surface
-    );
-  }
 }
 
 .tint-demo {
@@ -440,7 +362,7 @@ body {
 
   .tint-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     gap: 0.5rem;
   }
 
@@ -475,6 +397,12 @@ body {
     }
     &.tint-7 {
       background: var(--color--primary-tint-7);
+    }
+    &.tint-8 {
+      background: var(--color--primary-tint-8);
+    }
+    &.tint-9 {
+      background: var(--color--primary-tint-9);
     }
   }
 }

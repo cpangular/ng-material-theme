@@ -35,56 +35,67 @@
   @property --theme--blend--darker-2 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 80%;
+    initial-value: 30%;
   }
   @property --theme--blend--darker-1 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 90%;
+    initial-value: 80%;
   }
   @property --theme--blend--lighter-1 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 90%;
+    initial-value: 30%;
   }
   @property --theme--blend--lighter-2 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 80%;
+    initial-value: 5%;
   }
 
-  // Theme-level opacity levels
+  // Theme-level opacity levels (9 levels)
+  // 2-4 align with MD3 state layers (hover 8%, focus/pressed 12%, dragged 16%)
   @property --theme--opacity--1 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 10%;
+    initial-value: 2%;
   }
   @property --theme--opacity--2 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 20%;
+    initial-value: 8%;
   }
   @property --theme--opacity--3 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 30%;
+    initial-value: 12%;
   }
   @property --theme--opacity--4 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 40%;
+    initial-value: 16%;
   }
   @property --theme--opacity--5 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 50%;
+    initial-value: 25%;
   }
   @property --theme--opacity--6 {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 70%;
+    initial-value: 40%;
   }
   @property --theme--opacity--7 {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 55%;
+  }
+  @property --theme--opacity--8 {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 70%;
+  }
+  @property --theme--opacity--9 {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 90%;
@@ -130,56 +141,66 @@
   @property --color--#{$name}--blend--darker-2-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 80%;
+    initial-value: 30%;
   }
   @property --color--#{$name}--blend--darker-1-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 90%;
+    initial-value: 80%;
   }
   @property --color--#{$name}--blend--lighter-1-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 90%;
+    initial-value: 30%;
   }
   @property --color--#{$name}--blend--lighter-2-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 80%;
+    initial-value: 5%;
   }
 
   // Override variables (opacity levels)
   @property --color--#{$name}--opacity--1-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 10%;
+    initial-value: 2%;
   }
   @property --color--#{$name}--opacity--2-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 20%;
+    initial-value: 8%;
   }
   @property --color--#{$name}--opacity--3-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 30%;
+    initial-value: 12%;
   }
   @property --color--#{$name}--opacity--4-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 40%;
+    initial-value: 16%;
   }
   @property --color--#{$name}--opacity--5-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 50%;
+    initial-value: 25%;
   }
   @property --color--#{$name}--opacity--6-override {
     syntax: "<percentage>";
     inherits: true;
-    initial-value: 70%;
+    initial-value: 40%;
   }
   @property --color--#{$name}--opacity--7-override {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 55%;
+  }
+  @property --color--#{$name}--opacity--8-override {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 70%;
+  }
+  @property --color--#{$name}--opacity--9-override {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 90%;

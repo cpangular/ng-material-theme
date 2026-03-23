@@ -31,18 +31,12 @@
   );
 
   #{$selector} {
-    // Generate theme-level defaults (if provided)
-    @if $blends {
-      @include variants.generate-theme-defaults($blends);
-    }
-    @if $opacities {
-      @include variants.generate-theme-opacity-defaults($opacities);
-    }
-    @if $contrast-blends {
-      @include variants.generate-theme-contrast-blend-defaults(
-        $contrast-blends
-      );
-    }
+    // Generate theme-level defaults (always emit, user config overrides defaults)
+    @include variants.generate-theme-defaults($blends or ());
+    @include variants.generate-theme-opacity-defaults($opacities or ());
+    @include variants.generate-theme-contrast-blend-defaults(
+      $contrast-blends or ()
+    );
 
     // Set base colors (user-provided)
     @each $palette-name, $palette-config in $colors {
@@ -72,6 +66,8 @@
           #{$light-contrast},
           #{$dark-contrast}
         );
+        // Inverse: swap light/dark values
+        --color--#{$palette-name}-inverse: light-dark(#{$dark}, #{$light});
         // Generate all variants with empty config (no overrides)
         @include variants.generate-all-variants($palette-name, ());
       } @else {
@@ -83,6 +79,8 @@
           $light: list.nth($value, 1);
           $dark: list.nth($value, 2);
           --color--#{$palette-name}-override: light-dark(#{$light}, #{$dark});
+          // Inverse: swap light/dark values
+          --color--#{$palette-name}-inverse: light-dark(#{$dark}, #{$light});
         } @else {
           --color--#{$palette-name}-override: #{$value};
         }
@@ -126,18 +124,17 @@
     @include derivation.derive-colors();
     @include derivation.generate-neutral-surfaces();
 
-    // Generate variants for background and surface
-    @include variants.generate-all-variants(background, ());
-    @include variants.generate-all-variants(surface, ());
-
     // Generate variants for all standard palettes (if not already done)
-    // This ensures secondary, tertiary, neutral, and error get their lighter/darker variants
-    @each $palette in (secondary, tertiary, neutral, error) {
+    // This ensures secondary, tertiary, neutral, neutral-variant, and error get their lighter/darker variants
+    @each $palette in (secondary, tertiary, neutral, neutral-variant, error) {
       @if not map.has-key($colors, $palette) {
         // This palette wasn't in the user config, so generate its variants now
         @include variants.generate-all-variants($palette, ());
       }
     }
+
+    // MD3 semantic role aliases (on-X, X-container, inverse-*, etc.)
+    @include derivation.generate-md3-role-aliases();
 
     // Typography
     @if $typography {

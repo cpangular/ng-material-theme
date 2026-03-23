@@ -26,54 +26,64 @@
 @property --theme--blend--darker-2 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --theme--blend--darker-1 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --theme--blend--lighter-1 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --theme--blend--lighter-2 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --theme--opacity--1 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --theme--opacity--2 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --theme--opacity--3 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --theme--opacity--4 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --theme--opacity--5 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --theme--opacity--6 {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --theme--opacity--7 {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --theme--opacity--8 {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --theme--opacity--9 {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -111,54 +121,64 @@
 @property --color--primary--blend--darker-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --color--primary--blend--darker-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --color--primary--blend--lighter-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --color--primary--blend--lighter-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --color--primary--opacity--1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --color--primary--opacity--2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --color--primary--opacity--3-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --color--primary--opacity--4-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --color--primary--opacity--5-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --color--primary--opacity--6-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --color--primary--opacity--7-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --color--primary--opacity--8-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --color--primary--opacity--9-override {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -191,54 +211,64 @@
 @property --color--secondary--blend--darker-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --color--secondary--blend--darker-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --color--secondary--blend--lighter-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --color--secondary--blend--lighter-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --color--secondary--opacity--1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --color--secondary--opacity--2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --color--secondary--opacity--3-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --color--secondary--opacity--4-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --color--secondary--opacity--5-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --color--secondary--opacity--6-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --color--secondary--opacity--7-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --color--secondary--opacity--8-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --color--secondary--opacity--9-override {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -271,54 +301,64 @@
 @property --color--tertiary--blend--darker-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --color--tertiary--blend--darker-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --color--tertiary--blend--lighter-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --color--tertiary--blend--lighter-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --color--tertiary--opacity--1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --color--tertiary--opacity--2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --color--tertiary--opacity--3-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --color--tertiary--opacity--4-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --color--tertiary--opacity--5-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --color--tertiary--opacity--6-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --color--tertiary--opacity--7-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --color--tertiary--opacity--8-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --color--tertiary--opacity--9-override {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -351,54 +391,64 @@
 @property --color--neutral--blend--darker-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --color--neutral--blend--darker-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --color--neutral--blend--lighter-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --color--neutral--blend--lighter-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --color--neutral--opacity--1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --color--neutral--opacity--2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --color--neutral--opacity--3-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --color--neutral--opacity--4-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --color--neutral--opacity--5-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --color--neutral--opacity--6-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --color--neutral--opacity--7-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --color--neutral--opacity--8-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --color--neutral--opacity--9-override {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -431,54 +481,64 @@
 @property --color--error--blend--darker-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 30%;
 }
 @property --color--error--blend--darker-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 80%;
 }
 @property --color--error--blend--lighter-1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 90%;
+  initial-value: 30%;
 }
 @property --color--error--blend--lighter-2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 80%;
+  initial-value: 5%;
 }
 @property --color--error--opacity--1-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 10%;
+  initial-value: 2%;
 }
 @property --color--error--opacity--2-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 20%;
+  initial-value: 8%;
 }
 @property --color--error--opacity--3-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 30%;
+  initial-value: 12%;
 }
 @property --color--error--opacity--4-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 40%;
+  initial-value: 16%;
 }
 @property --color--error--opacity--5-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 50%;
+  initial-value: 25%;
 }
 @property --color--error--opacity--6-override {
   syntax: "<percentage>";
   inherits: true;
-  initial-value: 70%;
+  initial-value: 40%;
 }
 @property --color--error--opacity--7-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 55%;
+}
+@property --color--error--opacity--8-override {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --color--error--opacity--9-override {
   syntax: "<percentage>";
   inherits: true;
   initial-value: 90%;
@@ -510,8 +570,28 @@
 }
 :root,
 [theme="demo"] {
+  --theme--blend--darker-2: 30%;
+  --theme--blend--darker-1: 80%;
+  --theme--blend--lighter-1: 30%;
+  --theme--blend--lighter-2: 5%;
+  --theme--disabled-saturation: 40%;
+  --theme--disabled-foreground-opacity: 70%;
+  --theme--disabled-background-opacity: 80%;
+  --theme--opacity--1: 2%;
+  --theme--opacity--2: 8%;
+  --theme--opacity--3: 12%;
+  --theme--opacity--4: 16%;
+  --theme--opacity--5: 25%;
+  --theme--opacity--6: 40%;
+  --theme--opacity--7: 55%;
+  --theme--opacity--8: 70%;
+  --theme--opacity--9: 90%;
+  --theme--contrast-blend--emphasized: 100%;
+  --theme--contrast-blend: 90%;
+  --theme--contrast-blend--deemphasized: 80%;
   --color--primary-override: light-dark(#6200ee, #bb86fc);
   --color--primary--contrast--base-override: light-dark(white, white);
+  --color--primary-inverse: light-dark(#bb86fc, #6200ee);
   --color--primary--blend--darker-2: var(
     --color--primary--blend--darker-2-override,
     var(--theme--blend--darker-2)
@@ -555,6 +635,14 @@
   --color--primary--opacity--7: var(
     --color--primary--opacity--7-override,
     var(--theme--opacity--7)
+  );
+  --color--primary--opacity--8: var(
+    --color--primary--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--primary--opacity--9: var(
+    --color--primary--opacity--9-override,
+    var(--theme--opacity--9)
   );
   --color--primary--contrast-blend--emphasized: var(
     --color--primary--contrast-blend--emphasized-override,
@@ -637,6 +725,12 @@
   --color--primary-tint-7: oklch(
     from var(--color--primary) l c h / var(--color--primary--opacity--7)
   );
+  --color--primary-tint-8: oklch(
+    from var(--color--primary) l c h / var(--color--primary--opacity--8)
+  );
+  --color--primary-tint-9: oklch(
+    from var(--color--primary) l c h / var(--color--primary--opacity--9)
+  );
   --color--primary--contrast--base: var(
     --color--primary--contrast--base-override,
     black
@@ -662,7 +756,7 @@
   );
   --color--primary-darker-2--contrast--base: var(
     --color--primary-darker-2--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-darker-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-darker-2--contrast--emphasized: color-mix(
     in oklch,
@@ -687,7 +781,7 @@
   );
   --color--primary-darker-1--contrast--base: var(
     --color--primary-darker-1--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-darker-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-darker-1--contrast--emphasized: color-mix(
     in oklch,
@@ -712,7 +806,9 @@
   );
   --color--primary-lighter-1--contrast--base: var(
     --color--primary-lighter-1--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lighter-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--primary-lighter-1--contrast--emphasized: color-mix(
     in oklch,
@@ -737,7 +833,9 @@
   );
   --color--primary-lighter-2--contrast--base: var(
     --color--primary-lighter-2--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lighter-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--primary-lighter-2--contrast--emphasized: color-mix(
     in oklch,
@@ -762,7 +860,7 @@
   );
   --color--primary-lower-2--contrast--base: var(
     --color--primary-lower-2--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-lower-2--contrast--emphasized: color-mix(
     in oklch,
@@ -787,7 +885,7 @@
   );
   --color--primary-lower-1--contrast--base: var(
     --color--primary-lower-1--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-lower-1--contrast--emphasized: color-mix(
     in oklch,
@@ -812,7 +910,7 @@
   );
   --color--primary-higher-1--contrast--base: var(
     --color--primary-higher-1--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-higher-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-higher-1--contrast--emphasized: color-mix(
     in oklch,
@@ -837,7 +935,7 @@
   );
   --color--primary-higher-2--contrast--base: var(
     --color--primary-higher-2--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-higher-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-higher-2--contrast--emphasized: color-mix(
     in oklch,
@@ -958,7 +1056,7 @@
   );
   --color--primary-disabled--contrast--base: var(
     --color--primary-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(from var(--color--primary-disabled) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--primary-disabled--contrast--emphasized: oklch(
     from
@@ -995,7 +1093,10 @@
   );
   --color--primary-darker-2-disabled--contrast--base: var(
     --color--primary-darker-2-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-darker-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-darker-2-disabled--contrast--emphasized: oklch(
     from
@@ -1032,7 +1133,10 @@
   );
   --color--primary-darker-1-disabled--contrast--base: var(
     --color--primary-darker-1-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-darker-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-darker-1-disabled--contrast--emphasized: oklch(
     from
@@ -1069,7 +1173,10 @@
   );
   --color--primary-lighter-1-disabled--contrast--base: var(
     --color--primary-lighter-1-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lighter-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--primary-lighter-1-disabled--contrast--emphasized: oklch(
     from
@@ -1106,7 +1213,10 @@
   );
   --color--primary-lighter-2-disabled--contrast--base: var(
     --color--primary-lighter-2-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lighter-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--primary-lighter-2-disabled--contrast--emphasized: oklch(
     from
@@ -1143,7 +1253,10 @@
   );
   --color--primary-higher-2-disabled--contrast--base: var(
     --color--primary-higher-2-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-higher-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-higher-2-disabled--contrast--emphasized: oklch(
     from
@@ -1180,7 +1293,10 @@
   );
   --color--primary-higher-1-disabled--contrast--base: var(
     --color--primary-higher-1-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-higher-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-higher-1-disabled--contrast--emphasized: oklch(
     from
@@ -1217,7 +1333,10 @@
   );
   --color--primary-lower-1-disabled--contrast--base: var(
     --color--primary-lower-1-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lower-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-lower-1-disabled--contrast--emphasized: oklch(
     from
@@ -1254,7 +1373,10 @@
   );
   --color--primary-lower-2-disabled--contrast--base: var(
     --color--primary-lower-2-disabled--contrast--base-override,
-    var(--color--primary--contrast--base)
+    oklch(
+      from var(--color--primary-lower-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--primary-lower-2-disabled--contrast--emphasized: oklch(
     from
@@ -1334,6 +1456,14 @@
   --color--secondary--opacity--7: var(
     --color--secondary--opacity--7-override,
     var(--theme--opacity--7)
+  );
+  --color--secondary--opacity--8: var(
+    --color--secondary--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--secondary--opacity--9: var(
+    --color--secondary--opacity--9-override,
+    var(--theme--opacity--9)
   );
   --color--secondary--contrast-blend--emphasized: var(
     --color--secondary--contrast-blend--emphasized-override,
@@ -1416,6 +1546,12 @@
   --color--secondary-tint-7: oklch(
     from var(--color--secondary) l c h / var(--color--secondary--opacity--7)
   );
+  --color--secondary-tint-8: oklch(
+    from var(--color--secondary) l c h / var(--color--secondary--opacity--8)
+  );
+  --color--secondary-tint-9: oklch(
+    from var(--color--secondary) l c h / var(--color--secondary--opacity--9)
+  );
   --color--secondary--contrast--base: var(
     --color--secondary--contrast--base-override,
     black
@@ -1442,7 +1578,9 @@
   );
   --color--secondary-darker-2--contrast--base: var(
     --color--secondary-darker-2--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-darker-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-darker-2--contrast--emphasized: color-mix(
     in oklch,
@@ -1467,7 +1605,9 @@
   );
   --color--secondary-darker-1--contrast--base: var(
     --color--secondary-darker-1--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-darker-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-darker-1--contrast--emphasized: color-mix(
     in oklch,
@@ -1492,7 +1632,9 @@
   );
   --color--secondary-lighter-1--contrast--base: var(
     --color--secondary-lighter-1--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lighter-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lighter-1--contrast--emphasized: color-mix(
     in oklch,
@@ -1517,7 +1659,9 @@
   );
   --color--secondary-lighter-2--contrast--base: var(
     --color--secondary-lighter-2--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lighter-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lighter-2--contrast--emphasized: color-mix(
     in oklch,
@@ -1542,7 +1686,9 @@
   );
   --color--secondary-lower-2--contrast--base: var(
     --color--secondary-lower-2--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lower-2--contrast--emphasized: color-mix(
     in oklch,
@@ -1567,7 +1713,9 @@
   );
   --color--secondary-lower-1--contrast--base: var(
     --color--secondary-lower-1--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lower-1--contrast--emphasized: color-mix(
     in oklch,
@@ -1592,7 +1740,9 @@
   );
   --color--secondary-higher-1--contrast--base: var(
     --color--secondary-higher-1--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-higher-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-higher-1--contrast--emphasized: color-mix(
     in oklch,
@@ -1617,7 +1767,9 @@
   );
   --color--secondary-higher-2--contrast--base: var(
     --color--secondary-higher-2--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-higher-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-higher-2--contrast--emphasized: color-mix(
     in oklch,
@@ -1740,7 +1892,9 @@
   );
   --color--secondary-disabled--contrast--base: var(
     --color--secondary-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-disabled) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-disabled--contrast--emphasized: oklch(
     from
@@ -1777,7 +1931,10 @@
   );
   --color--secondary-darker-2-disabled--contrast--base: var(
     --color--secondary-darker-2-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-darker-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-darker-2-disabled--contrast--emphasized: oklch(
     from
@@ -1814,7 +1971,10 @@
   );
   --color--secondary-darker-1-disabled--contrast--base: var(
     --color--secondary-darker-1-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-darker-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-darker-1-disabled--contrast--emphasized: oklch(
     from
@@ -1851,7 +2011,10 @@
   );
   --color--secondary-lighter-1-disabled--contrast--base: var(
     --color--secondary-lighter-1-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lighter-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lighter-1-disabled--contrast--emphasized: oklch(
     from
@@ -1888,7 +2051,10 @@
   );
   --color--secondary-lighter-2-disabled--contrast--base: var(
     --color--secondary-lighter-2-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lighter-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lighter-2-disabled--contrast--emphasized: oklch(
     from
@@ -1925,7 +2091,10 @@
   );
   --color--secondary-higher-2-disabled--contrast--base: var(
     --color--secondary-higher-2-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-higher-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-higher-2-disabled--contrast--emphasized: oklch(
     from
@@ -1962,7 +2131,10 @@
   );
   --color--secondary-higher-1-disabled--contrast--base: var(
     --color--secondary-higher-1-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-higher-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-higher-1-disabled--contrast--emphasized: oklch(
     from
@@ -1999,7 +2171,10 @@
   );
   --color--secondary-lower-1-disabled--contrast--base: var(
     --color--secondary-lower-1-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lower-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lower-1-disabled--contrast--emphasized: oklch(
     from
@@ -2036,7 +2211,10 @@
   );
   --color--secondary-lower-2-disabled--contrast--base: var(
     --color--secondary-lower-2-disabled--contrast--base-override,
-    var(--color--secondary--contrast--base)
+    oklch(
+      from var(--color--secondary-lower-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--secondary-lower-2-disabled--contrast--emphasized: oklch(
     from
@@ -2072,6 +2250,7 @@
       l c h/var(--color--secondary--disabled-foreground-opacity)
   );
   --color--tertiary-override: light-dark(#ff4081, #f48fb1);
+  --color--tertiary-inverse: light-dark(#f48fb1, #ff4081);
   --color--tertiary--contrast--base-override: light-dark(white, white);
   --color--tertiary--blend--darker-2: var(
     --color--tertiary--blend--darker-2-override,
@@ -2116,6 +2295,14 @@
   --color--tertiary--opacity--7: var(
     --color--tertiary--opacity--7-override,
     var(--theme--opacity--7)
+  );
+  --color--tertiary--opacity--8: var(
+    --color--tertiary--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--tertiary--opacity--9: var(
+    --color--tertiary--opacity--9-override,
+    var(--theme--opacity--9)
   );
   --color--tertiary--contrast-blend--emphasized: var(
     --color--tertiary--contrast-blend--emphasized-override,
@@ -2199,6 +2386,12 @@
   --color--tertiary-tint-7: oklch(
     from var(--color--tertiary) l c h / var(--color--tertiary--opacity--7)
   );
+  --color--tertiary-tint-8: oklch(
+    from var(--color--tertiary) l c h / var(--color--tertiary--opacity--8)
+  );
+  --color--tertiary-tint-9: oklch(
+    from var(--color--tertiary) l c h / var(--color--tertiary--opacity--9)
+  );
   --color--tertiary--contrast--base: var(
     --color--tertiary--contrast--base-override,
     black
@@ -2225,7 +2418,9 @@
   );
   --color--tertiary-darker-2--contrast--base: var(
     --color--tertiary-darker-2--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-darker-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-darker-2--contrast--emphasized: color-mix(
     in oklch,
@@ -2250,7 +2445,9 @@
   );
   --color--tertiary-darker-1--contrast--base: var(
     --color--tertiary-darker-1--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-darker-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-darker-1--contrast--emphasized: color-mix(
     in oklch,
@@ -2275,7 +2472,9 @@
   );
   --color--tertiary-lighter-1--contrast--base: var(
     --color--tertiary-lighter-1--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lighter-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-lighter-1--contrast--emphasized: color-mix(
     in oklch,
@@ -2300,7 +2499,9 @@
   );
   --color--tertiary-lighter-2--contrast--base: var(
     --color--tertiary-lighter-2--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lighter-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-lighter-2--contrast--emphasized: color-mix(
     in oklch,
@@ -2325,7 +2526,7 @@
   );
   --color--tertiary-lower-2--contrast--base: var(
     --color--tertiary-lower-2--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(from var(--color--tertiary-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--tertiary-lower-2--contrast--emphasized: color-mix(
     in oklch,
@@ -2350,7 +2551,7 @@
   );
   --color--tertiary-lower-1--contrast--base: var(
     --color--tertiary-lower-1--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(from var(--color--tertiary-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--tertiary-lower-1--contrast--emphasized: color-mix(
     in oklch,
@@ -2375,7 +2576,9 @@
   );
   --color--tertiary-higher-1--contrast--base: var(
     --color--tertiary-higher-1--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-higher-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-higher-1--contrast--emphasized: color-mix(
     in oklch,
@@ -2400,7 +2603,9 @@
   );
   --color--tertiary-higher-2--contrast--base: var(
     --color--tertiary-higher-2--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-higher-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-higher-2--contrast--emphasized: color-mix(
     in oklch,
@@ -2523,7 +2728,9 @@
   );
   --color--tertiary-disabled--contrast--base: var(
     --color--tertiary-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-disabled) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-disabled--contrast--emphasized: oklch(
     from
@@ -2560,7 +2767,10 @@
   );
   --color--tertiary-darker-2-disabled--contrast--base: var(
     --color--tertiary-darker-2-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-darker-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-darker-2-disabled--contrast--emphasized: oklch(
     from
@@ -2597,7 +2807,10 @@
   );
   --color--tertiary-darker-1-disabled--contrast--base: var(
     --color--tertiary-darker-1-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-darker-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-darker-1-disabled--contrast--emphasized: oklch(
     from
@@ -2634,7 +2847,10 @@
   );
   --color--tertiary-lighter-1-disabled--contrast--base: var(
     --color--tertiary-lighter-1-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lighter-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-lighter-1-disabled--contrast--emphasized: oklch(
     from
@@ -2671,7 +2887,10 @@
   );
   --color--tertiary-lighter-2-disabled--contrast--base: var(
     --color--tertiary-lighter-2-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lighter-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-lighter-2-disabled--contrast--emphasized: oklch(
     from
@@ -2708,7 +2927,10 @@
   );
   --color--tertiary-higher-2-disabled--contrast--base: var(
     --color--tertiary-higher-2-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-higher-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-higher-2-disabled--contrast--emphasized: oklch(
     from
@@ -2745,7 +2967,10 @@
   );
   --color--tertiary-higher-1-disabled--contrast--base: var(
     --color--tertiary-higher-1-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-higher-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--tertiary-higher-1-disabled--contrast--emphasized: oklch(
     from
@@ -2782,7 +3007,10 @@
   );
   --color--tertiary-lower-1-disabled--contrast--base: var(
     --color--tertiary-lower-1-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lower-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--tertiary-lower-1-disabled--contrast--emphasized: oklch(
     from
@@ -2819,7 +3047,10 @@
   );
   --color--tertiary-lower-2-disabled--contrast--base: var(
     --color--tertiary-lower-2-disabled--contrast--base-override,
-    var(--color--tertiary--contrast--base)
+    oklch(
+      from var(--color--tertiary-lower-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--tertiary-lower-2-disabled--contrast--emphasized: oklch(
     from
@@ -2854,8 +3085,887 @@
       )
       l c h/var(--color--tertiary--disabled-foreground-opacity)
   );
-  --color--neutral-override: light-dark(#1c1b1f, #e6e1e5);
-  --color--neutral--contrast--base-override: light-dark(white, black);
+  --color--error-override: #b00020;
+  --color--error--contrast--base-override: white;
+  --color--error--blend--darker-2: var(
+    --color--error--blend--darker-2-override,
+    var(--theme--blend--darker-2)
+  );
+  --color--error--blend--darker-1: var(
+    --color--error--blend--darker-1-override,
+    var(--theme--blend--darker-1)
+  );
+  --color--error--blend--lighter-1: var(
+    --color--error--blend--lighter-1-override,
+    var(--theme--blend--lighter-1)
+  );
+  --color--error--blend--lighter-2: var(
+    --color--error--blend--lighter-2-override,
+    var(--theme--blend--lighter-2)
+  );
+  --color--error--opacity--1: var(
+    --color--error--opacity--1-override,
+    var(--theme--opacity--1)
+  );
+  --color--error--opacity--2: var(
+    --color--error--opacity--2-override,
+    var(--theme--opacity--2)
+  );
+  --color--error--opacity--3: var(
+    --color--error--opacity--3-override,
+    var(--theme--opacity--3)
+  );
+  --color--error--opacity--4: var(
+    --color--error--opacity--4-override,
+    var(--theme--opacity--4)
+  );
+  --color--error--opacity--5: var(
+    --color--error--opacity--5-override,
+    var(--theme--opacity--5)
+  );
+  --color--error--opacity--6: var(
+    --color--error--opacity--6-override,
+    var(--theme--opacity--6)
+  );
+  --color--error--opacity--7: var(
+    --color--error--opacity--7-override,
+    var(--theme--opacity--7)
+  );
+  --color--error--opacity--8: var(
+    --color--error--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--error--opacity--9: var(
+    --color--error--opacity--9-override,
+    var(--theme--opacity--9)
+  );
+  --color--error--contrast-blend--emphasized: var(
+    --color--error--contrast-blend--emphasized-override,
+    var(--theme--contrast-blend--emphasized)
+  );
+  --color--error--contrast-blend: var(
+    --color--error--contrast-blend-override,
+    var(--theme--contrast-blend)
+  );
+  --color--error--contrast-blend--deemphasized: var(
+    --color--error--contrast-blend--deemphasized-override,
+    var(--theme--contrast-blend--deemphasized)
+  );
+  --color--error--disabled-saturation-override: 60%;
+  --color--error--disabled-saturation: var(
+    --color--error--disabled-saturation-override,
+    var(--theme--disabled-saturation)
+  );
+  --color--error--disabled-foreground-opacity: var(
+    --color--error--disabled-foreground-opacity-override,
+    var(--theme--disabled-foreground-opacity)
+  );
+  --color--error--disabled-background-opacity: var(
+    --color--error--disabled-background-opacity-override,
+    var(--theme--disabled-background-opacity)
+  );
+  --color--error-darker-2: color-mix(
+    in oklch,
+    var(--color--error) var(--color--error--blend--darker-2),
+    black calc(100% - var(--color--error--blend--darker-2))
+  );
+  --color--error-darker-1: color-mix(
+    in oklch,
+    var(--color--error) var(--color--error--blend--darker-1),
+    black calc(100% - var(--color--error--blend--darker-1))
+  );
+  --color--error-lighter-1: color-mix(
+    in oklch,
+    var(--color--error) var(--color--error--blend--lighter-1),
+    white calc(100% - var(--color--error--blend--lighter-1))
+  );
+  --color--error-lighter-2: color-mix(
+    in oklch,
+    var(--color--error) var(--color--error--blend--lighter-2),
+    white calc(100% - var(--color--error--blend--lighter-2))
+  );
+  --color--error-higher-2: light-dark(
+    var(--color--error-darker-2),
+    var(--color--error-lighter-2)
+  );
+  --color--error-higher-1: light-dark(
+    var(--color--error-darker-1),
+    var(--color--error-lighter-1)
+  );
+  --color--error-lower-1: light-dark(
+    var(--color--error-lighter-1),
+    var(--color--error-darker-1)
+  );
+  --color--error-lower-2: light-dark(
+    var(--color--error-lighter-2),
+    var(--color--error-darker-2)
+  );
+  --color--error-tint-1: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--1)
+  );
+  --color--error-tint-2: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--2)
+  );
+  --color--error-tint-3: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--3)
+  );
+  --color--error-tint-4: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--4)
+  );
+  --color--error-tint-5: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--5)
+  );
+  --color--error-tint-6: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--6)
+  );
+  --color--error-tint-7: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--7)
+  );
+  --color--error-tint-8: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--8)
+  );
+  --color--error-tint-9: oklch(
+    from var(--color--error) l c h / var(--color--error--opacity--9)
+  );
+  --color--error--contrast--base: var(
+    --color--error--contrast--base-override,
+    black
+  );
+  --color--error--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error--contrast: color-mix(
+    in oklch,
+    var(--color--error--contrast--base) var(--color--error--contrast-blend),
+    var(--color--error) calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-darker-2--contrast--base: var(
+    --color--error-darker-2--contrast--base-override,
+    oklch(from var(--color--error-darker-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-darker-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-darker-2--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-darker-2)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-darker-2--contrast: color-mix(
+    in oklch,
+    var(--color--error-darker-2--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-darker-2)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-darker-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-darker-2--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-darker-2)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-darker-1--contrast--base: var(
+    --color--error-darker-1--contrast--base-override,
+    oklch(from var(--color--error-darker-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-darker-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-darker-1--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-darker-1)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-darker-1--contrast: color-mix(
+    in oklch,
+    var(--color--error-darker-1--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-darker-1)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-darker-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-darker-1--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-darker-1)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-lighter-1--contrast--base: var(
+    --color--error-lighter-1--contrast--base-override,
+    oklch(from var(--color--error-lighter-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-lighter-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-lighter-1--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-lighter-1)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-lighter-1--contrast: color-mix(
+    in oklch,
+    var(--color--error-lighter-1--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-lighter-1)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-lighter-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-lighter-1--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-lighter-1)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-lighter-2--contrast--base: var(
+    --color--error-lighter-2--contrast--base-override,
+    oklch(from var(--color--error-lighter-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-lighter-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-lighter-2--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-lighter-2)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-lighter-2--contrast: color-mix(
+    in oklch,
+    var(--color--error-lighter-2--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-lighter-2)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-lighter-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-lighter-2--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-lighter-2)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-lower-2--contrast--base: var(
+    --color--error-lower-2--contrast--base-override,
+    oklch(from var(--color--error-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-lower-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-lower-2--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-lower-2)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-lower-2--contrast: color-mix(
+    in oklch,
+    var(--color--error-lower-2--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-lower-2) calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-lower-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-lower-2--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-lower-2)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-lower-1--contrast--base: var(
+    --color--error-lower-1--contrast--base-override,
+    oklch(from var(--color--error-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-lower-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-lower-1--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-lower-1)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-lower-1--contrast: color-mix(
+    in oklch,
+    var(--color--error-lower-1--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-lower-1) calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-lower-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-lower-1--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-lower-1)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-higher-1--contrast--base: var(
+    --color--error-higher-1--contrast--base-override,
+    oklch(from var(--color--error-higher-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-higher-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-higher-1--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-higher-1)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-higher-1--contrast: color-mix(
+    in oklch,
+    var(--color--error-higher-1--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-higher-1)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-higher-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-higher-1--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-higher-1)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-higher-2--contrast--base: var(
+    --color--error-higher-2--contrast--base-override,
+    oklch(from var(--color--error-higher-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-higher-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--error-higher-2--contrast--base)
+      var(--color--error--contrast-blend--emphasized),
+    var(--color--error-higher-2)
+      calc(100% - var(--color--error--contrast-blend--emphasized))
+  );
+  --color--error-higher-2--contrast: color-mix(
+    in oklch,
+    var(--color--error-higher-2--contrast--base)
+      var(--color--error--contrast-blend),
+    var(--color--error-higher-2)
+      calc(100% - var(--color--error--contrast-blend))
+  );
+  --color--error-higher-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--error-higher-2--contrast--base)
+      var(--color--error--contrast-blend--deemphasized),
+    var(--color--error-higher-2)
+      calc(100% - var(--color--error--contrast-blend--deemphasized))
+  );
+  --color--error-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-darker-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-2) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-darker-2) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-darker-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-1) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-darker-1) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-lighter-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-1) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-lighter-1) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-lighter-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-2) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-lighter-2) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-higher-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-2) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-higher-2) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-higher-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-1) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-higher-1) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-lower-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-1) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-lower-1) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-lower-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-2) var(--color--error--disabled-saturation),
+        oklch(from var(--color--error-lower-2) l 0 h)
+          calc(100% - var(--color--error--disabled-saturation))
+      )
+      l c h/var(--color--error--disabled-background-opacity)
+  );
+  --color--error-disabled--contrast--base: var(
+    --color--error-disabled--contrast--base-override,
+    oklch(from var(--color--error-disabled) clamp(0, (0.6 - l) * 9999, 1) 0 0)
+  );
+  --color--error-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-2-disabled--contrast--base: var(
+    --color--error-darker-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-darker-2-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-darker-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-darker-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-2-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-darker-2-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-darker-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-1-disabled--contrast--base: var(
+    --color--error-darker-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-darker-1-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-darker-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-darker-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-1-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-darker-1-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-darker-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-darker-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-darker-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-1-disabled--contrast--base: var(
+    --color--error-lighter-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-lighter-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--error-lighter-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-lighter-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-1-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-lighter-1-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-lighter-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-2-disabled--contrast--base: var(
+    --color--error-lighter-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-lighter-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--error-lighter-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-lighter-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-2-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-lighter-2-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lighter-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lighter-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-lighter-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-2-disabled--contrast--base: var(
+    --color--error-higher-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-higher-2-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-higher-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-higher-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-2-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-higher-2-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-higher-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-1-disabled--contrast--base: var(
+    --color--error-higher-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-higher-1-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-higher-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-higher-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-1-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-higher-1-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-higher-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-higher-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-higher-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-1-disabled--contrast--base: var(
+    --color--error-lower-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-lower-1-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-lower-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-lower-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-1-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-lower-1-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-1-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-lower-1-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-2-disabled--contrast--base: var(
+    --color--error-lower-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--error-lower-2-disabled) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--error-lower-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--emphasized),
+        var(--color--error-lower-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--emphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-2-disabled--contrast--base)
+          var(--color--error--contrast-blend),
+        var(--color--error-lower-2-disabled)
+          calc(100% - var(--color--error--contrast-blend))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--error-lower-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--error-lower-2-disabled--contrast--base)
+          var(--color--error--contrast-blend--deemphasized),
+        var(--color--error-lower-2-disabled)
+          calc(100% - var(--color--error--contrast-blend--deemphasized))
+      )
+      l c h/var(--color--error--disabled-foreground-opacity)
+  );
+  --color--primary: var(--color--primary-override, #3f51b5);
+  --color--secondary: var(
+    --color--secondary-override,
+    color-mix(in oklab, var(--color--primary) 50%, #808080 50%)
+  );
+  --color--tertiary: var(
+    --color--tertiary-override,
+    color-mix(in oklab, var(--color--primary) 40%, #00bcd4 60%)
+  );
+  --color--neutral: var(
+    --color--neutral-override,
+    light-dark(
+      color-mix(in oklab, var(--color--primary) 5%, #dadada 95%),
+      color-mix(in oklab, var(--color--primary) 5%, #1c1b1f 95%)
+    )
+  );
+  --color--neutral-variant: var(
+    --color--neutral-variant-override,
+    light-dark(
+      color-mix(in oklab, var(--color--primary) 10%, #dadada 90%),
+      color-mix(in oklab, var(--color--primary) 10%, #1c1b1f 90%)
+    )
+  );
+  --color--error: var(--color--error-override, #f44336);
+  --color--surface: var(
+    --color--surface-override,
+    light-dark(
+      color-mix(in oklab, var(--color--neutral) 5%, white 95%),
+      color-mix(in oklab, var(--color--neutral) 8%, #1c1b1f 92%)
+    )
+  );
+  --color--background: var(
+    --color--background-override,
+    light-dark(#ffffff, #1c1b1f)
+  );
+  --color--on-surface: var(
+    --color--on-surface-override,
+    light-dark(#1c1b1f, #e6e1e5)
+  );
+  --color--on-background: var(
+    --color--on-background-override,
+    light-dark(#1c1b1f, #e6e1e5)
+  );
+  --color--surface-dim: light-dark(
+    color-mix(in oklab, var(--color--surface) 85%, black 15%),
+    color-mix(in oklab, var(--color--surface) 85%, black 15%)
+  );
+  --color--surface-bright: light-dark(
+    color-mix(in oklab, var(--color--surface) 85%, white 15%),
+    color-mix(in oklab, var(--color--surface) 85%, white 15%)
+  );
+  --color--surface-container-lowest: light-dark(
+    color-mix(in oklab, var(--color--surface) 96%, white 4%),
+    color-mix(in oklab, var(--color--surface) 96%, black 4%)
+  );
+  --color--surface-container-low: light-dark(
+    color-mix(in oklab, var(--color--surface) 94%, white 6%),
+    color-mix(in oklab, var(--color--surface) 94%, black 6%)
+  );
+  --color--surface-container: light-dark(
+    color-mix(in oklab, var(--color--surface) 92%, black 8%),
+    color-mix(in oklab, var(--color--surface) 92%, white 8%)
+  );
+  --color--surface-container-high: light-dark(
+    color-mix(in oklab, var(--color--surface) 88%, black 12%),
+    color-mix(in oklab, var(--color--surface) 88%, white 12%)
+  );
+  --color--surface-container-highest: light-dark(
+    color-mix(in oklab, var(--color--surface) 84%, black 16%),
+    color-mix(in oklab, var(--color--surface) 84%, white 16%)
+  );
   --color--neutral--blend--darker-2: var(
     --color--neutral--blend--darker-2-override,
     var(--theme--blend--darker-2)
@@ -2899,6 +4009,14 @@
   --color--neutral--opacity--7: var(
     --color--neutral--opacity--7-override,
     var(--theme--opacity--7)
+  );
+  --color--neutral--opacity--8: var(
+    --color--neutral--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--neutral--opacity--9: var(
+    --color--neutral--opacity--9-override,
+    var(--theme--opacity--9)
   );
   --color--neutral--contrast-blend--emphasized: var(
     --color--neutral--contrast-blend--emphasized-override,
@@ -2981,6 +4099,12 @@
   --color--neutral-tint-7: oklch(
     from var(--color--neutral) l c h / var(--color--neutral--opacity--7)
   );
+  --color--neutral-tint-8: oklch(
+    from var(--color--neutral) l c h / var(--color--neutral--opacity--8)
+  );
+  --color--neutral-tint-9: oklch(
+    from var(--color--neutral) l c h / var(--color--neutral--opacity--9)
+  );
   --color--neutral--contrast--base: var(
     --color--neutral--contrast--base-override,
     black
@@ -3006,7 +4130,7 @@
   );
   --color--neutral-darker-2--contrast--base: var(
     --color--neutral-darker-2--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-darker-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-darker-2--contrast--emphasized: color-mix(
     in oklch,
@@ -3031,7 +4155,7 @@
   );
   --color--neutral-darker-1--contrast--base: var(
     --color--neutral-darker-1--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-darker-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-darker-1--contrast--emphasized: color-mix(
     in oklch,
@@ -3056,7 +4180,9 @@
   );
   --color--neutral-lighter-1--contrast--base: var(
     --color--neutral-lighter-1--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lighter-1) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--neutral-lighter-1--contrast--emphasized: color-mix(
     in oklch,
@@ -3081,7 +4207,9 @@
   );
   --color--neutral-lighter-2--contrast--base: var(
     --color--neutral-lighter-2--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lighter-2) clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--neutral-lighter-2--contrast--emphasized: color-mix(
     in oklch,
@@ -3106,7 +4234,7 @@
   );
   --color--neutral-lower-2--contrast--base: var(
     --color--neutral-lower-2--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-lower-2--contrast--emphasized: color-mix(
     in oklch,
@@ -3131,7 +4259,7 @@
   );
   --color--neutral-lower-1--contrast--base: var(
     --color--neutral-lower-1--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-lower-1--contrast--emphasized: color-mix(
     in oklch,
@@ -3156,7 +4284,7 @@
   );
   --color--neutral-higher-1--contrast--base: var(
     --color--neutral-higher-1--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-higher-1) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-higher-1--contrast--emphasized: color-mix(
     in oklch,
@@ -3181,7 +4309,7 @@
   );
   --color--neutral-higher-2--contrast--base: var(
     --color--neutral-higher-2--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-higher-2) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-higher-2--contrast--emphasized: color-mix(
     in oklch,
@@ -3302,7 +4430,7 @@
   );
   --color--neutral-disabled--contrast--base: var(
     --color--neutral-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(from var(--color--neutral-disabled) clamp(0, (0.6 - l) * 9999, 1) 0 0)
   );
   --color--neutral-disabled--contrast--emphasized: oklch(
     from
@@ -3339,7 +4467,10 @@
   );
   --color--neutral-darker-2-disabled--contrast--base: var(
     --color--neutral-darker-2-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-darker-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-darker-2-disabled--contrast--emphasized: oklch(
     from
@@ -3376,7 +4507,10 @@
   );
   --color--neutral-darker-1-disabled--contrast--base: var(
     --color--neutral-darker-1-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-darker-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-darker-1-disabled--contrast--emphasized: oklch(
     from
@@ -3413,7 +4547,10 @@
   );
   --color--neutral-lighter-1-disabled--contrast--base: var(
     --color--neutral-lighter-1-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lighter-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--neutral-lighter-1-disabled--contrast--emphasized: oklch(
     from
@@ -3450,7 +4587,10 @@
   );
   --color--neutral-lighter-2-disabled--contrast--base: var(
     --color--neutral-lighter-2-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lighter-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
   );
   --color--neutral-lighter-2-disabled--contrast--emphasized: oklch(
     from
@@ -3487,7 +4627,10 @@
   );
   --color--neutral-higher-2-disabled--contrast--base: var(
     --color--neutral-higher-2-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-higher-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-higher-2-disabled--contrast--emphasized: oklch(
     from
@@ -3524,7 +4667,10 @@
   );
   --color--neutral-higher-1-disabled--contrast--base: var(
     --color--neutral-higher-1-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-higher-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-higher-1-disabled--contrast--emphasized: oklch(
     from
@@ -3561,7 +4707,10 @@
   );
   --color--neutral-lower-1-disabled--contrast--base: var(
     --color--neutral-lower-1-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lower-1-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-lower-1-disabled--contrast--emphasized: oklch(
     from
@@ -3598,7 +4747,10 @@
   );
   --color--neutral-lower-2-disabled--contrast--base: var(
     --color--neutral-lower-2-disabled--contrast--base-override,
-    var(--color--neutral--contrast--base)
+    oklch(
+      from var(--color--neutral-lower-2-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
   --color--neutral-lower-2-disabled--contrast--emphasized: oklch(
     from
@@ -3633,839 +4785,901 @@
       )
       l c h/var(--color--neutral--disabled-foreground-opacity)
   );
-  --color--error-override: #b00020;
-  --color--error--contrast--base-override: white;
-  --color--error--blend--darker-2: var(
-    --color--error--blend--darker-2-override,
+  --color--neutral-variant--blend--darker-2: var(
+    --color--neutral-variant--blend--darker-2-override,
     var(--theme--blend--darker-2)
   );
-  --color--error--blend--darker-1: var(
-    --color--error--blend--darker-1-override,
+  --color--neutral-variant--blend--darker-1: var(
+    --color--neutral-variant--blend--darker-1-override,
     var(--theme--blend--darker-1)
   );
-  --color--error--blend--lighter-1: var(
-    --color--error--blend--lighter-1-override,
+  --color--neutral-variant--blend--lighter-1: var(
+    --color--neutral-variant--blend--lighter-1-override,
     var(--theme--blend--lighter-1)
   );
-  --color--error--blend--lighter-2: var(
-    --color--error--blend--lighter-2-override,
+  --color--neutral-variant--blend--lighter-2: var(
+    --color--neutral-variant--blend--lighter-2-override,
     var(--theme--blend--lighter-2)
   );
-  --color--error--opacity--1: var(
-    --color--error--opacity--1-override,
+  --color--neutral-variant--opacity--1: var(
+    --color--neutral-variant--opacity--1-override,
     var(--theme--opacity--1)
   );
-  --color--error--opacity--2: var(
-    --color--error--opacity--2-override,
+  --color--neutral-variant--opacity--2: var(
+    --color--neutral-variant--opacity--2-override,
     var(--theme--opacity--2)
   );
-  --color--error--opacity--3: var(
-    --color--error--opacity--3-override,
+  --color--neutral-variant--opacity--3: var(
+    --color--neutral-variant--opacity--3-override,
     var(--theme--opacity--3)
   );
-  --color--error--opacity--4: var(
-    --color--error--opacity--4-override,
+  --color--neutral-variant--opacity--4: var(
+    --color--neutral-variant--opacity--4-override,
     var(--theme--opacity--4)
   );
-  --color--error--opacity--5: var(
-    --color--error--opacity--5-override,
+  --color--neutral-variant--opacity--5: var(
+    --color--neutral-variant--opacity--5-override,
     var(--theme--opacity--5)
   );
-  --color--error--opacity--6: var(
-    --color--error--opacity--6-override,
+  --color--neutral-variant--opacity--6: var(
+    --color--neutral-variant--opacity--6-override,
     var(--theme--opacity--6)
   );
-  --color--error--opacity--7: var(
-    --color--error--opacity--7-override,
+  --color--neutral-variant--opacity--7: var(
+    --color--neutral-variant--opacity--7-override,
     var(--theme--opacity--7)
   );
-  --color--error--contrast-blend--emphasized: var(
-    --color--error--contrast-blend--emphasized-override,
+  --color--neutral-variant--opacity--8: var(
+    --color--neutral-variant--opacity--8-override,
+    var(--theme--opacity--8)
+  );
+  --color--neutral-variant--opacity--9: var(
+    --color--neutral-variant--opacity--9-override,
+    var(--theme--opacity--9)
+  );
+  --color--neutral-variant--contrast-blend--emphasized: var(
+    --color--neutral-variant--contrast-blend--emphasized-override,
     var(--theme--contrast-blend--emphasized)
   );
-  --color--error--contrast-blend: var(
-    --color--error--contrast-blend-override,
+  --color--neutral-variant--contrast-blend: var(
+    --color--neutral-variant--contrast-blend-override,
     var(--theme--contrast-blend)
   );
-  --color--error--contrast-blend--deemphasized: var(
-    --color--error--contrast-blend--deemphasized-override,
+  --color--neutral-variant--contrast-blend--deemphasized: var(
+    --color--neutral-variant--contrast-blend--deemphasized-override,
     var(--theme--contrast-blend--deemphasized)
   );
-  --color--error--disabled-saturation-override: 60%;
-  --color--error--disabled-saturation: var(
-    --color--error--disabled-saturation-override,
+  --color--neutral-variant--disabled-saturation: var(
+    --color--neutral-variant--disabled-saturation-override,
     var(--theme--disabled-saturation)
   );
-  --color--error--disabled-foreground-opacity: var(
-    --color--error--disabled-foreground-opacity-override,
+  --color--neutral-variant--disabled-foreground-opacity: var(
+    --color--neutral-variant--disabled-foreground-opacity-override,
     var(--theme--disabled-foreground-opacity)
   );
-  --color--error--disabled-background-opacity: var(
-    --color--error--disabled-background-opacity-override,
+  --color--neutral-variant--disabled-background-opacity: var(
+    --color--neutral-variant--disabled-background-opacity-override,
     var(--theme--disabled-background-opacity)
   );
-  --color--error-darker-2: color-mix(
+  --color--neutral-variant-darker-2: color-mix(
     in oklch,
-    var(--color--error) var(--color--error--blend--darker-2),
-    black calc(100% - var(--color--error--blend--darker-2))
+    var(--color--neutral-variant) var(--color--neutral-variant--blend--darker-2),
+    black calc(100% - var(--color--neutral-variant--blend--darker-2))
   );
-  --color--error-darker-1: color-mix(
+  --color--neutral-variant-darker-1: color-mix(
     in oklch,
-    var(--color--error) var(--color--error--blend--darker-1),
-    black calc(100% - var(--color--error--blend--darker-1))
+    var(--color--neutral-variant) var(--color--neutral-variant--blend--darker-1),
+    black calc(100% - var(--color--neutral-variant--blend--darker-1))
   );
-  --color--error-lighter-1: color-mix(
+  --color--neutral-variant-lighter-1: color-mix(
     in oklch,
-    var(--color--error) var(--color--error--blend--lighter-1),
-    white calc(100% - var(--color--error--blend--lighter-1))
+    var(--color--neutral-variant)
+      var(--color--neutral-variant--blend--lighter-1),
+    white calc(100% - var(--color--neutral-variant--blend--lighter-1))
   );
-  --color--error-lighter-2: color-mix(
+  --color--neutral-variant-lighter-2: color-mix(
     in oklch,
-    var(--color--error) var(--color--error--blend--lighter-2),
-    white calc(100% - var(--color--error--blend--lighter-2))
+    var(--color--neutral-variant)
+      var(--color--neutral-variant--blend--lighter-2),
+    white calc(100% - var(--color--neutral-variant--blend--lighter-2))
   );
-  --color--error-higher-2: light-dark(
-    var(--color--error-darker-2),
-    var(--color--error-lighter-2)
+  --color--neutral-variant-higher-2: light-dark(
+    var(--color--neutral-variant-darker-2),
+    var(--color--neutral-variant-lighter-2)
   );
-  --color--error-higher-1: light-dark(
-    var(--color--error-darker-1),
-    var(--color--error-lighter-1)
+  --color--neutral-variant-higher-1: light-dark(
+    var(--color--neutral-variant-darker-1),
+    var(--color--neutral-variant-lighter-1)
   );
-  --color--error-lower-1: light-dark(
-    var(--color--error-lighter-1),
-    var(--color--error-darker-1)
+  --color--neutral-variant-lower-1: light-dark(
+    var(--color--neutral-variant-lighter-1),
+    var(--color--neutral-variant-darker-1)
   );
-  --color--error-lower-2: light-dark(
-    var(--color--error-lighter-2),
-    var(--color--error-darker-2)
+  --color--neutral-variant-lower-2: light-dark(
+    var(--color--neutral-variant-lighter-2),
+    var(--color--neutral-variant-darker-2)
   );
-  --color--error-tint-1: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--1)
+  --color--neutral-variant-tint-1: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--1)
   );
-  --color--error-tint-2: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--2)
+  --color--neutral-variant-tint-2: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--2)
   );
-  --color--error-tint-3: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--3)
+  --color--neutral-variant-tint-3: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--3)
   );
-  --color--error-tint-4: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--4)
+  --color--neutral-variant-tint-4: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--4)
   );
-  --color--error-tint-5: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--5)
+  --color--neutral-variant-tint-5: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--5)
   );
-  --color--error-tint-6: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--6)
+  --color--neutral-variant-tint-6: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--6)
   );
-  --color--error-tint-7: oklch(
-    from var(--color--error) l c h / var(--color--error--opacity--7)
+  --color--neutral-variant-tint-7: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--7)
   );
-  --color--error--contrast--base: var(
-    --color--error--contrast--base-override,
+  --color--neutral-variant-tint-8: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--8)
+  );
+  --color--neutral-variant-tint-9: oklch(
+    from var(--color--neutral-variant) l c h /
+      var(--color--neutral-variant--opacity--9)
+  );
+  --color--neutral-variant--contrast--base: var(
+    --color--neutral-variant--contrast--base-override,
     black
   );
-  --color--error--contrast--emphasized: color-mix(
+  --color--neutral-variant--contrast--emphasized: color-mix(
     in oklch,
-    var(--color--error--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
+    var(--color--neutral-variant--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
   );
-  --color--error--contrast: color-mix(
+  --color--neutral-variant--contrast: color-mix(
     in oklch,
-    var(--color--error--contrast--base) var(--color--error--contrast-blend),
-    var(--color--error) calc(100% - var(--color--error--contrast-blend))
+    var(--color--neutral-variant--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
   );
-  --color--error--contrast--deemphasized: color-mix(
+  --color--neutral-variant--contrast--deemphasized: color-mix(
     in oklch,
-    var(--color--error--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-darker-2--contrast--base: var(
-    --color--error-darker-2--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-darker-2--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-darker-2--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-darker-2)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-darker-2--contrast: color-mix(
-    in oklch,
-    var(--color--error-darker-2--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-darker-2)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-darker-2--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-darker-2--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-darker-2)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-darker-1--contrast--base: var(
-    --color--error-darker-1--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-darker-1--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-darker-1--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-darker-1)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-darker-1--contrast: color-mix(
-    in oklch,
-    var(--color--error-darker-1--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-darker-1)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-darker-1--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-darker-1--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-darker-1)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-lighter-1--contrast--base: var(
-    --color--error-lighter-1--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lighter-1--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-lighter-1--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-lighter-1)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-lighter-1--contrast: color-mix(
-    in oklch,
-    var(--color--error-lighter-1--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-lighter-1)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-lighter-1--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-lighter-1--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-lighter-1)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-lighter-2--contrast--base: var(
-    --color--error-lighter-2--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lighter-2--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-lighter-2--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-lighter-2)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-lighter-2--contrast: color-mix(
-    in oklch,
-    var(--color--error-lighter-2--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-lighter-2)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-lighter-2--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-lighter-2--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-lighter-2)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-lower-2--contrast--base: var(
-    --color--error-lower-2--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lower-2--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-lower-2--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-lower-2)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-lower-2--contrast: color-mix(
-    in oklch,
-    var(--color--error-lower-2--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-lower-2) calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-lower-2--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-lower-2--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-lower-2)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-lower-1--contrast--base: var(
-    --color--error-lower-1--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lower-1--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-lower-1--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-lower-1)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-lower-1--contrast: color-mix(
-    in oklch,
-    var(--color--error-lower-1--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-lower-1) calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-lower-1--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-lower-1--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-lower-1)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-higher-1--contrast--base: var(
-    --color--error-higher-1--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-higher-1--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-higher-1--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-higher-1)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-higher-1--contrast: color-mix(
-    in oklch,
-    var(--color--error-higher-1--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-higher-1)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-higher-1--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-higher-1--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-higher-1)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-higher-2--contrast--base: var(
-    --color--error-higher-2--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-higher-2--contrast--emphasized: color-mix(
-    in oklch,
-    var(--color--error-higher-2--contrast--base)
-      var(--color--error--contrast-blend--emphasized),
-    var(--color--error-higher-2)
-      calc(100% - var(--color--error--contrast-blend--emphasized))
-  );
-  --color--error-higher-2--contrast: color-mix(
-    in oklch,
-    var(--color--error-higher-2--contrast--base)
-      var(--color--error--contrast-blend),
-    var(--color--error-higher-2)
-      calc(100% - var(--color--error--contrast-blend))
-  );
-  --color--error-higher-2--contrast--deemphasized: color-mix(
-    in oklch,
-    var(--color--error-higher-2--contrast--base)
-      var(--color--error--contrast-blend--deemphasized),
-    var(--color--error-higher-2)
-      calc(100% - var(--color--error--contrast-blend--deemphasized))
-  );
-  --color--error-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-darker-2-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-2) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-darker-2) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-darker-1-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-1) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-darker-1) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-lighter-1-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-1) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-lighter-1) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-lighter-2-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-2) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-lighter-2) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-higher-2-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-2) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-higher-2) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-higher-1-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-1) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-higher-1) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-lower-1-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-1) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-lower-1) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-lower-2-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-2) var(--color--error--disabled-saturation),
-        oklch(from var(--color--error-lower-2) l 0 h)
-          calc(100% - var(--color--error--disabled-saturation))
-      )
-      l c h/var(--color--error--disabled-background-opacity)
-  );
-  --color--error-disabled--contrast--base: var(
-    --color--error-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-2-disabled--contrast--base: var(
-    --color--error-darker-2-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-darker-2-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-darker-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-2-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-2-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-darker-2-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-2-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-darker-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-1-disabled--contrast--base: var(
-    --color--error-darker-1-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-darker-1-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-darker-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-1-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-1-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-darker-1-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-darker-1-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-darker-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-darker-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-1-disabled--contrast--base: var(
-    --color--error-lighter-1-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lighter-1-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-lighter-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-1-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-1-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-lighter-1-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-1-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-lighter-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-2-disabled--contrast--base: var(
-    --color--error-lighter-2-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lighter-2-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-lighter-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-2-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-2-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-lighter-2-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lighter-2-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lighter-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-lighter-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-2-disabled--contrast--base: var(
-    --color--error-higher-2-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-higher-2-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-higher-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-2-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-2-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-higher-2-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-2-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-higher-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-1-disabled--contrast--base: var(
-    --color--error-higher-1-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-higher-1-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-higher-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-1-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-1-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-higher-1-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-higher-1-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-higher-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-higher-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-1-disabled--contrast--base: var(
-    --color--error-lower-1-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lower-1-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-lower-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-1-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-1-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-lower-1-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-1-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-1-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-lower-1-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-2-disabled--contrast--base: var(
-    --color--error-lower-2-disabled--contrast--base-override,
-    var(--color--error--contrast--base)
-  );
-  --color--error-lower-2-disabled--contrast--emphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--emphasized),
-        var(--color--error-lower-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--emphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-2-disabled--contrast: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-2-disabled--contrast--base)
-          var(--color--error--contrast-blend),
-        var(--color--error-lower-2-disabled)
-          calc(100% - var(--color--error--contrast-blend))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--error-lower-2-disabled--contrast--deemphasized: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(--color--error-lower-2-disabled--contrast--base)
-          var(--color--error--contrast-blend--deemphasized),
-        var(--color--error-lower-2-disabled)
-          calc(100% - var(--color--error--contrast-blend--deemphasized))
-      )
-      l c h/var(--color--error--disabled-foreground-opacity)
-  );
-  --color--primary: var(--color--primary-override, #3f51b5);
-  --color--secondary: var(
-    --color--secondary-override,
-    color-mix(in oklab, var(--color--primary) 50%, #808080 50%)
-  );
-  --color--tertiary: var(
-    --color--tertiary-override,
-    color-mix(in oklab, var(--color--primary) 40%, #00bcd4 60%)
-  );
-  --color--neutral: var(
-    --color--neutral-override,
-    color-mix(in oklab, var(--color--primary) 20%, #9e9e9e 80%)
-  );
-  --color--error: var(--color--error-override, #f44336);
-  --color--surface: var(
-    --color--surface-override,
-    light-dark(
-      color-mix(in oklab, var(--color--neutral) 5%, white 95%),
-      color-mix(in oklab, var(--color--neutral) 8%, #1c1b1f 92%)
+    var(--color--neutral-variant--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-darker-2--contrast--base: var(
+    --color--neutral-variant-darker-2--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-darker-2) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
     )
   );
-  --color--background: var(
-    --color--background-override,
-    light-dark(#ffffff, #1c1b1f)
+  --color--neutral-variant-darker-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-darker-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
   );
-  --color--on-surface: var(
-    --color--on-surface-override,
-    light-dark(#1c1b1f, #e6e1e5)
+  --color--neutral-variant-darker-2--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-darker-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
   );
-  --color--on-background: var(
-    --color--on-background-override,
-    light-dark(#1c1b1f, #e6e1e5)
+  --color--neutral-variant-darker-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-darker-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
   );
-  --color--surface-dim: light-dark(
-    color-mix(in oklab, var(--color--surface) 85%, black 15%),
-    color-mix(in oklab, var(--color--surface) 85%, black 15%)
+  --color--neutral-variant-darker-1--contrast--base: var(
+    --color--neutral-variant-darker-1--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-darker-1) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
-  --color--surface-bright: light-dark(
-    color-mix(in oklab, var(--color--surface) 85%, white 15%),
-    color-mix(in oklab, var(--color--surface) 85%, white 15%)
+  --color--neutral-variant-darker-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-darker-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
   );
-  --color--surface-container-lowest: light-dark(
-    color-mix(in oklab, var(--color--surface) 96%, white 4%),
-    color-mix(in oklab, var(--color--surface) 96%, black 4%)
+  --color--neutral-variant-darker-1--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-darker-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
   );
-  --color--surface-container-low: light-dark(
-    color-mix(in oklab, var(--color--surface) 94%, white 6%),
-    color-mix(in oklab, var(--color--surface) 94%, black 6%)
+  --color--neutral-variant-darker-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-darker-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-darker-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
   );
-  --color--surface-container: light-dark(
-    color-mix(in oklab, var(--color--surface) 92%, black 8%),
-    color-mix(in oklab, var(--color--surface) 92%, white 8%)
+  --color--neutral-variant-lighter-1--contrast--base: var(
+    --color--neutral-variant-lighter-1--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lighter-1) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
   );
-  --color--surface-container-high: light-dark(
-    color-mix(in oklab, var(--color--surface) 88%, black 12%),
-    color-mix(in oklab, var(--color--surface) 88%, white 12%)
+  --color--neutral-variant-lighter-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-lighter-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
   );
-  --color--surface-container-highest: light-dark(
-    color-mix(in oklab, var(--color--surface) 84%, black 16%),
-    color-mix(in oklab, var(--color--surface) 84%, white 16%)
+  --color--neutral-variant-lighter-1--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-lighter-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
   );
+  --color--neutral-variant-lighter-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-lighter-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-lighter-2--contrast--base: var(
+    --color--neutral-variant-lighter-2--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lighter-2) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--neutral-variant-lighter-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-lighter-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+  );
+  --color--neutral-variant-lighter-2--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-lighter-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
+  );
+  --color--neutral-variant-lighter-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lighter-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-lighter-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-lower-2--contrast--base: var(
+    --color--neutral-variant-lower-2--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lower-2) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--neutral-variant-lower-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-lower-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+  );
+  --color--neutral-variant-lower-2--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-lower-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
+  );
+  --color--neutral-variant-lower-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-lower-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-lower-1--contrast--base: var(
+    --color--neutral-variant-lower-1--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lower-1) clamp(0, (0.6 - l) * 9999, 1) 0
+        0
+    )
+  );
+  --color--neutral-variant-lower-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-lower-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+  );
+  --color--neutral-variant-lower-1--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-lower-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
+  );
+  --color--neutral-variant-lower-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-lower-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-lower-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-higher-1--contrast--base: var(
+    --color--neutral-variant-higher-1--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-higher-1) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--neutral-variant-higher-1--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-higher-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+  );
+  --color--neutral-variant-higher-1--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-higher-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
+  );
+  --color--neutral-variant-higher-1--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-1--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-higher-1)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-higher-2--contrast--base: var(
+    --color--neutral-variant-higher-2--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-higher-2) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--neutral-variant-higher-2--contrast--emphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--emphasized),
+    var(--color--neutral-variant-higher-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+  );
+  --color--neutral-variant-higher-2--contrast: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend),
+    var(--color--neutral-variant-higher-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend))
+  );
+  --color--neutral-variant-higher-2--contrast--deemphasized: color-mix(
+    in oklch,
+    var(--color--neutral-variant-higher-2--contrast--base)
+      var(--color--neutral-variant--contrast-blend--deemphasized),
+    var(--color--neutral-variant-higher-2)
+      calc(100% - var(--color--neutral-variant--contrast-blend--deemphasized))
+  );
+  --color--neutral-variant-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-darker-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-2)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-darker-2) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-darker-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-1)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-darker-1) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-lighter-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-1)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-lighter-1) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-lighter-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-2)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-lighter-2) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-higher-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-2)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-higher-2) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-higher-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-1)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-higher-1) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-lower-1-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-1)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-lower-1) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-lower-2-disabled: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-2)
+          var(--color--neutral-variant--disabled-saturation),
+        oklch(from var(--color--neutral-variant-lower-2) l 0 h)
+          calc(100% - var(--color--neutral-variant--disabled-saturation))
+      )
+      l c h/var(--color--neutral-variant--disabled-background-opacity)
+  );
+  --color--neutral-variant-disabled--contrast--base: var(
+    --color--neutral-variant-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-disabled) clamp(0, (0.6 - l) * 9999, 1)
+        0 0
+    )
+  );
+  --color--neutral-variant-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-2-disabled--contrast--base: var(
+    --color--neutral-variant-darker-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-darker-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-darker-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-darker-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-darker-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-darker-2-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-1-disabled--contrast--base: var(
+    --color--neutral-variant-darker-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-darker-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-darker-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-darker-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-darker-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-darker-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-darker-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-darker-1-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-1-disabled--contrast--base: var(
+    --color--neutral-variant-lighter-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lighter-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-lighter-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-lighter-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-lighter-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-lighter-1-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-2-disabled--contrast--base: var(
+    --color--neutral-variant-lighter-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lighter-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-lighter-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-lighter-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-lighter-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lighter-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lighter-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-lighter-2-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-2-disabled--contrast--base: var(
+    --color--neutral-variant-higher-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-higher-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-higher-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-higher-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-higher-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-higher-2-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-1-disabled--contrast--base: var(
+    --color--neutral-variant-higher-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-higher-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-higher-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-higher-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-higher-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-higher-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-higher-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-higher-1-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-1-disabled--contrast--base: var(
+    --color--neutral-variant-lower-1-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lower-1-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-lower-1-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-lower-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-1-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-lower-1-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-1-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-1-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-lower-1-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-2-disabled--contrast--base: var(
+    --color--neutral-variant-lower-2-disabled--contrast--base-override,
+    oklch(
+      from var(--color--neutral-variant-lower-2-disabled)
+        clamp(0, (0.6 - l) * 9999, 1) 0 0
+    )
+  );
+  --color--neutral-variant-lower-2-disabled--contrast--emphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--emphasized),
+        var(--color--neutral-variant-lower-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend--emphasized))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-2-disabled--contrast: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend),
+        var(--color--neutral-variant-lower-2-disabled)
+          calc(100% - var(--color--neutral-variant--contrast-blend))
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--neutral-variant-lower-2-disabled--contrast--deemphasized: oklch(
+    from
+      color-mix(
+        in oklch,
+        var(--color--neutral-variant-lower-2-disabled--contrast--base)
+          var(--color--neutral-variant--contrast-blend--deemphasized),
+        var(--color--neutral-variant-lower-2-disabled)
+          calc(
+            100% - var(--color--neutral-variant--contrast-blend--deemphasized)
+          )
+      )
+      l c h/var(--color--neutral-variant--disabled-foreground-opacity)
+  );
+  --color--on-primary: var(--color--primary--contrast);
+  --color--on-secondary: var(--color--secondary--contrast);
+  --color--on-tertiary: var(--color--tertiary--contrast);
+  --color--on-error: var(--color--error--contrast);
+  --color--primary-container: var(--color--primary-lower-1);
+  --color--secondary-container: var(--color--secondary-lower-1);
+  --color--tertiary-container: var(--color--tertiary-lower-1);
+  --color--error-container: var(--color--error-lower-1);
+  --color--on-primary-container: var(--color--primary-lower-1--contrast);
+  --color--on-secondary-container: var(--color--secondary-lower-1--contrast);
+  --color--on-tertiary-container: var(--color--tertiary-lower-1--contrast);
+  --color--on-error-container: var(--color--error-lower-1--contrast);
+  --color--inverse-surface: var(--color--neutral-higher-2);
+  --color--inverse-on-surface: var(--color--neutral-higher-2--contrast);
+  --color--surface-tint: var(--color--primary-tint-1);
+  --color--shadow: var(--color--neutral-darker-2);
+  --color--scrim: oklch(from var(--color--neutral-darker-2) l c h / 50%);
+  --color--outline: var(--color--neutral-variant-lower-1);
+  --color--outline-variant: var(--color--neutral-variant-lighter-1);
   --mat-density: 0;
   --mat-sys-primary: var(--color--primary);
   --mat-sys-on-primary: var(--color--primary--contrast);
@@ -4496,8 +5710,169 @@
   --mat-sys-surface-container-highest: var(--color--surface-container-highest);
   --mat-sys-background: var(--color--background);
   --mat-sys-on-background: var(--color--on-background);
-  --mat-sys-outline: var(--color--neutral-darker-1);
-  --mat-sys-outline-variant: var(--color--neutral-lighter-1);
+  --mat-sys-outline: var(--color--outline);
+  --mat-sys-outline-variant: var(--color--outline-variant);
+  --mat-sys-inverse-surface: var(--color--inverse-surface);
+  --mat-sys-inverse-on-surface: var(--color--inverse-on-surface);
+  --mat-sys-inverse-primary: var(--color--primary-inverse);
+  --mat-sys-surface-tint: var(--color--surface-tint);
+  --mat-sys-shadow: var(--color--shadow);
+  --mat-sys-scrim: var(--color--scrim);
+  --mat-sys-hover-state-layer-opacity: var(--theme--opacity--2); /* 8% */
+  --mat-sys-focus-state-layer-opacity: var(--theme--opacity--3); /* 12% */
+  --mat-sys-pressed-state-layer-opacity: var(--theme--opacity--3); /* 12% */
+  --mat-sys-dragged-state-layer-opacity: var(--theme--opacity--4); /* 16% */
+  --mat-sys-primary-fixed--light: var(--color--primary-lighter-2);
+  --mat-sys-primary-fixed--dark: var(--color--primary-lighter-2);
+  --mat-sys-primary-fixed: light-dark(
+    var(--mat-sys-primary-fixed--light),
+    var(--mat-sys-primary-fixed--dark)
+  );
+  --mat-sys-primary-fixed-dim--light: var(--color--primary-lighter-1);
+  --mat-sys-primary-fixed-dim--dark: var(--color--primary-lighter-1);
+  --mat-sys-primary-fixed-dim: light-dark(
+    var(--mat-sys-primary-fixed-dim--light),
+    var(--mat-sys-primary-fixed-dim--dark)
+  );
+  --mat-sys-on-primary-fixed--light: var(--color--primary-lighter-2--contrast);
+  --mat-sys-on-primary-fixed--dark: var(--color--primary-lighter-2--contrast);
+  --mat-sys-on-primary-fixed: light-dark(
+    var(--mat-sys-on-primary-fixed--light),
+    var(--mat-sys-on-primary-fixed--dark)
+  );
+  --mat-sys-on-primary-fixed-variant--light: var(
+    --color--primary-lighter-1--contrast
+  );
+  --mat-sys-on-primary-fixed-variant--dark: var(
+    --color--primary-lighter-1--contrast
+  );
+  --mat-sys-on-primary-fixed-variant: light-dark(
+    var(--mat-sys-on-primary-fixed-variant--light),
+    var(--mat-sys-on-primary-fixed-variant--dark)
+  );
+  --mat-sys-secondary-fixed--light: var(--color--secondary-lighter-2);
+  --mat-sys-secondary-fixed--dark: var(--color--secondary-lighter-2);
+  --mat-sys-secondary-fixed: light-dark(
+    var(--mat-sys-secondary-fixed--light),
+    var(--mat-sys-secondary-fixed--dark)
+  );
+  --mat-sys-secondary-fixed-dim--light: var(--color--secondary-lighter-1);
+  --mat-sys-secondary-fixed-dim--dark: var(--color--secondary-lighter-1);
+  --mat-sys-secondary-fixed-dim: light-dark(
+    var(--mat-sys-secondary-fixed-dim--light),
+    var(--mat-sys-secondary-fixed-dim--dark)
+  );
+  --mat-sys-on-secondary-fixed--light: var(
+    --color--secondary-lighter-2--contrast
+  );
+  --mat-sys-on-secondary-fixed--dark: var(
+    --color--secondary-lighter-2--contrast
+  );
+  --mat-sys-on-secondary-fixed: light-dark(
+    var(--mat-sys-on-secondary-fixed--light),
+    var(--mat-sys-on-secondary-fixed--dark)
+  );
+  --mat-sys-on-secondary-fixed-variant--light: var(
+    --color--secondary-lighter-1--contrast
+  );
+  --mat-sys-on-secondary-fixed-variant--dark: var(
+    --color--secondary-lighter-1--contrast
+  );
+  --mat-sys-on-secondary-fixed-variant: light-dark(
+    var(--mat-sys-on-secondary-fixed-variant--light),
+    var(--mat-sys-on-secondary-fixed-variant--dark)
+  );
+  --mat-sys-tertiary-fixed--light: var(--color--tertiary-lighter-2);
+  --mat-sys-tertiary-fixed--dark: var(--color--tertiary-lighter-2);
+  --mat-sys-tertiary-fixed: light-dark(
+    var(--mat-sys-tertiary-fixed--light),
+    var(--mat-sys-tertiary-fixed--dark)
+  );
+  --mat-sys-tertiary-fixed-dim--light: var(--color--tertiary-lighter-1);
+  --mat-sys-tertiary-fixed-dim--dark: var(--color--tertiary-lighter-1);
+  --mat-sys-tertiary-fixed-dim: light-dark(
+    var(--mat-sys-tertiary-fixed-dim--light),
+    var(--mat-sys-tertiary-fixed-dim--dark)
+  );
+  --mat-sys-on-tertiary-fixed--light: var(
+    --color--tertiary-lighter-2--contrast
+  );
+  --mat-sys-on-tertiary-fixed--dark: var(--color--tertiary-lighter-2--contrast);
+  --mat-sys-on-tertiary-fixed: light-dark(
+    var(--mat-sys-on-tertiary-fixed--light),
+    var(--mat-sys-on-tertiary-fixed--dark)
+  );
+  --mat-sys-on-tertiary-fixed-variant--light: var(
+    --color--tertiary-lighter-1--contrast
+  );
+  --mat-sys-on-tertiary-fixed-variant--dark: var(
+    --color--tertiary-lighter-1--contrast
+  );
+  --mat-sys-on-tertiary-fixed-variant: light-dark(
+    var(--mat-sys-on-tertiary-fixed-variant--light),
+    var(--mat-sys-on-tertiary-fixed-variant--dark)
+  );
+  --mat-sys-neutral10--light: var(--color--neutral-darker-2);
+  --mat-sys-neutral10--dark: var(--color--neutral-darker-2);
+  --mat-sys-neutral10: light-dark(
+    var(--mat-sys-neutral10--light),
+    var(--mat-sys-neutral10--dark)
+  );
+  --mat-sys-neutral-variant20--light: var(--color--neutral-variant-darker-2);
+  --mat-sys-neutral-variant20--dark: var(--color--neutral-variant-darker-2);
+  --mat-sys-neutral-variant20: light-dark(
+    var(--mat-sys-neutral-variant20--light),
+    var(--mat-sys-neutral-variant20--dark)
+  );
+  --mat-sys-shadow-color: var(--color--primary-darker-2);
+  --mat-sys-level0: 0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
+    0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 0px 0px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level1: 0px 2px 1px -1px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 1px 1px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 3px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level2: 0px 3px 3px -2px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 3px 4px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 8px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level3: 0px 3px 5px -1px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 6px 10px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 1px 18px 0px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level4: 0px 5px 5px -3px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 8px 10px 1px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 3px 14px 2px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-level5: 0px 7px 8px -4px oklch(from var(--mat-sys-shadow-color) l c
+          h / var(--theme--opacity--5)),
+    0px 12px 17px 2px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
+    0px 5px 22px 4px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
+  --mat-sys-corner-none: 0;
+  --mat-sys-corner-extra-small: 4px;
+  --mat-sys-corner-extra-small-top: 4px 4px 0 0;
+  --mat-sys-corner-small: 8px;
+  --mat-sys-corner-medium: 12px;
+  --mat-sys-corner-large: 16px;
+  --mat-sys-corner-large-start: 16px 0 0 16px;
+  --mat-sys-corner-large-end: 0 16px 16px 0;
+  --mat-sys-corner-large-top: 16px 16px 0 0;
+  --mat-sys-corner-extra-large: 28px;
+  --mat-sys-corner-extra-large-top: 28px 28px 0 0;
+  --mat-sys-corner-full: 9999px;
 }
 
 body {
@@ -5247,6 +6622,454 @@ body {
 .color-swatch.tertiary-lower-2 .swatch-disabled .contrast-deemphasized {
   color: var(--color--tertiary-lower-2-disabled--contrast--deemphasized);
 }
+.color-swatch.neutral .swatch-normal {
+  background: var(--color--neutral);
+}
+.color-swatch.neutral .swatch-normal .swatch-label {
+  color: var(--color--neutral--contrast);
+}
+.color-swatch.neutral .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral--contrast--emphasized);
+}
+.color-swatch.neutral .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral--contrast--deemphasized);
+}
+.color-swatch.neutral .swatch-disabled {
+  background: var(--color--neutral-disabled);
+}
+.color-swatch.neutral .swatch-disabled .swatch-label {
+  color: var(--color--neutral-disabled--contrast);
+}
+.color-swatch.neutral .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-disabled--contrast--emphasized);
+}
+.color-swatch.neutral .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-darker-2 .swatch-normal {
+  background: var(--color--neutral-darker-2);
+}
+.color-swatch.neutral-darker-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-darker-2--contrast);
+}
+.color-swatch.neutral-darker-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-darker-2--contrast--emphasized);
+}
+.color-swatch.neutral-darker-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-darker-2--contrast--deemphasized);
+}
+.color-swatch.neutral-darker-2 .swatch-disabled {
+  background: var(--color--neutral-darker-2-disabled);
+}
+.color-swatch.neutral-darker-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-darker-2-disabled--contrast);
+}
+.color-swatch.neutral-darker-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-darker-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-darker-2 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-darker-2-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-darker-1 .swatch-normal {
+  background: var(--color--neutral-darker-1);
+}
+.color-swatch.neutral-darker-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-darker-1--contrast);
+}
+.color-swatch.neutral-darker-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-darker-1--contrast--emphasized);
+}
+.color-swatch.neutral-darker-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-darker-1--contrast--deemphasized);
+}
+.color-swatch.neutral-darker-1 .swatch-disabled {
+  background: var(--color--neutral-darker-1-disabled);
+}
+.color-swatch.neutral-darker-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-darker-1-disabled--contrast);
+}
+.color-swatch.neutral-darker-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-darker-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-darker-1 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-darker-1-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-lighter-1 .swatch-normal {
+  background: var(--color--neutral-lighter-1);
+}
+.color-swatch.neutral-lighter-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-lighter-1--contrast);
+}
+.color-swatch.neutral-lighter-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-lighter-1--contrast--emphasized);
+}
+.color-swatch.neutral-lighter-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-lighter-1--contrast--deemphasized);
+}
+.color-swatch.neutral-lighter-1 .swatch-disabled {
+  background: var(--color--neutral-lighter-1-disabled);
+}
+.color-swatch.neutral-lighter-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-lighter-1-disabled--contrast);
+}
+.color-swatch.neutral-lighter-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-lighter-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-lighter-1 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-lighter-1-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-lighter-2 .swatch-normal {
+  background: var(--color--neutral-lighter-2);
+}
+.color-swatch.neutral-lighter-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-lighter-2--contrast);
+}
+.color-swatch.neutral-lighter-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-lighter-2--contrast--emphasized);
+}
+.color-swatch.neutral-lighter-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-lighter-2--contrast--deemphasized);
+}
+.color-swatch.neutral-lighter-2 .swatch-disabled {
+  background: var(--color--neutral-lighter-2-disabled);
+}
+.color-swatch.neutral-lighter-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-lighter-2-disabled--contrast);
+}
+.color-swatch.neutral-lighter-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-lighter-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-lighter-2 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-lighter-2-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-higher-2 .swatch-normal {
+  background: var(--color--neutral-higher-2);
+}
+.color-swatch.neutral-higher-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-higher-2--contrast);
+}
+.color-swatch.neutral-higher-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-higher-2--contrast--emphasized);
+}
+.color-swatch.neutral-higher-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-higher-2--contrast--deemphasized);
+}
+.color-swatch.neutral-higher-2 .swatch-disabled {
+  background: var(--color--neutral-higher-2-disabled);
+}
+.color-swatch.neutral-higher-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-higher-2-disabled--contrast);
+}
+.color-swatch.neutral-higher-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-higher-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-higher-2 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-higher-2-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-higher-1 .swatch-normal {
+  background: var(--color--neutral-higher-1);
+}
+.color-swatch.neutral-higher-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-higher-1--contrast);
+}
+.color-swatch.neutral-higher-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-higher-1--contrast--emphasized);
+}
+.color-swatch.neutral-higher-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-higher-1--contrast--deemphasized);
+}
+.color-swatch.neutral-higher-1 .swatch-disabled {
+  background: var(--color--neutral-higher-1-disabled);
+}
+.color-swatch.neutral-higher-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-higher-1-disabled--contrast);
+}
+.color-swatch.neutral-higher-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-higher-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-higher-1 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-higher-1-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-lower-1 .swatch-normal {
+  background: var(--color--neutral-lower-1);
+}
+.color-swatch.neutral-lower-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-lower-1--contrast);
+}
+.color-swatch.neutral-lower-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-lower-1--contrast--emphasized);
+}
+.color-swatch.neutral-lower-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-lower-1--contrast--deemphasized);
+}
+.color-swatch.neutral-lower-1 .swatch-disabled {
+  background: var(--color--neutral-lower-1-disabled);
+}
+.color-swatch.neutral-lower-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-lower-1-disabled--contrast);
+}
+.color-swatch.neutral-lower-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-lower-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-lower-1 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-lower-1-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-lower-2 .swatch-normal {
+  background: var(--color--neutral-lower-2);
+}
+.color-swatch.neutral-lower-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-lower-2--contrast);
+}
+.color-swatch.neutral-lower-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-lower-2--contrast--emphasized);
+}
+.color-swatch.neutral-lower-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-lower-2--contrast--deemphasized);
+}
+.color-swatch.neutral-lower-2 .swatch-disabled {
+  background: var(--color--neutral-lower-2-disabled);
+}
+.color-swatch.neutral-lower-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-lower-2-disabled--contrast);
+}
+.color-swatch.neutral-lower-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-lower-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-lower-2 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-lower-2-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-variant .swatch-normal {
+  background: var(--color--neutral-variant);
+}
+.color-swatch.neutral-variant .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant--contrast);
+}
+.color-swatch.neutral-variant .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant--contrast--emphasized);
+}
+.color-swatch.neutral-variant .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant--contrast--deemphasized);
+}
+.color-swatch.neutral-variant .swatch-disabled {
+  background: var(--color--neutral-variant-disabled);
+}
+.color-swatch.neutral-variant .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-disabled--contrast);
+}
+.color-swatch.neutral-variant .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-variant-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-normal {
+  background: var(--color--neutral-variant-darker-2);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-darker-2--contrast);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-darker-2--contrast--emphasized);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-darker-2--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-disabled {
+  background: var(--color--neutral-variant-darker-2-disabled);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-darker-2-disabled--contrast);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-darker-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-darker-2 .swatch-disabled .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-darker-2-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-darker-1 .swatch-normal {
+  background: var(--color--neutral-variant-darker-1);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-darker-1--contrast);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-darker-1--contrast--emphasized);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-darker-1--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-disabled {
+  background: var(--color--neutral-variant-darker-1-disabled);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-darker-1-disabled--contrast);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-darker-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-darker-1 .swatch-disabled .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-darker-1-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-normal {
+  background: var(--color--neutral-variant-lighter-1);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-lighter-1--contrast);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-lighter-1--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-lighter-1--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-disabled {
+  background: var(--color--neutral-variant-lighter-1-disabled);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-lighter-1-disabled--contrast);
+}
+.color-swatch.neutral-variant-lighter-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-lighter-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lighter-1
+  .swatch-disabled
+  .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-lighter-1-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-normal {
+  background: var(--color--neutral-variant-lighter-2);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-lighter-2--contrast);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-lighter-2--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-lighter-2--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-disabled {
+  background: var(--color--neutral-variant-lighter-2-disabled);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-lighter-2-disabled--contrast);
+}
+.color-swatch.neutral-variant-lighter-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-lighter-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lighter-2
+  .swatch-disabled
+  .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-lighter-2-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-higher-2 .swatch-normal {
+  background: var(--color--neutral-variant-higher-2);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-higher-2--contrast);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-higher-2--contrast--emphasized);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-higher-2--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-disabled {
+  background: var(--color--neutral-variant-higher-2-disabled);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-higher-2-disabled--contrast);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-higher-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-higher-2 .swatch-disabled .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-higher-2-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-higher-1 .swatch-normal {
+  background: var(--color--neutral-variant-higher-1);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-higher-1--contrast);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-higher-1--contrast--emphasized);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-higher-1--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-disabled {
+  background: var(--color--neutral-variant-higher-1-disabled);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-higher-1-disabled--contrast);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-higher-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-higher-1 .swatch-disabled .contrast-deemphasized {
+  color: var(
+    --color--neutral-variant-higher-1-disabled--contrast--deemphasized
+  );
+}
+.color-swatch.neutral-variant-lower-1 .swatch-normal {
+  background: var(--color--neutral-variant-lower-1);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-lower-1--contrast);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-lower-1--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-lower-1--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-disabled {
+  background: var(--color--neutral-variant-lower-1-disabled);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-lower-1-disabled--contrast);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-lower-1-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lower-1 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-variant-lower-1-disabled--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-normal {
+  background: var(--color--neutral-variant-lower-2);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-normal .swatch-label {
+  color: var(--color--neutral-variant-lower-2--contrast);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-normal .contrast-emphasized {
+  color: var(--color--neutral-variant-lower-2--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-normal .contrast-deemphasized {
+  color: var(--color--neutral-variant-lower-2--contrast--deemphasized);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-disabled {
+  background: var(--color--neutral-variant-lower-2-disabled);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-disabled .swatch-label {
+  color: var(--color--neutral-variant-lower-2-disabled--contrast);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-disabled .contrast-emphasized {
+  color: var(--color--neutral-variant-lower-2-disabled--contrast--emphasized);
+}
+.color-swatch.neutral-variant-lower-2 .swatch-disabled .contrast-deemphasized {
+  color: var(--color--neutral-variant-lower-2-disabled--contrast--deemphasized);
+}
 .color-swatch.error .swatch-normal {
   background: var(--color--error);
 }
@@ -5464,120 +7287,6 @@ body {
   color: var(--color--error-lower-2-disabled--contrast--deemphasized);
 }
 
-.semantic-swatch {
-  display: flex;
-  flex-direction: row;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.semantic-swatch .swatch-body {
-  flex: 1;
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.semantic-swatch .swatch-label {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
-}
-.semantic-swatch .token-name {
-  font-size: 0.72rem;
-  opacity: 0.65;
-  font-family: "Courier New", monospace;
-}
-.semantic-swatch.swatch-background .swatch-body {
-  background: var(--color--background);
-  color: var(--color--on-background);
-}
-.semantic-swatch.swatch-background .swatch-body .swatch-label {
-  color: var(--color--on-background);
-}
-.semantic-swatch.swatch-background .swatch-body .token-name {
-  color: var(--color--on-background);
-}
-.semantic-swatch.swatch-surface .swatch-body {
-  background: var(--color--surface);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-dim .swatch-body {
-  background: var(--color--surface-dim);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-dim .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-dim .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-bright .swatch-body {
-  background: var(--color--surface-bright);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-bright .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-bright .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-lowest .swatch-body {
-  background: var(--color--surface-container-lowest);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-lowest .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-lowest .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-low .swatch-body {
-  background: var(--color--surface-container-low);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-low .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-low .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container .swatch-body {
-  background: var(--color--surface-container);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-high .swatch-body {
-  background: var(--color--surface-container-high);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-high .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-high .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-highest .swatch-body {
-  background: var(--color--surface-container-highest);
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-highest .swatch-body .swatch-label {
-  color: var(--color--on-surface);
-}
-.semantic-swatch.swatch-surface-container-highest .swatch-body .token-name {
-  color: var(--color--on-surface);
-}
-
 .tint-demo {
   padding: 1.5rem;
   background: var(--color--surface);
@@ -5590,7 +7299,7 @@ body {
 }
 .tint-demo .tint-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   gap: 0.5rem;
 }
 .tint-demo .tint-item {
@@ -5624,6 +7333,12 @@ body {
 }
 .tint-demo .tint-item.tint-7 {
   background: var(--color--primary-tint-7);
+}
+.tint-demo .tint-item.tint-8 {
+  background: var(--color--primary-tint-8);
+}
+.tint-demo .tint-item.tint-9 {
+  background: var(--color--primary-tint-9);
 }
 
 .mode-note {

@@ -22,11 +22,61 @@
   // Neutral: desaturated primary (used for surface/background)
   --color--neutral: var(
     --color--neutral-override,
-    color-mix(in oklab, var(--color--primary) 20%, #9e9e9e 80%)
+    light-dark(
+      color-mix(in oklab, var(--color--primary) 5%, #dadada 95%),
+      color-mix(in oklab, var(--color--primary) 5%, #1c1b1f 95%)
+    )
+  );
+
+  // Neutral variant: slightly more chromatic than neutral (for outlines, input borders, chips)
+  --color--neutral-variant: var(
+    --color--neutral-variant-override,
+    light-dark(
+      color-mix(in oklab, var(--color--primary) 10%, #dadada 90%),
+      color-mix(in oklab, var(--color--primary) 10%, #1c1b1f 90%)
+    )
   );
 
   // Error: default red if not provided
   --color--error: var(--color--error-override, #f44336);
+}
+
+// Generate MD3 role aliases — maps semantic MD3 names to palette variants
+@mixin generate-md3-role-aliases() {
+  // on-X: contrast of the base role color
+  --color--on-primary: var(--color--primary--contrast);
+  --color--on-secondary: var(--color--secondary--contrast);
+  --color--on-tertiary: var(--color--tertiary--contrast);
+  --color--on-error: var(--color--error--contrast);
+
+  // X-container: lower-1 variant (lighter in light mode, darker in dark mode)
+  --color--primary-container: var(--color--primary-lower-1);
+  --color--secondary-container: var(--color--secondary-lower-1);
+  --color--tertiary-container: var(--color--tertiary-lower-1);
+  --color--error-container: var(--color--error-lower-1);
+
+  // on-X-container: contrast of the container variant
+  --color--on-primary-container: var(--color--primary-lower-1--contrast);
+  --color--on-secondary-container: var(--color--secondary-lower-1--contrast);
+  --color--on-tertiary-container: var(--color--tertiary-lower-1--contrast);
+  --color--on-error-container: var(--color--error-lower-1--contrast);
+
+  // Inverse surface: flipped-mode neutral (higher-2 = dark in light, light in dark)
+  --color--inverse-surface: var(--color--neutral-higher-2);
+  --color--inverse-on-surface: var(--color--neutral-higher-2--contrast);
+
+  // Surface tint: primary at low opacity for elevation overlays
+  --color--surface-tint: var(--color--primary-tint-1);
+
+  // Shadow: darkest neutral
+  --color--shadow: var(--color--neutral-darker-2);
+
+  // Scrim: semi-transparent dark overlay for modals/drawers
+  --color--scrim: oklch(from var(--color--neutral-darker-2) l c h / 50%);
+
+  // Outline: from neutral-variant (more chromatic than neutral)
+  --color--outline: var(--color--neutral-variant-lower-1);
+  --color--outline-variant: var(--color--neutral-variant-lighter-1);
 }
 
 // Generate surface and background colors from neutral palette
