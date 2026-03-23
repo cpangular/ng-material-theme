@@ -1,0 +1,117 @@
+// Palette Config Expansion
+// Normalizes any user-provided palette config into a canonical Sass map.
+// All color values resolved at SCSS compile time — no CSS var references.
+
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+@use "./contrast-utils" as contrast-utils;
+
+// ── Public ────────────────────────────────────────────────────────────────────
+
+// Normalize any palette config input form into a canonical map.
+//
+// Input forms:
+//   single color:  primary: #3f51b5
+//   list (l,d):    primary: (#6200ee, #bb86fc)
+//   object:        primary: (value: ..., contrast: ..., blend-darker-2: 25%, ...)
+//
+// Output map always contains:
+//   base-light, base-dark           — the source colors per mode
+//   contrast-base-light/dark        — auto-calculated if not provided
+//
+// Plus any user-specified per-palette overrides (blend-*, opacity*, disabled-*, contrast-blend-*)
+// passed through verbatim so generate-palette-config-vars() can detect them with map.has-key().
+@function expand($raw-config) {
+  $light: null;
+  $dark: null;
+  $contrast-light: null;
+  $contrast-dark: null;
+  $overrides: ();
+
+  @if meta.type-of($raw-config) == "color" {
+    $light: $raw-config;
+    $dark: $raw-config;
+  } @else if meta.type-of($raw-config) == "string" {
+    $light: $raw-config;
+    $dark: $raw-config;
+  } @else if meta.type-of($raw-config) == "list" {
+    $light: list.nth($raw-config, 1);
+    $dark: list.nth($raw-config, 2);
+  } @else if meta.type-of($raw-config) == "map" {
+    $value: map.get($raw-config, "value");
+
+    @if $value == null {
+      // Treat the whole map as if it had value: $raw-config — shouldn't happen but be safe
+      $light: black;
+      $dark: black;
+    } @else if meta.type-of($value) == "list" {
+      $light: list.nth($value, 1);
+      $dark: list.nth($value, 2);
+    } @else {
+      $light: $value;
+      $dark: $value;
+    }
+
+    // Extract user-provided contrast
+    $contrast: map.get($raw-config, "contrast");
+    @if $contrast != null {
+      @if meta.type-of($contrast) == "list" {
+        $contrast-light: list.nth($contrast, 1);
+        $contrast-dark: list.nth($contrast, 2);
+      } @else {
+        $contrast-light: $contrast;
+        $contrast-dark: $contrast;
+      }
+    }
+
+    // Pass through any per-palette config overrides verbatim.
+    // generate-palette-config-vars() uses map.has-key() to detect them.
+    $override-keys: (
+      "blend-darker-2",
+      "blend-darker-1",
+      "blend-lighter-1",
+      "blend-lighter-2",
+      "opacity1",
+      "opacity2",
+      "opacity3",
+      "opacity4",
+      "opacity5",
+      "opacity6",
+      "opacity7",
+      "opacity8",
+      "opacity9",
+      "disabled-saturation",
+      "disabled-foreground-opacity",
+      "disabled-background-opacity",
+      "contrast-blend-emphasized",
+      "contrast-blend",
+      "contrast-blend-deemphasized"
+    );
+    @each $key in $override-keys {
+      @if map.has-key($raw-config, $key) {
+        $overrides: map.set($overrides, $key, map.get($raw-config, $key));
+      }
+    }
+  }
+
+  // Auto-calculate contrast if not user-provided
+  @if $contrast-light == null {
+    $contrast-light: contrast-utils.calculate-optimal-contrast($light);
+  }
+  @if $contrast-dark == null {
+    $contrast-dark: contrast-utils.calculate-optimal-contrast($dark);
+  }
+
+  // Build canonical map
+  $result: (
+    "base-light": $light,
+    "base-dark": $dark,
+    "contrast-base-light": $contrast-light,
+    "contrast-base-dark": $contrast-dark,
+  );
+  // Merge in user overrides (blend, opacity, disabled, contrast-blend)
+  $result: map.merge($result, $overrides);
+
+  @return $result;
+}

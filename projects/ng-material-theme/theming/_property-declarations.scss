@@ -75,22 +75,23 @@ $_contrast-blend-defaults: (
   }
 }
 
-// Register color, contrast, disabled color, and disabled contrast for one slot.
-// e.g. $slot = --color--primary-darker-2  or  --color--primary
-@mixin _register-color-slot($slot, $default-color) {
-  @property #{$slot} {
+// Register a color step: the color itself, its 4 contrast vars,
+// its disabled color, and the disabled 4 contrast vars.
+// A step is one level of a palette (e.g. primary-darker-2, primary-inverse).
+@mixin _register-color-step($step, $default-color) {
+  @property #{$step} {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-color};
   }
-  @include _register-contrast-vars(#{$slot}--contrast);
+  @include _register-contrast-vars(#{$step}--contrast);
 
-  @property #{$slot}-disabled {
+  @property #{$step}-disabled {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-color};
   }
-  @include _register-contrast-vars(#{$slot}-disabled--contrast);
+  @include _register-contrast-vars(#{$step}-disabled--contrast);
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
@@ -98,39 +99,48 @@ $_contrast-blend-defaults: (
 // Register ALL @property declarations for a single palette.
 // Call this at root level once per palette name.
 @mixin register-palette-properties($name, $default-color) {
-  // Light and dark base color inputs.
-  // createTheme sets these; derive-colors() produces --color--#{$name} via light-dark().
-  @property --color--#{$name}--light {
+  /* ── #{$name} ─── Light/Dark Input Colors ──────────────────────────────── */
+  @property --theme--light--color--#{$name} {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-color};
   }
-  @property --color--#{$name}--dark {
+  @property --theme--dark--color--#{$name} {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #{$default-color};
+  }
+  // Disabled base intermediates (used by contrast 3-pass)
+  @property --theme--light--color--#{$name}-disabled {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #{$default-color};
+  }
+  @property --theme--dark--color--#{$name}-disabled {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-color};
   }
 
-  // Base color + contrast + disabled
-  @include _register-color-slot(--color--#{$name}, $default-color);
+  /* ── #{$name} ─── Base Color ───────────────────────────────────────────── */
+  @include _register-color-step(--color--#{$name}, $default-color);
+  // Base inverse step
+  @include _register-color-step(--color--#{$name}-inverse, $default-color);
 
-  // Light/dark contrast input vars for the base palette slot.
-  // generate-contrast-colors() computes --base via light-dark() from these.
-  // createTheme may set them explicitly; the initial-value is the SCSS-computed
-  // optimal contrast of the palette's default color.
+  /* ── #{$name} ─── Contrast Inputs ──────────────────────────────────────── */
   $default-contrast: contrast-utils.calculate-optimal-contrast($default-color);
-  @property --color--#{$name}--contrast--base--light {
+  @property --theme--light--color--#{$name}--contrast--base {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-contrast};
   }
-  @property --color--#{$name}--contrast--base--dark {
+  @property --theme--dark--color--#{$name}--contrast--base {
     syntax: "<color>";
     inherits: true;
     initial-value: #{$default-contrast};
   }
 
-  // Lighter/darker and mode-relative variants
+  /* ── #{$name} ─── Variants ──────────────────────────────────────────────── */
   @each $variant
     in (
       darker-2,
@@ -143,21 +153,65 @@ $_contrast-blend-defaults: (
       lower-2
     )
   {
-    @include _register-color-slot(
+    // Per-mode intermediates for 3-pass
+    @property --theme--light--color--#{$name}-#{$variant} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    @property --theme--dark--color--#{$name}-#{$variant} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    @property --theme--light--color--#{$name}-#{$variant}-disabled {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    @property --theme--dark--color--#{$name}-#{$variant}-disabled {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    // Join step (normal + inverse, each auto-gets disabled + 4 contrast sub-vars)
+    @include _register-color-step(
       --color--#{$name}-#{$variant},
+      $default-color
+    );
+    @include _register-color-step(
+      --color--#{$name}-#{$variant}-inverse,
       $default-color
     );
   }
 
-  // Tints (9 opacity levels)
+  /* ── #{$name} ─── Tints ─────────────────────────────────────────────────── */
   @each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
+    // Per-mode intermediates
+    @property --theme--light--color--#{$name}-tint-#{$i} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    @property --theme--dark--color--#{$name}-tint-#{$i} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    // Join + inverse (no disabled/contrast for tints)
     @property --color--#{$name}-tint-#{$i} {
+      syntax: "<color>";
+      inherits: true;
+      initial-value: #{$default-color};
+    }
+    @property --color--#{$name}-tint-#{$i}-inverse {
       syntax: "<color>";
       inherits: true;
       initial-value: #{$default-color};
     }
   }
 
+  /* ── #{$name} ─── Config Vars ───────────────────────────────────────────── */
   // Blend percentages: computed only (overrides must stay unregistered so
   // var(--X-blend-override, var(--theme--blend)) fallback chain works)
   @each $label, $default in $_blend-defaults {
@@ -214,7 +268,7 @@ $_contrast-blend-defaults: (
 // ── Theme-level properties ────────────────────────────────────────────────────
 
 @mixin register-theme-level-properties() {
-  // Blend percentages
+  /* ── Theme: Blend Percentages ───────────────────────────────────────────── */
   @each $label, $default in $_blend-defaults {
     @property --theme--blend--#{$label} {
       syntax: "<percentage>";
@@ -223,7 +277,7 @@ $_contrast-blend-defaults: (
     }
   }
 
-  // Opacity levels (9 levels; 2–4 align with MD3 state layers)
+  /* ── Theme: Opacity Levels ─────────────────────────────────────────────── */
   @each $i, $val in $_opacity-defaults {
     @property --theme--opacity--#{$i} {
       syntax: "<percentage>";
@@ -232,7 +286,7 @@ $_contrast-blend-defaults: (
     }
   }
 
-  // Contrast blends
+  /* ── Theme: Contrast Blends ────────────────────────────────────────────── */
   @property --theme--contrast-blend--emphasized {
     syntax: "<percentage>";
     inherits: true;
@@ -249,7 +303,7 @@ $_contrast-blend-defaults: (
     initial-value: 80%;
   }
 
-  // Disabled state
+  /* ── Theme: Disabled State ─────────────────────────────────────────────── */
   @property --theme--disabled-saturation {
     syntax: "<percentage>";
     inherits: true;

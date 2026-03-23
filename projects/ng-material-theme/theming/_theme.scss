@@ -1,16 +1,17 @@
 // Main Theme Mixin
-// Brings together all the pieces to create a complete theme
+// Thin override layer — sets upstream --theme--light/dark--color--X vars.
+// All variant computation lives in core()'s :root block as CSS var chains.
 
 @use "sass:map";
 @use "sass:list";
 @use "sass:meta";
 @use "./color-variants" as variants;
 @use "./color-derivation" as derivation;
-@use "./contrast-utils" as contrast;
 @use "./material-bridge" as bridge;
 @use "./typography" as typo;
 @use "./density" as dens;
 @use "./property-declarations" as props;
+@use "./config-expansion" as config-expansion;
 
 // Standard palettes registered by core() — no need to re-declare in createTheme.
 $_standard-palettes: (
@@ -23,16 +24,13 @@ $_standard-palettes: (
 );
 
 @mixin createTheme($name, $config, $is-default: false) {
-  // Parse config (no mode property with light-dark()!)
+  // Parse config
   $colors: map.get($config, "colors");
   $typography: map.get($config, "typography");
   $density: map.get($config, "density") or 0;
   $blends: map.get($config, "blends");
   $opacities: map.get($config, "opacities");
   $contrast-blends: map.get($config, "contrast-blends");
-
-  // No mode suffix - themes are universal with light-dark()
-  $theme-name: $name;
 
   // Register @property declarations for any non-standard palette names.
   // Must be at root level (outside any selector) so CSS @property rules are valid.
@@ -49,124 +47,70 @@ $_standard-palettes: (
   }
 
   // Generate theme selector
-  $selector: if(
-    $is-default,
-    ':root, [theme="#{$theme-name}"]',
-    '[theme="#{$theme-name}"]'
-  );
+  $selector: if($is-default, ':root, [theme="#{$name}"]', '[theme="#{$name}"]');
 
   #{$selector} {
-    // Generate theme-level defaults (always emit, user config overrides defaults)
+    /* ── Theme Defaults ───────────────────────────────────────────────────── */
     @include variants.generate-theme-defaults($blends or ());
     @include variants.generate-theme-opacity-defaults($opacities or ());
     @include variants.generate-theme-contrast-blend-defaults(
       $contrast-blends or ()
     );
 
-    // Set base colors (user-provided)
-    @each $palette-name, $palette-config in $colors {
-      @if meta.type-of($palette-config) ==
-        "string" or
-        meta.type-of($palette-config) ==
-        "color"
-      {
-        // Simple form: colors: (primary: '#3f51b5') or colors: (primary: #3f51b5)
-        // Same value for both light and dark modes
-        --color--#{$palette-name}--light: #{$palette-config};
-        --color--#{$palette-name}--dark: #{$palette-config};
-        // Calculate optimal contrast color for both modes
-        $optimal-contrast: contrast.calculate-optimal-contrast($palette-config);
-        --color--#{$palette-name}--contrast--base--light: #{$optimal-contrast};
-        --color--#{$palette-name}--contrast--base--dark: #{$optimal-contrast};
-        // Generate all variants with empty config (no overrides)
-        @include variants.generate-all-variants($palette-name, ());
-      } @else if meta.type-of($palette-config) == "list" {
-        // Array form: colors: (primary: ('#6200ee', '#bb86fc'))
-        $light: list.nth($palette-config, 1);
-        $dark: list.nth($palette-config, 2);
-        --color--#{$palette-name}--light: #{$light};
-        --color--#{$palette-name}--dark: #{$dark};
-        // Calculate optimal contrast for both light and dark values
-        $light-contrast: contrast.calculate-optimal-contrast($light);
-        $dark-contrast: contrast.calculate-optimal-contrast($dark);
-        --color--#{$palette-name}--contrast--base--light: #{$light-contrast};
-        --color--#{$palette-name}--contrast--base--dark: #{$dark-contrast};
-        // Generate all variants with empty config (no overrides)
-        @include variants.generate-all-variants($palette-name, ());
-      } @else {
-        // Object form: colors: (primary: (value: '#3f51b5', contrast: white))
-        // or: colors: (primary: (value: ('#6200ee', '#bb86fc'), contrast: (black, white)))
-        $value: map.get($palette-config, "value");
+    /* ── Palette Overrides ────────────────────────────────────────────────── */
+    // For each user-provided palette: expand config, set --theme--light/dark-- upstream
+    // vars, and emit any per-palette config overrides (blend/opacity/disabled/contrast-blend).
+    // Variant computation already lives in :root (from core()); CSS var cascading handles the rest.
+    @if $colors {
+      @each $palette-name, $raw in $colors {
+        $expanded: config-expansion.expand($raw);
 
-        @if meta.type-of($value) == "list" {
-          $light: list.nth($value, 1);
-          $dark: list.nth($value, 2);
-          --color--#{$palette-name}--light: #{$light};
-          --color--#{$palette-name}--dark: #{$dark};
-        } @else {
-          --color--#{$palette-name}--light: #{$value};
-          --color--#{$palette-name}--dark: #{$value};
+        // Override upstream color inputs (CSS cascade flows into :root var chains)
+        --theme--light--color--#{$palette-name}: #{map.get(
+            $expanded,
+            "base-light"
+          )};
+        --theme--dark--color--#{$palette-name}: #{map.get(
+            $expanded,
+            "base-dark"
+          )};
+        --theme--light--color--#{$palette-name}--contrast--base: #{map.get(
+            $expanded,
+            "contrast-base-light"
+          )};
+        --theme--dark--color--#{$palette-name}--contrast--base: #{map.get(
+            $expanded,
+            "contrast-base-dark"
+          )};
+
+        // Per-palette config overrides (blend, opacity, disabled, contrast-blend)
+        @include variants.generate-palette-config-vars(
+          $palette-name,
+          $expanded
+        );
+
+        // For non-standard palettes: also run the 3-pass emission (not covered by core())
+        @if not list.index($_standard-palettes, $palette-name) {
+          @include variants.emit-mode-vars($palette-name, light);
+          @include variants.emit-mode-vars($palette-name, dark);
+          @include variants.emit-join-vars($palette-name);
+          @include variants.emit-join-contrast-vars($palette-name);
         }
-
-        // User contrast override (or calculate if not provided)
-        @if map.has-key($palette-config, "contrast") {
-          $contrast: map.get($palette-config, "contrast");
-          @if meta.type-of($contrast) == "list" {
-            $light-contrast: list.nth($contrast, 1);
-            $dark-contrast: list.nth($contrast, 2);
-            --color--#{$palette-name}--contrast--base--light: #{$light-contrast};
-            --color--#{$palette-name}--contrast--base--dark: #{$dark-contrast};
-          } @else {
-            --color--#{$palette-name}--contrast--base--light: #{$contrast};
-            --color--#{$palette-name}--contrast--base--dark: #{$contrast};
-          }
-        } @else {
-          // No user contrast, calculate optimal from value
-          @if meta.type-of($value) == "list" {
-            $light: list.nth($value, 1);
-            $dark: list.nth($value, 2);
-            $light-contrast: contrast.calculate-optimal-contrast($light);
-            $dark-contrast: contrast.calculate-optimal-contrast($dark);
-            --color--#{$palette-name}--contrast--base--light: #{$light-contrast};
-            --color--#{$palette-name}--contrast--base--dark: #{$dark-contrast};
-          } @else {
-            $optimal-contrast: contrast.calculate-optimal-contrast($value);
-            --color--#{$palette-name}--contrast--base--light: #{$optimal-contrast};
-            --color--#{$palette-name}--contrast--base--dark: #{$optimal-contrast};
-          }
-        }
-
-        // Generate all variants for this palette (includes overrides and computed values)
-        @include variants.generate-all-variants($palette-name, $palette-config);
       }
     }
 
-    // Auto-derive missing colors
-    @include derivation.derive-colors();
-
-    // Generate variants for all standard palettes (if not already done)
-    // This ensures primary, secondary, tertiary, neutral, neutral-variant, and error get their lighter/darker variants
-    @each $palette
-      in (primary, secondary, tertiary, neutral, neutral-variant, error)
-    {
-      @if not map.has-key($colors, $palette) {
-        // This palette wasn't in the user config, so generate its variants now
-        @include variants.generate-all-variants($palette, ());
-      }
-    }
-
-    // MD3 semantic role aliases (on-X, X-container, inverse-*, etc.)
+    /* ── MD3 Semantic Role Aliases ────────────────────────────────────────── */
     @include derivation.generate-md3-role-aliases();
 
-    // Typography
+    /* ── Typography ───────────────────────────────────────────────────────── */
     @if $typography {
       @include typo.generate-typography($typography);
     }
 
-    // Density
+    /* ── Density ──────────────────────────────────────────────────────────── */
     @include dens.apply-density($density);
 
-    // Map to Material M3 tokens
+    /* ── Material M3 Token Bridge ─────────────────────────────────────────── */
     @include bridge.map-to-material();
   }
 }

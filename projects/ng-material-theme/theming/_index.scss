@@ -8,6 +8,8 @@
 @use "./theme" as internal-theme;
 @use "./property-declarations" as props;
 @use "./density" as dens;
+@use "./color-variants" as variants;
+@use "./color-derivation" as derivation;
 
 // Main API
 @mixin core() {
@@ -19,6 +21,62 @@
 
   // Density selectors
   @include dens.density-selectors();
+
+  // ── Root computation block ──────────────────────────────────────────────────
+  // Sets up ALL CSS-only var chains for all 6 standard palettes.
+  // Each palette is fully computed from its --theme--light/dark--color--X inputs.
+  // createTheme() only needs to override those 2 upstream vars (+ optional contrast).
+  // Secondary/tertiary/neutral/neutral-variant derive from primary at CSS time via oklch().
+  :root {
+    /* ── CSS-time derivation: secondary/tertiary/neutral/neutral-variant from primary ── */
+    // Light mode derivations
+    --theme--light--color--secondary: oklch(
+      from var(--theme--light--color--primary) l calc(c * 0.6) h
+    );
+    --theme--light--color--tertiary: oklch(
+      from var(--theme--light--color--primary) l c calc(h + 60)
+    );
+    --theme--light--color--neutral: oklch(
+      from var(--theme--light--color--primary) l max(c * 0.05, 0.01) h
+    );
+    --theme--light--color--neutral-variant: oklch(
+      from var(--theme--light--color--primary) l max(c * 0.12, 0.02) h
+    );
+
+    // Dark mode derivations (from dark primary)
+    --theme--dark--color--secondary: oklch(
+      from var(--theme--dark--color--primary) l calc(c * 0.6) h
+    );
+    --theme--dark--color--tertiary: oklch(
+      from var(--theme--dark--color--primary) l c calc(h + 60)
+    );
+    --theme--dark--color--neutral: oklch(
+      from var(--theme--dark--color--primary) l max(c * 0.05, 0.01) h
+    );
+    --theme--dark--color--neutral-variant: oklch(
+      from var(--theme--dark--color--primary) l max(c * 0.12, 0.02) h
+    );
+
+    /* ── Base light-dark() joins ──────────────────────────────────────────── */
+    @include derivation.derive-colors();
+
+    /* ── Config chain vars for all 6 palettes ────────────────────────────── */
+    @each $palette-name
+      in (primary, secondary, tertiary, neutral, neutral-variant, error)
+    {
+      @include variants.generate-palette-config-vars($palette-name, ());
+    }
+
+    /* ── 3-pass variant computation for all 6 palettes ───────────────────── */
+    @each $palette-name
+      in (primary, secondary, tertiary, neutral, neutral-variant, error)
+    {
+      @include variants.emit-mode-vars($palette-name, light);
+      @include variants.emit-mode-vars($palette-name, dark);
+      @include variants.emit-join-vars($palette-name);
+      @include variants.emit-join-contrast-vars($palette-name);
+    }
+  }
 }
 
 // Re-export theme mixin

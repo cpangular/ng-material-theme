@@ -106,10 +106,12 @@ body {
   gap: 0.5rem;
 }
 
-// Mixin for split swatch: normal (left) / disabled (right)
+// Mixin for 4-quarter swatch: normal / disabled / inverse / inverse-disabled
 @mixin color-swatch-variant($palette, $variant: null) {
   $base: if($variant, --color--#{$palette}-#{$variant}, --color--#{$palette});
   $dis: #{$base}-disabled;
+  $inv: #{$base}-inverse;
+  $inv-dis: #{$base}-inverse-disabled;
 
   .swatch-normal {
     background: var(#{$base});
@@ -135,6 +137,30 @@ body {
       color: var(#{$dis}--contrast--deemphasized);
     }
   }
+  .swatch-inverse {
+    background: var(#{$inv});
+    .swatch-label {
+      color: var(#{$inv}--contrast);
+    }
+    .contrast-emphasized {
+      color: var(#{$inv}--contrast--emphasized);
+    }
+    .contrast-deemphasized {
+      color: var(#{$inv}--contrast--deemphasized);
+    }
+  }
+  .swatch-inverse-disabled {
+    background: var(#{$inv-dis});
+    .swatch-label {
+      color: var(#{$inv-dis}--contrast);
+    }
+    .contrast-emphasized {
+      color: var(#{$inv-dis}--contrast--emphasized);
+    }
+    .contrast-deemphasized {
+      color: var(#{$inv-dis}--contrast--deemphasized);
+    }
+  }
 }
 
 .color-swatch {
@@ -143,7 +169,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
 
-  .swatch-half {
+  .swatch-quarter {
     flex: 1;
     padding: 0.75rem;
     display: flex;
@@ -152,6 +178,14 @@ body {
   }
 
   .swatch-disabled {
+    border-left: 2px solid rgba(128, 128, 128, 0.25);
+  }
+
+  .swatch-inverse {
+    border-left: 2px solid rgba(0, 0, 0, 0.15);
+  }
+
+  .swatch-inverse-disabled {
     border-left: 2px solid rgba(128, 128, 128, 0.25);
   }
 
@@ -350,48 +384,29 @@ body {
 }
 
 // Fixed roles swatch (single full-width, no disabled split)
-.color-swatch-fixed {
+.color-swatch-inverse {
   border-radius: 8px;
   overflow: hidden;
   min-height: 80px;
-  padding: 0.75rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  flex-direction: row;
 
-  .swatch-label {
-    font-weight: 600;
-    font-size: 1rem;
+  .swatch-third {
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .swatch-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
   }
 
-  .swatch-sublabel {
-    font-size: 0.8rem;
-    opacity: 0.85;
-  }
-
-  &.primary-fixed {
-    background: var(--mat-sys-primary-fixed);
-    color: var(--mat-sys-on-primary-fixed);
-  }
-  &.primary-fixed-dim {
-    background: var(--mat-sys-primary-fixed-dim);
-    color: var(--mat-sys-on-primary-fixed-variant);
-  }
-  &.secondary-fixed {
-    background: var(--mat-sys-secondary-fixed);
-    color: var(--mat-sys-on-secondary-fixed);
-  }
-  &.secondary-fixed-dim {
-    background: var(--mat-sys-secondary-fixed-dim);
-    color: var(--mat-sys-on-secondary-fixed-variant);
-  }
-  &.tertiary-fixed {
-    background: var(--mat-sys-tertiary-fixed);
-    color: var(--mat-sys-on-tertiary-fixed);
-  }
-  &.tertiary-fixed-dim {
-    background: var(--mat-sys-tertiary-fixed-dim);
-    color: var(--mat-sys-on-tertiary-fixed-variant);
+  .swatch-inverse-col {
+    border-left: 2px solid rgba(0, 0, 0, 0.15);
+    border-right: 2px solid rgba(0, 0, 0, 0.15);
   }
 }
 
