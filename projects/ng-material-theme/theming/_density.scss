@@ -1,12 +1,14 @@
 // Density System
 // Material components can adjust spacing based on density level
+// TODO: Will be implemented shortly
 
 @mixin density-selectors() {
   // Density levels: 0 (default), -1, -2, -3, -4, -5
   // Each level reduces component size/spacing
   // Material M3 components will respond to density CSS variables
 
-  // For now, placeholder - Material handles most of this internally
+  // Placeholder: density selectors will be implemented
+  // Material handles most of this internally for now
 }
 
 @mixin apply-density($density: 0) {

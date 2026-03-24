@@ -55,10 +55,3 @@
     @return white;
   }
 }
-
-// Calculate contrast ratio between two colors (for validation)
-@function contrast-ratio($fg, $lum1, $lum2) {
-  $lighter: math.max($lum1, $lum2);
-  $darker: math.min($lum1, $lum2);
-  @return math.div($lighter + 0.05, $darker + 0.05);
-}

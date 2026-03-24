@@ -1,0 +1,159 @@
+// Palette Utilities
+// Helper mixins for applying color palettes to containers and components
+
+/// Apply palette variables to a container element
+/// Sets container-level CSS variables for color, background, and border that
+/// descendant elements can reference.
+///
+/// @param {String} $palette - Palette name (primary, secondary, tertiary, error, neutral, neutral-variant)
+/// @param {String} $variant [null] - Variant step (darker-1, darker-2, lighter-1, lighter-2, higher-1, higher-2, lower-1, lower-2, or tint-1 through tint-9)
+/// @param {Boolean} $reverse-mode [false] - Use reverse-mode variant (swaps light/dark values)
+/// @param {Boolean} $disabled [false] - Use disabled state
+/// @param {Boolean} $set-material-vars [false] - Also set Material Design container tokens (--mat-sys-*)
+/// @param {String} $style [filled] - Container style: 'filled' (bg=palette, text=contrast), 'text' (bg=transparent, text=palette), 'normal' (bg=inherit, text=palette)
+///
+/// @example scss - Filled container (default)
+///   .my-container {
+///     @include apply-container-vars(primary);
+///   }
+///
+/// @example scss - Text style (transparent background)
+///   .my-button {
+///     @include apply-container-vars(primary, $style: text);
+///   }
+///
+/// @example scss - Normal style (inherited background)
+///   .my-label {
+///     @include apply-container-vars(primary, $style: normal);
+///   }
+@mixin apply-container-vars(
+  $palette,
+  $variant: null,
+  $reverse-mode: false,
+  $disabled: false,
+  $set-material-vars: false,
+  $style: filled
+) {
+  // Build the base variable name
+  $base: --color--#{$palette};
+
+  // Add variant suffix if provided
+  @if $variant {
+    $base: #{$base}-#{$variant};
+  }
+
+  // Add reverse-mode suffix if needed (goes before disabled in the name)
+  @if $reverse-mode and $disabled {
+    $base: #{$base}-reverse-mode-disabled;
+  } @else if $reverse-mode {
+    $base: #{$base}-reverse-mode;
+  } @else if $disabled {
+    $base: #{$base}-disabled;
+  }
+
+  // Set container variables based on style
+  @if $style == filled {
+    // Filled: bg = palette color, text = contrast color
+    --container-bg-color: var(#{$base});
+    --container-color: var(#{$base}--contrast);
+    --container-border-color: var(#{$base});
+    --container-color--high: var(#{$base}--contrast--high);
+    --container-color--low: var(#{$base}--contrast--low);
+  } @else if $style == text {
+    // Text: bg = transparent, text = palette color
+    --container-bg-color: transparent;
+    --container-color: var(#{$base});
+    --container-border-color: var(#{$base});
+    --container-color--high: var(#{$base}-higher-1);
+    --container-color--low: var(#{$base}-lower-1);
+  } @else if $style == normal {
+    // Normal: bg = inherit, text = palette color
+    --container-bg-color: inherit;
+    --container-color: var(#{$base});
+    --container-border-color: var(#{$base});
+    --container-color--high: var(#{$base}-higher-1);
+    --container-color--low: var(#{$base}-lower-1);
+  }
+
+  // Optional: set Material Design container tokens
+  // Only applies to base palette colors (not variants/reverse-mode/disabled)
+  @if $set-material-vars and not
+    $variant and not
+    $reverse-mode and not
+    $disabled
+  {
+    --mat-sys-#{$palette}-container: var(#{$base});
+    --mat-sys-on-#{$palette}-container: var(#{$base}--contrast);
+  }
+}
+
+/// Apply palette to a container element with both vars and properties
+/// Calls apply-container-vars and then sets the actual CSS properties.
+///
+/// @param {String} $palette - Palette name (primary, secondary, tertiary, error, neutral, neutral-variant)
+/// @param {String} $variant [null] - Variant step (darker-1, darker-2, lighter-1, lighter-2, higher-1, higher-2, lower-1, lower-2, or tint-1 through tint-9)
+/// @param {Boolean} $reverse-mode [false] - Use reverse-mode variant (swaps light/dark values)
+/// @param {Boolean} $disabled [false] - Use disabled state
+/// @param {Boolean} $set-material-vars [false] - Also set Material Design container tokens (--mat-sys-*)
+/// @param {String} $style [filled] - Container style: 'filled' (bg=palette, text=contrast), 'text' (bg=transparent, text=palette), 'normal' (bg=inherit, text=palette)
+/// @param {String} $border [null] - Border thickness (e.g., 1px, 2px). When set, applies solid border with container-border-color
+/// @param {Number} $elevation [null] - Elevation level (0-5). When set, applies elevation shadow
+///
+/// @example scss - Filled container (default)
+///   .my-card {
+///     @include apply-container(primary);
+///   }
+///
+/// @example scss - Text style button
+///   .my-button {
+///     @include apply-container(primary, $style: text);
+///   }
+///
+/// @example scss - With border
+///   .my-card {
+///     @include apply-container(primary, $border: 2px);
+///   }
+///
+/// @example scss - With elevation
+///   .my-card {
+///     @include apply-container(primary, $elevation: 1);
+///   }
+///
+/// @example scss - Combined features
+///   .my-button {
+///     @include apply-container(secondary, darker-1, $style: filled, $border: 1px, $elevation: 1);
+///   }
+@mixin apply-container(
+  $palette,
+  $variant: null,
+  $reverse-mode: false,
+  $disabled: false,
+  $set-material-vars: false,
+  $style: filled,
+  $border: null,
+  $elevation: null
+) {
+  // Set container variables
+  @include apply-container-vars(
+    $palette,
+    $variant,
+    $reverse-mode,
+    $disabled,
+    $set-material-vars,
+    $style
+  );
+
+  // Apply CSS properties using the container variables
+  background: var(--container-bg-color);
+  color: var(--container-color);
+
+  // Apply border if specified
+  @if $border {
+    border: #{$border} solid var(--container-border-color);
+  }
+
+  // Apply elevation if specified
+  @if $elevation != null {
+    box-shadow: var(--elevation-#{$elevation});
+  }
+}

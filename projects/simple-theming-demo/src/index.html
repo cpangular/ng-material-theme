@@ -2602,61 +2602,196 @@
         </div>
       </div>
 
-      <!-- Fixed Roles -->
-      <div class="fixed-roles-section" style="margin-bottom: 3rem">
+      <!-- Container Utilities -->
+      <div class="container-utils-section" style="margin-bottom: 3rem">
         <h2 style="margin: 0 0 0.5rem 0; color: var(--color--on-background)">
-          Fixed Roles
+          Container Utilities
         </h2>
         <p style="margin: 0 0 1.5rem 0; opacity: 0.7; font-size: 1rem">
-          Mode-invariant colors — same in both light and dark modes (MD3 Fixed
-          palette roles).
+          Helper mixins for applying palette colors to container elements with
+          automatic contrast colors.
         </p>
-        <div class="color-grid">
-          <div class="color-card">
-            <h2>Primary Fixed</h2>
-            <div class="color-palette">
-              <div class="color-swatch-fixed primary-fixed">
-                <span class="swatch-label">primary-fixed</span>
-                <span class="swatch-sublabel">on-primary-fixed text</span>
-              </div>
-              <div class="color-swatch-fixed primary-fixed-dim">
-                <span class="swatch-label">primary-fixed-dim</span>
-                <span class="swatch-sublabel"
-                  >on-primary-fixed-variant text</span
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <!-- Basic Usage -->
+          <div class="demo-util-card demo-util-basic">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Basic</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(primary)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Simple palette application with automatic contrast colors.
+            </p>
+          </div>
+
+          <!-- With Variant -->
+          <div class="demo-util-card demo-util-variant">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Variant</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(secondary, lighter-1)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Uses a lighter variant of the secondary palette.
+            </p>
+          </div>
+
+          <!-- Reverse Mode -->
+          <div class="demo-util-card demo-util-reverse">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Reverse Mode</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(tertiary, $reverse-mode: true)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Swaps light/dark values - shows dark in light mode.
+            </p>
+          </div>
+
+          <!-- Disabled State -->
+          <div class="demo-util-card demo-util-disabled">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Disabled</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(error, $disabled: true)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Reduced saturation for disabled states.
+            </p>
+          </div>
+
+          <!-- With Border -->
+          <div class="demo-util-card demo-util-border">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Border</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(primary, $border: 2px)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Adds solid border with container color.
+            </p>
+          </div>
+
+          <!-- With Elevation -->
+          <div class="demo-util-card demo-util-elevation">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Elevation</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(secondary, $elevation: 2)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Applies Material Design elevation shadow.
+            </p>
+          </div>
+
+          <!-- Combined Features -->
+          <div class="demo-util-card demo-util-combo">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Combined</h3>
+            <code style="font-size: 0.8em; opacity: 0.8"
+              >apply-container(tertiary, darker-1, $border: 1px, $elevation:
+              1)</code
+            >
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Variant + border + elevation together.
+            </p>
+          </div>
+
+          <!-- Contrast Variants -->
+          <div class="demo-util-card demo-util-contrast">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">
+              Contrast Levels
+            </h3>
+            <div
+              style="
+                margin-top: 0.75rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+              "
+            >
+              <div style="font-size: 0.9em">
+                <span style="color: var(--container-color--high)"
+                  >● High contrast</span
                 >
+                - var(--container-color--high)
+              </div>
+              <div style="font-size: 0.9em">
+                <span style="color: var(--container-color)"
+                  >● Normal contrast</span
+                >
+                - var(--container-color)
+              </div>
+              <div style="font-size: 0.9em">
+                <span style="color: var(--container-color--low)"
+                  >● Low contrast</span
+                >
+                - var(--container-color--low)
               </div>
             </div>
           </div>
-          <div class="color-card">
-            <h2>Secondary Fixed</h2>
-            <div class="color-palette">
-              <div class="color-swatch-fixed secondary-fixed">
-                <span class="swatch-label">secondary-fixed</span>
-                <span class="swatch-sublabel">on-secondary-fixed text</span>
-              </div>
-              <div class="color-swatch-fixed secondary-fixed-dim">
-                <span class="swatch-label">secondary-fixed-dim</span>
-                <span class="swatch-sublabel"
-                  >on-secondary-fixed-variant text</span
-                >
-              </div>
-            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem 0; color: var(--color--on-background)">
+          Container Styles
+        </h3>
+        <p style="margin: 0 0 1rem 0; opacity: 0.7; font-size: 0.95rem">
+          Three style modes control how colors are applied to containers.
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+          "
+        >
+          <!-- Filled Style -->
+          <div class="demo-util-card demo-util-style-filled">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">
+              Filled (default)
+            </h3>
+            <code style="font-size: 0.8em; opacity: 0.8">$style: filled</code>
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Background uses palette color, text uses contrast color. Standard
+              for cards and containers.
+            </p>
           </div>
-          <div class="color-card">
-            <h2>Tertiary Fixed</h2>
-            <div class="color-palette">
-              <div class="color-swatch-fixed tertiary-fixed">
-                <span class="swatch-label">tertiary-fixed</span>
-                <span class="swatch-sublabel">on-tertiary-fixed text</span>
-              </div>
-              <div class="color-swatch-fixed tertiary-fixed-dim">
-                <span class="swatch-label">tertiary-fixed-dim</span>
-                <span class="swatch-sublabel"
-                  >on-tertiary-fixed-variant text</span
-                >
-              </div>
-            </div>
+
+          <!-- Text Style -->
+          <div class="demo-util-card demo-util-style-text">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Text</h3>
+            <code style="font-size: 0.8em; opacity: 0.8">$style: text</code>
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Transparent background, text uses palette color. For text buttons
+              and links.
+            </p>
           </div>
+
+          <!-- Normal Style -->
+          <div class="demo-util-card demo-util-style-normal">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1em">Normal</h3>
+            <code style="font-size: 0.8em; opacity: 0.8">$style: normal</code>
+            <p style="margin: 0.75rem 0 0 0; font-size: 0.9em; opacity: 0.9">
+              Inherited background, text uses palette color. For labels and
+              inline elements.
+            </p>
+          </div>
+        </div>
+
+        <div class="mode-note" style="margin-top: 1rem">
+          <p>
+            <strong>Usage:</strong> Include
+            <code
+              >@include theme.apply-container(palette, variant,
+              options...)</code
+            >
+            in your component styles. The mixin sets CSS variables and applies
+            background, color, and border-color properties. Optionally add
+            border thickness and elevation level.
+          </p>
         </div>
       </div>
 

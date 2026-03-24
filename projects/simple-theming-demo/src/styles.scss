@@ -108,57 +108,57 @@ body {
 
 // Mixin for 4-quarter swatch: normal / disabled / reverse-mode / reverse-mode-disabled
 @mixin color-swatch-variant($palette, $variant: null) {
-  $base: if($variant, --color--#{$palette}-#{$variant}, --color--#{$palette});
-  $dis: #{$base}-disabled;
-  $inv: #{$base}-reverse-mode;
-  $inv-dis: #{$base}-reverse-mode-disabled;
-
   .swatch-normal {
-    background: var(#{$base});
+    @include theme.apply-container($palette, $variant);
     .swatch-label {
-      color: var(#{$base}--contrast);
+      color: var(--container-color);
     }
     .contrast-high {
-      color: var(#{$base}--contrast--high);
+      color: var(--container-color--high);
     }
     .contrast-low {
-      color: var(#{$base}--contrast--low);
+      color: var(--container-color--low);
     }
   }
   .swatch-disabled {
-    background: var(#{$dis});
+    @include theme.apply-container($palette, $variant, $disabled: true);
     .swatch-label {
-      color: var(#{$dis}--contrast);
+      color: var(--container-color);
     }
     .contrast-high {
-      color: var(#{$dis}--contrast--high);
+      color: var(--container-color--high);
     }
     .contrast-low {
-      color: var(#{$dis}--contrast--low);
+      color: var(--container-color--low);
     }
   }
   .swatch-reverse-mode {
-    background: var(#{$inv});
+    @include theme.apply-container($palette, $variant, $reverse-mode: true);
     .swatch-label {
-      color: var(#{$inv}--contrast);
+      color: var(--container-color);
     }
     .contrast-high {
-      color: var(#{$inv}--contrast--high);
+      color: var(--container-color--high);
     }
     .contrast-low {
-      color: var(#{$inv}--contrast--low);
+      color: var(--container-color--low);
     }
   }
   .swatch-reverse-mode-disabled {
-    background: var(#{$inv-dis});
+    @include theme.apply-container(
+      $palette,
+      $variant,
+      $reverse-mode: true,
+      $disabled: true
+    );
     .swatch-label {
-      color: var(#{$inv-dis}--contrast);
+      color: var(--container-color);
     }
     .contrast-high {
-      color: var(#{$inv-dis}--contrast--high);
+      color: var(--container-color--high);
     }
     .contrast-low {
-      color: var(#{$inv-dis}--contrast--low);
+      color: var(--container-color--low);
     }
   }
 }
@@ -190,8 +190,8 @@ body {
   }
 
   .swatch-label {
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 1em;
     margin-bottom: 0.5rem;
   }
 
@@ -199,7 +199,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    font-size: 0.85rem;
+    font-size: 1em;
+    font-weight: 500;
 
     .contrast-item {
       display: flex;
@@ -383,33 +384,6 @@ body {
   }
 }
 
-// Fixed roles swatch (single full-width, no disabled split)
-.color-swatch-inverse {
-  border-radius: 8px;
-  overflow: hidden;
-  min-height: 80px;
-  display: flex;
-  flex-direction: row;
-
-  .swatch-third {
-    flex: 1;
-    padding: 0.75rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    .swatch-label {
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-  }
-
-  .swatch-inverse-col {
-    border-left: 2px solid rgba(0, 0, 0, 0.15);
-    border-right: 2px solid rgba(0, 0, 0, 0.15);
-  }
-}
-
 .tint-demo {
   padding: 1.5rem;
   background: var(--color--surface);
@@ -435,35 +409,34 @@ body {
     justify-content: center;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color--on-surface);
     border: 1px solid var(--color--neutral-lighter-1);
 
     &.tint-1 {
-      background: var(--color--primary-tint-1);
+      @include theme.apply-container(primary, tint-1);
     }
     &.tint-2 {
-      background: var(--color--primary-tint-2);
+      @include theme.apply-container(primary, tint-2);
     }
     &.tint-3 {
-      background: var(--color--primary-tint-3);
+      @include theme.apply-container(primary, tint-3);
     }
     &.tint-4 {
-      background: var(--color--primary-tint-4);
+      @include theme.apply-container(primary, tint-4);
     }
     &.tint-5 {
-      background: var(--color--primary-tint-5);
+      @include theme.apply-container(primary, tint-5);
     }
     &.tint-6 {
-      background: var(--color--primary-tint-6);
+      @include theme.apply-container(primary, tint-6);
     }
     &.tint-7 {
-      background: var(--color--primary-tint-7);
+      @include theme.apply-container(primary, tint-7);
     }
     &.tint-8 {
-      background: var(--color--primary-tint-8);
+      @include theme.apply-container(primary, tint-8);
     }
     &.tint-9 {
-      background: var(--color--primary-tint-9);
+      @include theme.apply-container(primary, tint-9);
     }
   }
 }
@@ -487,4 +460,172 @@ body {
       font-size: 0.9em;
     }
   }
+}
+
+/* ── Container Utilities Demo Section ───────────────────────────────────── */
+// Visual demonstration of apply-container() utility mixin
+
+.demo-util-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  code {
+    display: block;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75em;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+.demo-util-basic {
+  @include theme.apply-container(primary);
+}
+
+.demo-util-variant {
+  @include theme.apply-container(secondary, lighter-1);
+}
+
+.demo-util-reverse {
+  @include theme.apply-container(tertiary, $reverse-mode: true);
+}
+
+.demo-util-disabled {
+  @include theme.apply-container(error, $disabled: true);
+}
+
+.demo-util-border {
+  @include theme.apply-container(primary, $border: 2px);
+}
+
+.demo-util-elevation {
+  @include theme.apply-container(secondary, $elevation: 2);
+}
+
+.demo-util-combo {
+  @include theme.apply-container(
+    tertiary,
+    darker-1,
+    $border: 1px,
+    $elevation: 1
+  );
+}
+
+.demo-util-contrast {
+  @include theme.apply-container(neutral, lighter-1);
+}
+
+.demo-util-style-filled {
+  @include theme.apply-container(primary, $style: filled);
+}
+
+.demo-util-style-text {
+  @include theme.apply-container(secondary, $style: text);
+  // Add a subtle background for visibility in demo
+  background: var(--color--surface-container) !important;
+}
+
+.demo-util-style-normal {
+  @include theme.apply-container(tertiary, $style: normal);
+  // Add a subtle background for visibility in demo
+  background: var(--color--surface-container) !important;
+}
+
+/* ── Container Palette Utilities Demo ────────────────────────────────────── */
+// Example usage of apply-container-vars and apply-container mixins
+
+// Example 1: Using apply-container-vars (sets variables only)
+.demo-card-vars {
+  @include theme.apply-container-vars(primary);
+  padding: 1rem;
+  border-radius: 8px;
+
+  // Manually apply the vars
+  background: var(--container-bg-color);
+  color: var(--container-color);
+  border: 2px solid var(--container-border-color);
+
+  .card-title {
+    color: var(--container-color--high);
+  }
+
+  .card-subtitle {
+    color: var(--container-color--low);
+  }
+}
+
+// Example 2: Using apply-container (sets vars AND properties)
+.demo-card {
+  @include theme.apply-container(primary);
+  padding: 1rem;
+  border-radius: 8px;
+  border-width: 2px;
+  border-style: solid;
+
+  .card-title {
+    color: var(--container-color--high);
+  }
+}
+
+// Example 3: With variant
+.demo-card-light {
+  @include theme.apply-container(primary, lighter-1);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 4: Reverse mode
+.demo-card-reverse {
+  @include theme.apply-container(primary, $reverse-mode: true);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 5: Disabled state
+.demo-card-disabled {
+  @include theme.apply-container(primary, $disabled: true);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 6: Complex - variant + reverse-mode
+.demo-card-complex {
+  @include theme.apply-container(secondary, darker-1, $reverse-mode: true);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 7: With border
+.demo-card-border {
+  @include theme.apply-container(tertiary, $border: 2px);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 8: With elevation
+.demo-card-elevated {
+  @include theme.apply-container(primary, $elevation: 2);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// Example 9: With both border and elevation
+.demo-card-border-elevated {
+  @include theme.apply-container(
+    secondary,
+    lighter-1,
+    $border: 1px,
+    $elevation: 1
+  );
+  padding: 1rem;
+  border-radius: 8px;
 }

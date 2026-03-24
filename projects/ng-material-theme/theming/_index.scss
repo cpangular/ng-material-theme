@@ -2,8 +2,8 @@
 // Main entry point for the theming system
 
 // Advanced utilities (for direct access if needed)
-@forward "./color-variants" show generate-all-variants;
 @forward "./contrast-utils" show calculate-optimal-contrast;
+@forward "./palette-utils" show apply-container-vars, apply-container;
 
 @use "./theme" as internal-theme;
 @use "./property-declarations" as props;
@@ -28,6 +28,30 @@
   // createTheme() only needs to override those 2 upstream vars (+ optional contrast).
   // Secondary/tertiary/neutral/neutral-variant derive from primary at CSS time via oklch().
   :root {
+    /* ── Elevation system (box-shadow scale) ─────────────────────────────── */
+    --elevation-shadow-color: light-dark(#000000, #000000);
+    --elevation-0: none;
+    --elevation-1: 0px 2px 1px -1px oklch(from var(--elevation-shadow-color) l c
+            h / 0.2),
+      0px 1px 1px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 3px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-2: 0px 3px 3px -2px oklch(from var(--elevation-shadow-color) l c
+            h / 0.2),
+      0px 3px 4px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 8px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-3: 0px 3px 5px -1px oklch(from var(--elevation-shadow-color) l c
+            h / 0.2),
+      0px 6px 10px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 18px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-4: 0px 5px 5px -3px oklch(from var(--elevation-shadow-color) l c
+            h / 0.2),
+      0px 8px 10px 1px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 3px 14px 2px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-5: 0px 7px 8px -4px oklch(from var(--elevation-shadow-color) l c
+            h / 0.2),
+      0px 12px 17px 2px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 5px 22px 4px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+
     /* ── Default primary colors ───────────────────────────────────────────── */
     --theme--light--color--primary: #555555;
     --theme--dark--color--primary: #aaaaaa;

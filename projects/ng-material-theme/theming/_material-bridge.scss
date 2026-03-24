@@ -72,114 +72,30 @@
   --mat-sys-pressed-state-layer-opacity: var(--theme--opacity--3); /* 12% */
   --mat-sys-dragged-state-layer-opacity: var(--theme--opacity--4); /* 16% */
 
-  // Fixed palette roles (mode-invariant tonal refs — same value in light and dark)
-  // These are intentionally symmetrical; override the --light/--dark vars to decouple
-  --mat-sys-primary-fixed--light: var(--color--primary-lighter-2);
-  --mat-sys-primary-fixed--dark: var(--color--primary-lighter-2);
-  --mat-sys-primary-fixed: light-dark(
-    var(--mat-sys-primary-fixed--light),
-    var(--mat-sys-primary-fixed--dark)
-  );
-  --mat-sys-primary-fixed-dim--light: var(--color--primary-lighter-1);
-  --mat-sys-primary-fixed-dim--dark: var(--color--primary-lighter-1);
-  --mat-sys-primary-fixed-dim: light-dark(
-    var(--mat-sys-primary-fixed-dim--light),
-    var(--mat-sys-primary-fixed-dim--dark)
-  );
-  --mat-sys-on-primary-fixed--light: var(--color--primary-lighter-2--contrast);
-  --mat-sys-on-primary-fixed--dark: var(--color--primary-lighter-2--contrast);
-  --mat-sys-on-primary-fixed: light-dark(
-    var(--mat-sys-on-primary-fixed--light),
-    var(--mat-sys-on-primary-fixed--dark)
-  );
-  --mat-sys-on-primary-fixed-variant--light: var(
-    --color--primary-lighter-1--contrast
-  );
-  --mat-sys-on-primary-fixed-variant--dark: var(
-    --color--primary-lighter-1--contrast
-  );
-  --mat-sys-on-primary-fixed-variant: light-dark(
-    var(--mat-sys-on-primary-fixed-variant--light),
-    var(--mat-sys-on-primary-fixed-variant--dark)
-  );
+  // Fixed palette roles (mode-invariant tonal refs)
+  // Currently using the same value for both light and dark modes
+  --mat-sys-primary-fixed: var(--color--primary-lighter-2);
+  --mat-sys-primary-fixed-dim: var(--color--primary-lighter-1);
+  --mat-sys-on-primary-fixed: var(--color--primary-lighter-2--contrast);
+  --mat-sys-on-primary-fixed-variant: var(--color--primary-lighter-1--contrast);
 
-  --mat-sys-secondary-fixed--light: var(--color--secondary-lighter-2);
-  --mat-sys-secondary-fixed--dark: var(--color--secondary-lighter-2);
-  --mat-sys-secondary-fixed: light-dark(
-    var(--mat-sys-secondary-fixed--light),
-    var(--mat-sys-secondary-fixed--dark)
-  );
-  --mat-sys-secondary-fixed-dim--light: var(--color--secondary-lighter-1);
-  --mat-sys-secondary-fixed-dim--dark: var(--color--secondary-lighter-1);
-  --mat-sys-secondary-fixed-dim: light-dark(
-    var(--mat-sys-secondary-fixed-dim--light),
-    var(--mat-sys-secondary-fixed-dim--dark)
-  );
-  --mat-sys-on-secondary-fixed--light: var(
-    --color--secondary-lighter-2--contrast
-  );
-  --mat-sys-on-secondary-fixed--dark: var(
-    --color--secondary-lighter-2--contrast
-  );
-  --mat-sys-on-secondary-fixed: light-dark(
-    var(--mat-sys-on-secondary-fixed--light),
-    var(--mat-sys-on-secondary-fixed--dark)
-  );
-  --mat-sys-on-secondary-fixed-variant--light: var(
+  --mat-sys-secondary-fixed: var(--color--secondary-lighter-2);
+  --mat-sys-secondary-fixed-dim: var(--color--secondary-lighter-1);
+  --mat-sys-on-secondary-fixed: var(--color--secondary-lighter-2--contrast);
+  --mat-sys-on-secondary-fixed-variant: var(
     --color--secondary-lighter-1--contrast
   );
-  --mat-sys-on-secondary-fixed-variant--dark: var(
-    --color--secondary-lighter-1--contrast
-  );
-  --mat-sys-on-secondary-fixed-variant: light-dark(
-    var(--mat-sys-on-secondary-fixed-variant--light),
-    var(--mat-sys-on-secondary-fixed-variant--dark)
-  );
 
-  --mat-sys-tertiary-fixed--light: var(--color--tertiary-lighter-2);
-  --mat-sys-tertiary-fixed--dark: var(--color--tertiary-lighter-2);
-  --mat-sys-tertiary-fixed: light-dark(
-    var(--mat-sys-tertiary-fixed--light),
-    var(--mat-sys-tertiary-fixed--dark)
-  );
-  --mat-sys-tertiary-fixed-dim--light: var(--color--tertiary-lighter-1);
-  --mat-sys-tertiary-fixed-dim--dark: var(--color--tertiary-lighter-1);
-  --mat-sys-tertiary-fixed-dim: light-dark(
-    var(--mat-sys-tertiary-fixed-dim--light),
-    var(--mat-sys-tertiary-fixed-dim--dark)
-  );
-  --mat-sys-on-tertiary-fixed--light: var(
-    --color--tertiary-lighter-2--contrast
-  );
-  --mat-sys-on-tertiary-fixed--dark: var(--color--tertiary-lighter-2--contrast);
-  --mat-sys-on-tertiary-fixed: light-dark(
-    var(--mat-sys-on-tertiary-fixed--light),
-    var(--mat-sys-on-tertiary-fixed--dark)
-  );
-  --mat-sys-on-tertiary-fixed-variant--light: var(
+  --mat-sys-tertiary-fixed: var(--color--tertiary-lighter-2);
+  --mat-sys-tertiary-fixed-dim: var(--color--tertiary-lighter-1);
+  --mat-sys-on-tertiary-fixed: var(--color--tertiary-lighter-2--contrast);
+  --mat-sys-on-tertiary-fixed-variant: var(
     --color--tertiary-lighter-1--contrast
-  );
-  --mat-sys-on-tertiary-fixed-variant--dark: var(
-    --color--tertiary-lighter-1--contrast
-  );
-  --mat-sys-on-tertiary-fixed-variant: light-dark(
-    var(--mat-sys-on-tertiary-fixed-variant--light),
-    var(--mat-sys-on-tertiary-fixed-variant--dark)
   );
 
   // Raw tonal palette reference tokens
-  --mat-sys-neutral10--light: var(--color--neutral-darker-2);
-  --mat-sys-neutral10--dark: var(--color--neutral-darker-2);
-  --mat-sys-neutral10: light-dark(
-    var(--mat-sys-neutral10--light),
-    var(--mat-sys-neutral10--dark)
-  );
-  --mat-sys-neutral-variant20--light: var(--color--neutral-variant-darker-2);
-  --mat-sys-neutral-variant20--dark: var(--color--neutral-variant-darker-2);
-  --mat-sys-neutral-variant20: light-dark(
-    var(--mat-sys-neutral-variant20--light),
-    var(--mat-sys-neutral-variant20--dark)
-  );
+  --mat-sys-neutral10: var(--color--neutral-darker-2);
+  --mat-sys-neutral-variant20: var(--color--neutral-variant-darker-2);
 
   // Elevation levels (MD3 box-shadow scale, shadow color from primary-darker-2)
   --mat-sys-shadow-color: var(--color--primary-darker-2);
