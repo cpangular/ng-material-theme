@@ -31,29 +31,29 @@
     var(--theme--dark--color--error)
   );
 
-  /* ── Inverse: swap light ↔ dark ───────────────────────────────────────────── */
-  // Inverse: swap light↔dark
-  --color--primary-inverse: light-dark(
+  /* ── Reverse-mode: swap light ↔ dark ───────────────────────────────────────────── */
+  // Reverse-mode: swap light↔dark
+  --color--primary-reverse-mode: light-dark(
     var(--theme--dark--color--primary),
     var(--theme--light--color--primary)
   );
-  --color--secondary-inverse: light-dark(
+  --color--secondary-reverse-mode: light-dark(
     var(--theme--dark--color--secondary),
     var(--theme--light--color--secondary)
   );
-  --color--tertiary-inverse: light-dark(
+  --color--tertiary-reverse-mode: light-dark(
     var(--theme--dark--color--tertiary),
     var(--theme--light--color--tertiary)
   );
-  --color--neutral-inverse: light-dark(
+  --color--neutral-reverse-mode: light-dark(
     var(--theme--dark--color--neutral),
     var(--theme--light--color--neutral)
   );
-  --color--neutral-variant-inverse: light-dark(
+  --color--neutral-variant-reverse-mode: light-dark(
     var(--theme--dark--color--neutral-variant),
     var(--theme--light--color--neutral-variant)
   );
-  --color--error-inverse: light-dark(
+  --color--error-reverse-mode: light-dark(
     var(--theme--dark--color--error),
     var(--theme--light--color--error)
   );

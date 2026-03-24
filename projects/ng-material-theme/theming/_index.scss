@@ -28,6 +28,10 @@
   // createTheme() only needs to override those 2 upstream vars (+ optional contrast).
   // Secondary/tertiary/neutral/neutral-variant derive from primary at CSS time via oklch().
   :root {
+    /* ── Default primary colors ───────────────────────────────────────────── */
+    --theme--light--color--primary: #555555;
+    --theme--dark--color--primary: #aaaaaa;
+
     /* ── CSS-time derivation: secondary/tertiary/neutral/neutral-variant from primary ── */
     // Light mode derivations
     --theme--light--color--secondary: oklch(

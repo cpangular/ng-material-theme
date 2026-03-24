@@ -106,23 +106,23 @@ body {
   gap: 0.5rem;
 }
 
-// Mixin for 4-quarter swatch: normal / disabled / inverse / inverse-disabled
+// Mixin for 4-quarter swatch: normal / disabled / reverse-mode / reverse-mode-disabled
 @mixin color-swatch-variant($palette, $variant: null) {
   $base: if($variant, --color--#{$palette}-#{$variant}, --color--#{$palette});
   $dis: #{$base}-disabled;
-  $inv: #{$base}-inverse;
-  $inv-dis: #{$base}-inverse-disabled;
+  $inv: #{$base}-reverse-mode;
+  $inv-dis: #{$base}-reverse-mode-disabled;
 
   .swatch-normal {
     background: var(#{$base});
     .swatch-label {
       color: var(#{$base}--contrast);
     }
-    .contrast-emphasized {
-      color: var(#{$base}--contrast--emphasized);
+    .contrast-high {
+      color: var(#{$base}--contrast--high);
     }
-    .contrast-deemphasized {
-      color: var(#{$base}--contrast--deemphasized);
+    .contrast-low {
+      color: var(#{$base}--contrast--low);
     }
   }
   .swatch-disabled {
@@ -130,35 +130,35 @@ body {
     .swatch-label {
       color: var(#{$dis}--contrast);
     }
-    .contrast-emphasized {
-      color: var(#{$dis}--contrast--emphasized);
+    .contrast-high {
+      color: var(#{$dis}--contrast--high);
     }
-    .contrast-deemphasized {
-      color: var(#{$dis}--contrast--deemphasized);
+    .contrast-low {
+      color: var(#{$dis}--contrast--low);
     }
   }
-  .swatch-inverse {
+  .swatch-reverse-mode {
     background: var(#{$inv});
     .swatch-label {
       color: var(#{$inv}--contrast);
     }
-    .contrast-emphasized {
-      color: var(#{$inv}--contrast--emphasized);
+    .contrast-high {
+      color: var(#{$inv}--contrast--high);
     }
-    .contrast-deemphasized {
-      color: var(#{$inv}--contrast--deemphasized);
+    .contrast-low {
+      color: var(#{$inv}--contrast--low);
     }
   }
-  .swatch-inverse-disabled {
+  .swatch-reverse-mode-disabled {
     background: var(#{$inv-dis});
     .swatch-label {
       color: var(#{$inv-dis}--contrast);
     }
-    .contrast-emphasized {
-      color: var(#{$inv-dis}--contrast--emphasized);
+    .contrast-high {
+      color: var(#{$inv-dis}--contrast--high);
     }
-    .contrast-deemphasized {
-      color: var(#{$inv-dis}--contrast--deemphasized);
+    .contrast-low {
+      color: var(#{$inv-dis}--contrast--low);
     }
   }
 }
@@ -181,11 +181,11 @@ body {
     border-left: 2px solid rgba(128, 128, 128, 0.25);
   }
 
-  .swatch-inverse {
+  .swatch-reverse-mode {
     border-left: 2px solid rgba(0, 0, 0, 0.15);
   }
 
-  .swatch-inverse-disabled {
+  .swatch-reverse-mode-disabled {
     border-left: 2px solid rgba(128, 128, 128, 0.25);
   }
 

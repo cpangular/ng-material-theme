@@ -84,9 +84,9 @@
       "disabled-saturation",
       "disabled-foreground-opacity",
       "disabled-background-opacity",
-      "contrast-blend-emphasized",
+      "contrast-blend-high",
       "contrast-blend",
-      "contrast-blend-deemphasized"
+      "contrast-blend-low"
     );
     @each $key in $override-keys {
       @if map.has-key($raw-config, $key) {

@@ -57,7 +57,7 @@
   // Inverse surface (flipped-mode neutral)
   --mat-sys-inverse-surface: var(--color--inverse-surface);
   --mat-sys-inverse-on-surface: var(--color--inverse-on-surface);
-  --mat-sys-inverse-primary: var(--color--primary-inverse);
+  --mat-sys-inverse-primary: var(--color--primary-reverse-mode);
 
   // Surface tint (primary at low opacity for elevation overlays)
   --mat-sys-surface-tint: var(--color--surface-tint);

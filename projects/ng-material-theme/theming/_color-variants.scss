@@ -49,14 +49,9 @@
 
 @mixin generate-theme-contrast-blend-defaults($contrast-config) {
   // Theme-wide contrast blend percentages
-  --theme--contrast-blend--emphasized: #{map.get($contrast-config, "emphasized")
-    or 100%};
+  --theme--contrast-blend--high: #{map.get($contrast-config, "high") or 100%};
   --theme--contrast-blend: #{map.get($contrast-config, "default") or 90%};
-  --theme--contrast-blend--deemphasized: #{map.get(
-      $contrast-config,
-      "deemphasized"
-    )
-    or 80%};
+  --theme--contrast-blend--low: #{map.get($contrast-config, "low") or 80%};
 }
 
 // Per-palette override and computed variable generation
@@ -120,10 +115,10 @@
   }
 
   // Contrast blend overrides
-  @if map.has-key($config, "contrast-blend-emphasized") {
-    --color--#{$name}--contrast-blend--emphasized-override: #{map.get(
+  @if map.has-key($config, "contrast-blend-high") {
+    --color--#{$name}--contrast-blend--high-override: #{map.get(
         $config,
-        "contrast-blend-emphasized"
+        "contrast-blend-high"
       )};
   }
   @if map.has-key($config, "contrast-blend") {
@@ -132,25 +127,25 @@
         "contrast-blend"
       )};
   }
-  @if map.has-key($config, "contrast-blend-deemphasized") {
-    --color--#{$name}--contrast-blend--deemphasized-override: #{map.get(
+  @if map.has-key($config, "contrast-blend-low") {
+    --color--#{$name}--contrast-blend--low-override: #{map.get(
         $config,
-        "contrast-blend-deemphasized"
+        "contrast-blend-low"
       )};
   }
 
   // Computed contrast blend variables with fallback chain
-  --color--#{$name}--contrast-blend--emphasized: var(
-    --color--#{$name}--contrast-blend--emphasized-override,
-    var(--theme--contrast-blend--emphasized)
+  --color--#{$name}--contrast-blend--high: var(
+    --color--#{$name}--contrast-blend--high-override,
+    var(--theme--contrast-blend--high)
   );
   --color--#{$name}--contrast-blend: var(
     --color--#{$name}--contrast-blend-override,
     var(--theme--contrast-blend)
   );
-  --color--#{$name}--contrast-blend--deemphasized: var(
-    --color--#{$name}--contrast-blend--deemphasized-override,
-    var(--theme--contrast-blend--deemphasized)
+  --color--#{$name}--contrast-blend--low: var(
+    --color--#{$name}--contrast-blend--low-override,
+    var(--theme--contrast-blend--low)
   );
 
   // Disabled saturation override
@@ -352,13 +347,13 @@
   // Blended contrast variants (use palette-specific blend vars)
   @if $is-disabled {
     // Disabled contrast: relative syntax to bake opacity into the color value
-    #{$var-prefix}--emphasized: oklch(
+    #{$var-prefix}--high: oklch(
       from color-mix(
           in oklch,
           var(#{$var-prefix}--base)
-            var(--color--#{$name}--contrast-blend--emphasized),
+            var(--color--#{$name}--contrast-blend--high),
           var(#{$var-name})
-            calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+            calc(100% - var(--color--#{$name}--contrast-blend--high))
         )
         l
         c
@@ -376,13 +371,12 @@
         h /
         var(--color--#{$name}--disabled-foreground-opacity)
     );
-    #{$var-prefix}--deemphasized: oklch(
+    #{$var-prefix}--low: oklch(
       from color-mix(
           in oklch,
-          var(#{$var-prefix}--base)
-            var(--color--#{$name}--contrast-blend--deemphasized),
+          var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--low),
           var(#{$var-name})
-            calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+            calc(100% - var(--color--#{$name}--contrast-blend--low))
         )
         l
         c
@@ -390,24 +384,21 @@
         var(--color--#{$name}--disabled-foreground-opacity)
     );
   } @else {
-    #{$var-prefix}--emphasized: color-mix(
+    #{$var-prefix}--high: color-mix(
       in oklch,
-      var(#{$var-prefix}--base)
-        var(--color--#{$name}--contrast-blend--emphasized),
+      var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--high),
       var(#{$var-name})
-        calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+        calc(100% - var(--color--#{$name}--contrast-blend--high))
     );
     #{$var-prefix}: color-mix(
       in oklch,
       var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend),
       var(#{$var-name}) calc(100% - var(--color--#{$name}--contrast-blend))
     );
-    #{$var-prefix}--deemphasized: color-mix(
+    #{$var-prefix}--low: color-mix(
       in oklch,
-      var(#{$var-prefix}--base)
-        var(--color--#{$name}--contrast-blend--deemphasized),
-      var(#{$var-name})
-        calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+      var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--low),
+      var(#{$var-name}) calc(100% - var(--color--#{$name}--contrast-blend--low))
     );
   }
 }
@@ -521,19 +512,19 @@ $_variants: (
   }
 }
 
-// Pass 2: Emit light-dark() join vars and their inverses for a palette.
-// Produces --color--X-variant (and --color--X-variant-inverse) for all slots.
+// Pass 2: Emit light-dark() join vars and their reverse-mode variants for a palette.
+// Produces --color--X-variant (and --color--X-variant-reverse-mode) for all slots.
 @mixin emit-join-vars($name) {
   /* ── #{$name} ─── Join: Base ────────────────────────────────────────────── */
   --color--#{$name}-disabled: light-dark(
     var(--theme--light--color--#{$name}-disabled),
     var(--theme--dark--color--#{$name}-disabled)
   );
-  --color--#{$name}-inverse: light-dark(
+  --color--#{$name}-reverse-mode: light-dark(
     var(--theme--dark--color--#{$name}),
     var(--theme--light--color--#{$name})
   );
-  --color--#{$name}-inverse-disabled: light-dark(
+  --color--#{$name}-reverse-mode-disabled: light-dark(
     var(--theme--dark--color--#{$name}-disabled),
     var(--theme--light--color--#{$name}-disabled)
   );
@@ -548,12 +539,12 @@ $_variants: (
       var(--theme--light--color--#{$name}-#{$v}-disabled),
       var(--theme--dark--color--#{$name}-#{$v}-disabled)
     );
-    // Inverse: swap light ↔ dark
-    --color--#{$name}-#{$v}-inverse: light-dark(
+    // Reverse-mode: swap light ↔ dark
+    --color--#{$name}-#{$v}-reverse-mode: light-dark(
       var(--theme--dark--color--#{$name}-#{$v}),
       var(--theme--light--color--#{$name}-#{$v})
     );
-    --color--#{$name}-#{$v}-inverse-disabled: light-dark(
+    --color--#{$name}-#{$v}-reverse-mode-disabled: light-dark(
       var(--theme--dark--color--#{$name}-#{$v}-disabled),
       var(--theme--light--color--#{$name}-#{$v}-disabled)
     );
@@ -565,7 +556,7 @@ $_variants: (
       var(--theme--light--color--#{$name}-tint-#{$i}),
       var(--theme--dark--color--#{$name}-tint-#{$i})
     );
-    --color--#{$name}-tint-#{$i}-inverse: light-dark(
+    --color--#{$name}-tint-#{$i}-reverse-mode: light-dark(
       var(--theme--dark--color--#{$name}-tint-#{$i}),
       var(--theme--light--color--#{$name}-tint-#{$i})
     );
@@ -584,13 +575,13 @@ $_variants: (
     #{$contrast-prefix}--base: oklch(
       from var(#{$slot-var}) clamp(0, (0.6 - l) * 9999, 1) 0 0
     );
-    #{$contrast-prefix}--emphasized: oklch(
+    #{$contrast-prefix}--high: oklch(
       from color-mix(
           in oklch,
           var(#{$contrast-prefix}--base)
-            var(--color--#{$name}--contrast-blend--emphasized),
+            var(--color--#{$name}--contrast-blend--high),
           var(#{$slot-var})
-            calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+            calc(100% - var(--color--#{$name}--contrast-blend--high))
         )
         l
         c
@@ -608,13 +599,13 @@ $_variants: (
         h /
         var(--color--#{$name}--disabled-foreground-opacity)
     );
-    #{$contrast-prefix}--deemphasized: oklch(
+    #{$contrast-prefix}--low: oklch(
       from color-mix(
           in oklch,
           var(#{$contrast-prefix}--base)
-            var(--color--#{$name}--contrast-blend--deemphasized),
+            var(--color--#{$name}--contrast-blend--low),
           var(#{$slot-var})
-            calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+            calc(100% - var(--color--#{$name}--contrast-blend--low))
         )
         l
         c
@@ -625,24 +616,23 @@ $_variants: (
     #{$contrast-prefix}--base: oklch(
       from var(#{$slot-var}) clamp(0, (0.6 - l) * 9999, 1) 0 0
     );
-    #{$contrast-prefix}--emphasized: color-mix(
+    #{$contrast-prefix}--high: color-mix(
       in oklch,
       var(#{$contrast-prefix}--base)
-        var(--color--#{$name}--contrast-blend--emphasized),
+        var(--color--#{$name}--contrast-blend--high),
       var(#{$slot-var})
-        calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+        calc(100% - var(--color--#{$name}--contrast-blend--high))
     );
     #{$contrast-prefix}: color-mix(
       in oklch,
       var(#{$contrast-prefix}--base) var(--color--#{$name}--contrast-blend),
       var(#{$slot-var}) calc(100% - var(--color--#{$name}--contrast-blend))
     );
-    #{$contrast-prefix}--deemphasized: color-mix(
+    #{$contrast-prefix}--low: color-mix(
       in oklch,
       var(#{$contrast-prefix}--base)
-        var(--color--#{$name}--contrast-blend--deemphasized),
-      var(#{$slot-var})
-        calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+        var(--color--#{$name}--contrast-blend--low),
+      var(#{$slot-var}) calc(100% - var(--color--#{$name}--contrast-blend--low))
     );
   }
 }
@@ -659,12 +649,12 @@ $_variants: (
       from var(--theme--dark--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
     )
   );
-  --color--#{$name}--contrast--emphasized: color-mix(
+  --color--#{$name}--contrast--high: color-mix(
     in oklch,
     var(--color--#{$name}--contrast--base)
-      var(--color--#{$name}--contrast-blend--emphasized),
+      var(--color--#{$name}--contrast-blend--high),
     var(--color--#{$name})
-      calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+      calc(100% - var(--color--#{$name}--contrast-blend--high))
   );
   --color--#{$name}--contrast: color-mix(
     in oklch,
@@ -672,12 +662,12 @@ $_variants: (
       var(--color--#{$name}--contrast-blend),
     var(--color--#{$name}) calc(100% - var(--color--#{$name}--contrast-blend))
   );
-  --color--#{$name}--contrast--deemphasized: color-mix(
+  --color--#{$name}--contrast--low: color-mix(
     in oklch,
     var(--color--#{$name}--contrast--base)
-      var(--color--#{$name}--contrast-blend--deemphasized),
+      var(--color--#{$name}--contrast-blend--low),
     var(--color--#{$name})
-      calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+      calc(100% - var(--color--#{$name}--contrast-blend--low))
   );
 
   /* ── #{$name} ─── Contrast: Base Disabled ──────────────────────────────── */
@@ -688,9 +678,9 @@ $_variants: (
     $is-disabled: true
   );
 
-  /* ── #{$name} ─── Contrast: Base Inverse ───────────────────────────────── */
+  /* ── #{$name} ─── Contrast: Base Reverse-Mode ───────────────────────────────── */
   // Inverse base: swap light↔dark for --base computation, then same blend
-  --color--#{$name}-inverse--contrast--base: light-dark(
+  --color--#{$name}-reverse-mode--contrast--base: light-dark(
     oklch(
       from var(--theme--dark--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
     ),
@@ -699,32 +689,32 @@ $_variants: (
         0
     )
   );
-  --color--#{$name}-inverse--contrast--emphasized: color-mix(
+  --color--#{$name}-reverse-mode--contrast--high: color-mix(
     in oklch,
-    var(--color--#{$name}-inverse--contrast--base)
-      var(--color--#{$name}--contrast-blend--emphasized),
-    var(--color--#{$name}-inverse)
-      calc(100% - var(--color--#{$name}--contrast-blend--emphasized))
+    var(--color--#{$name}-reverse-mode--contrast--base)
+      var(--color--#{$name}--contrast-blend--high),
+    var(--color--#{$name}-reverse-mode)
+      calc(100% - var(--color--#{$name}--contrast-blend--high))
   );
-  --color--#{$name}-inverse--contrast: color-mix(
+  --color--#{$name}-reverse-mode--contrast: color-mix(
     in oklch,
-    var(--color--#{$name}-inverse--contrast--base)
+    var(--color--#{$name}-reverse-mode--contrast--base)
       var(--color--#{$name}--contrast-blend),
-    var(--color--#{$name}-inverse)
+    var(--color--#{$name}-reverse-mode)
       calc(100% - var(--color--#{$name}--contrast-blend))
   );
-  --color--#{$name}-inverse--contrast--deemphasized: color-mix(
+  --color--#{$name}-reverse-mode--contrast--low: color-mix(
     in oklch,
-    var(--color--#{$name}-inverse--contrast--base)
-      var(--color--#{$name}--contrast-blend--deemphasized),
-    var(--color--#{$name}-inverse)
-      calc(100% - var(--color--#{$name}--contrast-blend--deemphasized))
+    var(--color--#{$name}-reverse-mode--contrast--base)
+      var(--color--#{$name}--contrast-blend--low),
+    var(--color--#{$name}-reverse-mode)
+      calc(100% - var(--color--#{$name}--contrast-blend--low))
   );
 
-  /* ── #{$name} ─── Contrast: Base Inverse Disabled ──────────────────────── */
+  /* ── #{$name} ─── Contrast: Base Reverse-Mode Disabled ──────────────────────── */
   @include _emit-contrast-for-slot(
-    --color--#{$name}-inverse-disabled,
-    --color--#{$name}-inverse-disabled--contrast,
+    --color--#{$name}-reverse-mode-disabled,
+    --color--#{$name}-reverse-mode-disabled--contrast,
     $name,
     $is-disabled: true
   );
@@ -743,13 +733,13 @@ $_variants: (
       $is-disabled: true
     );
     @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v}-inverse,
-      --color--#{$name}-#{$v}-inverse--contrast,
+      --color--#{$name}-#{$v}-reverse-mode,
+      --color--#{$name}-#{$v}-reverse-mode--contrast,
       $name
     );
     @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v}-inverse-disabled,
-      --color--#{$name}-#{$v}-inverse-disabled--contrast,
+      --color--#{$name}-#{$v}-reverse-mode-disabled,
+      --color--#{$name}-#{$v}-reverse-mode-disabled--contrast,
       $name,
       $is-disabled: true
     );

@@ -41,9 +41,9 @@ $_blend-defaults: (
 
 // Contrast-blend defaults. Keys are the CSS var suffix after `--contrast-blend`.
 $_contrast-blend-defaults: (
-  "--emphasized": 100%,
+  "--high": 100%,
   "": 90%,
-  "--deemphasized": 80%,
+  "--low": 80%,
 );
 
 // ── Private helpers ───────────────────────────────────────────────────────────
@@ -58,7 +58,7 @@ $_contrast-blend-defaults: (
     inherits: true;
     initial-value: black;
   }
-  @property #{$prefix}--emphasized {
+  @property #{$prefix}--high {
     syntax: "<color>";
     inherits: true;
     initial-value: black;
@@ -68,7 +68,7 @@ $_contrast-blend-defaults: (
     inherits: true;
     initial-value: black;
   }
-  @property #{$prefix}--deemphasized {
+  @property #{$prefix}--low {
     syntax: "<color>";
     inherits: true;
     initial-value: black;
@@ -77,7 +77,7 @@ $_contrast-blend-defaults: (
 
 // Register a color step: the color itself, its 4 contrast vars,
 // its disabled color, and the disabled 4 contrast vars.
-// A step is one level of a palette (e.g. primary-darker-2, primary-inverse).
+// A step is one level of a palette (e.g. primary-darker-2, primary-reverse-mode).
 @mixin _register-color-step($step, $default-color) {
   @property #{$step} {
     syntax: "<color>";
@@ -124,8 +124,8 @@ $_contrast-blend-defaults: (
 
   /* ── #{$name} ─── Base Color ───────────────────────────────────────────── */
   @include _register-color-step(--color--#{$name}, $default-color);
-  // Base inverse step
-  @include _register-color-step(--color--#{$name}-inverse, $default-color);
+  // Base reverse-mode step
+  @include _register-color-step(--color--#{$name}-reverse-mode, $default-color);
 
   /* ── #{$name} ─── Contrast Inputs ──────────────────────────────────────── */
   $default-contrast: contrast-utils.calculate-optimal-contrast($default-color);
@@ -180,7 +180,7 @@ $_contrast-blend-defaults: (
       $default-color
     );
     @include _register-color-step(
-      --color--#{$name}-#{$variant}-inverse,
+      --color--#{$name}-#{$variant}-reverse-mode,
       $default-color
     );
   }
@@ -204,7 +204,7 @@ $_contrast-blend-defaults: (
       inherits: true;
       initial-value: #{$default-color};
     }
-    @property --color--#{$name}-tint-#{$i}-inverse {
+    @property --color--#{$name}-tint-#{$i}-reverse-mode {
       syntax: "<color>";
       inherits: true;
       initial-value: #{$default-color};
@@ -287,7 +287,7 @@ $_contrast-blend-defaults: (
   }
 
   /* ── Theme: Contrast Blends ────────────────────────────────────────────── */
-  @property --theme--contrast-blend--emphasized {
+  @property --theme--contrast-blend--high {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 100%;
@@ -297,7 +297,7 @@ $_contrast-blend-defaults: (
     inherits: true;
     initial-value: 90%;
   }
-  @property --theme--contrast-blend--deemphasized {
+  @property --theme--contrast-blend--low {
     syntax: "<percentage>";
     inherits: true;
     initial-value: 80%;
