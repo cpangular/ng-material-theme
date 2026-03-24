@@ -1,0 +1,7 @@
+// Core Design System
+// Complete theming system with elevation, sizing, colors, and palettes
+// No Material Design dependencies - fully functional standalone
+
+@use "../../theming" as theme;
+
+@include theme.core();

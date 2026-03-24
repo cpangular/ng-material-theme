@@ -1,36 +1,41 @@
 // Simple Theming Demo
 // Demonstrates the ng-material-theme system with light-dark() support
+// Note: core.css should be loaded via <link> in HTML for pre-built usage
 
 @use "theming" as theme;
-
-// Initialize the theming system
-@include theme.core();
 
 // Create a default theme with light/dark color variations
 @include theme.createTheme(
   "demo",
   (
     colors: (
-      // Deep purple in light mode, light purple in dark mode
-      // primary: (#6200ee, #bb86fc),
-      // // Teal in both modes
-      // secondary: #03dac6,
-      // // Pink in light, lighter pink in dark - with custom disabled saturation
-      // tertiary:
-      //   (
-      //     value: (
-      //       #ff4081,
-      //       #f48fb1,
-      //     ),
-      //     disabled-saturation: 30%
-      //   ),
-      // // Neutral grays
-      // // neutral: (#1c1b1f, #e6e1e5),
-      // // Error red - with more saturation retained when disabled
-      // error: (value: #b00020, disabled-saturation: 60%),
+      // Orange in light mode, lighter orange in dark mode
+      primary: (#ee8700, #ff9c40),
     ),
   ),
   $is-default: true
+);
+
+// Create a second theme to test switching
+@include theme.createTheme(
+  "blue",
+  (
+    colors: (
+      // Blue theme
+      primary: (#1976d2, #42a5f5),
+    ),
+  )
+);
+
+// Create a third theme with purple
+@include theme.createTheme(
+  "purple",
+  (
+    colors: (
+      // Purple theme
+      primary: (#7b1fa2, #ba68c8),
+    ),
+  )
 );
 
 // Basic styling to demonstrate the theme
@@ -521,7 +526,7 @@ body {
 }
 
 .demo-util-contrast {
-  @include theme.apply-container(neutral, lighter-1);
+  @include theme.apply-container(neutral);
 }
 
 .demo-util-style-filled {

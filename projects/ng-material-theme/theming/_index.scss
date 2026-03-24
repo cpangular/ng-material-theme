@@ -5,6 +5,9 @@
 @forward "./contrast-utils" show calculate-optimal-contrast;
 @forward "./palette-utils" show apply-container-vars, apply-container;
 
+// Material Design 3 adapter (optional, for Angular Material / M3 framework compatibility)
+@forward "./material-bridge" show material-adapter;
+
 @use "./theme" as internal-theme;
 @use "./property-declarations" as props;
 @use "./density" as dens;
@@ -27,7 +30,9 @@
   // Each palette is fully computed from its --theme--light/dark--color--X inputs.
   // createTheme() only needs to override those 2 upstream vars (+ optional contrast).
   // Secondary/tertiary/neutral/neutral-variant derive from primary at CSS time via oklch().
-  :root {
+  // [theme] selector enables sub-theming: computations re-apply on any themed element.
+  :root,
+  [theme] {
     /* ── Elevation system (box-shadow scale) ─────────────────────────────── */
     --elevation-shadow-color: light-dark(#000000, #000000);
     --elevation-0: none;
@@ -52,37 +57,98 @@
       0px 12px 17px 2px oklch(from var(--elevation-shadow-color) l c h / 0.14),
       0px 5px 22px 4px oklch(from var(--elevation-shadow-color) l c h / 0.12);
 
-    /* ── Default primary colors ───────────────────────────────────────────── */
-    --theme--light--color--primary: #555555;
-    --theme--dark--color--primary: #aaaaaa;
+    /* ── Sizing scale (density-aware) ────────────────────────────────────── */
+    // Base font size: 16px (browser default)
+    // Density scale factor: 1.0 (default), adjusts based on density level
+    --theme--density-scale: 1;
+
+    // Base size scale (before density adjustment)
+    --theme--size-base--1: 0.125em; // 2px
+    --theme--size-base--2: 0.25em; // 4px
+    --theme--size-base--3: 0.5em; // 8px
+    --theme--size-base--4: 0.75em; // 12px
+    --theme--size-base--5: 1em; // 16px
+    --theme--size-base--6: 1.25em; // 20px
+    --theme--size-base--7: 1.5em; // 24px
+    --theme--size-base--8: 2em; // 32px
+    --theme--size-base--9: 2.5em; // 40px
+    --theme--size-base--10: 3em; // 48px
+    --theme--size-base--11: 4em; // 64px
+
+    // Actual size tokens (density-adjusted via calc)
+    --theme--size--1: calc(
+      var(--theme--size-base--1) * var(--theme--density-scale)
+    );
+    --theme--size--2: calc(
+      var(--theme--size-base--2) * var(--theme--density-scale)
+    );
+    --theme--size--3: calc(
+      var(--theme--size-base--3) * var(--theme--density-scale)
+    );
+    --theme--size--4: calc(
+      var(--theme--size-base--4) * var(--theme--density-scale)
+    );
+    --theme--size--5: calc(
+      var(--theme--size-base--5) * var(--theme--density-scale)
+    );
+    --theme--size--6: calc(
+      var(--theme--size-base--6) * var(--theme--density-scale)
+    );
+    --theme--size--7: calc(
+      var(--theme--size-base--7) * var(--theme--density-scale)
+    );
+    --theme--size--8: calc(
+      var(--theme--size-base--8) * var(--theme--density-scale)
+    );
+    --theme--size--9: calc(
+      var(--theme--size-base--9) * var(--theme--density-scale)
+    );
+    --theme--size--10: calc(
+      var(--theme--size-base--10) * var(--theme--density-scale)
+    );
+    --theme--size--11: calc(
+      var(--theme--size-base--11) * var(--theme--density-scale)
+    );
+
+    /* ── Default palette colors ───────────────────────────────────────────── */
+    // Primary (medium gray with slight warmth)
+    --theme--light--color--primary: oklch(50% 0.02 270);
+    --theme--dark--color--primary: oklch(70% 0.02 270);
+
+    // Error (red, independent of primary)
+    --theme--light--color--error: #cc0000;
+    --theme--dark--color--error: #ff6b6b;
 
     /* ── CSS-time derivation: secondary/tertiary/neutral/neutral-variant from primary ── */
     // Light mode derivations
     --theme--light--color--secondary: oklch(
-      from var(--theme--light--color--primary) l calc(c * 0.6) h
+      from var(--theme--light--color--primary) calc(l * 0.9) calc(c * 2)
+        calc(h + 120)
     );
     --theme--light--color--tertiary: oklch(
-      from var(--theme--light--color--primary) l c calc(h + 60)
+      from var(--theme--light--color--primary) calc(l * 0.95) calc(c * 1.5)
+        calc(h - 120)
     );
     --theme--light--color--neutral: oklch(
-      from var(--theme--light--color--primary) l max(c * 0.05, 0.01) h
+      from var(--theme--light--color--primary) l 0.004 h
     );
     --theme--light--color--neutral-variant: oklch(
-      from var(--theme--light--color--primary) l max(c * 0.12, 0.02) h
+      from var(--theme--light--color--primary) l 0.012 h
     );
 
     // Dark mode derivations (from dark primary)
     --theme--dark--color--secondary: oklch(
-      from var(--theme--dark--color--primary) l calc(c * 0.6) h
+      from var(--theme--dark--color--primary) calc(l * 0.95) calc(c * 2)
+        calc(h + 120)
     );
     --theme--dark--color--tertiary: oklch(
-      from var(--theme--dark--color--primary) l c calc(h + 60)
+      from var(--theme--dark--color--primary) l calc(c * 1.5) calc(h - 120)
     );
     --theme--dark--color--neutral: oklch(
-      from var(--theme--dark--color--primary) l max(c * 0.05, 0.01) h
+      from var(--theme--dark--color--primary) l 0.004 h
     );
     --theme--dark--color--neutral-variant: oklch(
-      from var(--theme--dark--color--primary) l max(c * 0.12, 0.02) h
+      from var(--theme--dark--color--primary) l 0.012 h
     );
 
     /* ── Base light-dark() joins ──────────────────────────────────────────── */

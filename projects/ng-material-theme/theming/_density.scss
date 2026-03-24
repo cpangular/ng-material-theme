@@ -1,18 +1,29 @@
 // Density System
-// Material components can adjust spacing based on density level
-// TODO: Will be implemented shortly
+// Adjusts spacing/sizing based on density level using a scale multiplier
+// The --theme--density-scale variable controls all --theme--size--* tokens
+//
+// Density levels:
+//   0 (default): scale = 1.0 (100%)
+//  -1: scale = 0.92 (92%)
+//  -2: scale = 0.84 (84%)
+//  -3: scale = 0.76 (76%)
 
 @mixin density-selectors() {
-  // Density levels: 0 (default), -1, -2, -3, -4, -5
-  // Each level reduces component size/spacing
-  // Material M3 components will respond to density CSS variables
-
-  // Placeholder: density selectors will be implemented
-  // Material handles most of this internally for now
+  // Placeholder: not needed, density is set per-theme
 }
 
 @mixin apply-density($density: 0) {
-  // Apply density level
-  // Material M3 components read this value
-  --mat-density: #{$density};
+  // Set density scale based on density level
+  @if $density == 0 {
+    --theme--density-scale: 1;
+  } @else if $density == -1 {
+    --theme--density-scale: 0.92;
+  } @else if $density == -2 {
+    --theme--density-scale: 0.84;
+  } @else if $density == -3 {
+    --theme--density-scale: 0.76;
+  } @else {
+    // Default to 1 for any other value
+    --theme--density-scale: 1;
+  }
 }

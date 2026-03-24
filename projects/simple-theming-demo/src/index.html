@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ng-material-theme - Simple Theming Demo</title>
+    <!-- Pre-built core design system -->
+    <link rel="stylesheet" href="core.css" />
+    <!-- Custom theme styles -->
     <link rel="stylesheet" href="styles.css" />
+    <!-- Theme switcher -->
+    <script type="module" src="theme-switcher.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,6 +34,31 @@
         <h1>ng-material-theme</h1>
         <p>Material Design 3 Theme System with CSS light-dark() Support</p>
       </header>
+
+      <div
+        class="theme-switcher"
+        style="
+          margin: 1rem 0;
+          padding: 1rem;
+          background: var(--color--surface);
+          border-radius: 8px;
+        "
+      >
+        <label for="theme-select" style="margin-right: 1rem"
+          ><strong>Select Theme:</strong></label
+        >
+        <select
+          id="theme-select"
+          style="
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--color--outline);
+          "
+        >
+          <option value="">Loading themes...</option>
+        </select>
+      </div>
 
       <div class="mode-note">
         <p>
@@ -2708,26 +2738,74 @@
                 margin-top: 0.75rem;
                 display: flex;
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 0.75rem;
               "
             >
-              <div style="font-size: 0.9em">
-                <span style="color: var(--container-color--high)"
-                  >● High contrast</span
+              <div style="display: flex; align-items: center; gap: 0.75rem">
+                <div
+                  style="
+                    width: 60px;
+                    height: 40px;
+                    background: var(--container-background);
+                    border: 1px solid var(--container-color--low);
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--container-color--high);
+                    font-weight: 600;
+                    font-size: 0.9em;
+                  "
                 >
-                - var(--container-color--high)
+                  High
+                </div>
+                <code style="font-size: 0.85em; opacity: 0.8"
+                  >--container-color--high</code
+                >
               </div>
-              <div style="font-size: 0.9em">
-                <span style="color: var(--container-color)"
-                  >● Normal contrast</span
+              <div style="display: flex; align-items: center; gap: 0.75rem">
+                <div
+                  style="
+                    width: 60px;
+                    height: 40px;
+                    background: var(--container-background);
+                    border: 1px solid var(--container-color--low);
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--container-color);
+                    font-weight: 500;
+                    font-size: 0.9em;
+                  "
                 >
-                - var(--container-color)
+                  Norm
+                </div>
+                <code style="font-size: 0.85em; opacity: 0.8"
+                  >--container-color</code
+                >
               </div>
-              <div style="font-size: 0.9em">
-                <span style="color: var(--container-color--low)"
-                  >● Low contrast</span
+              <div style="display: flex; align-items: center; gap: 0.75rem">
+                <div
+                  style="
+                    width: 60px;
+                    height: 40px;
+                    background: var(--container-background);
+                    border: 1px solid var(--container-color--low);
+                    border-radius: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: var(--container-color--low);
+                    font-weight: 400;
+                    font-size: 0.9em;
+                  "
                 >
-                - var(--container-color--low)
+                  Low
+                </div>
+                <code style="font-size: 0.85em; opacity: 0.8"
+                  >--container-color--low</code
+                >
               </div>
             </div>
           </div>
@@ -2845,6 +2923,221 @@
         </ul>
       </div>
 
+      <!-- Sub-Theming Demo -->
+      <div class="color-card" style="grid-column: 1 / -1">
+        <h2>Element-Level Sub-Theming</h2>
+        <p style="line-height: 1.8; margin: 0.5rem 0 1rem 0">
+          Themes can be applied to any element using the
+          <code>theme="name"</code> attribute, overriding the parent theme for
+          that element and its children. This allows for rich visual hierarchy
+          and section-based theming.
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+          "
+        >
+          <!-- Demo Theme Section -->
+          <div
+            theme="demo"
+            style="
+              padding: 1.5rem;
+              background: var(--color--surface);
+              border-radius: 12px;
+              border: 2px solid var(--color--outline);
+            "
+          >
+            <h3 style="margin: 0 0 0.5rem 0; color: var(--color--primary)">
+              Demo Theme
+            </h3>
+            <p style="margin: 0 0 1rem 0; opacity: 0.7; font-size: 0.9rem">
+              theme="demo"
+            </p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem">
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--primary);
+                  border-radius: 8px;
+                "
+                title="Primary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--secondary);
+                  border-radius: 8px;
+                "
+                title="Secondary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--tertiary);
+                  border-radius: 8px;
+                "
+                title="Tertiary"
+              ></div>
+            </div>
+            <button
+              style="
+                padding: 0.5rem 1rem;
+                background: var(--color--primary);
+                color: var(--color--on-primary);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+              "
+            >
+              Primary Action
+            </button>
+          </div>
+
+          <!-- Blue Theme Section -->
+          <div
+            theme="blue"
+            style="
+              padding: 1.5rem;
+              background: var(--color--surface);
+              border-radius: 12px;
+              border: 2px solid var(--color--outline);
+            "
+          >
+            <h3 style="margin: 0 0 0.5rem 0; color: var(--color--primary)">
+              Blue Theme
+            </h3>
+            <p style="margin: 0 0 1rem 0; opacity: 0.7; font-size: 0.9rem">
+              theme="blue"
+            </p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem">
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--primary);
+                  border-radius: 8px;
+                "
+                title="Primary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--secondary);
+                  border-radius: 8px;
+                "
+                title="Secondary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--tertiary);
+                  border-radius: 8px;
+                "
+                title="Tertiary"
+              ></div>
+            </div>
+            <button
+              style="
+                padding: 0.5rem 1rem;
+                background: var(--color--primary);
+                color: var(--color--on-primary);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+              "
+            >
+              Primary Action
+            </button>
+          </div>
+
+          <!-- Purple Theme Section -->
+          <div
+            theme="purple"
+            style="
+              padding: 1.5rem;
+              background: var(--color--surface);
+              border-radius: 12px;
+              border: 2px solid var(--color--outline);
+            "
+          >
+            <h3 style="margin: 0 0 0.5rem 0; color: var(--color--primary)">
+              Purple Theme
+            </h3>
+            <p style="margin: 0 0 1rem 0; opacity: 0.7; font-size: 0.9rem">
+              theme="purple"
+            </p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem">
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--primary);
+                  border-radius: 8px;
+                "
+                title="Primary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--secondary);
+                  border-radius: 8px;
+                "
+                title="Secondary"
+              ></div>
+              <div
+                style="
+                  width: 40px;
+                  height: 40px;
+                  background: var(--color--tertiary);
+                  border-radius: 8px;
+                "
+                title="Tertiary"
+              ></div>
+            </div>
+            <button
+              style="
+                padding: 0.5rem 1rem;
+                background: var(--color--primary);
+                color: var(--color--on-primary);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 500;
+              "
+            >
+              Primary Action
+            </button>
+          </div>
+        </div>
+
+        <p
+          style="
+            line-height: 1.8;
+            margin: 1.5rem 0 0 0;
+            padding: 1rem;
+            background: var(--color--surface-variant);
+            border-radius: 8px;
+            font-size: 0.9rem;
+          "
+        >
+          <strong>💡 Try it:</strong> Change the global theme using the dropdown
+          above. Notice how these sub-themed sections maintain their individual
+          themes regardless of the global selection, demonstrating the power of
+          CSS cascade and custom property scoping.
+        </p>
+      </div>
+
       <!-- Architecture -->
       <div class="color-card" style="grid-column: 1 / -1">
         <h2>Architecture</h2>
@@ -2862,5 +3155,46 @@
         </p>
       </div>
     </div>
+
+    <script>
+      // Initialize theme switcher when DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        const select = document.getElementById("theme-select");
+
+        // Update the select options when themes change
+        themeSwitcher.onChange((themes, currentTheme) => {
+          // Clear existing options
+          select.innerHTML = "";
+
+          // When currentTheme is null, it means no theme attribute is set,
+          // so the default theme (demo) is active via html:not([theme]) selector
+          const activeTheme = currentTheme || "demo";
+
+          // Add options for each theme
+          themes.forEach((theme) => {
+            const option = document.createElement("option");
+            option.value = theme;
+            option.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+            if (theme === activeTheme) {
+              option.selected = true;
+            }
+            select.appendChild(option);
+          });
+
+          console.log("Available themes:", themes);
+          console.log(
+            "Current theme:",
+            currentTheme,
+            "(displaying as:",
+            activeTheme + ")",
+          );
+        });
+
+        // Handle theme selection
+        select.addEventListener("change", (e) => {
+          themeSwitcher.setTheme(e.target.value);
+        });
+      });
+    </script>
   </body>
 </html>

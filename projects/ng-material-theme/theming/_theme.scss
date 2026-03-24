@@ -47,7 +47,13 @@ $_standard-palettes: (
   }
 
   // Generate theme selector
-  $selector: if($is-default, ':root, [theme="#{$name}"]', '[theme="#{$name}"]');
+  // Default themes apply when no theme attribute is set, or when explicitly selected
+  // Non-default themes only apply when explicitly selected
+  $selector: if(
+    $is-default,
+    'html:not([theme]), [theme="#{$name}"]',
+    '[theme="#{$name}"]'
+  );
 
   #{$selector} {
     /* ── Theme Defaults ───────────────────────────────────────────────────── */
@@ -89,7 +95,7 @@ $_standard-palettes: (
           $expanded
         );
 
-        // For non-standard palettes: also run the 3-pass emission (not covered by core())
+        // For non-standard palettes: run full 3-pass emission (not covered by core())
         @if not list.index($_standard-palettes, $palette-name) {
           @include variants.emit-mode-vars($palette-name, light);
           @include variants.emit-mode-vars($palette-name, dark);
@@ -99,9 +105,6 @@ $_standard-palettes: (
       }
     }
 
-    /* ── MD3 Semantic Role Aliases ────────────────────────────────────────── */
-    @include derivation.generate-md3-role-aliases();
-
     /* ── Typography ───────────────────────────────────────────────────────── */
     @if $typography {
       @include typo.generate-typography($typography);
@@ -109,8 +112,5 @@ $_standard-palettes: (
 
     /* ── Density ──────────────────────────────────────────────────────────── */
     @include dens.apply-density($density);
-
-    /* ── Material M3 Token Bridge ─────────────────────────────────────────── */
-    @include bridge.map-to-material();
   }
 }

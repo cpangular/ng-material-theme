@@ -50,8 +50,8 @@
 @mixin generate-theme-contrast-blend-defaults($contrast-config) {
   // Theme-wide contrast blend percentages
   --theme--contrast-blend--high: #{map.get($contrast-config, "high") or 100%};
-  --theme--contrast-blend: #{map.get($contrast-config, "default") or 90%};
-  --theme--contrast-blend--low: #{map.get($contrast-config, "low") or 80%};
+  --theme--contrast-blend: #{map.get($contrast-config, "default") or 84%};
+  --theme--contrast-blend--low: #{map.get($contrast-config, "low") or 72%};
 }
 
 // Per-palette override and computed variable generation

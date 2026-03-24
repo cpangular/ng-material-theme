@@ -1,112 +1,86 @@
-// Material M3 Bridge
-// Maps custom color tokens to Angular Material M3 system tokens
-
-@use "sass:map";
-@use "./color-derivation" as derivation;
-
-@mixin material-adapter() {
-  // Generate MD3 semantic role aliases (--color--on-primary, --color--primary-container, etc.)
-  @include derivation.generate-md3-role-aliases();
-
-  // Map to Material M3 system tokens (--mat-sys-*)
-  @include map-to-material();
-}
-
-@mixin map-to-material() {
-  // Map custom tokens to Material M3 system tokens
-  // This allows Material components to use our custom colors
-
-  // Primary palette
+@charset "UTF-8";
+:root {
+  /* ── on-X: contrast of base ────────────────────────────────────────────── */
+  --color--on-primary: var(--color--primary--contrast);
+  --color--on-secondary: var(--color--secondary--contrast);
+  --color--on-tertiary: var(--color--tertiary--contrast);
+  --color--on-error: var(--color--error--contrast);
+  /* ── X-container / on-X-container ─────────────────────────────────────── */
+  --color--primary-container: var(--color--primary-lower-1);
+  --color--secondary-container: var(--color--secondary-lower-1);
+  --color--tertiary-container: var(--color--tertiary-lower-1);
+  --color--error-container: var(--color--error-lower-1);
+  --color--on-primary-container: var(--color--primary-lower-1--contrast);
+  --color--on-secondary-container: var(--color--secondary-lower-1--contrast);
+  --color--on-tertiary-container: var(--color--tertiary-lower-1--contrast);
+  --color--on-error-container: var(--color--error-lower-1--contrast);
+  /* ── Surfaces / Inverse / Utility ─────────────────────────────────────── */
+  --color--inverse-surface: var(--color--neutral-higher-2);
+  --color--inverse-on-surface: var(--color--neutral-higher-2--contrast);
+  --color--surface-tint: var(--color--primary-tint-1);
+  --color--shadow: var(--color--neutral-darker-2);
+  --color--scrim: oklch(from var(--color--neutral-darker-2) l c h / 50%);
+  --color--outline: var(--color--neutral-variant-lower-1);
+  --color--outline-variant: var(--color--neutral-variant-lighter-1);
   --mat-sys-primary: var(--color--primary);
   --mat-sys-on-primary: var(--color--primary--contrast);
   --mat-sys-primary-container: var(--color--primary-lighter-2);
   --mat-sys-on-primary-container: var(--color--primary-darker-2--contrast);
-
-  // Secondary palette
   --mat-sys-secondary: var(--color--secondary);
   --mat-sys-on-secondary: var(--color--secondary--contrast);
   --mat-sys-secondary-container: var(--color--secondary-lighter-2);
   --mat-sys-on-secondary-container: var(--color--secondary-darker-2--contrast);
-
-  // Tertiary palette
   --mat-sys-tertiary: var(--color--tertiary);
   --mat-sys-on-tertiary: var(--color--tertiary--contrast);
   --mat-sys-tertiary-container: var(--color--tertiary-lighter-2);
   --mat-sys-on-tertiary-container: var(--color--tertiary-darker-2--contrast);
-
-  // Error palette
   --mat-sys-error: var(--color--error);
   --mat-sys-on-error: var(--color--error--contrast);
   --mat-sys-error-container: var(--color--error-lighter-2);
   --mat-sys-on-error-container: var(--color--error-darker-2--contrast);
-
-  // Surface colors
   --mat-sys-surface: var(--color--surface);
   --mat-sys-on-surface: var(--color--on-surface);
   --mat-sys-surface-variant: var(--color--surface-container);
   --mat-sys-on-surface-variant: var(--color--on-surface);
-
   --mat-sys-surface-dim: var(--color--surface-dim);
   --mat-sys-surface-bright: var(--color--surface-bright);
-
   --mat-sys-surface-container-lowest: var(--color--surface-container-lowest);
   --mat-sys-surface-container-low: var(--color--surface-container-low);
   --mat-sys-surface-container: var(--color--surface-container);
   --mat-sys-surface-container-high: var(--color--surface-container-high);
   --mat-sys-surface-container-highest: var(--color--surface-container-highest);
-
-  // Background
   --mat-sys-background: var(--color--background);
   --mat-sys-on-background: var(--color--on-background);
-
-  // Outline colors (from neutral-variant)
   --mat-sys-outline: var(--color--outline);
   --mat-sys-outline-variant: var(--color--outline-variant);
-
-  // Inverse surface (flipped-mode neutral)
   --mat-sys-inverse-surface: var(--color--inverse-surface);
   --mat-sys-inverse-on-surface: var(--color--inverse-on-surface);
   --mat-sys-inverse-primary: var(--color--primary-reverse-mode);
-
-  // Surface tint (primary at low opacity for elevation overlays)
   --mat-sys-surface-tint: var(--color--surface-tint);
-
-  // Shadow and scrim
   --mat-sys-shadow: var(--color--shadow);
   --mat-sys-scrim: var(--color--scrim);
-
-  // State layer opacities (reuse opacity levels 2-4)
   --mat-sys-hover-state-layer-opacity: var(--theme--opacity--2); /* 8% */
   --mat-sys-focus-state-layer-opacity: var(--theme--opacity--3); /* 12% */
   --mat-sys-pressed-state-layer-opacity: var(--theme--opacity--3); /* 12% */
   --mat-sys-dragged-state-layer-opacity: var(--theme--opacity--4); /* 16% */
-
-  // Fixed palette roles (mode-invariant tonal refs)
-  // Currently using the same value for both light and dark modes
   --mat-sys-primary-fixed: var(--color--primary-lighter-2);
   --mat-sys-primary-fixed-dim: var(--color--primary-lighter-1);
   --mat-sys-on-primary-fixed: var(--color--primary-lighter-2--contrast);
   --mat-sys-on-primary-fixed-variant: var(--color--primary-lighter-1--contrast);
-
   --mat-sys-secondary-fixed: var(--color--secondary-lighter-2);
   --mat-sys-secondary-fixed-dim: var(--color--secondary-lighter-1);
   --mat-sys-on-secondary-fixed: var(--color--secondary-lighter-2--contrast);
   --mat-sys-on-secondary-fixed-variant: var(
     --color--secondary-lighter-1--contrast
   );
-
   --mat-sys-tertiary-fixed: var(--color--tertiary-lighter-2);
   --mat-sys-tertiary-fixed-dim: var(--color--tertiary-lighter-1);
   --mat-sys-on-tertiary-fixed: var(--color--tertiary-lighter-2--contrast);
   --mat-sys-on-tertiary-fixed-variant: var(
     --color--tertiary-lighter-1--contrast
   );
-
-  // Raw tonal palette reference tokens
   --mat-sys-neutral10: var(--color--neutral-darker-2);
   --mat-sys-neutral-variant20: var(--color--neutral-variant-darker-2);
-
-  // Elevation levels (MD3 box-shadow scale, shadow color from primary-darker-2)
   --mat-sys-shadow-color: var(--color--primary-darker-2);
   --mat-sys-level0: 0px 0px 0px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
@@ -144,8 +118,6 @@
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 5px 22px 4px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-
-  // Shape / corner radius tokens
   --mat-sys-corner-none: 0;
   --mat-sys-corner-extra-small: 4px;
   --mat-sys-corner-extra-small-top: 4px 4px 0 0;
@@ -159,3 +131,5 @@
   --mat-sys-corner-extra-large-top: 28px 28px 0 0;
   --mat-sys-corner-full: 9999px;
 }
+
+/*# sourceMappingURL=material-adapter.css.map */

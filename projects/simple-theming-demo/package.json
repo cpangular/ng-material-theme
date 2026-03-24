@@ -4,7 +4,7 @@
   "private": true,
   "description": "Simple demonstration of ng-material-theme with light-dark() support",
   "scripts": {
-    "build": "sass src/styles.scss dist/styles.css --load-path=../ng-material-theme && cp src/index.html dist/index.html",
+    "build": "sass src/styles.scss dist/styles.css --load-path=../ng-material-theme && cp src/index.html dist/index.html && cp ../ng-material-theme/css/dist/core.css dist/core.css && cp ../ng-material-theme/css/dist/theme-switcher.js dist/theme-switcher.js",
     "watch": "sass src/styles.scss dist/styles.css --load-path=../ng-material-theme --watch",
     "serve": "npm run build && npx http-server dist -p 8080 -o"
   },

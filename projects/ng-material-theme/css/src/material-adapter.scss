@@ -1,0 +1,12 @@
+// Material Design 3 Adapter
+// Optional bridge for Angular Material and M3-compatible frameworks
+// Maps design system tokens to --mat-sys-* and MD3 semantic aliases
+//
+// REQUIRES: core.css or core() mixin to be loaded first
+// USAGE: Import this ONLY if using Angular Material or M3 frameworks
+
+@use "../../theming" as theme;
+
+:root {
+  @include theme.material-adapter();
+}
