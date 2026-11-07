@@ -2,6 +2,7 @@
  * Theme Switcher
  * Pure TypeScript theme discovery and switching system
  * Detects themes defined as [theme="name"] selectors in CSS
+ * Manages both theme selection and color scheme (light/dark/auto)
  */
 
 export type ThemeChangeCallback = (
@@ -9,20 +10,40 @@ export type ThemeChangeCallback = (
   currentTheme: string | null,
 ) => void;
 
+export type ColorSchemeMode = "light" | "dark" | "auto";
+
+export type ColorSchemeChangeCallback = (mode: ColorSchemeMode) => void;
+
+export interface ThemeSwitcherOptions {
+  /** Enable localStorage persistence for theme and color scheme */
+  persist?: boolean;
+}
+
 export class ThemeSwitcher {
   private themes: Set<string> = new Set();
   private observers: ThemeChangeCallback[] = [];
+  private colorSchemeObservers: ColorSchemeChangeCallback[] = [];
   private mutationObserver?: MutationObserver;
+  private mediaQueryListener?: ((e: MediaQueryListEvent) => void) | null = null;
+  private persist: boolean;
 
-  constructor() {
+  constructor(options: ThemeSwitcherOptions = {}) {
+    this.persist = options.persist ?? true;
+
     // Discover initial themes
     this.discoverThemes();
 
     // Watch for new style tags being added
     this.observeStyleChanges();
 
-    // Restore saved theme from localStorage
-    this.restoreTheme();
+    // Restore saved theme and color scheme from localStorage if persistence enabled
+    if (this.persist) {
+      this.restoreTheme();
+      this.restoreColorScheme();
+    } else {
+      // If not persisting, initialize to auto mode
+      this.setColorScheme("auto", false);
+    }
   }
 
   /**
@@ -130,26 +151,154 @@ export class ThemeSwitcher {
 
   /**
    * Set active theme
+   * @param themeName - Theme name or null to remove theme
+   * @param persist - Override default persistence setting for this call
    */
-  public setTheme(themeName: string | null): void {
+  public setTheme(themeName: string | null, persist?: boolean): void {
+    const shouldPersist = persist ?? this.persist;
+
     if (themeName === null || themeName === "" || themeName === "none") {
       document.documentElement.removeAttribute("theme");
-      this.removeFromStorage("selectedTheme");
+      if (shouldPersist) {
+        this.removeFromStorage("@cpangular/ng-material-theme.selectedTheme");
+      }
     } else {
       document.documentElement.setAttribute("theme", themeName);
-      this.saveToStorage("selectedTheme", themeName);
+      if (shouldPersist) {
+        this.saveToStorage("@cpangular/ng-material-theme.selectedTheme", themeName);
+      }
     }
 
     this.notifyObservers();
   }
 
   /**
+   * Get current color scheme mode
+   */
+  public getCurrentColorScheme(): ColorSchemeMode {
+    if (this.persist) {
+      return (this.getFromStorage("@cpangular/ng-material-theme.colorScheme") as ColorSchemeMode) || "auto";
+    }
+    // If not persisting, check the actual color-scheme style
+    const current = document.documentElement.style.colorScheme;
+    if (current === "light" || current === "dark") {
+      return current;
+    }
+    return "auto";
+  }
+
+  /**
+   * Set color scheme mode
+   * @param mode - "light", "dark", or "auto" (follows system preference)
+   * @param persist - Override default persistence setting for this call
+   */
+  public setColorScheme(mode: ColorSchemeMode, persist?: boolean): void {
+    const shouldPersist = persist ?? this.persist;
+
+    if (shouldPersist) {
+      this.saveToStorage("@cpangular/ng-material-theme.colorScheme", mode);
+    }
+
+    // Remove previous listener if exists
+    if (this.mediaQueryListener) {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", this.mediaQueryListener);
+      this.mediaQueryListener = null;
+    }
+
+    if (mode === "auto") {
+      // Use system preference
+      const systemPref = this.getSystemPreference();
+      document.documentElement.style.colorScheme = systemPref;
+
+      // Listen for system preference changes
+      this.mediaQueryListener = (e: MediaQueryListEvent) => {
+        document.documentElement.style.colorScheme = e.matches ? "dark" : "light";
+        this.notifyColorSchemeObservers();
+      };
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", this.mediaQueryListener);
+    } else {
+      // Use explicit mode
+      document.documentElement.style.colorScheme = mode;
+    }
+
+    this.notifyColorSchemeObservers();
+  }
+
+  /**
+   * Get system color scheme preference
+   */
+  private getSystemPreference(): "light" | "dark" {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  /**
+   * Cycle through color scheme modes: light → dark → auto → light
+   */
+  public cycleColorScheme(): void {
+    const current = this.getCurrentColorScheme();
+    const next: ColorSchemeMode =
+      current === "light" ? "dark" : current === "dark" ? "auto" : "light";
+    this.setColorScheme(next);
+  }
+
+  /**
+   * Register a callback to be notified when color scheme changes
+   */
+  public onColorSchemeChange(callback: ColorSchemeChangeCallback): void {
+    this.colorSchemeObservers.push(callback);
+    // Immediately call with current state
+    callback(this.getCurrentColorScheme());
+  }
+
+  /**
+   * Unregister a color scheme callback
+   */
+  public removeColorSchemeObserver(callback: ColorSchemeChangeCallback): void {
+    const index = this.colorSchemeObservers.indexOf(callback);
+    if (index > -1) {
+      this.colorSchemeObservers.splice(index, 1);
+    }
+  }
+
+  /**
+   * Notify all color scheme observers
+   */
+  private notifyColorSchemeObservers(): void {
+    const mode = this.getCurrentColorScheme();
+    for (const callback of this.colorSchemeObservers) {
+      try {
+        callback(mode);
+      } catch (e) {
+        console.error("Color scheme observer error:", e);
+      }
+    }
+  }
+
+  /**
+   * Restore color scheme from localStorage
+   */
+  private restoreColorScheme(): void {
+    const saved = this.getFromStorage("@cpangular/ng-material-theme.colorScheme") as ColorSchemeMode;
+    if (saved && (saved === "light" || saved === "dark" || saved === "auto")) {
+      this.setColorScheme(saved, false); // Don't re-save when restoring
+    } else {
+      this.setColorScheme("auto", false);
+    }
+  }
+
+  /**
    * Restore theme from localStorage
    */
   private restoreTheme(): void {
-    const saved = this.getFromStorage("selectedTheme");
+    const saved = this.getFromStorage("@cpangular/ng-material-theme.selectedTheme");
     if (saved && this.themes.has(saved)) {
-      this.setTheme(saved);
+      this.setTheme(saved, false); // Don't re-save when restoring
     }
   }
 
@@ -194,7 +343,14 @@ export class ThemeSwitcher {
     if (this.mutationObserver) {
       this.mutationObserver.disconnect();
     }
+    if (this.mediaQueryListener) {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", this.mediaQueryListener);
+      this.mediaQueryListener = null;
+    }
     this.observers = [];
+    this.colorSchemeObservers = [];
   }
 
   // Storage helpers with SSR safety

@@ -17,56 +17,153 @@
       rel="stylesheet"
     />
     <style>
-      /* Set color-scheme to light by default */
+      /* Color scheme is set dynamically by JavaScript */
       :root {
         color-scheme: light;
       }
 
-      /* Uncomment this to see dark mode */
-      /* :root {
-      color-scheme: dark;
-    } */
+      /* Floating theme switcher pod */
+      .theme-switcher-pod {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+        background: var(--color--surface-container);
+        border-radius: 28px;
+        padding: 1rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--color--outline-variant);
+        transition: all 0.3s ease;
+      }
+
+      .theme-switcher-pod:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .theme-switcher-pod label {
+        font-weight: 600;
+        color: var(--color--on-surface);
+        white-space: nowrap;
+        font-size: 0.9rem;
+      }
+
+      .theme-switcher-pod select {
+        padding: 0.5rem 2rem 0.5rem 0.75rem;
+        font-size: 0.95rem;
+        border-radius: 20px;
+        border: 1px solid var(--color--outline);
+        background-color: var(--color--surface) !important;
+        color: var(--color--on-surface) !important;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+      }
+
+      .theme-switcher-pod select option {
+        background-color: var(--color--surface-container) !important;
+        color: var(--color--on-surface) !important;
+      }
+
+      .theme-switcher-pod select:hover {
+        border-color: var(--color--primary);
+        background-color: var(--color--surface-container-highest) !important;
+      }
+
+      .theme-switcher-pod select:focus {
+        outline: 2px solid var(--color--primary);
+        outline-offset: 2px;
+      }
+
+      .mode-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-left: 1rem;
+        border-left: 1px solid var(--color--outline-variant);
+      }
+
+      .mode-toggle-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .mode-toggle-btn:hover {
+        background: var(--color--primary);
+        color: var(--color--on-primary);
+        transform: scale(1.05);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .mode-toggle-btn:active {
+        transform: scale(0.95);
+      }
+
+      .mode-toggle-btn:focus {
+        outline: 2px solid var(--color--primary);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 768px) {
+        .theme-switcher-pod {
+          top: auto;
+          bottom: 1rem;
+          right: 1rem;
+          left: 1rem;
+          justify-content: center;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Floating theme switcher pod -->
+    <div class="theme-switcher-pod">
+      <label for="theme-select">Theme</label>
+      <select id="theme-select">
+        <option value="">Loading...</option>
+      </select>
+      <div class="mode-toggle">
+        <button
+          id="mode-toggle-btn"
+          class="mode-toggle-btn"
+          title="Toggle color scheme mode"
+          aria-label="Toggle color scheme mode"
+        >
+          🔄
+        </button>
+      </div>
+    </div>
+
     <div class="demo-container">
       <header class="demo-header">
         <h1>ng-material-theme</h1>
         <p>Material Design 3 Theme System with CSS light-dark() Support</p>
       </header>
 
-      <div
-        class="theme-switcher"
-        style="
-          margin: 1rem 0;
-          padding: 1rem;
-          background: var(--color--surface);
-          border-radius: 8px;
-        "
-      >
-        <label for="theme-select" style="margin-right: 1rem"
-          ><strong>Select Theme:</strong></label
-        >
-        <select
-          id="theme-select"
-          style="
-            padding: 0.5rem;
-            font-size: 1rem;
-            border-radius: 4px;
-            border: 1px solid var(--color--outline);
-          "
-        >
-          <option value="">Loading themes...</option>
-        </select>
-      </div>
-
       <div class="mode-note">
         <p>
           <strong>💡 Tip:</strong> This theme uses CSS
-          <code>light-dark()</code> function. To see dark mode, change
-          <code>color-scheme: light</code> to <code>color-scheme: dark</code> in
-          the HTML <code>&lt;style&gt;</code> section. All colors automatically
-          update!
+          <code>light-dark()</code> function. Click the mode button (☀️/🌙/🔄)
+          in the top-right to cycle between light, dark, and auto (system
+          preference) modes. All colors automatically update!
         </p>
       </div>
 
@@ -3160,6 +3257,7 @@
       // Initialize theme switcher when DOM is ready
       document.addEventListener("DOMContentLoaded", () => {
         const select = document.getElementById("theme-select");
+        const modeToggleBtn = document.getElementById("mode-toggle-btn");
 
         // Update the select options when themes change
         themeSwitcher.onChange((themes, currentTheme) => {
@@ -3193,6 +3291,28 @@
         // Handle theme selection
         select.addEventListener("change", (e) => {
           themeSwitcher.setTheme(e.target.value);
+        });
+
+        // Update mode button icon based on color scheme
+        function updateModeButton(mode) {
+          const icons = {
+            light: "☀️",
+            dark: "🌙",
+            auto: "🔄",
+          };
+          const nextMode = mode === "light" ? "dark" : mode === "dark" ? "auto" : "light";
+          modeToggleBtn.textContent = icons[mode];
+          modeToggleBtn.title = `Current: ${mode} mode - Click to switch to ${nextMode} mode`;
+        }
+
+        // Listen for color scheme changes
+        themeSwitcher.onColorSchemeChange((mode) => {
+          updateModeButton(mode);
+        });
+
+        // Handle mode toggle button click
+        modeToggleBtn.addEventListener("click", () => {
+          themeSwitcher.cycleColorScheme();
         });
       });
     </script>
