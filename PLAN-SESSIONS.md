@@ -41,7 +41,7 @@ Read PLAN.md. Execute Phase 1 in this order: cascade and inheritance rules for c
 ## Session 3 — Phase 1 verification (ultracode)
 
 ```
-ultracode. Read PLAN.md Phase 1 and the diff of the last commit. Run a workflow with Opus critics at high effort to try to refute each of these claims against the actual compiled core.css: (1) a nested [theme] that sets only primary inherits error and tuning from its parent and re-derives secondary/tertiary/neutral; (2) a user :root rule placed before core.css still wins; (3) every surface role is defined by core.css alone and on-surface vs surface passes 4.5:1 for the contrast sweep; (4) no joined light-dark-valued token is a relative-colour origin. Report only confirmed defects with a reproduction, fix them, and commit.
+ultracode. Read PLAN.md Phase 1 and the Phase 1 diff (`git diff 140fb11..HEAD -- projects/`). Run a workflow with Opus critics at high effort to try to refute each of these claims against the actual compiled core.css: (1) a nested [theme] that sets only primary inherits error and tuning from its parent and re-derives secondary/tertiary/neutral; (2) a user :root rule placed before core.css still wins; (3) every surface role is defined by core.css alone and on-surface vs surface passes 4.5:1 for the contrast sweep; (4) no joined light-dark-valued token is a relative-colour origin. Report only confirmed defects with a reproduction, fix them, and commit.
 ```
 
 ## Session 4 — Phase 2 register inputs only
