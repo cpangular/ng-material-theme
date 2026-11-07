@@ -1,0 +1,117 @@
+// Library defaults.
+// One map per group of inputs. These maps are the single source of truth and
+// are used only as @property initial values: core() never declares an input or
+// tuning variable, so a nested [theme] inherits every value it does not set.
+
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+
+// ── Colour inputs ─────────────────────────────────────────────────────────────
+// Each entry is (light, dark). The four derived palettes mirror the CSS-time
+// derivation in color-derivation.derive-palette-inputs(); they only matter as
+// the registered initial value, because every :root / [theme] re-derives them.
+
+$_light-primary: oklch(50% 0.02 270);
+$_dark-primary: oklch(70% 0.02 270);
+
+@function _derive($from, $l-scale, $chroma, $h-shift) {
+  @return color.change(
+    $from,
+    $lightness: color.channel($from, "lightness", $space: oklch) * $l-scale,
+    $chroma: $chroma,
+    $hue: color.channel($from, "hue", $space: oklch) + $h-shift,
+    $space: oklch
+  );
+}
+
+@function _chroma($from, $scale) {
+  @return color.channel($from, "chroma", $space: oklch) * $scale;
+}
+
+$color-inputs: (
+  "primary": (
+    $_light-primary,
+    $_dark-primary,
+  ),
+  "secondary": (
+    _derive($_light-primary, 0.9, _chroma($_light-primary, 2), 120),
+    _derive($_dark-primary, 0.95, _chroma($_dark-primary, 2), 120),
+  ),
+  "tertiary": (
+    _derive($_light-primary, 0.95, _chroma($_light-primary, 1.5), -120),
+    _derive($_dark-primary, 1, _chroma($_dark-primary, 1.5), -120),
+  ),
+  "neutral": (
+    _derive($_light-primary, 1, 0.004, 0),
+    _derive($_dark-primary, 1, 0.004, 0),
+  ),
+  "neutral-variant": (
+    _derive($_light-primary, 1, 0.012, 0),
+    _derive($_dark-primary, 1, 0.012, 0),
+  ),
+  "error": (
+    #cc0000,
+    #ff6b6b,
+  ),
+);
+
+// Initial value for a custom palette registered by createTheme().
+$custom-palette-input: $_light-primary;
+
+@function color-input($palette, $mode) {
+  $pair: map.get($color-inputs, $palette);
+  @if $mode == light {
+    @return list.nth($pair, 1);
+  }
+  @return list.nth($pair, 2);
+}
+
+// ── Tuning ────────────────────────────────────────────────────────────────────
+
+// Blend percentages: how much of the palette colour survives when mixing
+// toward black (darker) or white (lighter).
+$blends: (
+  "darker-2": 30%,
+  "darker-1": 80%,
+  "lighter-1": 30%,
+  "lighter-2": 5%,
+);
+
+// Opacity levels for tint-1 … tint-9. Levels 2–4 align with Material state
+// layers (hover 8%, focus/pressed 12%, dragged 16%).
+$opacities: (
+  1: 2%,
+  2: 8%,
+  3: 12%,
+  4: 16%,
+  5: 25%,
+  6: 40%,
+  7: 55%,
+  8: 70%,
+  9: 90%,
+);
+
+// Contrast blends: how much of the black/white contrast base is kept when the
+// on-colour is mixed back toward its background. Keys are the config keys;
+// $contrast-blend-suffix maps them to the variable-name suffix.
+$contrast-blends: (
+  "high": 100%,
+  "default": 90%,
+  "low": 80%,
+);
+$contrast-blend-suffix: (
+  "high": "--high",
+  "default": "",
+  "low": "--low",
+);
+
+// Disabled state.
+$disabled: (
+  "saturation": 40%,
+  "foreground-opacity": 70%,
+  "background-opacity": 80%,
+);
+
+// Density multiplier applied to every --theme--size--N token.
+$density-scale: 1;

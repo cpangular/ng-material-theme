@@ -108,7 +108,7 @@
 
       .mode-toggle-btn:hover {
         background: var(--color--primary);
-        color: var(--color--on-primary);
+        color: var(--color--primary--contrast);
         transform: scale(1.05);
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
       }
@@ -2843,7 +2843,7 @@
                   style="
                     width: 60px;
                     height: 40px;
-                    background: var(--container-background);
+                    background: var(--container-bg-color);
                     border: 1px solid var(--container-color--low);
                     border-radius: 4px;
                     display: flex;
@@ -2865,7 +2865,7 @@
                   style="
                     width: 60px;
                     height: 40px;
-                    background: var(--container-background);
+                    background: var(--container-bg-color);
                     border: 1px solid var(--container-color--low);
                     border-radius: 4px;
                     display: flex;
@@ -2887,7 +2887,7 @@
                   style="
                     width: 60px;
                     height: 40px;
-                    background: var(--container-background);
+                    background: var(--container-bg-color);
                     border: 1px solid var(--container-color--low);
                     border-radius: 4px;
                     display: flex;
@@ -2989,6 +2989,94 @@
         </div>
       </div>
 
+      <!-- Surface ladder -->
+      <div class="surface-demo">
+        <h2>Surfaces</h2>
+        <p style="margin-bottom: 1rem; opacity: 0.7">
+          The surface ladder, from <code>surface-dim</code> to
+          <code>surface-bright</code>, each with <code>on-surface</code> text
+          and an <code>outline-variant</code> border. Flip the mode: every tile
+          stays readable.
+        </p>
+        <div class="surface-grid">
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-dim)"
+          >
+            <strong>surface-dim</strong><span>on-surface</span>
+          </div>
+          <div class="surface-tile" style="background: var(--color--surface)">
+            <strong>surface</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-bright)"
+          >
+            <strong>surface-bright</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-container-lowest)"
+          >
+            <strong>container-lowest</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-container-low)"
+          >
+            <strong>container-low</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-container)"
+          >
+            <strong>container</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-container-high)"
+          >
+            <strong>container-high</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="background: var(--color--surface-container-highest)"
+          >
+            <strong>container-highest</strong><span>on-surface</span>
+          </div>
+          <div
+            class="surface-tile"
+            style="
+              background: var(--color--surface-variant);
+              color: var(--color--on-surface-variant);
+              border-color: var(--color--outline);
+            "
+          >
+            <strong>surface-variant</strong><span>on-surface-variant</span>
+          </div>
+        </div>
+        <div class="elevation-row">
+          <div class="elevation-tile" style="box-shadow: var(--elevation-0)">
+            elevation 0
+          </div>
+          <div class="elevation-tile" style="box-shadow: var(--elevation-1)">
+            elevation 1
+          </div>
+          <div class="elevation-tile" style="box-shadow: var(--elevation-2)">
+            elevation 2
+          </div>
+          <div class="elevation-tile" style="box-shadow: var(--elevation-3)">
+            elevation 3
+          </div>
+          <div class="elevation-tile" style="box-shadow: var(--elevation-4)">
+            elevation 4
+          </div>
+          <div class="elevation-tile" style="box-shadow: var(--elevation-5)">
+            elevation 5
+          </div>
+        </div>
+      </div>
+
       <!-- Features -->
       <div class="color-card" style="grid-column: 1 / -1">
         <h2>Features</h2>
@@ -3086,7 +3174,7 @@
               style="
                 padding: 0.5rem 1rem;
                 background: var(--color--primary);
-                color: var(--color--on-primary);
+                color: var(--color--primary--contrast);
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -3146,7 +3234,7 @@
               style="
                 padding: 0.5rem 1rem;
                 background: var(--color--primary);
-                color: var(--color--on-primary);
+                color: var(--color--primary--contrast);
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -3206,7 +3294,7 @@
               style="
                 padding: 0.5rem 1rem;
                 background: var(--color--primary);
-                color: var(--color--on-primary);
+                color: var(--color--primary--contrast);
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -3300,7 +3388,8 @@
             dark: "🌙",
             auto: "🔄",
           };
-          const nextMode = mode === "light" ? "dark" : mode === "dark" ? "auto" : "light";
+          const nextMode =
+            mode === "light" ? "dark" : mode === "dark" ? "auto" : "light";
           modeToggleBtn.textContent = icons[mode];
           modeToggleBtn.title = `Current: ${mode} mode - Click to switch to ${nextMode} mode`;
         }

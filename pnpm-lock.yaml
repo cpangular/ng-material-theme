@@ -145,6 +145,9 @@ importers:
       '@angular/material':
         specifier: ^20.2.14
         version: 20.2.14(@angular/cdk@20.2.14(@angular/common@21.2.26(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/common@21.2.26(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.26(rxjs@7.8.2))(@angular/forms@21.2.26(@angular/common@21.2.26(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.26(rxjs@7.8.2))(@angular/platform-browser@21.2.26(@angular/common@21.2.26(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.26(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/platform-browser@21.2.26(@angular/common@21.2.26(@angular/core@21.2.26(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.26(rxjs@7.8.2)))(rxjs@7.8.2)
+      colorjs.io:
+        specifier: ^0.5.2
+        version: 0.5.2
       sass:
         specifier: ^1.80.0
         version: 1.108.0
@@ -558,6 +561,9 @@ packages:
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+
+  colorjs.io@0.5.2:
+    resolution: {integrity: sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==}
 
   commander@13.1.0:
     resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
@@ -1632,6 +1638,8 @@ snapshots:
       color-name: 1.1.4
 
   color-name@1.1.4: {}
+
+  colorjs.io@0.5.2: {}
 
   commander@13.1.0: {}
 

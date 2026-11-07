@@ -1,19 +1,16 @@
-// Main Theme Mixin
-// Thin override layer — sets upstream --theme--light/dark--color--X vars.
-// All variant computation lives in core()'s :root block as CSS var chains.
+// createTheme()
+// A thin override layer: sets the --theme--light/dark--color--X inputs and any
+// tuning the config names. Everything derived lives in core().
 
 @use "sass:map";
 @use "sass:list";
-@use "sass:meta";
 @use "./color-variants" as variants;
-@use "./color-derivation" as derivation;
-@use "./material-bridge" as bridge;
-@use "./typography" as typo;
 @use "./density" as dens;
 @use "./property-declarations" as props;
 @use "./config-expansion" as config-expansion;
+@use "./defaults";
 
-// Standard palettes registered by core() — no need to re-declare in createTheme.
+// Standard palettes registered and derived by core().
 $_standard-palettes: (
   "primary",
   "secondary",
@@ -23,55 +20,46 @@ $_standard-palettes: (
   "error"
 );
 
+// Config shape:
+//   colors:          (primary: #3f51b5, secondary: (#light, #dark), brand: (value: …, blend-darker-1: 70%))
+//   blends, opacities, contrast-blends, disabled: see variants.emit-theme-tuning()
+//   density:         0 … -3
+// Only what the config names is emitted, so nested themes inherit the rest.
 @mixin createTheme($name, $config, $is-default: false) {
-  // Parse config
   $colors: map.get($config, "colors");
-  $typography: map.get($config, "typography");
-  $density: map.get($config, "density") or 0;
-  $blends: map.get($config, "blends");
-  $opacities: map.get($config, "opacities");
-  $contrast-blends: map.get($config, "contrast-blends");
+  @if map.has-key($config, "typography") {
+    @error "createTheme() has no `typography` key. Typography belongs to the consumer: Material apps use mat.theme((typography: …)).";
+  }
 
-  // Register @property declarations for any non-standard palette names.
-  // Must be at root level (outside any selector) so CSS @property rules are valid.
-  // Standard palettes are already registered by core(); skip them here.
+  // Register @property declarations for custom (non-standard) palettes.
+  // Must sit at root level so the @property rules are valid.
   @if $colors {
     @each $palette-name, $_ in $colors {
       @if not list.index($_standard-palettes, $palette-name) {
         @include props.register-palette-properties(
           $palette-name,
-          map.get(props.$palette-defaults, "primary")
+          defaults.$custom-palette-input,
+          defaults.$custom-palette-input
         );
       }
     }
   }
 
-  // Generate theme selector
-  // Default themes apply when no theme attribute is set, or when explicitly selected
-  // Non-default themes only apply when explicitly selected
-  $selector: if(
-    $is-default,
-    'html:not([theme]), [theme="#{$name}"]',
-    '[theme="#{$name}"]'
-  );
+  // A default theme applies when no theme attribute is set, or when selected.
+  $selector: '[theme="#{$name}"]';
+  @if $is-default {
+    $selector: 'html:not([theme]), [theme="#{$name}"]';
+  }
 
   #{$selector} {
-    /* ── Theme Defaults ───────────────────────────────────────────────────── */
-    @include variants.generate-theme-defaults($blends or ());
-    @include variants.generate-theme-opacity-defaults($opacities or ());
-    @include variants.generate-theme-contrast-blend-defaults(
-      $contrast-blends or ()
-    );
+    // Theme-level tuning (only keys the config names)
+    @include variants.emit-theme-tuning($config);
 
-    /* ── Palette Overrides ────────────────────────────────────────────────── */
-    // For each user-provided palette: expand config, set --theme--light/dark-- upstream
-    // vars, and emit any per-palette config overrides (blend/opacity/disabled/contrast-blend).
-    // Variant computation already lives in :root (from core()); CSS var cascading handles the rest.
+    // Palettes
     @if $colors {
       @each $palette-name, $raw in $colors {
         $expanded: config-expansion.expand($raw);
 
-        // Override upstream color inputs (CSS cascade flows into :root var chains)
         --theme--light--color--#{$palette-name}: #{map.get(
             $expanded,
             "base-light"
@@ -80,37 +68,21 @@ $_standard-palettes: (
             $expanded,
             "base-dark"
           )};
-        --theme--light--color--#{$palette-name}--contrast--base: #{map.get(
-            $expanded,
-            "contrast-base-light"
-          )};
-        --theme--dark--color--#{$palette-name}--contrast--base: #{map.get(
-            $expanded,
-            "contrast-base-dark"
-          )};
+        @include variants.emit-palette-overrides($palette-name, $expanded);
 
-        // Per-palette config overrides (blend, opacity, disabled, contrast-blend)
-        @include variants.generate-palette-config-vars(
-          $palette-name,
-          $expanded
-        );
-
-        // For non-standard palettes: run full 3-pass emission (not covered by core())
+        // Custom palettes are not derived by core(): emit their chain here.
         @if not list.index($_standard-palettes, $palette-name) {
+          @include variants.emit-palette-chain($palette-name);
           @include variants.emit-mode-vars($palette-name, light);
           @include variants.emit-mode-vars($palette-name, dark);
           @include variants.emit-join-vars($palette-name);
-          @include variants.emit-join-contrast-vars($palette-name);
         }
       }
     }
 
-    /* ── Typography ───────────────────────────────────────────────────────── */
-    @if $typography {
-      @include typo.generate-typography($typography);
+    // Density
+    @if map.has-key($config, "density") {
+      @include dens.apply-density(map.get($config, "density"));
     }
-
-    /* ── Density ──────────────────────────────────────────────────────────── */
-    @include dens.apply-density($density);
   }
 }

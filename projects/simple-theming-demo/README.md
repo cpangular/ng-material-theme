@@ -28,12 +28,10 @@ pnpm serve
 
 ## Switching Modes
 
-Edit the `<style>` section in `src/index.html` and change:
+`core.css` sets `color-scheme: light dark` on the root, so the page follows the OS preference. The mode toggle in the page overrides it by setting `color-scheme` on the root element; to force a mode in CSS, set it on any element:
 
 ```css
-:root {
-  color-scheme: light; /* Change to 'dark' */
+.dark-card {
+  color-scheme: dark;
 }
 ```
-
-Then rebuild and all colors automatically update!

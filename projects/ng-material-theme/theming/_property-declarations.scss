@@ -3,61 +3,13 @@
 // Must be called from root-level context (not inside a selector).
 
 @use "sass:map";
-@use "./contrast-utils" as contrast-utils;
-
-// ── Shared defaults ───────────────────────────────────────────────────────────
-
-// Default base colors for each standard palette.
-// Exposed so _theme.scss can use the primary default for custom palettes.
-$palette-defaults: (
-  "primary": #555555,
-  "secondary": #777777,
-  "tertiary": #999999,
-  "neutral": #cccccc,
-  "neutral-variant": #aaaaaa,
-  "error": #cc0000,
-);
-
-// Opacity level defaults (position → value). Single source of truth.
-$_opacity-defaults: (
-  1: 2%,
-  2: 8%,
-  3: 12%,
-  4: 16%,
-  5: 25%,
-  6: 40%,
-  7: 55%,
-  8: 70%,
-  9: 90%,
-);
-
-// Blend percentage defaults.
-$_blend-defaults: (
-  "darker-2": 30%,
-  "darker-1": 80%,
-  "lighter-1": 30%,
-  "lighter-2": 5%,
-);
-
-// Contrast-blend defaults. Keys are the CSS var suffix after `--contrast-blend`.
-$_contrast-blend-defaults: (
-  "--high": 100%,
-  "": 90%,
-  "--low": 80%,
-);
+@use "./defaults";
 
 // ── Private helpers ───────────────────────────────────────────────────────────
 
-// Register the 4 computed contrast @property vars for a given CSS var prefix.
+// Register the 3 contrast @property vars for a given CSS var prefix.
 // e.g. $prefix = --color--primary--contrast
-// --base is the derived light-dark() result; --base--light/--dark are only
-// registered for the base palette slot (see register-palette-properties).
 @mixin _register-contrast-vars($prefix) {
-  @property #{$prefix}--base {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: black;
-  }
   @property #{$prefix}--high {
     syntax: "<color>";
     inherits: true;
@@ -75,8 +27,8 @@ $_contrast-blend-defaults: (
   }
 }
 
-// Register a color step: the color itself, its 4 contrast vars,
-// its disabled color, and the disabled 4 contrast vars.
+// Register a color step: the color itself, its 3 contrast vars,
+// its disabled color, and the disabled 3 contrast vars.
 // A step is one level of a palette (e.g. primary-darker-2, primary-reverse-mode).
 @mixin _register-color-step($step, $default-color) {
   @property #{$step} {
@@ -98,17 +50,18 @@ $_contrast-blend-defaults: (
 
 // Register ALL @property declarations for a single palette.
 // Call this at root level once per palette name.
-@mixin register-palette-properties($name, $default-color) {
+@mixin register-palette-properties($name, $light, $dark) {
+  $default-color: $light;
   /* ── #{$name} ─── Light/Dark Input Colors ──────────────────────────────── */
   @property --theme--light--color--#{$name} {
     syntax: "<color>";
     inherits: true;
-    initial-value: #{$default-color};
+    initial-value: #{$light};
   }
   @property --theme--dark--color--#{$name} {
     syntax: "<color>";
     inherits: true;
-    initial-value: #{$default-color};
+    initial-value: #{$dark};
   }
   // Disabled base intermediates (used by contrast 3-pass)
   @property --theme--light--color--#{$name}-disabled {
@@ -126,19 +79,6 @@ $_contrast-blend-defaults: (
   @include _register-color-step(--color--#{$name}, $default-color);
   // Base reverse-mode step
   @include _register-color-step(--color--#{$name}-reverse-mode, $default-color);
-
-  /* ── #{$name} ─── Contrast Inputs ──────────────────────────────────────── */
-  $default-contrast: contrast-utils.calculate-optimal-contrast($default-color);
-  @property --theme--light--color--#{$name}--contrast--base {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #{$default-contrast};
-  }
-  @property --theme--dark--color--#{$name}--contrast--base {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #{$default-contrast};
-  }
 
   /* ── #{$name} ─── Variants ──────────────────────────────────────────────── */
   @each $variant
@@ -214,7 +154,7 @@ $_contrast-blend-defaults: (
   /* ── #{$name} ─── Config Vars ───────────────────────────────────────────── */
   // Blend percentages: computed only (overrides must stay unregistered so
   // var(--X-blend-override, var(--theme--blend)) fallback chain works)
-  @each $label, $default in $_blend-defaults {
+  @each $label, $default in defaults.$blends {
     @property --color--#{$name}--blend--#{$label} {
       syntax: "<percentage>";
       inherits: true;
@@ -223,7 +163,7 @@ $_contrast-blend-defaults: (
   }
 
   // Opacity levels: computed only
-  @each $i, $val in $_opacity-defaults {
+  @each $i, $val in defaults.$opacities {
     @property --color--#{$name}--opacity--#{$i} {
       syntax: "<percentage>";
       inherits: true;
@@ -232,7 +172,8 @@ $_contrast-blend-defaults: (
   }
 
   // Contrast blends: computed only
-  @each $suffix, $default in $_contrast-blend-defaults {
+  @each $key, $default in defaults.$contrast-blends {
+    $suffix: map.get(defaults.$contrast-blend-suffix, $key);
     @property --color--#{$name}--contrast-blend#{$suffix} {
       syntax: "<percentage>";
       inherits: true;
@@ -241,27 +182,23 @@ $_contrast-blend-defaults: (
   }
 
   // Disabled state: computed only
-  @property --color--#{$name}--disabled-saturation {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 40%;
-  }
-  @property --color--#{$name}--disabled-foreground-opacity {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 70%;
-  }
-  @property --color--#{$name}--disabled-background-opacity {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
+  @each $key, $default in defaults.$disabled {
+    @property --color--#{$name}--disabled-#{$key} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
   }
 }
 
 // Register all six standard palettes.  Call once from core().
 @mixin register-all-palette-properties() {
-  @each $name, $color in $palette-defaults {
-    @include register-palette-properties($name, $color);
+  @each $name, $pair in defaults.$color-inputs {
+    @include register-palette-properties(
+      $name,
+      defaults.color-input($name, light),
+      defaults.color-input($name, dark)
+    );
   }
 }
 
@@ -269,7 +206,7 @@ $_contrast-blend-defaults: (
 
 @mixin register-theme-level-properties() {
   /* ── Theme: Blend Percentages ───────────────────────────────────────────── */
-  @each $label, $default in $_blend-defaults {
+  @each $label, $default in defaults.$blends {
     @property --theme--blend--#{$label} {
       syntax: "<percentage>";
       inherits: true;
@@ -278,7 +215,7 @@ $_contrast-blend-defaults: (
   }
 
   /* ── Theme: Opacity Levels ─────────────────────────────────────────────── */
-  @each $i, $val in $_opacity-defaults {
+  @each $i, $val in defaults.$opacities {
     @property --theme--opacity--#{$i} {
       syntax: "<percentage>";
       inherits: true;
@@ -287,36 +224,27 @@ $_contrast-blend-defaults: (
   }
 
   /* ── Theme: Contrast Blends ────────────────────────────────────────────── */
-  @property --theme--contrast-blend--high {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 100%;
-  }
-  @property --theme--contrast-blend {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 90%;
-  }
-  @property --theme--contrast-blend--low {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
+  @each $key, $default in defaults.$contrast-blends {
+    @property --theme--contrast-blend#{map.get(defaults.$contrast-blend-suffix, $key)} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
   }
 
   /* ── Theme: Disabled State ─────────────────────────────────────────────── */
-  @property --theme--disabled-saturation {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 40%;
+  @each $key, $default in defaults.$disabled {
+    @property --theme--disabled-#{$key} {
+      syntax: "<percentage>";
+      inherits: true;
+      initial-value: #{$default};
+    }
   }
-  @property --theme--disabled-foreground-opacity {
-    syntax: "<percentage>";
+
+  /* ── Theme: Density ────────────────────────────────────────────────────── */
+  @property --theme--density-scale {
+    syntax: "<number>";
     inherits: true;
-    initial-value: 70%;
-  }
-  @property --theme--disabled-background-opacity {
-    syntax: "<percentage>";
-    inherits: true;
-    initial-value: 80%;
+    initial-value: #{defaults.$density-scale};
   }
 }

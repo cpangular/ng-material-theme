@@ -9,7 +9,6 @@
 /// @param {String} $variant [null] - Variant step (darker-1, darker-2, lighter-1, lighter-2, higher-1, higher-2, lower-1, lower-2, or tint-1 through tint-9)
 /// @param {Boolean} $reverse-mode [false] - Use reverse-mode variant (swaps light/dark values)
 /// @param {Boolean} $disabled [false] - Use disabled state
-/// @param {Boolean} $set-material-vars [false] - Also set Material Design container tokens (--mat-sys-*)
 /// @param {String} $style [filled] - Container style: 'filled' (bg=palette, text=contrast), 'text' (bg=transparent, text=palette), 'normal' (bg=inherit, text=palette)
 ///
 /// @example scss - Filled container (default)
@@ -31,7 +30,6 @@
   $variant: null,
   $reverse-mode: false,
   $disabled: false,
-  $set-material-vars: false,
   $style: filled
 ) {
   // Build the base variable name
@@ -74,17 +72,6 @@
     --container-color--high: var(#{$base}-higher-1);
     --container-color--low: var(#{$base}-lower-1);
   }
-
-  // Optional: set Material Design container tokens
-  // Only applies to base palette colors (not variants/reverse-mode/disabled)
-  @if $set-material-vars and not
-    $variant and not
-    $reverse-mode and not
-    $disabled
-  {
-    --mat-sys-#{$palette}-container: var(#{$base});
-    --mat-sys-on-#{$palette}-container: var(#{$base}--contrast);
-  }
 }
 
 /// Apply palette to a container element with both vars and properties
@@ -94,7 +81,6 @@
 /// @param {String} $variant [null] - Variant step (darker-1, darker-2, lighter-1, lighter-2, higher-1, higher-2, lower-1, lower-2, or tint-1 through tint-9)
 /// @param {Boolean} $reverse-mode [false] - Use reverse-mode variant (swaps light/dark values)
 /// @param {Boolean} $disabled [false] - Use disabled state
-/// @param {Boolean} $set-material-vars [false] - Also set Material Design container tokens (--mat-sys-*)
 /// @param {String} $style [filled] - Container style: 'filled' (bg=palette, text=contrast), 'text' (bg=transparent, text=palette), 'normal' (bg=inherit, text=palette)
 /// @param {String} $border [null] - Border thickness (e.g., 1px, 2px). When set, applies solid border with container-border-color
 /// @param {Number} $elevation [null] - Elevation level (0-5). When set, applies elevation shadow
@@ -128,7 +114,6 @@
   $variant: null,
   $reverse-mode: false,
   $disabled: false,
-  $set-material-vars: false,
   $style: filled,
   $border: null,
   $elevation: null
@@ -139,7 +124,6 @@
     $variant,
     $reverse-mode,
     $disabled,
-    $set-material-vars,
     $style
   );
 

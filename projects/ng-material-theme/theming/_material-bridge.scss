@@ -1,14 +1,11 @@
 // Material M3 Bridge
 // Maps custom color tokens to Angular Material M3 system tokens
 
-@use "sass:map";
-@use "./color-derivation" as derivation;
+// Interim mapping. Phase 3 replaces this with an adapter computed from
+// Material's own role tables; until then every Material-only role is spelled
+// out here in terms of core tokens, so there is one mapping, not two.
 
 @mixin material-adapter() {
-  // Generate MD3 semantic role aliases (--color--on-primary, --color--primary-container, etc.)
-  @include derivation.generate-md3-role-aliases();
-
-  // Map to Material M3 system tokens (--mat-sys-*)
   @include map-to-material();
 }
 
@@ -43,8 +40,8 @@
   // Surface colors
   --mat-sys-surface: var(--color--surface);
   --mat-sys-on-surface: var(--color--on-surface);
-  --mat-sys-surface-variant: var(--color--surface-container);
-  --mat-sys-on-surface-variant: var(--color--on-surface);
+  --mat-sys-surface-variant: var(--color--surface-variant);
+  --mat-sys-on-surface-variant: var(--color--on-surface-variant);
 
   --mat-sys-surface-dim: var(--color--surface-dim);
   --mat-sys-surface-bright: var(--color--surface-bright);
@@ -64,16 +61,19 @@
   --mat-sys-outline-variant: var(--color--outline-variant);
 
   // Inverse surface (flipped-mode neutral)
-  --mat-sys-inverse-surface: var(--color--inverse-surface);
-  --mat-sys-inverse-on-surface: var(--color--inverse-on-surface);
+  --mat-sys-inverse-surface: var(--color--neutral-higher-2);
+  --mat-sys-inverse-on-surface: var(--color--neutral-higher-2--contrast);
   --mat-sys-inverse-primary: var(--color--primary-reverse-mode);
 
   // Surface tint (primary at low opacity for elevation overlays)
-  --mat-sys-surface-tint: var(--color--surface-tint);
+  --mat-sys-surface-tint: var(--color--primary-tint-1);
 
-  // Shadow and scrim
-  --mat-sys-shadow: var(--color--shadow);
-  --mat-sys-scrim: var(--color--scrim);
+  // Shadow and scrim (darkest neutral; scrim at 50%)
+  --mat-sys-shadow: var(--color--neutral-darker-2);
+  --mat-sys-scrim: light-dark(
+    oklch(from var(--theme--light--color--neutral-darker-2) l c h / 50%),
+    oklch(from var(--theme--dark--color--neutral-darker-2) l c h / 50%)
+  );
 
   // State layer opacities (reuse opacity levels 2-4)
   --mat-sys-hover-state-layer-opacity: var(--theme--opacity--2); /* 8% */
@@ -108,38 +108,44 @@
 
   // Elevation levels (MD3 box-shadow scale, shadow color from primary-darker-2)
   --mat-sys-shadow-color: var(--color--primary-darker-2);
-  --mat-sys-level0: 0px 0px 0px 0px
+  --mat-sys-level0:
+    0px 0px 0px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 0px 0px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 0px 0px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-  --mat-sys-level1: 0px 2px 1px -1px oklch(from var(--mat-sys-shadow-color) l c
-          h / var(--theme--opacity--5)),
+  --mat-sys-level1:
+    0px 2px 1px -1px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 1px 1px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 1px 3px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-  --mat-sys-level2: 0px 3px 3px -2px oklch(from var(--mat-sys-shadow-color) l c
-          h / var(--theme--opacity--5)),
+  --mat-sys-level2:
+    0px 3px 3px -2px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 3px 4px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 1px 8px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-  --mat-sys-level3: 0px 3px 5px -1px oklch(from var(--mat-sys-shadow-color) l c
-          h / var(--theme--opacity--5)),
+  --mat-sys-level3:
+    0px 3px 5px -1px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 6px 10px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 1px 18px 0px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-  --mat-sys-level4: 0px 5px 5px -3px oklch(from var(--mat-sys-shadow-color) l c
-          h / var(--theme--opacity--5)),
+  --mat-sys-level4:
+    0px 5px 5px -3px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 8px 10px 1px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 3px 14px 2px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--3));
-  --mat-sys-level5: 0px 7px 8px -4px oklch(from var(--mat-sys-shadow-color) l c
-          h / var(--theme--opacity--5)),
+  --mat-sys-level5:
+    0px 7px 8px -4px
+      oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--5)),
     0px 12px 17px 2px
       oklch(from var(--mat-sys-shadow-color) l c h / var(--theme--opacity--4)),
     0px 5px 22px 4px

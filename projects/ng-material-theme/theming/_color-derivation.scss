@@ -1,101 +1,37 @@
-// Color Derivation System
-// Auto-derive missing colors from primary using CSS formulas
-// All colors use light-dark() CSS function for automatic mode switching
+// Derived palette inputs.
+// Secondary, tertiary, neutral and neutral-variant are derived from primary in
+// CSS, per mode. Emitted under :where(:root, [theme]) so a nested theme
+// re-derives them from its (possibly inherited) primary unless it sets them.
 
-// Derive secondary, tertiary, neutral, and error colors if not provided
-@mixin derive-colors() {
-  /* ── Base: light-dark() joins ──────────────────────────────────────────────── */
-  // Each palette is the light-dark() join of its two input vars.
-  --color--primary: light-dark(
-    var(--theme--light--color--primary),
-    var(--theme--dark--color--primary)
+@mixin derive-palette-inputs() {
+  /* ── Light: derived from the light primary ───────────────────────────── */
+  --theme--light--color--secondary: oklch(
+    from var(--theme--light--color--primary) calc(l * 0.9) calc(c * 2)
+      calc(h + 120)
   );
-  --color--secondary: light-dark(
-    var(--theme--light--color--secondary),
-    var(--theme--dark--color--secondary)
+  --theme--light--color--tertiary: oklch(
+    from var(--theme--light--color--primary) calc(l * 0.95) calc(c * 1.5)
+      calc(h - 120)
   );
-  --color--tertiary: light-dark(
-    var(--theme--light--color--tertiary),
-    var(--theme--dark--color--tertiary)
+  --theme--light--color--neutral: oklch(
+    from var(--theme--light--color--primary) l 0.004 h
   );
-  --color--neutral: light-dark(
-    var(--theme--light--color--neutral),
-    var(--theme--dark--color--neutral)
-  );
-  --color--neutral-variant: light-dark(
-    var(--theme--light--color--neutral-variant),
-    var(--theme--dark--color--neutral-variant)
-  );
-  --color--error: light-dark(
-    var(--theme--light--color--error),
-    var(--theme--dark--color--error)
+  --theme--light--color--neutral-variant: oklch(
+    from var(--theme--light--color--primary) l 0.012 h
   );
 
-  /* ── Reverse-mode: swap light ↔ dark ───────────────────────────────────────────── */
-  // Reverse-mode: swap light↔dark
-  --color--primary-reverse-mode: light-dark(
-    var(--theme--dark--color--primary),
-    var(--theme--light--color--primary)
+  /* ── Dark: derived from the dark primary ─────────────────────────────── */
+  --theme--dark--color--secondary: oklch(
+    from var(--theme--dark--color--primary) calc(l * 0.95) calc(c * 2)
+      calc(h + 120)
   );
-  --color--secondary-reverse-mode: light-dark(
-    var(--theme--dark--color--secondary),
-    var(--theme--light--color--secondary)
+  --theme--dark--color--tertiary: oklch(
+    from var(--theme--dark--color--primary) l calc(c * 1.5) calc(h - 120)
   );
-  --color--tertiary-reverse-mode: light-dark(
-    var(--theme--dark--color--tertiary),
-    var(--theme--light--color--tertiary)
+  --theme--dark--color--neutral: oklch(
+    from var(--theme--dark--color--primary) l 0.004 h
   );
-  --color--neutral-reverse-mode: light-dark(
-    var(--theme--dark--color--neutral),
-    var(--theme--light--color--neutral)
+  --theme--dark--color--neutral-variant: oklch(
+    from var(--theme--dark--color--primary) l 0.012 h
   );
-  --color--neutral-variant-reverse-mode: light-dark(
-    var(--theme--dark--color--neutral-variant),
-    var(--theme--light--color--neutral-variant)
-  );
-  --color--error-reverse-mode: light-dark(
-    var(--theme--dark--color--error),
-    var(--theme--light--color--error)
-  );
-}
-
-// Generate MD3 role aliases — maps semantic MD3 names to palette variants
-@mixin generate-md3-role-aliases() {
-  /* ── on-X: contrast of base ────────────────────────────────────────────── */
-  // on-X: contrast of the base role color
-  --color--on-primary: var(--color--primary--contrast);
-  --color--on-secondary: var(--color--secondary--contrast);
-  --color--on-tertiary: var(--color--tertiary--contrast);
-  --color--on-error: var(--color--error--contrast);
-
-  /* ── X-container / on-X-container ─────────────────────────────────────── */
-  // X-container: lower-1 variant (lighter in light mode, darker in dark mode)
-  --color--primary-container: var(--color--primary-lower-1);
-  --color--secondary-container: var(--color--secondary-lower-1);
-  --color--tertiary-container: var(--color--tertiary-lower-1);
-  --color--error-container: var(--color--error-lower-1);
-
-  // on-X-container: contrast of the container variant
-  --color--on-primary-container: var(--color--primary-lower-1--contrast);
-  --color--on-secondary-container: var(--color--secondary-lower-1--contrast);
-  --color--on-tertiary-container: var(--color--tertiary-lower-1--contrast);
-  --color--on-error-container: var(--color--error-lower-1--contrast);
-
-  /* ── Surfaces / Inverse / Utility ─────────────────────────────────────── */
-  // Inverse surface: flipped-mode neutral (higher-2 = dark in light, light in dark)
-  --color--inverse-surface: var(--color--neutral-higher-2);
-  --color--inverse-on-surface: var(--color--neutral-higher-2--contrast);
-
-  // Surface tint: primary at low opacity for elevation overlays
-  --color--surface-tint: var(--color--primary-tint-1);
-
-  // Shadow: darkest neutral
-  --color--shadow: var(--color--neutral-darker-2);
-
-  // Scrim: semi-transparent dark overlay for modals/drawers
-  --color--scrim: oklch(from var(--color--neutral-darker-2) l c h / 50%);
-
-  // Outline: from neutral-variant (more chromatic than neutral)
-  --color--outline: var(--color--neutral-variant-lower-1);
-  --color--outline-variant: var(--color--neutral-variant-lighter-1);
 }
