@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Runtime switching</title>
+    <link rel="stylesheet" href="../core.css" />
+    <!-- Before first paint: put the stored theme and scheme back, so the page
+         never flashes the wrong one. The switcher below reads the same keys. -->
+    <script>
+      try {
+        var t = localStorage.getItem(
+            "@cpangular/ng-material-theme.selectedTheme",
+          ),
+          s = localStorage.getItem("@cpangular/ng-material-theme.colorScheme");
+        if (t) document.documentElement.setAttribute("theme", t);
+        if (s === "light" || s === "dark")
+          document.documentElement.style.colorScheme = s;
+      } catch (e) {}
+    </script>
+    <!-- The site keeps a copy of the switcher next to the examples; this map
+         lets the import below use the package name, as your app would. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@cpangular/ng-material-theme/theme-switcher": "../theme-switcher.js"
+        }
+      }
+    </script>
+    <style>
+      /* Themes are plain CSS (chapter 6). The switcher finds these rules. */
+      [theme="indigo"] {
+        --theme--light--color--primary: #3f51b5;
+        --theme--dark--color--primary: #aab4ff;
+      }
+      [theme="ember"] {
+        --theme--light--color--primary: #c2410c;
+        --theme--dark--color--primary: #fb923c;
+      }
+      [theme="forest"] {
+        --theme--light--color--primary: #1b7a4a;
+        --theme--dark--color--primary: #7fd8a4;
+      }
+
+      body {
+        margin: 0;
+        padding: var(--theme--size--5);
+        font:
+          0.85rem/1.4 system-ui,
+          sans-serif;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--theme--size--3);
+        align-items: center;
+        margin-bottom: var(--theme--size--4);
+      }
+      select,
+      button {
+        font: inherit;
+        padding: var(--theme--size--2) var(--theme--size--3);
+        border: 1px solid var(--color--outline);
+        border-radius: var(--theme--size--2);
+        background: var(--color--surface-container-lowest);
+        color: var(--color--on-surface);
+      }
+      button[aria-pressed="true"] {
+        background: var(--color--primary);
+        border-color: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .status {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        color: var(--color--on-surface-variant);
+        margin: 0 0 var(--theme--size--4);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--theme--size--2);
+      }
+      .chip {
+        padding: var(--theme--size--2) var(--theme--size--4);
+        border-radius: var(--theme--size--8);
+      }
+      .primary {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .secondary {
+        background: var(--color--secondary);
+        color: var(--color--secondary--contrast--high);
+      }
+      .tertiary {
+        background: var(--color--tertiary);
+        color: var(--color--tertiary--contrast--high);
+      }
+      .surface {
+        background: var(--color--surface-container-highest);
+        color: var(--color--on-surface);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <label
+        >Theme
+        <select id="theme"></select
+      ></label>
+      <div role="group" aria-label="Colour scheme">
+        <button type="button" data-scheme="light">Light</button>
+        <button type="button" data-scheme="dark">Dark</button>
+        <button type="button" data-scheme="auto">Auto</button>
+      </div>
+    </header>
+    <p class="status" id="status"></p>
+    <div class="chips">
+      <span class="chip primary">primary</span>
+      <span class="chip secondary">secondary</span>
+      <span class="chip tertiary">tertiary</span>
+      <span class="chip surface">surface</span>
+    </div>
+
+    <script type="module">
+      import { themeSwitcher } from "@cpangular/ng-material-theme/theme-switcher";
+
+      const select = document.querySelector("#theme");
+      const buttons = document.querySelectorAll("[data-scheme]");
+      const status = document.querySelector("#status");
+      const show = () => {
+        const root = document.documentElement;
+        status.textContent =
+          `<html theme="${root.getAttribute("theme") ?? ""}"` +
+          ` style="color-scheme: ${root.style.colorScheme || "(none: light dark)"}">`;
+      };
+
+      // Called now and whenever the list or the page theme changes.
+      themeSwitcher.onChange((themes, current) => {
+        select.replaceChildren(
+          new Option("(default)", ""),
+          ...themes.map((t) => new Option(t, t)),
+        );
+        // The stored name may come from another page on this site (storage
+        // is per origin); keep it visible even when this page has no rule for it.
+        if (current && !themes.includes(current))
+          select.add(new Option(`${current} (no rule here)`, current));
+        select.value = current ?? "";
+        show();
+      });
+      select.onchange = () => themeSwitcher.setTheme(select.value || null);
+
+      themeSwitcher.onColorSchemeChange((mode) => {
+        for (const b of buttons)
+          b.setAttribute("aria-pressed", String(b.dataset.scheme === mode));
+        show();
+      });
+      for (const b of buttons)
+        b.onclick = () => themeSwitcher.setColorScheme(b.dataset.scheme);
+    </script>
+  </body>
+</html>

@@ -17,8 +17,9 @@
 // Checks (any failure exits 1):
 //   - every example file is numbered NN- and belongs to a chapter;
 //   - an example of chapter N matches no pattern introduced after N (the table below);
-//   - an example loads only ../core.css, ../theme-switcher.js (chapter 12 on) and
-//     files of its own chapter;
+//   - an example loads only ../core.css, the theme switcher (chapter 12 on, as
+//     ../theme-switcher.js or through an import map as the package specifier)
+//     and files of its own chapter, counting module imports and fetch() too;
 //   - every chapter embeds at least one example of its own number and includes the
 //     source of each of its own pages it embeds; every directive names a file that exists.
 import { compile, NodePackageImporter } from "sass";
@@ -131,16 +132,23 @@ for (const file of exampleFiles) {
       );
   }
   if (file.endsWith(".html")) {
+    // Everything an example loads: stylesheet links, script src, module
+    // imports, import-map targets and fetch() URLs.
     const refs = [
-      ...text.matchAll(/<link[^>]+href="([^"]+)"|<script[^>]+src="([^"]+)"/g),
-    ].map((m) => m[1] ?? m[2]);
+      ...text.matchAll(
+        /<link[^>]+href="([^"]+)"|<script[^>]+src="([^"]+)"|\bfrom\s+"([^"]+)"|^\s*import\s+"([^"]+)"|"imports"\s*:\s*\{[^}]*?"[^"]+"\s*:\s*"([^"]+)"|\bfetch\(\s*"([^"]+)"/gm,
+      ),
+    ].map((m) => m.slice(1).find((g) => g !== undefined)!);
     for (const ref of refs) {
       const own = chapterOf(ref) === n && !ref.includes("/");
       const core = ref === "../core.css";
-      const switcher = ref === "../theme-switcher.js" && n >= 12;
+      const switcher =
+        n >= 12 &&
+        (ref === "../theme-switcher.js" ||
+          ref === "@cpangular/ng-material-theme/theme-switcher");
       if (!own && !core && !switcher)
         fail(
-          `examples/${file}: loads ${ref}; an example loads only ../core.css and files of its own chapter`,
+          `examples/${file}: loads ${ref}; an example loads only ../core.css${n >= 12 ? ", the theme switcher" : ""} and files of its own chapter`,
         );
     }
     if (!/<link[^>]+href="(?:\.\.\/core\.css|\d\d-[\w-]+\.css)"/.test(text))
@@ -225,6 +233,13 @@ function page(title: string, body: string, current: string): string {
 <title>${escapeHtml(title)} · ng-material-theme</title>
 <link rel="stylesheet" href="core.css">
 <link rel="stylesheet" href="chrome.css">
+<script>
+try {
+  var t = localStorage.getItem("@cpangular/ng-material-theme.selectedTheme"), s = localStorage.getItem("@cpangular/ng-material-theme.colorScheme");
+  if (t) document.documentElement.setAttribute("theme", t);
+  if (s === "light" || s === "dark") document.documentElement.style.colorScheme = s;
+} catch (e) {}
+</script>
 <script type="importmap">{"imports":{"@cpangular/ng-material-theme/theme-switcher":"./theme-switcher.js"}}</script>
 <script type="module" src="chrome.js"></script>
 </head>
@@ -399,7 +414,7 @@ if (!existsSync(join(lib, "core.css")))
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, "examples"), { recursive: true });
 
-for (const f of ["core.css", "theme-switcher.js"])
+for (const f of ["core.css", "theme-switcher.js", "theme-switcher.js.map"])
   copyFileSync(join(lib, f), join(dist, f));
 copyFileSync(join(src, "chrome.css"), join(dist, "chrome.css"));
 writeFileSync(

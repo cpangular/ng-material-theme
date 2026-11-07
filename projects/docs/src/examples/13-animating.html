@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en" theme="indigo">
+  <head>
+    <meta charset="utf-8" />
+    <title>Animating theme changes</title>
+    <link rel="stylesheet" href="../core.css" />
+    <script>
+      try {
+        var t = localStorage.getItem(
+            "@cpangular/ng-material-theme.selectedTheme",
+          ),
+          s = localStorage.getItem("@cpangular/ng-material-theme.colorScheme");
+        if (t) document.documentElement.setAttribute("theme", t);
+        if (s === "light" || s === "dark")
+          document.documentElement.style.colorScheme = s;
+      } catch (e) {}
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@cpangular/ng-material-theme/theme-switcher": "../theme-switcher.js"
+        }
+      }
+    </script>
+    <style>
+      /* Page themes. */
+      [theme="indigo"] {
+        --theme--light--color--primary: #3f51b5;
+        --theme--dark--color--primary: #aab4ff;
+      }
+      [theme="ember"] {
+        --theme--light--color--primary: #c2410c;
+        --theme--dark--color--primary: #fb923c;
+        --theme--light--color--error: #8b005d;
+        --theme--dark--color--error: #ff7ac8;
+      }
+      [theme="forest"] {
+        --theme--light--color--primary: #1b7a4a;
+        --theme--dark--color--primary: #7fd8a4;
+      }
+      /* Themes for the nested panel that switches itself. */
+      [theme="mint"] {
+        --theme--light--color--primary: #0f766e;
+        --theme--dark--color--primary: #5eead4;
+      }
+      [theme="grape"] {
+        --theme--light--color--primary: #6d28d9;
+        --theme--dark--color--primary: #c4b5fd;
+      }
+      /* Sets only tertiary; everything else is inherited from the page. */
+      [theme="accent"] {
+        --theme--light--color--tertiary: #b45309;
+        --theme--dark--color--tertiary: #fbbf24;
+      }
+
+      /* The crossfade: on the root and on every themed element that switches
+         its own theme. A nested theme that only inherits must not carry it. */
+      :root,
+      [theme] {
+        transition-property: var(--theme--animatable);
+        transition-duration: 1.5s;
+        transition-timing-function: ease-in-out;
+      }
+      .inherits {
+        transition-property: none;
+      }
+      /* Contrast colours are black or white, chosen in CSS. While a crossfade
+         runs they flip in one frame at the crossover; a short transition on the
+         text smooths the flip. The 4.5:1 guarantee at rest is untouched. */
+      body,
+      .sw,
+      .gradient {
+        transition: color 150ms ease-in-out;
+      }
+
+      body {
+        margin: 0;
+        padding: var(--theme--size--5);
+        font:
+          0.85rem/1.4 system-ui,
+          sans-serif;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+      }
+      h2 {
+        font-size: 0.85rem;
+        margin: 0 0 var(--theme--size--2);
+      }
+      p {
+        margin: 0 0 var(--theme--size--3);
+        color: var(--color--on-surface-variant);
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--theme--size--2);
+        margin-bottom: var(--theme--size--4);
+      }
+      button {
+        font: inherit;
+        padding: var(--theme--size--2) var(--theme--size--4);
+        border: 0;
+        border-radius: var(--theme--size--2);
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+        cursor: pointer;
+      }
+      button.quiet {
+        background: var(--color--surface-container-high);
+        color: var(--color--on-surface);
+        outline: 1px solid var(--color--outline-variant);
+      }
+      .status {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        margin-bottom: var(--theme--size--4);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        gap: var(--theme--size--4);
+      }
+      .card {
+        padding: var(--theme--size--4);
+        border-radius: var(--theme--size--3);
+        background: var(--color--surface-container-lowest);
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+        gap: var(--theme--size--2);
+      }
+      .sw {
+        height: var(--theme--size--10);
+        border-radius: var(--theme--size--2);
+        display: grid;
+        place-items: center;
+        font-size: 0.7rem;
+      }
+      .sw-primary {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .sw-lighter {
+        background: var(--color--primary-lighter-1);
+        color: var(--color--primary-lighter-1--contrast--high);
+      }
+      .sw-darker {
+        background: var(--color--primary-darker-1);
+        color: var(--color--primary-darker-1--contrast--high);
+      }
+      .sw-secondary {
+        background: var(--color--secondary);
+        color: var(--color--secondary--contrast--high);
+      }
+      .sw-tertiary {
+        background: var(--color--tertiary);
+        color: var(--color--tertiary--contrast--high);
+      }
+      .sw-error {
+        background: var(--color--error);
+        color: var(--color--error--contrast--high);
+      }
+      .sw-surface {
+        background: var(--color--surface-container-highest);
+        color: var(--color--on-surface);
+        outline: 1px solid var(--color--outline-variant);
+      }
+      .gradient {
+        min-height: var(--theme--size--11);
+        margin-top: var(--theme--size--3);
+        padding: var(--theme--size--3);
+        border-radius: var(--theme--size--3);
+        background-color: var(--color--primary);
+        background-image: linear-gradient(
+          135deg,
+          var(--color--primary),
+          var(--color--tertiary)
+        );
+        color: var(--color--primary--contrast--high);
+      }
+      .shadow {
+        margin: var(--theme--size--4) var(--theme--size--2)
+          var(--theme--size--5);
+        padding: var(--theme--size--3);
+        border-radius: var(--theme--size--3);
+        background: var(--color--surface-container-lowest);
+        box-shadow:
+          var(--elevation-3),
+          0 18px 40px -10px var(--color--primary-tint-7);
+      }
+      .nested {
+        background: var(--color--surface-container);
+        outline: 2px solid var(--color--primary);
+      }
+      .scheme-panel {
+        padding: var(--theme--size--3);
+        border-radius: var(--theme--size--3);
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+        outline: 1px solid var(--color--outline);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button id="toggle-page">Page theme: indigo ⇄ ember (crossfades)</button>
+      <button class="quiet" data-scheme="light">Light (snaps)</button>
+      <button class="quiet" data-scheme="dark">Dark (snaps)</button>
+      <button class="quiet" data-scheme="auto">Auto (OS)</button>
+    </div>
+    <div class="status" id="status"></div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. Tokens of the page theme</h2>
+        <p>
+          Every swatch crossfades. Error changes only toward ember, which sets
+          it.
+        </p>
+        <div class="swatches">
+          <div class="sw sw-primary">primary</div>
+          <div class="sw sw-lighter">lighter-1</div>
+          <div class="sw sw-darker">darker-1</div>
+          <div class="sw sw-secondary">secondary</div>
+          <div class="sw sw-tertiary">tertiary</div>
+          <div class="sw sw-error">error</div>
+          <div class="sw sw-surface">surface</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. Gradient and shadow</h2>
+        <p>
+          The gradient crossfades at both ends. The coloured part of the shadow
+          crossfades; the grey elevation part is constant.
+        </p>
+        <div class="gradient">primary → tertiary</div>
+        <div class="shadow">elevation-3 + primary-tint-7</div>
+      </section>
+
+      <section class="card nested" theme="mint">
+        <h2>3. Nested theme that switches itself</h2>
+        <p>
+          Carries the transition. Its own button crossfades it; the page button
+          does not move it.
+        </p>
+        <div class="controls">
+          <button id="toggle-nested">mint ⇄ grape (crossfades)</button>
+        </div>
+        <div class="swatches">
+          <div class="sw sw-primary">primary</div>
+          <div class="sw sw-secondary">secondary</div>
+          <div class="sw sw-tertiary">tertiary</div>
+          <div class="sw sw-error">error</div>
+        </div>
+        <div class="gradient">nested gradient</div>
+      </section>
+
+      <section class="card nested inherits" theme="accent">
+        <h2>4. Nested theme that only inherits</h2>
+        <p>
+          Sets only tertiary (amber) and carries <strong>no</strong> transition.
+          Primary, secondary and error follow the page crossfade in step;
+          tertiary never changes.
+        </p>
+        <div class="swatches">
+          <div class="sw sw-primary">primary</div>
+          <div class="sw sw-secondary">secondary</div>
+          <div class="sw sw-tertiary">tertiary</div>
+          <div class="sw sw-error">error</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>5. color-scheme without a theme attribute</h2>
+        <p>
+          The inner panel has <code>style="color-scheme: dark"</code> and no
+          theme attribute. It shows the dark values of the page theme and
+          crossfades with the page. The mode buttons above snap.
+        </p>
+        <div class="scheme-panel" style="color-scheme: dark">
+          <div class="swatches">
+            <div class="sw sw-primary">primary</div>
+            <div class="sw sw-secondary">secondary</div>
+            <div class="sw sw-surface">surface</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module">
+      import { themeSwitcher } from "@cpangular/ng-material-theme/theme-switcher";
+
+      const root = document.documentElement;
+      const nested = document.querySelector(".nested:not(.inherits)");
+      const status = document.querySelector("#status");
+      const show = () =>
+        (status.textContent =
+          `html[theme="${root.getAttribute("theme") ?? ""}"]` +
+          `  color-scheme: ${root.style.colorScheme || "light dark (auto)"}` +
+          `  nested[theme="${nested.getAttribute("theme")}"]`);
+
+      // The page theme goes through the switcher (chapter 12), so it is also
+      // stored and restored. The change crossfades because of the rule above.
+      document.querySelector("#toggle-page").onclick = () =>
+        themeSwitcher.setTheme(
+          themeSwitcher.getCurrentTheme() === "ember" ? "indigo" : "ember",
+        );
+      themeSwitcher.onChange(show);
+
+      // A nested theme is just an attribute; the switcher only manages <html>.
+      document.querySelector("#toggle-nested").onclick = () => {
+        nested.setAttribute(
+          "theme",
+          nested.getAttribute("theme") === "mint" ? "grape" : "mint",
+        );
+        show();
+      };
+
+      for (const b of document.querySelectorAll("[data-scheme]"))
+        b.onclick = () => themeSwitcher.setColorScheme(b.dataset.scheme);
+      themeSwitcher.onColorSchemeChange(show);
+    </script>
+  </body>
+</html>

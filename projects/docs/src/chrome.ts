@@ -12,11 +12,16 @@ const iframes = () => [
 ];
 
 // Themes come from chrome.css; the switcher discovers every [theme="x"] rule.
+// localStorage is per origin, so the examples (same origin, own documents)
+// share the stored choice with the site. A stored name this page has no rule
+// for still gets an option, so the select never shows a blank.
 themeSwitcher.onChange((themes, current) => {
   select.replaceChildren(
     new Option("(library default)", ""),
     ...themes.map((t) => new Option(t, t)),
   );
+  if (current && !themes.includes(current))
+    select.add(new Option(`${current} (no rule on this page)`, current));
   select.value = current ?? "";
 });
 select.addEventListener("change", () =>
