@@ -26,9 +26,16 @@ $_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
 //   - Constants with nothing to re-derive (--elevation-shadow-color and the
 //     --theme--size-base--N scale) are declared once, on :root only, so a user
 //     or parent-theme override of them reaches every nested [theme].
+//
+// Registration: only the twelve colour inputs and the theme-level tuning
+// variables are registered with @property (see property-declarations). Their
+// names are published as --theme--animatable, so
+//   :root, [theme] { transition-property: var(--theme--animatable); }
+// crossfades a theme change. Derived tokens are unregistered and re-resolve
+// from the animating inputs, so they need no transition of their own.
 @mixin core() {
+  @include props.register-all-palette-inputs();
   @include props.register-theme-level-properties();
-  @include props.register-all-palette-properties();
 
   :where(:root) {
     // Follow the OS preference with no JavaScript. `color-scheme: light` or
@@ -36,6 +43,7 @@ $_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
     color-scheme: light dark;
 
     /* ── Constants (inherited by every [theme]) ───────────────────────────── */
+    --theme--animatable: #{props.registered-names()};
     --elevation-shadow-color: #000;
     --theme--size-base--1: 0.125em; // 2px
     --theme--size-base--2: 0.25em; // 4px

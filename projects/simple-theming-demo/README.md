@@ -20,6 +20,8 @@ pnpm build
 
 Open `dist/index.html` in a browser from mid 2024 or later: Chrome 123, Firefox 128, Safari 17.5. The library relies on `light-dark()`, relative colour syntax (`oklch(from …)`) and `color-mix()`.
 
+`dist/crossfade.html` is a self-contained page (core.css inlined, built by `build.ts`) for checking the theme crossfade by hand: two page themes, a gradient, a coloured shadow, a nested theme that switches itself, a nested theme that only inherits, and a `color-scheme: dark` panel with no theme attribute. Copy that one file anywhere and open it in Chrome, Firefox and Safari.
+
 Or use the built-in server:
 
 ```bash

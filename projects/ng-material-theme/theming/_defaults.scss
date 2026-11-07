@@ -1,6 +1,6 @@
 // Library defaults.
 // One map per group of inputs. These maps are the single source of truth and
-// are used only as @property initial values: core() never declares an input or
+// are the @property initial values of the inputs: core() never declares an input or
 // tuning variable, so a nested [theme] inherits every value it does not set.
 
 @use "sass:color";

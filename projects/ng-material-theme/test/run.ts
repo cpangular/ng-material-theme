@@ -303,6 +303,67 @@ for (const [name, css] of compiled) {
     `4 ${name}: ${(css.length / 1024).toFixed(1)} KB, ${(gzipSync(css).length / 1024).toFixed(1)} KB gzipped, ${props} @property`,
   );
 }
+// core.css registers exactly the twelve colour inputs plus the theme-level
+// tuning variables (PLAN.md Phase 2), every one inheriting, and publishes that
+// same list as --theme--animatable.
+{
+  const core = compiled.get("core.css")!;
+  const palettes = [
+    "primary",
+    "secondary",
+    "tertiary",
+    "neutral",
+    "neutral-variant",
+    "error",
+  ];
+  const expected = [
+    ...palettes.flatMap((p) => [
+      `--theme--light--color--${p}`,
+      `--theme--dark--color--${p}`,
+    ]),
+    ...["darker-2", "darker-1", "lighter-1", "lighter-2"].map(
+      (l) => `--theme--blend--${l}`,
+    ),
+    ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `--theme--opacity--${i}`),
+    "--theme--contrast-blend--high",
+    "--theme--contrast-blend",
+    "--theme--contrast-blend--low",
+    "--theme--disabled-saturation",
+    "--theme--disabled-foreground-opacity",
+    "--theme--disabled-background-opacity",
+    "--theme--density-scale",
+  ];
+  const rules = [...core.matchAll(/@property\s+(--[\w-]+)\s*\{([^}]*)\}/g)].map(
+    (m) => ({ name: m[1], body: m[2] }),
+  );
+  const registered = rules.map((r) => r.name);
+  const problems: string[] = [];
+  for (const name of expected)
+    if (!registered.includes(name)) problems.push(`${name} is not registered`);
+  for (const r of rules) {
+    if (!expected.includes(r.name))
+      problems.push(`${r.name} is registered but is not an input`);
+    if (!/inherits:\s*true/.test(r.body))
+      problems.push(`${r.name} does not inherit`);
+    if (!/initial-value:/.test(r.body))
+      problems.push(`${r.name} has no initial value`);
+  }
+  const animatable =
+    core
+      .match(/--theme--animatable:\s*([^;}]*)/)?.[1]
+      .split(",")
+      .map((s) => s.trim()) ?? [];
+  if (animatable.join() !== registered.join())
+    problems.push(
+      `--theme--animatable does not list the registered names in order\n    animatable: ${animatable.join(", ")}\n    registered: ${registered.join(", ")}`,
+    );
+  if (problems.length)
+    fail(`4 core.css registrations\n  ${problems.join("\n  ")}`);
+  else
+    ok(
+      `4 core.css registers ${registered.length} inputs (${palettes.length * 2} colours + ${registered.length - palettes.length * 2} tuning), all listed in --theme--animatable`,
+    );
+}
 
 // ── 5. Docs chapter order ─────────────────────────────────────────────────────
 ok(

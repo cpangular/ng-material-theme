@@ -31,12 +31,14 @@ $_standard-palettes: (
     @error "createTheme() has no `typography` key. Typography belongs to the consumer: Material apps use mat.theme((typography: …)).";
   }
 
-  // Register @property declarations for custom (non-standard) palettes.
-  // Must sit at root level so the @property rules are valid.
+  // Register the two inputs of each custom (non-standard) palette. Must sit at
+  // root level so the @property rules are valid. They are not part of
+  // --theme--animatable (core() emits that list before any theme exists); add
+  // them to transition-property by name to crossfade a custom palette.
   @if $colors {
     @each $palette-name, $_ in $colors {
       @if not list.index($_standard-palettes, $palette-name) {
-        @include props.register-palette-properties(
+        @include props.register-palette-inputs(
           $palette-name,
           defaults.$custom-palette-input,
           defaults.$custom-palette-input
