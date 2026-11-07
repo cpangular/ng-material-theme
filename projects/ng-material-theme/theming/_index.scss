@@ -23,6 +23,9 @@ $_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
 //     the tuning variables are never declared here. Their defaults are the
 //     @property initial values, so a nested [theme] inherits what it does not set.
 //   - The four derived palettes are re-derived from primary on every [theme].
+//   - Constants with nothing to re-derive (--elevation-shadow-color and the
+//     --theme--size-base--N scale) are declared once, on :root only, so a user
+//     or parent-theme override of them reaches every nested [theme].
 @mixin core() {
   @include props.register-theme-level-properties();
   @include props.register-all-palette-properties();
@@ -31,11 +34,24 @@ $_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
     // Follow the OS preference with no JavaScript. `color-scheme: light` or
     // `dark` on any element forces a mode for its subtree.
     color-scheme: light dark;
+
+    /* ── Constants (inherited by every [theme]) ───────────────────────────── */
+    --elevation-shadow-color: #000;
+    --theme--size-base--1: 0.125em; // 2px
+    --theme--size-base--2: 0.25em; // 4px
+    --theme--size-base--3: 0.5em; // 8px
+    --theme--size-base--4: 0.75em; // 12px
+    --theme--size-base--5: 1em; // 16px
+    --theme--size-base--6: 1.25em; // 20px
+    --theme--size-base--7: 1.5em; // 24px
+    --theme--size-base--8: 2em; // 32px
+    --theme--size-base--9: 2.5em; // 40px
+    --theme--size-base--10: 3em; // 48px
+    --theme--size-base--11: 4em; // 64px
   }
 
   :where(:root, [theme]) {
     /* ── Elevation (box-shadow scale) ─────────────────────────────────────── */
-    --elevation-shadow-color: #000;
     --elevation-0: none;
     --elevation-1:
       0px 2px 1px -1px oklch(from var(--elevation-shadow-color) l c h / 0.2),
@@ -59,17 +75,6 @@ $_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
       0px 5px 22px 4px oklch(from var(--elevation-shadow-color) l c h / 0.12);
 
     /* ── Size scale (× --theme--density-scale) ────────────────────────────── */
-    --theme--size-base--1: 0.125em; // 2px
-    --theme--size-base--2: 0.25em; // 4px
-    --theme--size-base--3: 0.5em; // 8px
-    --theme--size-base--4: 0.75em; // 12px
-    --theme--size-base--5: 1em; // 16px
-    --theme--size-base--6: 1.25em; // 20px
-    --theme--size-base--7: 1.5em; // 24px
-    --theme--size-base--8: 2em; // 32px
-    --theme--size-base--9: 2.5em; // 40px
-    --theme--size-base--10: 3em; // 48px
-    --theme--size-base--11: 4em; // 64px
     @for $i from 1 through 11 {
       --theme--size--#{$i}: calc(
         var(--theme--size-base--#{$i}) * var(--theme--density-scale)

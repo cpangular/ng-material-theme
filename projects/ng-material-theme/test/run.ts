@@ -1,7 +1,9 @@
 // Verification runner (PLAN.md, "Verification"). Run directly with Node 24 (type stripping).
 //   1. Sass compiles all entries.
 //   2. Every var(--x) without a fallback is declared in the CSS it is used with,
-//      and no unregistered light-dark()-valued property is a `from var(--x)` origin.
+//      no unregistered light-dark()-valued property is a `from var(--x)` origin,
+//      and core.css keeps its cascade shape (zero-specificity rules; constants
+//      declared on :root only; derived palettes opaque).
 //   3. Contrast sweep (colorjs.io, no browser) of the luminance step, the OKLab
 //      mixes and the surface tones shipped in core.css.
 //   4. Gzipped size and @property count.
@@ -86,6 +88,36 @@ for (const [name, css] of compiled) {
   if (name !== "core.css")
     check2(`core.css + ${name}`, compiled.get("core.css")! + css);
 }
+// Cascade shape of core.css (PLAN.md Phase 1 rules a–c).
+{
+  const core = compiled.get("core.css")!;
+  const rules = [
+    ...core.replace(/@property[^}]*}/g, "").matchAll(/([^{}]+)\{([^}]*)\}/g),
+  ];
+  const problems: string[] = [];
+  for (const [, sel] of rules) {
+    if (!/^\s*:where\(/.test(sel))
+      problems.push(`rule \`${sel.trim()}\` is not zero-specificity`);
+  }
+  const themed = rules.find(([, sel]) => sel.includes("[theme]"))?.[2] ?? "";
+  for (const m of themed.matchAll(
+    /(--elevation-shadow-color|--theme--size-base--\d+)\s*:/g,
+  ))
+    problems.push(
+      `${m[1]} is declared on [theme]; a :root override would not reach nested themes`,
+    );
+  for (const m of themed.matchAll(
+    /--theme--(?:light|dark)--color--(?:secondary|tertiary|neutral(?:-variant)?)\s*:\s*([^;]*)/g,
+  )) {
+    if (!/\/\s*1\s*\)\s*$/.test(m[1]))
+      problems.push(
+        `derived palette ${m[0].split(":")[0]} does not pin alpha to 1`,
+      );
+  }
+  if (problems.length)
+    fail(`2 core.css cascade shape\n  ${problems.join("\n  ")}`);
+  else ok("2 core.css cascade shape");
+}
 // Docs examples: each example HTML with the CSS it links, plus its inline styles.
 if (existsSync(docsExamples)) {
   for (const file of readdirSync(docsExamples).filter((f) =>
@@ -122,8 +154,10 @@ if (existsSync(docsExamples)) {
 // Mirrors the CSS: the contrast base is black or white at the WCAG luminance
 // crossover, judged on the clipped sRGB channels (what the browser paints);
 // --contrast and --contrast--low mix the base toward the colour in OKLab by
-// the shipped contrast-blend defaults; surfaces are the shipped tones. The
-// grid is swept as raw oklch points, so out-of-gamut inputs are covered too.
+// the shipped contrast-blend defaults; surfaces are the shipped tones (chroma
+// capped, then scaled, alpha pinned to 1). The grid is swept as raw oklch
+// points with chroma up to 0.45, so inputs outside sRGB, display-p3 and
+// rec2020 are covered; translucent inputs are covered by the alpha grid.
 {
   const core = compiled.get("core.css")!;
   const initial = (name: string): string =>
@@ -135,17 +169,20 @@ if (existsSync(docsExamples)) {
     default: parseFloat(initial("--theme--contrast-blend")) / 100,
     low: parseFloat(initial("--theme--contrast-blend--low")) / 100,
   };
-  // --color--<role>: light-dark(oklch(from var(--theme--light--color--<p>) L calc(c * K) h), oklch(... dark ...))
-  type Tone = [number, number];
+  // --color--<role>: light-dark(oklch(from var(--theme--light--color--<p>) L calc(min(c, CAP) * K) h / 1), oklch(... dark ...))
+  type Tone = [number, number, number]; // [L, chroma cap, k]
   const tones: Record<string, { palette: string; light: Tone; dark: Tone }> =
     {};
-  const toneRe =
-    /--color--([\w-]+):\s*light-dark\(\s*oklch\(from var\(--theme--light--color--([\w-]+)\)\s*([\d.]+)\s*calc\(c \* ([\d.]+)\) h\),\s*oklch\(from var\(--theme--dark--color--[\w-]+\)\s*([\d.]+)\s*calc\(c \* ([\d.]+)\) h\)\s*\)/g;
+  const oneTone = String.raw`oklch\(from var\(--theme--(?:light|dark)--color--([\w-]+)\)\s*([\d.]+)\s*calc\(min\(c, ([\d.]+)\) \* ([\d.]+)\) h\s*/\s*1\)`;
+  const toneRe = new RegExp(
+    String.raw`--color--([\w-]+):\s*light-dark\(\s*${oneTone},\s*${oneTone}\s*\)`,
+    "g",
+  );
   for (const m of core.matchAll(toneRe)) {
     tones[m[1]] = {
       palette: m[2],
-      light: [+m[3], +m[4]],
-      dark: [+m[5], +m[6]],
+      light: [+m[3], +m[4], +m[5]],
+      dark: [+m[7], +m[8], +m[9]],
     };
   }
   const surfaces = Object.keys(tones).filter(
@@ -175,10 +212,11 @@ if (existsSync(docsExamples)) {
     base.mix(c, 1 - keep, { space: "oklab" });
   const ratio = (a: Color, b: Color) =>
     Color.contrastWCAG21(painted(a), painted(b));
-  const tone = (c: Color, [L, k]: Tone) =>
+  // Mirrors tone(): alpha is dropped because the CSS pins it to 1.
+  const tone = (c: Color, [L, cap, k]: Tone) =>
     new Color("oklch", [
       L,
-      c.to("oklch").coords[1] * k,
+      Math.min(c.to("oklch").coords[1], cap) * k,
       c.to("oklch").coords[2] || 0,
     ]);
 
@@ -190,9 +228,11 @@ if (existsSync(docsExamples)) {
   };
   let n = 0;
   const problems: string[] = [];
-  for (let h = 0; h < 360; h += 15) {
+  // Surfaces take only chroma and hue from the input, so they are swept once
+  // per (C, h) at the L = 0.5 row rather than at every L.
+  for (let h = 0; h < 360; h += 5) {
     for (let L = 0.05; L <= 0.951; L += 0.05) {
-      for (const C of [0, 0.1, 0.2]) {
+      for (const C of [0, 0.1, 0.2, 0.25, 0.3, 0.37, 0.45]) {
         const c = new Color("oklch", [L, C, h]);
         n++;
         const base = contrastBase(c);
@@ -210,6 +250,7 @@ if (existsSync(docsExamples)) {
           problems.push(`--contrast--high ${rh.toFixed(2)} < 4.5 on ${tag}`);
         if (rd < 3) problems.push(`--contrast ${rd.toFixed(2)} < 3 on ${tag}`);
         // Surfaces: this colour as the neutral / neutral-variant input, both modes.
+        if (Math.abs(L - 0.5) > 1e-9) continue;
         for (const mode of ["light", "dark"] as const) {
           const on = tone(c, tones["on-surface"][mode]);
           for (const role of surfaces) {
@@ -230,6 +271,20 @@ if (existsSync(docsExamples)) {
               `${mode} on-surface-variant vs surface-variant ${rv.toFixed(2)} < 4.5 for neutral-variant ${tag}`,
             );
         }
+      }
+    }
+  }
+  // Translucent inputs: the painted tone must not depend on the input alpha.
+  for (const alpha of [0, 0.3]) {
+    const c = new Color("oklch", [0.5, 0.2, 30], alpha);
+    for (const mode of ["light", "dark"] as const) {
+      const on = tone(c, tones["on-surface"][mode]);
+      for (const role of surfaces) {
+        const s = tone(c, tones[role][mode]);
+        if (s.alpha !== 1 || on.alpha !== 1 || ratio(on, s) < 4.5)
+          problems.push(
+            `${mode} on-surface vs ${role} not opaque or < 4.5 for neutral with alpha ${alpha}`,
+          );
       }
     }
   }

@@ -2,36 +2,38 @@
 // Secondary, tertiary, neutral and neutral-variant are derived from primary in
 // CSS, per mode. Emitted under :where(:root, [theme]) so a nested theme
 // re-derives them from its (possibly inherited) primary unless it sets them.
+// Every derivation pins alpha to 1: a translucent primary must not make the
+// derived palettes, and with them every surface role, translucent.
 
 @mixin derive-palette-inputs() {
   /* ── Light: derived from the light primary ───────────────────────────── */
   --theme--light--color--secondary: oklch(
     from var(--theme--light--color--primary) calc(l * 0.9) calc(c * 2)
-      calc(h + 120)
+      calc(h + 120) / 1
   );
   --theme--light--color--tertiary: oklch(
     from var(--theme--light--color--primary) calc(l * 0.95) calc(c * 1.5)
-      calc(h - 120)
+      calc(h - 120) / 1
   );
   --theme--light--color--neutral: oklch(
-    from var(--theme--light--color--primary) l 0.004 h
+    from var(--theme--light--color--primary) l 0.004 h / 1
   );
   --theme--light--color--neutral-variant: oklch(
-    from var(--theme--light--color--primary) l 0.012 h
+    from var(--theme--light--color--primary) l 0.012 h / 1
   );
 
   /* ── Dark: derived from the dark primary ─────────────────────────────── */
   --theme--dark--color--secondary: oklch(
     from var(--theme--dark--color--primary) calc(l * 0.95) calc(c * 2)
-      calc(h + 120)
+      calc(h + 120) / 1
   );
   --theme--dark--color--tertiary: oklch(
-    from var(--theme--dark--color--primary) l calc(c * 1.5) calc(h - 120)
+    from var(--theme--dark--color--primary) l calc(c * 1.5) calc(h - 120) / 1
   );
   --theme--dark--color--neutral: oklch(
-    from var(--theme--dark--color--primary) l 0.004 h
+    from var(--theme--dark--color--primary) l 0.004 h / 1
   );
   --theme--dark--color--neutral-variant: oklch(
-    from var(--theme--dark--color--primary) l 0.012 h
+    from var(--theme--dark--color--primary) l 0.012 h / 1
   );
 }
