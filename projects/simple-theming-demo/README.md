@@ -28,7 +28,7 @@ pnpm serve
 
 ## Browser check
 
-`pnpm check:browser` renders the built demo in headless Chromium (Playwright) in light and dark mode, writes screenshots to `test/out/`, and measures the painted contrast of every surface tile, sub-theme button and palette swatch. It fails if text on a surface or a non-disabled swatch's `--contrast--high` is below 4.5:1, or `--contrast` below 3:1. It is not part of CI; run `npx playwright install chromium` once first.
+`pnpm check:browser` (TypeScript, run directly by Node 24) renders the built demo in headless Chromium (Playwright) in light and dark mode, writes screenshots to `test/out/`, and measures the painted contrast of every surface tile, sub-theme button and palette swatch. It fails if text on a surface or a non-disabled swatch's `--contrast--high` is below 4.5:1, or `--contrast` below 3:1. It is not part of CI; run `npx playwright install chromium` once first.
 
 ## Switching Modes
 

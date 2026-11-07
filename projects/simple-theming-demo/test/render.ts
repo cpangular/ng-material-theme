@@ -5,6 +5,7 @@
 // swatch's --contrast--high is below 4.5:1, or its --contrast below 3:1.
 //
 //   pnpm build && npx playwright install chromium && pnpm check:browser
+// Run directly with Node 24 (type stripping).
 import { chromium } from "playwright";
 import { spawn } from "node:child_process";
 import { mkdirSync } from "node:fs";
@@ -28,7 +29,7 @@ await page.goto("http://127.0.0.1:8765/index.html");
 // Runs in the page. Colours are resolved by painting them on a canvas, so the
 // measurement is of what Chromium displays, including gamut clipping.
 const measure = () => {
-  const lum = (c) => {
+  const lum = (c: number[]) => {
     const [r, g, b] = c.map((v) =>
       (v /= 255) <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
     );
@@ -36,8 +37,8 @@ const measure = () => {
   };
   const cv = document.createElement("canvas");
   cv.width = cv.height = 1;
-  const ctx = cv.getContext("2d", { willReadFrequently: true });
-  const paint = (...layers) => {
+  const ctx = cv.getContext("2d", { willReadFrequently: true })!;
+  const paint = (...layers: string[]) => {
     ctx.clearRect(0, 0, 1, 1);
     for (const l of layers) {
       ctx.fillStyle = l;
@@ -45,7 +46,7 @@ const measure = () => {
     }
     return [...ctx.getImageData(0, 0, 1, 1).data.slice(0, 3)];
   };
-  const ratio = (fg, bg, under = "white") => {
+  const ratio = (fg: string, bg: string, under = "white") => {
     const b = lum(paint(under, bg)),
       f = lum(paint(under, bg, fg));
     return +((Math.max(f, b) + 0.05) / (Math.min(f, b) + 0.05)).toFixed(2);
@@ -53,7 +54,7 @@ const measure = () => {
   const tiles = [...document.querySelectorAll(".surface-tile")].map((t) => {
     const cs = getComputedStyle(t);
     return {
-      tile: t.querySelector("strong").textContent,
+      tile: t.querySelector("strong")!.textContent,
       bg: cs.backgroundColor,
       ratio: ratio(cs.color, cs.backgroundColor),
     };
@@ -61,7 +62,7 @@ const measure = () => {
   const buttons = [...document.querySelectorAll("[theme] button")].map((b) => {
     const cs = getComputedStyle(b);
     return {
-      theme: b.closest("[theme]").getAttribute("theme"),
+      theme: b.closest("[theme]")!.getAttribute("theme"),
       bg: cs.backgroundColor,
       ratio: ratio(cs.color, cs.backgroundColor),
     };
@@ -69,16 +70,16 @@ const measure = () => {
   const swatches = [...document.querySelectorAll(".swatch-quarter")].map(
     (q) => {
       const cs = getComputedStyle(q);
-      const card = getComputedStyle(q.closest(".color-card")).backgroundColor;
-      const text = (sel) =>
+      const card = getComputedStyle(q.closest(".color-card")!).backgroundColor;
+      const text = (sel: string) =>
         ratio(
-          getComputedStyle(q.querySelector(sel)).color,
+          getComputedStyle(q.querySelector(sel)!).color,
           cs.backgroundColor,
           card,
         );
       return {
         swatch: q
-          .closest(".color-swatch")
+          .closest(".color-swatch")!
           .className.replace("color-swatch ", ""),
         quarter: q.className.replace("swatch-quarter ", ""),
         disabled: q.className.includes("disabled"),
@@ -102,7 +103,8 @@ for (const mode of ["light", "dark"]) {
   console.table(r.tiles);
   console.table(r.buttons);
   const live = r.swatches.filter((s) => !s.disabled);
-  const min = (k) => Math.min(...live.map((s) => s[k]));
+  const min = (k: "high" | "default" | "low") =>
+    Math.min(...live.map((s) => s[k]));
   console.log(
     `${live.length} non-disabled swatches: worst --contrast--high ${min("high")}, --contrast ${min("default")}, --contrast--low ${min("low")}`,
   );

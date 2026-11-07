@@ -6,7 +6,7 @@
   "scripts": {
     "build": "sass --style=compressed --load-path=node_modules css/src:css/dist && tsc -p css",
     "watch": "sass --watch --style=compressed --load-path=node_modules css/src:css/dist & tsc -p css --watch --preserveWatchOutput",
-    "test": "node test/run.mjs",
+    "test": "tsc -p test && node test/run.ts",
     "github.actions.build": "pnpm run build",
     "github.actions.test": "pnpm run test",
     "github.actions.pack": "gitflow pack"
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@angular/cdk": "^20.2.14",
     "@angular/material": "^20.2.14",
+    "@types/node": "^20.17.11",
     "colorjs.io": "^0.5.2",
     "sass": "^1.80.0",
     "typescript": "^5.9.3"

@@ -2,19 +2,22 @@
   "name": "@cpangular/simple-theming-demo",
   "version": "0.0.0-MAIN",
   "private": true,
+  "type": "module",
   "description": "Static HTML demonstration of @cpangular/ng-material-theme with light-dark() support",
   "scripts": {
     "build": "sass --pkg-importer=node --load-path=node_modules src/styles.scss dist/styles.css && cp src/index.html dist/index.html && cp node_modules/@cpangular/ng-material-theme/css/dist/core.css node_modules/@cpangular/ng-material-theme/css/dist/theme-switcher.js dist/",
     "watch": "sass --watch --pkg-importer=node --load-path=node_modules src/styles.scss dist/styles.css",
     "serve": "pnpm run build && http-server dist -p 8080 -o",
     "github.actions.build": "pnpm run build",
-    "check:browser": "node test/render.mjs"
+    "check:browser": "tsc -p test && node test/render.ts"
   },
   "devDependencies": {
     "@cpangular/ng-material-theme": "workspace:*",
+    "@types/node": "^20.17.11",
     "http-server": "^14.1.1",
     "playwright": "1.65.0",
-    "sass": "^1.80.0"
+    "sass": "^1.80.0",
+    "typescript": "^5.9.3"
   },
   "license": "MIT"
 }
