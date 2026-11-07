@@ -1,0 +1,99 @@
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
+
+@include theme.core();
+
+// A seventh palette, "brand", next to the six standard ones. Custom palettes
+// are Sass-only: createTheme() registers their inputs and derives their
+// variants, and every --color--brand… token exists wherever this theme applies.
+@include theme.createTheme(
+  "shop",
+  (
+    colors: (
+      primary: (
+        #0b5fa5,
+        #8ec5ff,
+      ),
+      brand: (
+        #e11d48,
+        #fda4af,
+      ),
+    ),
+  ),
+  $is-default: true
+);
+
+body {
+  margin: 1rem;
+  font:
+    0.85rem/1.4 system-ui,
+    sans-serif;
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+}
+h2 {
+  font-size: 0.85rem;
+  margin: 1rem 0 0.4rem;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  &.tints {
+    grid-template-columns: repeat(9, 1fr);
+  }
+}
+.sw {
+  min-height: 3.2rem;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  font-size: 0.72rem;
+  word-break: break-all;
+}
+
+// The full variant set of chapter 4, for the brand palette.
+.brand {
+  background: var(--color--brand);
+  color: var(--color--brand--contrast);
+}
+@each $v
+  in (
+    darker-2,
+    darker-1,
+    lighter-1,
+    lighter-2,
+    higher-2,
+    higher-1,
+    lower-1,
+    lower-2
+  )
+{
+  .brand-#{$v} {
+    background: var(--color--brand-#{$v});
+    color: var(--color--brand-#{$v}--contrast);
+  }
+}
+.brand-reverse-mode {
+  background: var(--color--brand-reverse-mode);
+  color: var(--color--brand-reverse-mode--contrast);
+}
+.brand-disabled {
+  background: var(--color--brand-disabled);
+  color: var(--color--brand-disabled--contrast);
+}
+@for $i from 1 through 9 {
+  .brand-tint-#{$i} {
+    background: var(--color--brand-tint-#{$i});
+  }
+}
+.brand-high {
+  background: var(--color--brand);
+  color: var(--color--brand--contrast--high);
+}
+.brand-low {
+  background: var(--color--brand);
+  color: var(--color--brand--contrast--low);
+}
+.primary {
+  background: var(--color--primary);
+  color: var(--color--primary--contrast);
+}

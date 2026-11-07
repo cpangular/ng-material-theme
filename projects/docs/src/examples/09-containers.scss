@@ -1,0 +1,101 @@
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
+
+@include theme.core();
+@include theme.createTheme(
+  "sea",
+  (
+    colors: (
+      primary: (
+        #0b5fa5,
+        #8ec5ff,
+      ),
+    ),
+  ),
+  $is-default: true
+);
+
+body {
+  margin: 1rem;
+  font:
+    0.85rem/1.4 system-ui,
+    sans-serif;
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+}
+h2 {
+  font-size: 0.85rem;
+  margin: 1rem 0 0.5rem;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+// Buttons: every colour comes from apply-container(). The mixin sets
+// background, color, and optionally a border and an elevation.
+button {
+  font: inherit;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.filled {
+  @include theme.apply-container(primary);
+  &:hover {
+    @include theme.apply-container(primary, higher-1);
+  }
+}
+.tonal {
+  @include theme.apply-container(secondary, lighter-2);
+}
+.outlined {
+  @include theme.apply-container(primary, $style: text, $border: 1px);
+}
+.text {
+  @include theme.apply-container(primary, $style: text);
+}
+.danger {
+  @include theme.apply-container(error, $elevation: 1);
+}
+.inverted {
+  @include theme.apply-container(primary, $reverse-mode: true);
+}
+.filled:disabled {
+  @include theme.apply-container(primary, $disabled: true);
+  cursor: default;
+}
+
+// Cards: apply-container-vars() only sets the --container-* variables; the
+// card decides what to do with them, and its children read them.
+.card {
+  @include theme.apply-container-vars(tertiary, $style: filled);
+  background: var(--container-bg-color);
+  color: var(--container-color);
+  box-shadow: var(--elevation-2);
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  max-width: 18rem;
+  h3 {
+    margin: 0 0 0.25rem;
+    font-size: 0.95rem;
+    color: var(--container-color--high);
+  }
+  p {
+    margin: 0;
+    color: var(--container-color--low);
+  }
+}
+.card.normal {
+  @include theme.apply-container-vars(tertiary, $style: normal);
+  background: var(--color--surface-container-lowest);
+  border: 1px solid var(--container-border-color);
+  box-shadow: none;
+  // For text and normal styles, --low is the palette's -lower-1, which fades
+  // into a light page; body text keeps the base colour.
+  p {
+    color: var(--container-color);
+  }
+}

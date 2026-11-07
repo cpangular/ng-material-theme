@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tuning</title>
+    <link rel="stylesheet" href="10-tuning.css" />
+  </head>
+  <body>
+    <div class="panel" theme="sea">
+      <h2>defaults</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+
+    <div class="panel" theme="sea" style="--theme--blend--darker-1: 50%">
+      <h2>--theme--blend--darker-1: 50%</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+
+    <div class="panel" theme="sea" style="--theme--opacity--5: 60%">
+      <h2>--theme--opacity--5: 60%</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+
+    <div class="panel" theme="sea" style="--theme--disabled-saturation: 100%">
+      <h2>--theme--disabled-saturation: 100%</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+
+    <div
+      class="panel"
+      theme="sea"
+      style="--color--primary--blend--darker-1-override: 50%"
+    >
+      <h2>--color--primary--blend--darker-1-override: 50%</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+
+    <div class="panel" theme="soft">
+      <h2>theme="soft" (tuned in Sass)</h2>
+      <div class="row">
+        <div class="sw p">primary</div>
+        <div class="sw p-darker-1">-darker-1</div>
+        <div class="sw p-lighter-1">-lighter-1</div>
+        <div class="sw s-darker-1">secondary-darker-1</div>
+        <div class="sw p-tint-5">tint-5</div>
+        <div class="sw p-disabled">-disabled</div>
+      </div>
+    </div>
+  </body>
+</html>

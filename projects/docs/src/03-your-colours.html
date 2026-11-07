@@ -1,0 +1,80 @@
+<h1>Your colours</h1>
+<p class="lead">
+  A theme is two input colours: a light primary and a dark primary. Five more
+  palettes follow from them.
+</p>
+
+<!-- example: examples/03-your-colours.html -->
+
+<h2>The input variables</h2>
+<p>
+  Every palette has two inputs,
+  <code>--theme--light--color--<em>palette</em></code> and
+  <code>--theme--dark--color--<em>palette</em></code
+  >, one per mode from chapter 2. Set them in a plain <code>:root</code> rule,
+  anywhere in your CSS. The rule can come before or after the
+  <code>core.css</code> link: <code>core.css</code> uses zero-specificity
+  selectors, so your rule wins regardless of stylesheet order.
+</p>
+<p>
+  To use one colour in both modes, put the same value in both inputs. There is
+  no third form.
+</p>
+
+<h2>The six palettes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Palette</th>
+      <th>Comes from</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>primary</code></td>
+      <td>Your inputs. The default is a quiet grey-blue.</td>
+    </tr>
+    <tr>
+      <td><code>secondary</code></td>
+      <td>Derived from primary: hue turned 120°, more saturated.</td>
+    </tr>
+    <tr>
+      <td><code>tertiary</code></td>
+      <td>Derived from primary: hue turned −120°.</td>
+    </tr>
+    <tr>
+      <td><code>neutral</code></td>
+      <td>
+        Derived from primary: almost grey, with a trace of its hue. Chapter 5
+        builds the surfaces from it.
+      </td>
+    </tr>
+    <tr>
+      <td><code>neutral-variant</code></td>
+      <td>
+        Derived from primary: a slightly more tinted grey, used for outlines.
+      </td>
+    </tr>
+    <tr>
+      <td><code>error</code></td>
+      <td>Independent. A red by default; set its inputs to change it.</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Each palette gives you <code>--color--<em>palette</em></code> and
+  <code>--color--<em>palette</em>--contrast</code>, exactly like primary in
+  chapter 1.
+</p>
+
+<h2>Overriding a derived palette</h2>
+<p>
+  Derivation is a default, not a rule. Set the two inputs of any derived palette
+  and that value is used instead; the example sets tertiary to an orange that
+  the primary's hue would never produce. Everything you do not set keeps
+  following primary, so changing primary later still moves secondary, neutral
+  and neutral-variant with it.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/03-your-colours.html -->

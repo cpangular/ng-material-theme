@@ -1,0 +1,45 @@
+<h1>Light and dark</h1>
+<p class="lead">
+  Every token has a light value and a dark value. One CSS property decides which
+  one you see, on any element.
+</p>
+
+<!-- example: examples/02-light-and-dark.html -->
+<p>
+  Press <strong>Light</strong>, <strong>Dark</strong> and
+  <strong>Auto</strong> at the top of this page. The first two panels do not
+  move. The third follows.
+</p>
+
+<h2>The default follows the OS</h2>
+<p>
+  <code>core.css</code> sets <code>color-scheme: light dark</code> on the root
+  element. That is the browser's own switch for light and dark mode: with both
+  keywords, the page follows the operating system preference, with no script.
+</p>
+
+<h2>Forcing a mode on any element</h2>
+<p>
+  <code>color-scheme: light</code> or <code>color-scheme: dark</code> on an
+  element forces that mode for the element and everything inside it. Nothing
+  else is needed: no attribute, no class, no second stylesheet. The token keeps
+  both values and resolves to the right one wherever it is used, so a dark panel
+  inside a light page is one declaration.
+</p>
+<p>
+  The browser's own page colours follow the same switch. The panels above use
+  <code>Canvas</code> and <code>CanvasText</code> for their background and text
+  so that you can see it. Chapter 5 replaces them with the library's surfaces.
+</p>
+
+<h2>Two values per token</h2>
+<p>
+  The box is <code>--color--primary</code> in all three panels. In the light
+  panel it is the light primary, in the dark panel the lighter dark primary, and
+  its <code>--contrast</code> flips with it. Which value a token resolves to is
+  decided by the nearest <code>color-scheme</code> above the element that reads
+  it. The next chapter sets those two values.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/02-light-and-dark.html -->

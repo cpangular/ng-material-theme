@@ -1,0 +1,124 @@
+<h1>Tuning</h1>
+<p class="lead">
+  The percentages behind the variants are variables too. Change one for a whole
+  theme, or for one palette inside it.
+</p>
+
+<!-- example: examples/10-tuning.html -->
+<p>
+  Compare each panel with the first. The second changes how dark
+  <code>-darker-1</code> is for every palette; the fifth changes it for primary
+  only, so <code>secondary-darker-1</code> is untouched.
+</p>
+
+<h2>The tuning variables</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Default</th>
+      <th>Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--theme--blend--darker-2</code>,
+        <code>--theme--blend--darker-1</code>
+      </td>
+      <td>30%, 80%</td>
+      <td>
+        How much of the colour survives when mixing toward black. Lower is
+        darker.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--blend--lighter-1</code>,
+        <code>--theme--blend--lighter-2</code>
+      </td>
+      <td>30%, 5%</td>
+      <td>The same toward white. Lower is lighter.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--opacity--1</code> … <code>--theme--opacity--9</code>
+      </td>
+      <td>2% … 90%</td>
+      <td>The opacity of <code>-tint-1</code> to <code>-tint-9</code>.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--contrast-blend--high</code>,
+        <code>--theme--contrast-blend</code>,
+        <code>--theme--contrast-blend--low</code>
+      </td>
+      <td>100%, 90%, 80%</td>
+      <td>
+        How much of the black or white base is kept in each contrast colour.
+        Lowering <code>--contrast-blend</code> below the default gives up the
+        3:1 guarantee of chapter 4.
+      </td>
+    </tr>
+    <tr>
+      <td><code>--theme--disabled-saturation</code></td>
+      <td>40%</td>
+      <td>How much colour a <code>-disabled</code> variant keeps.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--disabled-foreground-opacity</code>,
+        <code>--theme--disabled-background-opacity</code>
+      </td>
+      <td>70%, 80%</td>
+      <td>The opacity of disabled text and of a disabled fill.</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  They behave like the colour inputs of chapter 3: set them in a
+  <code>:root</code> rule or a theme rule, and a nested theme inherits what it
+  does not set.
+</p>
+
+<h2>Per-palette overrides and the fallback chain</h2>
+<p>
+  Each palette reads every tuning value through a chain with an override in
+  front:
+</p>
+<pre><code>--color--primary--blend--darker-1: var(--color--primary--blend--darker-1-override, var(--theme--blend--darker-1));</code></pre>
+<p>
+  Set <code>--color--<em>palette</em>--<em>key</em>-override</code> and that
+  palette alone changes; leave it unset and the theme-level value applies. The
+  override names follow the variable names:
+  <code>--color--error--opacity--5-override</code>,
+  <code>--color--primary--contrast-blend--low-override</code>,
+  <code>--color--primary--disabled-saturation-override</code>.
+</p>
+
+<h2>Where an override must sit</h2>
+<p>
+  Tuning values and their overrides take effect only on <code>:root</code> or on
+  an element with a <code>theme</code> attribute. The chains above are evaluated
+  there, and everything below inherits their results, not their inputs. Setting
+  <code>--theme--blend--darker-1</code> on a plain <code>&lt;div&gt;</code> does
+  nothing; the panels in the example are therefore
+  <code>theme="sea"</code> elements with an inline style, and the attribute
+  alone is what makes them a boundary (chapter 6).
+</p>
+
+<h2>The Sass shape</h2>
+<p>
+  In <code>createTheme()</code>, theme-level tuning is four optional maps beside
+  <code>colors</code>: <code>blends</code>, <code>opacities</code>,
+  <code>contrast-blends</code> and <code>disabled</code>, with the keys shown in
+  the <code>soft</code> theme above. A per-palette override is written inside
+  the palette by giving it a <code>value</code> and the keys beside it:
+  <code>blend-darker-1</code>, <code>opacity5</code>,
+  <code>contrast-blend-low</code>, <code>disabled-saturation</code>, and so on.
+  Only the keys you name are emitted, exactly as in CSS.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/10-tuning.scss -->
+<!-- include: examples/10-tuning.html -->

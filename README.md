@@ -12,13 +12,15 @@ Chrome 123, Firefox 128, Safari 17.5 (mid 2024). The library needs `light-dark()
 
 ```
 projects/ng-material-theme/    the library (Sass source, built CSS, theme switcher)
-projects/simple-theming-demo/  static demo page
+projects/docs/                 documentation site (static HTML built with the library)
 ```
 
 ```bash
 pnpm install
 pnpm build      # library first, then its consumers
-pnpm test       # library verification
+pnpm test       # library verification (includes the docs chapter-order check)
+
+cd projects/docs && pnpm serve   # view the built docs at http://localhost:8080
 ```
 
 Releases are managed by [cpdevtools/git-flow](https://github.com/cpdevtools/git-flow): manifests carry `0.0.0-MAIN`, the real version lives in `.publish/versions.yml`.

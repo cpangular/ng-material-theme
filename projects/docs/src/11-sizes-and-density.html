@@ -1,0 +1,113 @@
+<h1>Sizes and density</h1>
+<p class="lead">
+  A spacing scale of eleven steps, and one number that tightens all of them at
+  once.
+</p>
+
+<!-- example: examples/11-sizes-and-density.html -->
+
+<h2>The size scale</h2>
+<p>
+  <code>--theme--size--1</code> to <code>--theme--size--11</code> are lengths
+  for padding, gaps, radii and control heights. They are in <code>em</code>, so
+  they scale with the font size of the element that uses them:
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>em</code></td>
+      <td>0.125</td>
+      <td>0.25</td>
+      <td>0.5</td>
+      <td>0.75</td>
+      <td>1</td>
+      <td>1.25</td>
+      <td>1.5</td>
+      <td>2</td>
+      <td>2.5</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>at 16px</td>
+      <td>2</td>
+      <td>4</td>
+      <td>8</td>
+      <td>12</td>
+      <td>16</td>
+      <td>20</td>
+      <td>24</td>
+      <td>32</td>
+      <td>40</td>
+      <td>48</td>
+      <td>64</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The earlier chapters used plain <code>rem</code> spacing so that the examples
+  stayed about colour. From here on, the scale is the spacing.
+</p>
+
+<h2>Density</h2>
+<p>
+  Every size is the base step multiplied by <code>--theme--density-scale</code>,
+  which defaults to 1. Set it below 1 and every size shrinks together, so a
+  toolbar, its buttons and its gaps tighten in proportion. It is an input like
+  the colours in chapter 3: set it on <code>:root</code> or in a theme rule, and
+  a nested theme inherits it. Like the tuning values of chapter 10, it takes
+  effect only on <code>:root</code> or a <code>theme</code> element, where the
+  sizes are computed.
+</p>
+<pre><code>[theme="compact"] { --theme--density-scale: 0.84; }</code></pre>
+
+<h2>The <code>density</code> key</h2>
+<p>
+  In <code>createTheme()</code>, <code>density</code> takes a step from 0 to −3
+  and sets the scale for you:
+</p>
+<table>
+  <thead>
+    <tr>
+      <th><code>density</code></th>
+      <th>0</th>
+      <th>−1</th>
+      <th>−2</th>
+      <th>−3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--theme--density-scale</code></td>
+      <td>1</td>
+      <td>0.92</td>
+      <td>0.84</td>
+      <td>0.76</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The example's four themes set only <code>density</code>; their colours are
+  inherited from the page. Text size is not part of density: fonts are yours,
+  and a denser panel keeps the same font size with less room around it.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/11-sizes-and-density.scss -->
+<!-- include: examples/11-sizes-and-density.html -->

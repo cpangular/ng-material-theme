@@ -1,0 +1,85 @@
+<h1>Containers</h1>
+<p class="lead">
+  One mixin turns a palette, a variant and a style into a readable box.
+  Everything it uses was introduced in chapters 4 and 5.
+</p>
+
+<!-- example: examples/09-containers.html -->
+
+<h2><code>apply-container()</code></h2>
+<pre><code>@include theme.apply-container($palette, $variant: null, $reverse-mode: false, $disabled: false, $style: filled, $border: null, $elevation: null);</code></pre>
+<p>
+  It sets <code>background</code> and <code>color</code>, and when asked a
+  <code>border</code> and a <code>box-shadow</code>. The palette and variant
+  form a chapter 4 token name, so
+  <code>apply-container(primary, higher-1)</code> paints
+  <code>--color--primary-higher-1</code> with its <code>--contrast</code> as
+  text. <code>$reverse-mode</code> and <code>$disabled</code> add the matching
+  suffixes; <code>$border</code> is a width; <code>$elevation</code> is 0 to 5
+  from chapter 5.
+</p>
+
+<h2>The three styles</h2>
+<table>
+  <thead>
+    <tr>
+      <th><code>$style</code></th>
+      <th>Background</th>
+      <th>Text</th>
+      <th>Border</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>filled</code></td>
+      <td>the colour</td>
+      <td>its <code>--contrast</code></td>
+      <td>the colour</td>
+    </tr>
+    <tr>
+      <td><code>text</code></td>
+      <td><code>transparent</code></td>
+      <td>the colour</td>
+      <td>the colour</td>
+    </tr>
+    <tr>
+      <td><code>normal</code></td>
+      <td><code>inherit</code></td>
+      <td>the colour</td>
+      <td>the colour</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Filled is a solid button or chip. Text is a text button, or an outlined one
+  with <code>$border</code>. Normal is for an element that keeps its parent's
+  background but speaks in the palette colour.
+</p>
+
+<h2><code>apply-container-vars()</code></h2>
+<p>
+  The same arguments without the last two. It sets five variables and no
+  properties, so the element and its children decide what to paint:
+</p>
+<ul>
+  <li>
+    <code>--container-bg-color</code> and <code>--container-color</code>: the
+    pair the style describes.
+  </li>
+  <li><code>--container-border-color</code>: the colour.</li>
+  <li>
+    <code>--container-color--high</code> and
+    <code>--container-color--low</code>: for filled, the colour's
+    <code>--contrast--high</code> and <code>--contrast--low</code>; for text and
+    normal, its <code>-higher-1</code> and <code>-lower-1</code>.
+  </li>
+</ul>
+<p>
+  The cards use it: a heading in the high-emphasis text, a caption in the low,
+  both guaranteed to agree with the background because they come from the same
+  palette slot.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/09-containers.scss -->
+<!-- include: examples/09-containers.html -->

@@ -1,0 +1,42 @@
+<h1>Custom palettes</h1>
+<p class="lead">
+  A palette beyond the six, with the whole variant family of chapter 4. This
+  needs Sass.
+</p>
+
+<!-- example: examples/08-custom-palettes.html -->
+
+<h2>Adding a palette</h2>
+<p>
+  Name a palette in <code>createTheme()</code>'s <code>colors</code> map that is
+  not one of the six standard ones, and it becomes a palette.
+  <code>brand</code> above takes the same two shapes as any palette: a single
+  colour, or a light and dark pair. From then on every token the grammar in
+  chapter 4 allows exists for it: <code>--color--brand</code>,
+  <code>--color--brand-darker-1--contrast--high</code>,
+  <code>--color--brand-tint-3</code>, and so on, with the same contrast
+  guarantees.
+</p>
+
+<h2>Why Sass only</h2>
+<p>
+  <code>core.css</code> derives the six standard palettes and nothing else; it
+  cannot know your palette names. <code>createTheme()</code> emits the
+  derivation for a custom palette inside the theme's own rule, so the palette
+  exists wherever the theme applies, including nested themes that inherit it. A
+  plain CSS theme can set the inputs of the six standard palettes, but it cannot
+  add a seventh.
+</p>
+
+<h2>Where it lives</h2>
+<p>
+  A custom palette belongs to the theme that declares it. Declare it in the
+  default theme (<code>$is-default: true</code>, as here) to have it everywhere,
+  or in a named theme to have it only inside that theme. Two themes may declare
+  the same palette name with different colours; a nested theme that does not
+  declare it inherits the parent's tokens.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/08-custom-palettes.scss -->
+<!-- include: examples/08-custom-palettes.html -->

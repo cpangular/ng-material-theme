@@ -194,7 +194,7 @@ Phase 2 precedes the docs because chapter 2's per-element light/dark relies on u
 4. Print gzipped size and `@property` count.
 5. Docs chapter-order check.
 
-Not in CI: `pnpm check:browser` in `simple-theming-demo` renders the demo in headless Chromium and measures painted contrast (Chrome clips out-of-gamut colours per channel, which is why the luminance step clamps r, g and b).
+Not in CI: `pnpm check:browser` in `projects/docs` renders every example page in headless Chromium in both modes, screenshots them to `test/out/` and reports painted text contrast below 4.5:1 (Chrome clips out-of-gamut colours per channel, which is why the luminance step clamps r, g and b).
 
 ## Decisions already made (so they are not reopened)
 

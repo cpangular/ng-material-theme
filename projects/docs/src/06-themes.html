@@ -1,0 +1,58 @@
+<h1>Themes</h1>
+<p class="lead">
+  A named theme is the inputs from chapter 3 behind an attribute. Put the
+  attribute on any element and its subtree is re-themed.
+</p>
+
+<!-- example: examples/06-themes.html -->
+
+<h2>The theme attribute</h2>
+<p>
+  A theme is a plain CSS rule, <code>[theme="ember"] { <em>inputs</em> }</code>.
+  Any element with <code>theme="ember"</code> gets those inputs, and every token
+  inside it is re-derived from them: the palettes, the variants, the surfaces.
+  Set it on <code>&lt;html&gt;</code> to theme the page, or on a panel to theme
+  the panel. There is no list of themes to register; the rule is the theme.
+</p>
+
+<h2>The default theme</h2>
+<p>
+  Chapter 3's <code>:root</code> rule was already a theme: the one that applies
+  where no attribute does. Keep it, and add named themes next to it.
+</p>
+
+<h2>Nesting</h2>
+<p>
+  Themes nest. A theme inside a theme inherits every input it does not set,
+  because the inputs are ordinary inherited custom properties. Then it
+  re-derives everything from what it has:
+</p>
+<ul>
+  <li>
+    <strong>Inherited</strong> if not set: primary, error, and the tuning values
+    of chapter 10.
+  </li>
+  <li>
+    <strong>Re-derived</strong> from primary unless set: secondary, tertiary,
+    neutral, neutral-variant. In the example, <code>accent</code> sets only
+    tertiary; its primary and secondary come from <code>ember</code>, and its
+    surfaces are ember's surfaces.
+  </li>
+</ul>
+<p>
+  Any value of the attribute works as a boundary, even one with no rule. An
+  element with <code>theme="x"</code> and no <code>[theme="x"]</code> rule
+  simply re-derives from what it inherits.
+</p>
+
+<h2>Themes and colour scheme</h2>
+<p>
+  The attribute chooses the inputs; <code>color-scheme</code> from chapter 2
+  chooses which of the two values each token resolves to. They are independent,
+  so they combine freely: the second panel forces light mode for a theme, and a
+  card inside it goes dark with one declaration and no attribute. A theme is not
+  a mode and a mode is not a theme.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/06-themes.html -->

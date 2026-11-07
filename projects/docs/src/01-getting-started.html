@@ -1,0 +1,52 @@
+<h1>Getting started</h1>
+<p class="lead">
+  One stylesheet, two variables, a readable box. Nothing is configured yet.
+</p>
+
+<!-- example: examples/01-getting-started.html -->
+
+<h2>What you need to know first</h2>
+<p>
+  The library is plain CSS. A <em>token</em> is a CSS custom property
+  (<code>--color--primary</code>), and you read it with <code>var()</code>. If
+  you have used <code>var(--my-colour)</code> before, you know everything this
+  chapter needs.
+</p>
+
+<h2>Include the stylesheet</h2>
+<p>
+  Install the package and load <code>core.css</code> by its package path, before
+  your own styles:
+</p>
+<pre><code>npm install @cpangular/ng-material-theme</code></pre>
+<pre><code>&lt;link rel="stylesheet" href="node_modules/@cpangular/ng-material-theme/css/dist/core.css"&gt;</code></pre>
+<p>
+  With a bundler, import it instead:
+  <code>import "@cpangular/ng-material-theme/core.css"</code>. The example pages
+  on this site load the same file from one folder up, <code>../core.css</code>,
+  because the site copies it next to the pages.
+</p>
+
+<h2>A token and its contrast</h2>
+<p>
+  <code>core.css</code> defines every token with a default value, so the box
+  above works with no configuration. <code>--color--primary</code> is the main
+  colour. <code>--color--primary--contrast</code> is the text colour to use on
+  it: black or white, whichever reads better, chosen by the browser from the
+  actual colour. Every colour token comes with a
+  <code>--contrast</code> partner, so you never pick a text colour by hand.
+</p>
+<p>
+  The default primary is a quiet grey-blue. The next chapters make it follow
+  light and dark mode, then make it yours.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/01-getting-started.html -->
+
+<h2>Browser baseline</h2>
+<p>
+  Chrome 123, Firefox 128, Safari 17.5 (mid 2024). The library relies on
+  <code>light-dark()</code>, relative colour syntax and
+  <code>color-mix()</code>, and ships no fallbacks for older browsers.
+</p>

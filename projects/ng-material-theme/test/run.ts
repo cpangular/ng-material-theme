@@ -8,7 +8,8 @@
 //      mixes and the surface tones shipped in core.css.
 //   4. Gzipped size and @property count.
 //   5. Docs chapter-order check (Phase 5; skipped until projects/docs exists).
-import { compile, compileString } from "sass";
+import { compile, NodePackageImporter } from "sass";
+import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { gzipSync } from "node:zlib";
@@ -16,7 +17,8 @@ import Color from "colorjs.io";
 
 const pkgDir = resolve(dirname(new URL(import.meta.url).pathname), "..");
 const srcDir = join(pkgDir, "css/src");
-const docsExamples = resolve(pkgDir, "../docs/src/examples");
+const docsDir = resolve(pkgDir, "../docs");
+const docsExamples = join(docsDir, "src/examples");
 const loadPaths = [
   join(pkgDir, "node_modules"),
   resolve(pkgDir, "../../node_modules"),
@@ -129,16 +131,19 @@ if (existsSync(docsExamples)) {
       const href = m[1];
       const base = basename(href);
       if (compiled.has(base)) css += compiled.get(base)!;
-      else if (href.endsWith(".scss"))
-        css += compileString(readFileSync(join(docsExamples, href), "utf8"), {
-          loadPaths,
-          url: new URL(`file://${join(docsExamples, href)}`),
-          style: "compressed",
-        }).css;
       else if (href.endsWith(".css")) {
+        // A linked .css is either a plain file or the build output of a
+        // sibling .scss (compiled here the way the docs build compiles it).
         const p = join(docsExamples, href);
+        const scss = p.replace(/\.css$/, ".scss");
         if (existsSync(p)) css += readFileSync(p, "utf8");
-        else fail(`2 ${file} links ${href}, which does not exist`);
+        else if (existsSync(scss))
+          css += compile(scss, {
+            importers: [new NodePackageImporter(docsDir)],
+            loadPaths: [join(docsDir, "node_modules"), ...loadPaths],
+            style: "compressed",
+          }).css;
+        else fail(`2 ${file} links ${href}, which has no .css or .scss source`);
       }
     }
     for (const m of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g))
@@ -366,10 +371,19 @@ for (const [name, css] of compiled) {
 }
 
 // ── 5. Docs chapter order ─────────────────────────────────────────────────────
-ok(
-  existsSync(docsExamples)
-    ? "5 docs chapter order: not implemented yet (Phase 5)"
-    : "5 docs chapter order (no docs yet)",
-);
+// The check lives in the docs build (projects/docs/build.ts, `--check`), next
+// to the chapter table it enforces; this step runs it.
+if (existsSync(join(docsDir, "build.ts"))) {
+  try {
+    execFileSync(process.execPath, [join(docsDir, "build.ts"), "--check"], {
+      stdio: "inherit",
+    });
+    ok("5 docs chapter order");
+  } catch {
+    fail("5 docs chapter order (see above)");
+  }
+} else {
+  ok("5 docs chapter order (no docs yet)");
+}
 
 process.exit(failed ? 1 : 0);
