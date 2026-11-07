@@ -1,27 +1,24 @@
-# NgMaterialTheme
+# @cpangular/ng-material-theme
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
+A framework-free theming library where the browser is the theme engine. A theme is a handful of input colours; everything else is derived in CSS with `light-dark()`, `oklch(from …)` and `color-mix()`. Any element can carry `theme="name"` to re-theme its subtree. Angular Material is supported through an optional adapter, not a dependency.
 
-## Development server
+This branch (`feature/ng21`) is a rewrite in progress. See [PLAN.md](PLAN.md) for the plan and current state.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Browser baseline
 
-## Code scaffolding
+Chrome 123, Firefox 128, Safari 17.5 (mid 2024). The library needs `light-dark()`, relative colour syntax and `color-mix()`; there are no fallbacks for older browsers.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Workspace
 
-## Build
+```
+projects/ng-material-theme/    the library (Sass source, built CSS, theme switcher)
+projects/simple-theming-demo/  static demo page
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+pnpm install
+pnpm build      # library first, then its consumers
+pnpm test       # library verification
+```
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Releases are managed by [cpdevtools/git-flow](https://github.com/cpdevtools/git-flow): manifests carry `0.0.0-MAIN`, the real version lives in `.publish/versions.yml`.

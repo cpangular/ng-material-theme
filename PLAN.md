@@ -24,33 +24,55 @@ A framework-free theming library where the browser is the theme engine.
 ## Package layout (target)
 
 ```
+.publish/
+  versions.yml        0.0.0-MAIN: <current version>   (bumped by `gitflow version`)
+  registries.yml      npm: registry.npmjs.org, auth NPM_TOKEN, scope @cpangular
+  deps.yml            pinned shared dependency versions
+.github/workflows/    test, create-release-pr, build-pack-publish, cleanup-scheduled,
+                      cleanup-deleted-branch (from git-flow-template), plus docs-pages
 projects/ng-material-theme/
   theming/            Sass partials (public API: _index.scss)
   css/
     src/              core.scss, material-adapter.scss, theme-switcher.ts
     dist/             built output (ignored by git)
     tsconfig.json
-  package.json        @cpangular/ng-material-theme: build, watch, test, exports
+  package.json        @cpangular/ng-material-theme, version 0.0.0-MAIN
+  release-artifacts.yml   one npm artifact → registry npm
 projects/docs/        static documentation site (sass + html + the library itself)
 projects/material-demo/   minimal Angular Material app, iframed by the docs, verifies the adapter
 ```
+
+## Release management: cpdevtools/git-flow
+
+Releases are run by [cpdevtools/git-flow](https://github.com/cpdevtools/git-flow), set up from [git-flow-template](https://github.com/cpdevtools/git-flow-template). Nothing release-related is hand-written here.
+
+- **Versioning.** Every manifest carries the placeholder `0.0.0-MAIN`. The real version lives in `.publish/versions.yml` and is set with `pnpm gitflow version`. git-flow stamps it at build time.
+- **Branches.** A branch without a slash is a mainline and publishes stable releases. A branch with a slash is a development line and only ever publishes prereleases. The rewrite therefore moves from `ng21` to `feature/ng21`, which publishes `21.0.0-feature.ng21.alpha.N`. `main` stays as it is until graduation.
+- **Flow.** Every push keeps a draft release PR current. Merging that PR builds, packs and publishes. Tests run on every push via the `test` action, which calls each workspace project's `github.actions.build` and `github.actions.test` scripts, so those exact script names must exist (a project without them passes silently).
+- **Graduation.** `main` has only ever published `-dev` prereleases, so there is no stable line to preserve and no LTS branch to cut. When the rewrite is ready: merge `feature/ng21` into `main`, set `.publish/versions.yml` to `21.0.0`, merge the release PR. Before that, merge `main` into the feature branch periodically, never the other way.
+- **Docs deploy.** git-flow has no static-site target, so one small extra workflow, `docs-pages.yml`, builds `projects/docs` and deploys to GitHub Pages on push to `release/main` only. Feature-line releases do not publish docs.
+- **Secrets.** `NPM_TOKEN` (already in the repo) for npmjs. `GITHUB_TOKEN` is used to install `@cpdevtools/*` from GitHub Packages, which the existing `.npmrc` line already covers.
 
 ---
 
 ## Phase 0 — Housekeeping (get the repo honest)
 
-Goal: `pnpm build` at the root builds the library then its consumers, and nothing points at files that do not exist.
+Goal: the repo is a git-flow workspace. `pnpm build` at the root builds the library then its consumers, nothing points at files that do not exist, and every push to the feature branch produces a draft release PR.
 
 - [ ] Commit the in-flight ThemeSwitcher colour-scheme work and demo pod as they are.
-- [ ] Delete `angular.json`, root `tsconfig.json`, `projects/ng-material-theme/old/`, `projects/test-theme/`, `REDESIGN_PLAN.md*` and the Angular dependencies of the root `package.json`. Rename the root package to `ng-material-theme-workspace` (private). History lives in git.
-- [ ] Add `projects/ng-material-theme/package.json` as `@cpangular/ng-material-theme`:
+- [ ] Rename the branch `ng21` to `feature/ng21` (local and origin) so git-flow treats it as a development line.
+- [ ] Delete `angular.json`, root `tsconfig.json`, `projects/ng-material-theme/old/`, `projects/test-theme/`, `REDESIGN_PLAN.md*`, the old `.github/actions/*` and `.github/workflows/*`, and the Angular dependencies of the root `package.json`. History lives in git.
+- [ ] **Workspace root from git-flow-template.** Replace the root `package.json` with the template's (name `@cpangular/ng-material-theme-workspace`, private, version `0.0.0-MAIN`, `gitflow` script, `build`/`test` via `devutil run`, devDependencies `@cpdevtools/git-flow`, `@cpdevtools/git-flow-cli`, `@cpdevtools/ts-dev-utilities-cli`, syncpack, prettier, husky, wireit). Copy `.publish/versions.yml` (`0.0.0-MAIN: 21.0.0`), `.publish/registries.yml` (one `npm` registry: `https://registry.npmjs.org`, auth `NPM_TOKEN`, scope `@cpangular`), `.publish/deps.yml`, `.syncpackrc.yml`, and the five template workflows. Keep the existing `.npmrc` GitHub Packages line.
+- [ ] Add `projects/ng-material-theme/package.json` as `@cpangular/ng-material-theme`, version `0.0.0-MAIN`:
   - `build`: `sass --style=compressed --load-path=node_modules css/src:css/dist && tsc -p css` (own `css/tsconfig.json`, ES2022, declarations); `watch`; `test` runs the Verification section.
+  - git-flow script names: `github.actions.build` → `pnpm run build`, `github.actions.test` → `pnpm run test`, `github.actions.pack` → `gitflow pack`.
   - `exports`: `./core.css`, `./material-adapter.css`, `./theme-switcher` (js + d.ts), `./theming` (`sass` condition pointing at `theming/_index.scss`).
   - `files`: `css/dist`, `theming`. `devDependencies`: `@angular/material` and `@angular/cdk` 20.x (needed only to build the adapter).
-- [ ] Untrack `css/dist/` and `simple-theming-demo/dist/` and add them to `.gitignore`. Every consumer (demo, docs, material-demo) depends on `"@cpangular/ng-material-theme": "workspace:*"` so `pnpm -r build` builds the library first.
+  - `release-artifacts.yml`: one artifact, `type: npm`, `name: ${PACKAGE_NAME}`, `registries: [npm]`.
+- [ ] Untrack `css/dist/` and `simple-theming-demo/dist/` and add them to `.gitignore`. Every consumer (demo, docs, material-demo) depends on `"@cpangular/ng-material-theme": "workspace:*"` and defines `github.actions.build` so CI builds it too.
 - [ ] Browser baseline in docs and README: Chrome 123, Firefox 128, Safari 17.5 (mid 2024). Safari confirmed by one manual check before release.
 
-Done when: a clean clone runs `pnpm build` successfully and `git status` is clean afterwards.
+Done when: a clean clone runs `pnpm install && pnpm build` successfully, `git status` is clean afterwards, and the first push to `feature/ng21` opens a draft release PR for `21.0.0-feature.ng21.alpha.1` with the Test workflow green.
 
 ## Phase 1 — Patch the holes in the colour system
 
@@ -150,9 +172,10 @@ Done when: chapters 1–11 are written and `node build.mjs` passes the chapter-o
 
 - [ ] `README.md` becomes a short pointer: what it is, install, the chapter 1 example, link to the docs.
 - [ ] A short "Breaking changes from 17.x" note: an old→new variable-name table, `theme` attribute on `<html>` not `<body>`, no Angular service, no `theme-mode` attribute, storage keys changed, and the removed `--color--on-<palette>` / `-container` library aliases (use `--contrast` or the adapter).
-- [ ] CI runs `pnpm build && pnpm test`, publishes the package on tag and deploys `projects/docs/dist` to GitHub Pages on tag.
+- [ ] `docs-pages.yml`: on push to `release/main`, build `projects/docs` and deploy `projects/docs/dist` to GitHub Pages. This is the only workflow not taken from git-flow.
+- [ ] Graduation, done by hand in this order: merge `main` into `feature/ng21` one last time and rebuild; merge `feature/ng21` into `main`; run `pnpm gitflow version` on `main` and pick `21.0.0`; push; merge the release PR that git-flow opens. That merge publishes `@cpangular/ng-material-theme@21.0.0` to npmjs and tags the release.
 
-Done when: a clean clone builds, `pnpm test` passes, the package publishes, and the README docs link serves the tagged build.
+Done when: the release PR merge is green, the package is on npmjs at 21.0.0, and the README docs link serves the Pages build from `release/main`.
 
 ---
 
@@ -179,3 +202,4 @@ Phase 2 precedes the docs because chapter 2's per-element light/dark relies on u
 - No stress page or single-pass `light-dark()` experiment: with about 32 registrations, recalc cost is moot, and single-pass would raise the browser baseline.
 - Custom palettes are Sass-only; `defineTheme` covers the six standard palettes plus tuning.
 - Docs are deployed to GitHub Pages; the Gallery is replaced by the generated Reference page.
+- Releases run through cpdevtools/git-flow: placeholder versions, release PRs, npmjs only (no GitHub Packages publish), the rewrite on `feature/ng21`, graduation to `main` at 21.0.0.

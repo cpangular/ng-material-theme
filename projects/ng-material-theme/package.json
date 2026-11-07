@@ -1,0 +1,41 @@
+{
+  "name": "@cpangular/ng-material-theme",
+  "version": "0.0.0-MAIN",
+  "description": "Framework-free CSS theming: a few input colours, everything else derived in the browser with light-dark(), oklch() and color-mix(). Optional Angular Material adapter.",
+  "type": "module",
+  "scripts": {
+    "build": "sass --style=compressed --load-path=node_modules css/src:css/dist && tsc -p css",
+    "watch": "sass --watch --style=compressed --load-path=node_modules css/src:css/dist & tsc -p css --watch --preserveWatchOutput",
+    "test": "node test/run.mjs",
+    "github.actions.build": "pnpm run build",
+    "github.actions.test": "pnpm run test",
+    "github.actions.pack": "gitflow pack"
+  },
+  "exports": {
+    "./core.css": "./css/dist/core.css",
+    "./material-adapter.css": "./css/dist/material-adapter.css",
+    "./theme-switcher": {
+      "types": "./css/dist/theme-switcher.d.ts",
+      "default": "./css/dist/theme-switcher.js"
+    },
+    "./theming": {
+      "sass": "./theming/_index.scss"
+    }
+  },
+  "files": ["css/dist", "theming"],
+  "sideEffects": ["./css/dist/theme-switcher.js"],
+  "devDependencies": {
+    "@angular/cdk": "^20.2.14",
+    "@angular/material": "^20.2.14",
+    "sass": "^1.80.0",
+    "typescript": "^5.9.3"
+  },
+  "keywords": ["css", "theming", "light-dark", "oklch", "angular-material", "sass"],
+  "author": "cpangular",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cpangular/ng-material-theme.git",
+    "directory": "projects/ng-material-theme"
+  }
+}

@@ -12,18 +12,18 @@ Static HTML demonstration of the ng-material-theme system with CSS `light-dark()
 ## Building
 
 ```bash
-npm install
-npm run build
+pnpm install
+pnpm build
 ```
 
 ## Viewing
 
-Open `dist/index.html` in a modern browser (Chrome 111+, Firefox 113+, Safari 16.4+)
+Open `dist/index.html` in a browser from mid 2024 or later: Chrome 123, Firefox 128, Safari 17.5. The library relies on `light-dark()`, relative colour syntax (`oklch(from …)`) and `color-mix()`.
 
 Or use the built-in server:
 
 ```bash
-npm run serve
+pnpm serve
 ```
 
 ## Switching Modes

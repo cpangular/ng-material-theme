@@ -1,0 +1,16 @@
+# Pinned dependency versions enforced across the workspace.
+# `pnpm check` validates and `pnpm fix` applies these versions.
+npm:
+  '@angular/cdk': '^20.2.14'
+  '@angular/material': '^20.2.14'
+  '@types/node': '^20.17.11'
+  husky: '^9.1.7'
+  prettier: '^3.4.2'
+  sass: '^1.80.0'
+  syncpack: '^13.0.0'
+  typescript: '^5.9.3'
+
+github-actions:
+  actions/checkout: v7
+  actions/setup-node: v6
+  pnpm/action-setup: v6

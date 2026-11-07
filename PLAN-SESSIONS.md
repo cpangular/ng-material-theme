@@ -29,7 +29,7 @@ Subagent models are chosen inside the workflow prompts: Opus at high effort for 
 ## Session 1 — Phase 0 housekeeping
 
 ```
-Read PLAN.md and execute Phase 0 exactly as written. Before deleting anything, list what you will delete and wait for my ok. Then: add the library package.json with build/watch/test/exports, untrack dist folders, wire every consumer to the library with workspace:*, fix the browser baseline text. Finish by running `pnpm install && pnpm build` from a clean state and showing me `git status`. Commit when the Done-when holds, with a message that lists what was removed.
+Read PLAN.md, including the "Release management: cpdevtools/git-flow" section, and execute Phase 0 exactly as written. Before deleting or renaming anything, list what you will delete (old Angular workspace files, old library, old .github actions and workflows) and the branch rename ng21 -> feature/ng21, and wait for my ok. Then set up the git-flow workspace from https://github.com/cpdevtools/git-flow-template (read its README and copy its root package.json, .publish/*, .syncpackrc.yml and the five workflows, replacing the placeholders with @cpangular / cpangular / ng-material-theme), add the library package.json with the github.actions.* scripts and release-artifacts.yml, untrack dist folders, wire every consumer with workspace:*, fix the browser baseline text. Finish by running `pnpm install && pnpm build` from a clean state and showing me `git status`. Commit when the Done-when holds, with a message that lists what was removed. Then push and tell me whether git-flow opened the draft release PR and whether the Test workflow is green; fix anything red.
 ```
 
 ## Session 2 — Phase 1 colour system
@@ -77,5 +77,5 @@ Read PLAN.md Phase 3 and chapter 15. Replace material-adapter.scss with the Sass
 ## Session 9 — Phase 6 release
 
 ```
-Read PLAN.md Phase 6. Write the short README, the breaking-changes note with the old→new variable table (derive the old names from git history of projects/ng-material-theme/old), and the CI workflow: build, test, publish on tag, deploy docs to GitHub Pages on tag. Show me the workflow file before committing. Do not tag or publish; I will do that.
+Read PLAN.md Phase 6 and the "Release management" section. Write the short README, the breaking-changes note with the old->new variable table (derive the old names from git history of projects/ng-material-theme/old), and docs-pages.yml (build projects/docs and deploy to GitHub Pages on push to release/main). Show me the workflow file before committing. Then give me the exact graduation commands from the plan to run by hand; do not merge into main, do not run gitflow version, and do not merge the release PR yourself.
 ```

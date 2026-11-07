@@ -2,7 +2,7 @@
 // Demonstrates the ng-material-theme system with light-dark() support
 // Note: core.css should be loaded via <link> in HTML for pre-built usage
 
-@use "theming" as theme;
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
 
 // Create a default theme with light/dark color variations
 @include theme.createTheme(
