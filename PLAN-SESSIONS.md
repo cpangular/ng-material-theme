@@ -61,13 +61,13 @@ Read PLAN.md Phase 5. Build projects/docs: build.ts with include expansion, ifra
 ## Session 6 — Docs order review (ultracode)
 
 ```
-ultracode. Read PLAN.md Phase 5 and projects/docs/src. Run a workflow: one Opus reader (high effort) per chapter 1 to 11, each given only its chapter and the Introduces column of the chapters before it, asked to list every concept, variable, mixin or attribute the chapter uses that was not yet taught, and anything it explains that is not simple. Then one Opus synthesizer merges that into a fix list. Apply the fixes, rebuild, then commit and push without asking.
+ultracode. Read PLAN.md Phase 5 and projects/docs/src. First run `pnpm --filter @cpangular/docs run check:browser` and fix every label below 4.5:1 that is not a disabled or tint swatch by using `--contrast--high` for body text on coloured boxes (tint and disabled swatches may stay as they are; say so in the chapter). Then run a workflow: one Opus reader (high effort) per chapter 1 to 11, each given only its chapter and the Introduces column of the chapters before it, asked to list every concept, variable, mixin or attribute the chapter uses that was not yet taught, and anything it explains that is not simple. Then one Opus synthesizer merges that into a fix list. Apply the fixes, rebuild, then commit and push without asking.
 ```
 
 ## Session 7 — Phase 4 runtime + chapters 12–14
 
 ```
-Read PLAN.md Phase 4 and chapters 12 to 14 of Phase 5. Make the four ThemeSwitcher changes, add defineTheme/removeTheme through the CSSOM with CSS.escape and CSS.supports validation, and the three-line head script. Then write chapters 12, 13 and 14 with their examples, including the JSON fixture with one invalid colour. Verify the Phase 4 Done-when in the browser (nested data-driven theme survives reload), then commit and push without asking.
+Read PLAN.md Phase 4 and chapters 12 to 14 of Phase 5. Make the four ThemeSwitcher changes, add defineTheme/removeTheme through the CSSOM with CSS.escape and CSS.supports validation, and the three-line head script. Then write chapters 12, 13 and 14 with their examples, including the JSON fixture with one invalid colour. Chapter 13's example is the crossfade page from commit 9a4f6e7 (projects/simple-theming-demo/src/crossfade.html in history), rebuilt as a docs example; when it is in, tell me what to open in Chrome, Firefox and Safari and what should animate versus snap, because that three-browser check is Phase 2's outstanding Done-when item. Verify the Phase 4 Done-when in the browser (nested data-driven theme survives reload), then commit and push without asking.
 ```
 
 ## Session 8 — Phase 3 adapter + chapter 15
