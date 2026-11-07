@@ -38,47 +38,47 @@
       /* Lighter / darker: mixed toward white or black, the same in both modes */
       .darker-2 {
         background: var(--color--primary-darker-2);
-        color: var(--color--primary-darker-2--contrast);
+        color: var(--color--primary-darker-2--contrast--high);
       }
       .darker-1 {
         background: var(--color--primary-darker-1);
-        color: var(--color--primary-darker-1--contrast);
+        color: var(--color--primary-darker-1--contrast--high);
       }
       .base {
         background: var(--color--primary);
-        color: var(--color--primary--contrast);
+        color: var(--color--primary--contrast--high);
       }
       .lighter-1 {
         background: var(--color--primary-lighter-1);
-        color: var(--color--primary-lighter-1--contrast);
+        color: var(--color--primary-lighter-1--contrast--high);
       }
       .lighter-2 {
         background: var(--color--primary-lighter-2);
-        color: var(--color--primary-lighter-2--contrast);
+        color: var(--color--primary-lighter-2--contrast--high);
       }
 
-      /* Higher / lower: more or less contrast against the page, whichever mode */
+      /* Higher / lower: stand out more or less against the page, in either mode */
       .higher-2 {
         background: var(--color--primary-higher-2);
-        color: var(--color--primary-higher-2--contrast);
+        color: var(--color--primary-higher-2--contrast--high);
       }
       .higher-1 {
         background: var(--color--primary-higher-1);
-        color: var(--color--primary-higher-1--contrast);
+        color: var(--color--primary-higher-1--contrast--high);
       }
       .lower-1 {
         background: var(--color--primary-lower-1);
-        color: var(--color--primary-lower-1--contrast);
+        color: var(--color--primary-lower-1--contrast--high);
       }
       .lower-2 {
         background: var(--color--primary-lower-2);
-        color: var(--color--primary-lower-2--contrast);
+        color: var(--color--primary-lower-2--contrast--high);
       }
 
       /* Reverse mode: the other mode's value */
       .reverse {
         background: var(--color--primary-reverse-mode);
-        color: var(--color--primary-reverse-mode--contrast);
+        color: var(--color--primary-reverse-mode--contrast--high);
       }
 
       /* Tints: the colour at nine opacities, over whatever is behind */
@@ -120,10 +120,29 @@
         color: var(--color--primary-darker-1-disabled--contrast);
       }
 
+      /* A control that uses higher-1 on hover, in either mode */
+      button {
+        font: inherit;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 0;
+        border-radius: 0.4rem;
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      button:hover {
+        background: var(--color--primary-higher-1);
+        color: var(--color--primary-higher-1--contrast--high);
+      }
+
       /* Contrast emphasis: three text colours for the same background */
       .high {
         background: var(--color--primary);
         color: var(--color--primary--contrast--high);
+      }
+      .mid {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast);
       }
       .low {
         background: var(--color--primary);
@@ -149,12 +168,19 @@
       <div class="sw lower-1">-lower-1</div>
       <div class="sw lower-2">-lower-2</div>
     </div>
+    <button>Hover me</button>
 
-    <h2>Reverse mode, disabled</h2>
+    <h2>Reverse mode</h2>
     <div class="row">
       <div class="sw base">primary</div>
       <div class="sw reverse">-reverse-mode</div>
+    </div>
+
+    <h2>Disabled</h2>
+    <div class="row">
+      <div class="sw base">primary</div>
       <div class="sw disabled">-disabled</div>
+      <div class="sw darker-1">-darker-1</div>
       <div class="sw darker-1-disabled">-darker-1-disabled</div>
     </div>
 
@@ -174,7 +200,7 @@
     <h2>Contrast emphasis</h2>
     <div class="row">
       <div class="sw high">--contrast--high</div>
-      <div class="sw base">--contrast</div>
+      <div class="sw mid">--contrast</div>
       <div class="sw low">--contrast--low</div>
     </div>
   </body>

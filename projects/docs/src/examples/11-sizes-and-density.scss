@@ -14,7 +14,8 @@
   $is-default: true
 );
 
-// Four themes that set only density. Colours are inherited from the page.
+// Four themes that set only density. Each inherits primary from sea and
+// re-derives the rest (chapter 6).
 @include theme.createTheme(
   "d0",
   (
@@ -74,7 +75,7 @@ button {
   border: 0;
   border-radius: var(--theme--size--2);
   background: var(--color--primary);
-  color: var(--color--primary--contrast);
+  color: var(--color--primary--contrast--high);
 }
 input {
   font: inherit;
@@ -122,8 +123,18 @@ li {
     background: var(--color--primary);
   }
 }
-@for $i from 1 through 11 {
-  .s-#{$i} {
-    width: var(--theme--size--#{$i});
-  }
+.s-1 {
+  width: var(--theme--size--1);
+}
+.s-3 {
+  width: var(--theme--size--3);
+}
+.s-5 {
+  width: var(--theme--size--5);
+}
+.s-8 {
+  width: var(--theme--size--8);
+}
+.s-11 {
+  width: var(--theme--size--11);
 }

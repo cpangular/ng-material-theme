@@ -69,8 +69,11 @@ const patterns: { re: RegExp; chapter: number; what: string }[] = [
     chapter: 3,
     what: "input variables",
   },
+  // --contrast--high is chapter 3's (the text colour for small text); the
+  // rest of the contrast and variant family is chapter 4's.
+  { re: /--contrast--high/, chapter: 3, what: "--contrast--high" },
   {
-    re: /--contrast--(?:high|low)|-(?:lighter|darker|higher|lower)-\d|-tint-\d|-disabled|-reverse-mode/,
+    re: /--contrast--low|-(?:lighter|darker|higher|lower)-\d|-tint-\d|-disabled|-reverse-mode/,
     chapter: 4,
     what: "variants",
   },

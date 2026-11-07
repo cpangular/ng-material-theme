@@ -48,7 +48,9 @@ button {
     @include theme.apply-container(primary, higher-1);
   }
 }
-.tonal {
+// secondary palette, lighter-2: a light box in both modes (lighter is not
+// mode-relative)
+.secondary {
   @include theme.apply-container(secondary, lighter-2);
 }
 .outlined {
@@ -60,7 +62,8 @@ button {
 .danger {
   @include theme.apply-container(error, $elevation: 1);
 }
-.inverted {
+// $reverse-mode: true -> --color--primary-reverse-mode (chapter 4)
+.reverse {
   @include theme.apply-container(primary, $reverse-mode: true);
 }
 .filled:disabled {
@@ -83,9 +86,14 @@ button {
     font-size: 0.95rem;
     color: var(--container-color--high);
   }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--container-color--low);
+    margin: 0.5rem 0;
+  }
   p {
     margin: 0;
-    color: var(--container-color--low);
+    color: var(--container-color--high);
   }
 }
 .card.normal {
@@ -93,8 +101,8 @@ button {
   background: var(--color--surface-container-lowest);
   border: 1px solid var(--container-border-color);
   box-shadow: none;
-  // For text and normal styles, --low is the palette's -lower-1, which fades
-  // into a light page; body text keeps the base colour.
+  // The vars set no properties: the card picks its own background. Body text
+  // uses --container-color, the palette colour.
   p {
     color: var(--container-color);
   }

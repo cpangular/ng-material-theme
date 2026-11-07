@@ -21,7 +21,8 @@
         --theme--light--color--primary: #0f766e;
         --theme--dark--color--primary: #5eead4;
       }
-      /* Sets only tertiary. Everything else is inherited from its parent. */
+      /* Sets only tertiary. Primary and error are inherited from the parent;
+         secondary, neutral and neutral-variant are re-derived from that primary. */
       [theme="accent"] {
         --theme--light--color--tertiary: #b45309;
         --theme--dark--color--tertiary: #fbbf24;
@@ -61,19 +62,19 @@
       }
       .primary {
         background: var(--color--primary);
-        color: var(--color--primary--contrast);
+        color: var(--color--primary--contrast--high);
       }
       .secondary {
         background: var(--color--secondary);
-        color: var(--color--secondary--contrast);
+        color: var(--color--secondary--contrast--high);
       }
       .tertiary {
         background: var(--color--tertiary);
-        color: var(--color--tertiary--contrast);
+        color: var(--color--tertiary--contrast--high);
       }
       .error {
         background: var(--color--error);
-        color: var(--color--error--contrast);
+        color: var(--color--error--contrast--high);
       }
 
       .nested {

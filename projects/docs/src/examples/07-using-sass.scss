@@ -45,7 +45,8 @@
   )
 );
 
-// Sets only tertiary; everything else is inherited.
+// Sets only tertiary; primary and error are inherited, the other palettes
+// re-derived (chapter 6).
 @include theme.createTheme(
   "accent",
   (
@@ -76,10 +77,10 @@ body {
   border-radius: 0.5rem;
   background: var(--color--surface-container);
   color: var(--color--on-surface);
-  h2 {
-    font-size: 0.85rem;
-    margin: 0 0 0.5rem;
-  }
+}
+.panel h2 {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
 }
 .chips {
   display: flex;
@@ -91,19 +92,29 @@ body {
   border-radius: 1rem;
   font-size: 0.75rem;
 }
-@each $palette in (primary, secondary, tertiary, error) {
-  .#{$palette} {
-    background: var(--color--#{$palette});
-    color: var(--color--#{$palette}--contrast);
-  }
+.primary {
+  background: var(--color--primary);
+  color: var(--color--primary--contrast--high);
+}
+.secondary {
+  background: var(--color--secondary);
+  color: var(--color--secondary--contrast--high);
+}
+.tertiary {
+  background: var(--color--tertiary);
+  color: var(--color--tertiary--contrast--high);
+}
+.error {
+  background: var(--color--error);
+  color: var(--color--error--contrast--high);
 }
 .nested {
   margin-top: 0.75rem;
   padding: 0.6rem;
   border-radius: 0.4rem;
   background: var(--color--surface-container-highest);
-  p {
-    margin: 0 0 0.4rem;
-    color: var(--color--on-surface-variant);
-  }
+}
+.nested p {
+  margin: 0 0 0.4rem;
+  color: var(--color--on-surface-variant);
 }

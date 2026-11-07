@@ -2,9 +2,9 @@
 
 @include theme.core();
 
-// A seventh palette, "brand", next to the six standard ones. Custom palettes
-// are Sass-only: createTheme() registers their inputs and derives their
-// variants, and every --color--brand… token exists wherever this theme applies.
+// A seventh palette, "brand", next to the six standard ones. Naming it in
+// colors: is all it takes; every --color--brand… token then exists wherever
+// this theme applies.
 @include theme.createTheme(
   "shop",
   (
@@ -50,36 +50,30 @@ h2 {
   word-break: break-all;
 }
 
-// The full variant set of chapter 4, for the brand palette.
+// The full variant set of chapter 4, for the brand palette. Labels are small
+// text, so the solid swatches use --contrast--high (chapter 3).
 .brand {
   background: var(--color--brand);
-  color: var(--color--brand--contrast);
+  color: var(--color--brand--contrast--high);
 }
-@each $v
-  in (
-    darker-2,
-    darker-1,
-    lighter-1,
-    lighter-2,
-    higher-2,
-    higher-1,
-    lower-1,
-    lower-2
-  )
-{
+// One rule per variant; #{$v} puts the variant name into the selector and the
+// token.
+@each $v in (darker-2, darker-1, lighter-1, lighter-2, higher-1, lower-1) {
   .brand-#{$v} {
     background: var(--color--brand-#{$v});
-    color: var(--color--brand-#{$v}--contrast);
+    color: var(--color--brand-#{$v}--contrast--high);
   }
 }
 .brand-reverse-mode {
   background: var(--color--brand-reverse-mode);
-  color: var(--color--brand-reverse-mode--contrast);
+  color: var(--color--brand-reverse-mode--contrast--high);
 }
 .brand-disabled {
   background: var(--color--brand-disabled);
   color: var(--color--brand-disabled--contrast);
 }
+// One rule per tint, 1 to 9. Tints have no contrast colour, so the digits keep
+// the page's text colour.
 @for $i from 1 through 9 {
   .brand-tint-#{$i} {
     background: var(--color--brand-tint-#{$i});
@@ -89,11 +83,15 @@ h2 {
   background: var(--color--brand);
   color: var(--color--brand--contrast--high);
 }
+.brand-default {
+  background: var(--color--brand);
+  color: var(--color--brand--contrast);
+}
 .brand-low {
   background: var(--color--brand);
   color: var(--color--brand--contrast--low);
 }
 .primary {
   background: var(--color--primary);
-  color: var(--color--primary--contrast);
+  color: var(--color--primary--contrast--high);
 }

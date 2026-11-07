@@ -9,49 +9,73 @@
 <h2>The theme attribute</h2>
 <p>
   A theme is a plain CSS rule, <code>[theme="ember"] { <em>inputs</em> }</code>.
-  Any element with <code>theme="ember"</code> gets those inputs, and every token
-  inside it is re-derived from them: the palettes, the variants, the surfaces.
-  Set it on <code>&lt;html&gt;</code> to theme the page, or on a panel to theme
-  the panel. There is no list of themes to register; the rule is the theme.
+  Any element with <code>theme="ember"</code> gets those inputs.
+  <code>core.css</code> works out the tokens from the inputs on the root
+  element, and again on every element with a <code>theme</code> attribute; any
+  other element receives the finished tokens of its nearest such ancestor. So
+  inside a themed element the palettes, the variants and the surfaces all follow
+  its inputs, and inputs set on a plain <code>&lt;div&gt;</code> change nothing
+  until it has a <code>theme</code> attribute. Set it on
+  <code>&lt;html&gt;</code> to theme the page, or on a panel to theme the panel.
+  There is no list of themes to declare anywhere; the rule is the theme.
 </p>
 
 <h2>The default theme</h2>
 <p>
   Chapter 3's <code>:root</code> rule was already a theme: the one that applies
-  where no attribute does. Keep it, and add named themes next to it.
+  where no attribute does. Keep it, and add named themes next to it. In the
+  example, only the page behind the two panels uses it.
+</p>
+<p>
+  If you put a <code>theme</code> attribute on <code>&lt;html&gt;</code>, write
+  the named-theme rules after the <code>:root</code> rule: both match
+  <code>&lt;html&gt;</code> with the same specificity, so the later one wins.
 </p>
 
 <h2>Nesting</h2>
 <p>
-  Themes nest. A theme inside a theme inherits every input it does not set,
-  because the inputs are ordinary inherited custom properties. Then it
-  re-derives everything from what it has:
+  Themes nest. The inputs are ordinary inherited custom properties, so a nested
+  theme starts with its parent's inputs and then works out its own tokens from
+  what it has:
 </p>
 <ul>
   <li>
-    <strong>Inherited</strong> if not set: primary, error, and the tuning values
-    of chapter 10.
+    <strong>Inherited</strong> unless the nested theme sets them: primary,
+    error, and the tuning values (the variant percentages of chapter 4; chapter
+    10 shows how to set them).
   </li>
   <li>
-    <strong>Re-derived</strong> from primary unless set: secondary, tertiary,
-    neutral, neutral-variant. In the example, <code>accent</code> sets only
-    tertiary; its primary and secondary come from <code>ember</code>, and its
-    surfaces are ember's surfaces.
+    <strong>Re-derived</strong> from primary unless the nested theme's own rule
+    sets them: secondary, tertiary, neutral, neutral-variant. One of these set
+    by the parent theme does not carry through; the nested theme works it out
+    again from primary.
   </li>
 </ul>
 <p>
-  Any value of the attribute works as a boundary, even one with no rule. An
-  element with <code>theme="x"</code> and no <code>[theme="x"]</code> rule
-  simply re-derives from what it inherits.
+  In the example, <code>accent</code> sets only tertiary. Its primary and error
+  are inherited from <code>ember</code>, so its error chip is ember's magenta.
+  Its secondary and its surfaces (built from neutral, chapter 5) are re-derived
+  from that same primary, so they match ember's.
+</p>
+
+<h2>A theme attribute with no rule</h2>
+<p>
+  An element with <code>theme="x"</code> and no <code>[theme="x"]</code> rule
+  still works out its tokens again, from the inputs it inherits. That is what
+  lets inputs set inline take effect:
+  <code>&lt;div theme="x" style="--theme--light--color--primary: …"&gt;</code>.
+  Without the attribute the inline inputs would change nothing.
 </p>
 
 <h2>Themes and colour scheme</h2>
 <p>
   The attribute chooses the inputs; <code>color-scheme</code> from chapter 2
-  chooses which of the two values each token resolves to. They are independent,
-  so they combine freely: the second panel forces light mode for a theme, and a
-  card inside it goes dark with one declaration and no attribute. A theme is not
-  a mode and a mode is not a theme.
+  chooses which of the two values each token resolves to. That is why
+  <code>color-scheme</code> needs no attribute: it changes no value, it only
+  picks one of the two each token already holds. They are independent, so they
+  combine freely: the second panel forces light mode for a theme, and a card
+  inside it goes dark with one declaration and no attribute. A theme is not a
+  mode and a mode is not a theme.
 </p>
 
 <h2>Source</h2>

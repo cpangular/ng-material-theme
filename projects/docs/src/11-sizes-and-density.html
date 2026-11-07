@@ -15,7 +15,9 @@
 <table>
   <thead>
     <tr>
-      <th>Token</th>
+      <th>
+        <code>--theme--size--<em>N</em></code>
+      </th>
       <th>1</th>
       <th>2</th>
       <th>3</th>
@@ -31,7 +33,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><code>em</code></td>
+      <td><code>em</code> (density 1)</td>
       <td>0.125</td>
       <td>0.25</td>
       <td>0.5</td>
@@ -45,7 +47,7 @@
       <td>4</td>
     </tr>
     <tr>
-      <td>at 16px</td>
+      <td>px at a 16px font</td>
       <td>2</td>
       <td>4</td>
       <td>8</td>
@@ -61,35 +63,50 @@
   </tbody>
 </table>
 <p>
+  The example uses a 0.85rem body font, so its sizes are a little smaller. The
+  bars under each panel sit in smaller text still (0.65rem), so they are shorter
+  than the same steps used for padding: that is <code>em</code> at work.
+</p>
+<p>
   The earlier chapters used plain <code>rem</code> spacing so that the examples
   stayed about colour. From here on, the scale is the spacing.
 </p>
 
 <h2>Density</h2>
 <p>
-  Every size is the base step multiplied by <code>--theme--density-scale</code>,
-  which defaults to 1. Set it below 1 and every size shrinks together, so a
-  toolbar, its buttons and its gaps tighten in proportion. It is an input like
-  the colours in chapter 3: set it on <code>:root</code> or in a theme rule, and
-  a nested theme inherits it. Like the tuning values of chapter 10, it takes
-  effect only on <code>:root</code> or a <code>theme</code> element, where the
-  sizes are computed.
+  Every size is the base step multiplied by
+  <code>--theme--density-scale</code>, which defaults to 1. Set it below 1 and
+  every size shrinks together, so a toolbar, its buttons and its gaps tighten in
+  proportion. Text size is not part of density: fonts are yours, and a denser
+  panel keeps the same font size with less room around it. The example sets it
+  with the Sass key below; this rule does the same in plain CSS:
 </p>
 <pre><code>[theme="compact"] { --theme--density-scale: 0.84; }</code></pre>
 
+<h2>Where to set it</h2>
+<p>
+  Like primary, error and the tuning values (chapter 6), the density scale is
+  inherited by a nested theme that does not set it. Like the tuning values
+  (chapter 10), it takes effect only in a <code>:root</code> rule or on an
+  element with a <code>theme</code> attribute; set it on a plain element and
+  nothing changes. The <code>em</code> in each size is still resolved on the
+  element that uses it.
+</p>
+
 <h2>The <code>density</code> key</h2>
 <p>
-  In <code>createTheme()</code>, <code>density</code> takes a step from 0 to −3
-  and sets the scale for you:
+  In <code>createTheme()</code>, <code>density</code> takes a step from
+  <code>0</code> to <code>-3</code> and sets the scale for you. Other values are
+  an error; for anything else, set <code>--theme--density-scale</code> directly.
 </p>
 <table>
   <thead>
     <tr>
       <th><code>density</code></th>
       <th>0</th>
-      <th>−1</th>
-      <th>−2</th>
-      <th>−3</th>
+      <th>-1</th>
+      <th>-2</th>
+      <th>-3</th>
     </tr>
   </thead>
   <tbody>
@@ -103,9 +120,9 @@
   </tbody>
 </table>
 <p>
-  The example's four themes set only <code>density</code>; their colours are
-  inherited from the page. Text size is not part of density: fonts are yours,
-  and a denser panel keeps the same font size with less room around it.
+  The four themes in the example set only <code>density</code>; a config may
+  hold nothing else. Each inherits primary from the default theme
+  <code>sea</code> and re-derives its other palettes from it, as in chapter 6.
 </p>
 
 <h2>Source</h2>

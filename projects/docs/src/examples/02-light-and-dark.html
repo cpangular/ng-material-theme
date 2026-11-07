@@ -18,10 +18,10 @@
         padding: 1rem;
         border-radius: 0.5rem;
         /* Canvas and CanvasText are the browser's own page colours.
-           They follow color-scheme, like every token does. */
+           They follow color-scheme, like --color--primary does. */
         background: Canvas;
         color: CanvasText;
-        outline: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+        outline: 1px solid GrayText;
       }
       .panel h2 {
         font-size: 1rem;
@@ -44,8 +44,8 @@
       <h2><code>color-scheme: dark</code></h2>
       <div class="box">Always dark.</div>
     </div>
-    <div class="panel" style="color-scheme: light dark">
-      <h2><code>color-scheme: light dark</code></h2>
+    <div class="panel">
+      <h2>no <code>color-scheme</code></h2>
       <div class="box">Follows the page.</div>
     </div>
   </body>

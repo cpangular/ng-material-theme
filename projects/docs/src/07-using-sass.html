@@ -2,51 +2,67 @@
 <p class="lead">
   The same library as a Sass module: <code>core()</code> emits what
   <code>core.css</code> contains, and <code>createTheme()</code> writes the
-  theme rules for you.
+  theme rules for you. This chapter assumes you know Sass modules
+  (<code>@use</code>, <code>@include</code>) and maps. Chapters 8 and 9 need
+  Sass; the others work with plain CSS.
 </p>
 
 <!-- example: examples/07-using-sass.html -->
 <p>
-  This is chapter 6 rebuilt in Sass. Here is chapter 6's CSS version again for
-  comparison; the two render identically in both modes, apart from the
-  single-colour mint.
+  This is chapter 6 rebuilt in Sass. Below is chapter 6's CSS version again for
+  comparison. They match except for mint: here it is one colour used in both
+  modes (the first shape in <em>Config shapes</em>), so mint's panel and the
+  dark card inside it differ from chapter 6.
 </p>
 <!-- example: examples/06-themes.html -->
 
 <h2>Loading the module</h2>
 <p>
-  The package exports its Sass entry point, so the idiomatic import is a
-  <code>pkg:</code> URL:
+  Add <code>node_modules</code> to Sass's load path and use the package by name:
 </p>
-<pre><code>@use "pkg:@cpangular/ng-material-theme/theming" as theme;</code></pre>
+<pre><code>@use "@cpangular/ng-material-theme/theming" as theme;</code></pre>
 <p>
-  The <code>pkg:</code> scheme needs the Node package importer:
-  <code>sass --pkg-importer=node</code> on the command line, or
-  <code>importers: [new NodePackageImporter()]</code> with the JavaScript API.
-  Most bundler Sass loaders enable it. Without it, add
-  <code>--load-path=node_modules</code> and write
-  <code>@use "@cpangular/ng-material-theme/theming"</code> instead; both resolve
-  to the same file.
+  On the command line that is
+  <code>sass --load-path=node_modules styles.scss styles.css</code>; link the
+  CSS it produces. <code>as theme</code> is only the Sass namespace, and any
+  name works. If your build enables Sass's Node package importer (<code
+    >sass --pkg-importer=node</code
+  >; most bundler Sass loaders do), you can write
+  <code>pkg:@cpangular/ng-material-theme/theming</code> instead, as the examples
+  on this site do.
 </p>
 
 <h2><code>core()</code> replaces the link</h2>
 <p>
-  <code>@include theme.core();</code> emits exactly what
-  <code>core.css</code> contains. Use one or the other, never both: a page that
-  links <code>core.css</code> and also compiles <code>core()</code> registers
-  every input twice and ships the derivation twice. The example page therefore
-  has no <code>core.css</code> link, only its own compiled stylesheet.
+  <code>core()</code> and <code>createTheme()</code> are mixins: you call them
+  with <code>@include</code>. <code>@include theme.core();</code> emits exactly
+  what <code>core.css</code> contains. Use one or the other, never both: a page
+  that links <code>core.css</code> and also compiles <code>core()</code> ships
+  the whole library twice. The example page therefore has no
+  <code>core.css</code> link, only its own compiled stylesheet.
 </p>
 
 <h2><code>createTheme()</code></h2>
+<pre><code>@include theme.createTheme("ember", (colors: (primary: (#c2410c, #fb923c))));</code></pre>
 <p>
   <code>createTheme($name, $config)</code> is the Sass form of chapter 6's
-  <code>[theme="name"] { <em>inputs</em> }</code> rule, and emits only what the
-  config names, so nested themes inherit the same way.
-  <code>$is-default: true</code> also applies the theme where no attribute is
-  set, which is chapter 3's <code>:root</code> rule. The config is a map with a
-  <code>colors</code> key, one entry per palette, in either of two shapes:
+  <code>[theme="name"] { <em>inputs</em> }</code> rule. The config is a map with
+  a <code>colors</code> key, one entry per palette. It writes only the inputs
+  the config names, so a nested theme inherits and re-derives exactly as in
+  chapter 6. Any of the six palettes may appear, and one left out is inherited
+  or re-derived as in chapter 6.
 </p>
+
+<h2>The default theme</h2>
+<pre><code>@include theme.createTheme("sea", (colors: (primary: (#0b5fa5, #8ec5ff))), $is-default: true);</code></pre>
+<p>
+  <code>$is-default: true</code> is chapter 3's <code>:root</code> rule: the
+  theme applies to the page when <code>&lt;html&gt;</code> has no
+  <code>theme</code> attribute. It keeps its name too, so
+  <code>theme="sea"</code> also selects it.
+</p>
+
+<h2>Config shapes</h2>
 <table>
   <thead>
     <tr>
@@ -57,19 +73,18 @@
   <tbody>
     <tr>
       <td><code>primary: #0f9f8f</code></td>
-      <td>One colour, used in both modes.</td>
+      <td>One colour: sets both inputs to the same value (chapter 3).</td>
     </tr>
     <tr>
       <td><code>primary: (#0b5fa5, #8ec5ff)</code></td>
-      <td>A light value and a dark value.</td>
+      <td>
+        Light first, dark second: sets
+        <code>--theme--light--color--primary</code> and
+        <code>--theme--dark--color--primary</code>.
+      </td>
     </tr>
   </tbody>
 </table>
-<p>
-  Any of the six palettes may appear, and a palette left out is derived or
-  inherited exactly as in chapter 6. <code>createTheme()</code> has no
-  typography key: fonts are yours to set, and the library does not touch them.
-</p>
 
 <h2>Source</h2>
 <!-- include: examples/07-using-sass.scss -->

@@ -7,8 +7,16 @@
 <!-- example: examples/02-light-and-dark.html -->
 <p>
   Press <strong>Light</strong>, <strong>Dark</strong> and
-  <strong>Auto</strong> at the top of this page. The first two panels do not
-  move. The third follows.
+  <strong>Auto</strong> at the top of this page. They set
+  <code>color-scheme</code> on the example's root element, as your operating
+  system would; <strong>Auto</strong> removes it, so <code>core.css</code>'s
+  default takes over again. The first two panels never change colour. The third
+  sets nothing and follows the root.
+</p>
+<p>
+  The panels use <code>Canvas</code> and <code>CanvasText</code>, the browser's
+  own page colours, for background and text; they follow the same switch.
+  Chapter 5 replaces them with the library's own background and text tokens.
 </p>
 
 <h2>The default follows the OS</h2>
@@ -22,23 +30,25 @@
 <p>
   <code>color-scheme: light</code> or <code>color-scheme: dark</code> on an
   element forces that mode for the element and everything inside it. Nothing
-  else is needed: no attribute, no class, no second stylesheet. The token keeps
-  both values and resolves to the right one wherever it is used, so a dark panel
+  else is needed: no attribute, no class, no second stylesheet. A dark panel
   inside a light page is one declaration.
-</p>
-<p>
-  The browser's own page colours follow the same switch. The panels above use
-  <code>Canvas</code> and <code>CanvasText</code> for their background and text
-  so that you can see it. Chapter 5 replaces them with the library's surfaces.
 </p>
 
 <h2>Two values per token</h2>
 <p>
-  The box is <code>--color--primary</code> in all three panels. In the light
-  panel it is the light primary, in the dark panel the lighter dark primary, and
-  its <code>--contrast</code> flips with it. Which value a token resolves to is
-  decided by the nearest <code>color-scheme</code> above the element that reads
-  it. The next chapter sets those two values.
+  The box is <code>--color--primary</code> in all three panels.
+  <code>core.css</code> writes each token as
+  <code>light-dark(<em>light value</em>, <em>dark value</em>)</code>. A custom
+  property passes that text down unchanged, so the browser picks one of the two
+  only at the element that uses <code>var(--color--primary)</code>, from that
+  element's <code>color-scheme</code>, whether set on it or inherited from a
+  parent. That is why forcing a mode works on any element.
+</p>
+<p>
+  In the light panel the box shows the light value. In the dark panel it shows
+  the dark value, a lighter colour so that it stands out on a dark background.
+  <code>--color--primary--contrast</code> changes with it, so the text stays
+  readable. The next chapter sets those two values.
 </p>
 
 <h2>Source</h2>

@@ -15,8 +15,8 @@
         font:
           0.9rem/1.4 system-ui,
           sans-serif;
-        background: var(--color--background);
-        color: var(--color--on-background);
+        background: var(--color--surface);
+        color: var(--color--on-surface);
       }
       h2 {
         font-size: 0.9rem;
@@ -24,7 +24,7 @@
       }
       .ladder {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
         gap: 0.5rem;
       }
       .tile {
@@ -75,7 +75,7 @@
 
       .cards {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
         gap: 1.25rem;
         padding: 1rem 0.25rem 1.25rem;
       }
@@ -87,7 +87,6 @@
         font-size: 0.75rem;
       }
       .card .accent {
-        color: var(--color--primary);
         font-weight: 600;
       }
       .e0 {
@@ -128,6 +127,10 @@
       <div class="tile container">container</div>
       <div class="tile high">container-high</div>
       <div class="tile highest">container-highest</div>
+    </div>
+
+    <h2>Outlines</h2>
+    <div class="ladder">
       <div class="tile outlined">outline</div>
       <div class="tile outlined-variant">outline-variant</div>
     </div>
