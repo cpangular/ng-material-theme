@@ -26,6 +26,10 @@ Or use the built-in server:
 pnpm serve
 ```
 
+## Browser check
+
+`pnpm check:browser` renders the built demo in headless Chromium (Playwright) in light and dark mode, writes screenshots to `test/out/`, and measures the painted contrast of every surface tile, sub-theme button and palette swatch. It fails if text on a surface or a non-disabled swatch's `--contrast--high` is below 4.5:1, or `--contrast` below 3:1. It is not part of CI; run `npx playwright install chromium` once first.
+
 ## Switching Modes
 
 `core.css` sets `color-scheme: light dark` on the root, so the page follows the OS preference. The mode toggle in the page overrides it by setting `color-scheme` on the root element; to force a mode in CSS, set it on any element:

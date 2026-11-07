@@ -120,8 +120,10 @@ if (existsSync(docsExamples)) {
 
 // ── 3. Contrast sweep ─────────────────────────────────────────────────────────
 // Mirrors the CSS: the contrast base is black or white at the WCAG luminance
-// crossover; --contrast and --contrast--low mix the base toward the colour in
-// OKLab by the shipped contrast-blend defaults; surfaces are the shipped tones.
+// crossover, judged on the clipped sRGB channels (what the browser paints);
+// --contrast and --contrast--low mix the base toward the colour in OKLab by
+// the shipped contrast-blend defaults; surfaces are the shipped tones. The
+// grid is swept as raw oklch points, so out-of-gamut inputs are covered too.
 {
   const core = compiled.get("core.css");
   const initial = (name) =>
@@ -160,23 +162,22 @@ if (existsSync(docsExamples)) {
 
   const black = new Color("srgb", [0, 0, 0]);
   const white = new Color("srgb", [1, 1, 1]);
-  const srgb = (c) => c.to("srgb").toGamut({ space: "srgb" });
+  const painted = (c) =>
+    c.to("srgb").toGamut({ space: "srgb", method: "clip" });
   const luminance = (c) => {
-    const [r, g, b] = c.to("srgb-linear").coords;
+    const [r, g, b] = painted(c).to("srgb-linear").coords;
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   };
   const contrastBase = (c) => (luminance(c) < 0.179 ? white : black);
   const mixToward = (base, c, keep) =>
-    srgb(base.mix(c, 1 - keep, { space: "oklab" }));
-  const ratio = (a, b) => Color.contrastWCAG21(srgb(a), srgb(b));
+    base.mix(c, 1 - keep, { space: "oklab" });
+  const ratio = (a, b) => Color.contrastWCAG21(painted(a), painted(b));
   const tone = (c, [L, k]) =>
-    srgb(
-      new Color("oklch", [
-        L,
-        c.to("oklch").coords[1] * k,
-        c.to("oklch").coords[2] || 0,
-      ]),
-    );
+    new Color("oklch", [
+      L,
+      c.to("oklch").coords[1] * k,
+      c.to("oklch").coords[2] || 0,
+    ]);
 
   let worst = {
     high: Infinity,
@@ -189,8 +190,7 @@ if (existsSync(docsExamples)) {
   for (let h = 0; h < 360; h += 15) {
     for (let L = 0.05; L <= 0.951; L += 0.05) {
       for (const C of [0, 0.1, 0.2]) {
-        // A realistic input: the nearest in-gamut sRGB colour to this oklch point.
-        const c = srgb(new Color("oklch", [L, C, h]));
+        const c = new Color("oklch", [L, C, h]);
         n++;
         const base = contrastBase(c);
         const high = mixToward(base, c, blend.high);
@@ -202,7 +202,7 @@ if (existsSync(docsExamples)) {
         worst.high = Math.min(worst.high, rh);
         worst.default = Math.min(worst.default, rd);
         worst.low = Math.min(worst.low, rl);
-        const tag = `oklch(${L.toFixed(2)} ${C} ${h}) → ${c.toString({ format: "hex" })}`;
+        const tag = `oklch(${L.toFixed(2)} ${C} ${h}) painted ${painted(c).toString({ format: "hex" })}`;
         if (rh < 4.5)
           problems.push(`--contrast--high ${rh.toFixed(2)} < 4.5 on ${tag}`);
         if (rd < 3) problems.push(`--contrast ${rd.toFixed(2)} < 3 on ${tag}`);

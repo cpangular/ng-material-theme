@@ -19,6 +19,7 @@
 
 @use "sass:list";
 @use "sass:map";
+@use "sass:string";
 @use "./defaults";
 
 $_variants: (
@@ -181,14 +182,15 @@ $_slots: list.join((""), $_variants);
 
 // Black or white, whichever reads better on $origin (a CSS colour expression).
 // The step is a clamp on the WCAG relative luminance of $origin, computed from
-// its linear-light sRGB channels.
+// its linear-light sRGB channels. Each channel is clamped to 0..1 first, so an
+// out-of-gamut origin (a derived or mixed colour can leave sRGB) is judged as
+// the browser paints it, not as the unclipped maths would have it.
 @function _contrast-base($origin) {
-  $step: clamp(
-    0,
-    (0.179 - (0.2126 * r + 0.7152 * g + 0.0722 * b)) * 1000000,
-    1
+  $y: "0.2126 * clamp(0, r, 1) + 0.7152 * clamp(0, g, 1) + 0.0722 * clamp(0, b, 1)";
+  $step: "clamp(0, (0.179 - (#{$y})) * 1000000, 1)";
+  @return string.unquote(
+    "color(from #{$origin} srgb-linear #{$step} #{$step} #{$step} / 1)"
   );
-  @return color(from #{$origin} srgb-linear #{$step} #{$step} #{$step} / 1);
 }
 
 // Contrast colours of one per-mode slot.

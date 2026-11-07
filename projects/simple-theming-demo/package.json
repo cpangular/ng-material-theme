@@ -7,11 +7,13 @@
     "build": "sass --pkg-importer=node --load-path=node_modules src/styles.scss dist/styles.css && cp src/index.html dist/index.html && cp node_modules/@cpangular/ng-material-theme/css/dist/core.css node_modules/@cpangular/ng-material-theme/css/dist/theme-switcher.js dist/",
     "watch": "sass --watch --pkg-importer=node --load-path=node_modules src/styles.scss dist/styles.css",
     "serve": "pnpm run build && http-server dist -p 8080 -o",
-    "github.actions.build": "pnpm run build"
+    "github.actions.build": "pnpm run build",
+    "check:browser": "node test/render.mjs"
   },
   "devDependencies": {
     "@cpangular/ng-material-theme": "workspace:*",
     "http-server": "^14.1.1",
+    "playwright": "1.65.0",
     "sass": "^1.80.0"
   },
   "license": "MIT"
