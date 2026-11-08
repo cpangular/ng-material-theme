@@ -1,0 +1,138 @@
+<h1>Containers</h1>
+<p class="lead">
+  Two Sass mixins turn a palette, a variant and a style into a readable box:
+  <code>apply-container()</code> paints it, and
+  <code>apply-container-vars()</code> only hands you the colours. Every token
+  they use comes from chapters 4 and 5. Both are Sass-only; with
+  <code>core.css</code>, set <code>background</code> and <code>color</code> to
+  the same tokens by hand.
+</p>
+
+<!-- example: examples/09-containers.html -->
+
+<h2><code>apply-container()</code></h2>
+<pre><code>@include theme.apply-container($palette, $variant: null, $reverse-mode: false, $disabled: false, $style: filled, $border: null, $elevation: null);</code></pre>
+<p>
+  Arguments with a default are optional; pass them by name, as in
+  <code>$style: text</code>. The palette and variant form a chapter 4 token
+  name: <code>apply-container(primary, higher-1)</code> sets
+  <code>background</code> to <code>--color--primary-higher-1</code> and
+  <code>color</code> to <code>--color--primary-higher-1--contrast</code>. The
+  Filled button uses it on <code>:hover</code>, because higher-1 stands out more
+  in both modes.
+</p>
+
+<h2>Which text colour</h2>
+<p>
+  A filled container's text is the plain <code>--contrast</code>, which chapter
+  4 guarantees only at 3:1. The example's labels happen to read at 4.5:1 or
+  better, but with your colours they may not. For a guaranteed 4.5:1, follow the
+  include with <code>color: var(--color--primary--contrast--high);</code> (or
+  the matching token for your palette and variant).
+</p>
+
+<h2>Borders, elevation, reverse mode, disabled</h2>
+<p>
+  <code>$border</code> is a width: the mixin draws a solid border of that width
+  in the border colour from the table below. <code>$elevation: N</code> sets
+  <code>box-shadow</code> to chapter 5's <code>--elevation-N</code>, as on the
+  Delete button. <code>$reverse-mode: true</code> and
+  <code>$disabled: true</code> add <code>-reverse-mode</code> and
+  <code>-disabled</code> to the token name. The Disabled button is faded like
+  any <code>-disabled</code> token and reads below 4.5:1 on purpose.
+</p>
+
+<h2>The three styles</h2>
+<table>
+  <thead>
+    <tr>
+      <th><code>$style</code></th>
+      <th>Background</th>
+      <th>Text</th>
+      <th>Border</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>filled</code></td>
+      <td>the colour</td>
+      <td>its <code>--contrast</code></td>
+      <td>the colour</td>
+    </tr>
+    <tr>
+      <td><code>text</code></td>
+      <td><code>transparent</code></td>
+      <td>the colour</td>
+      <td>the colour</td>
+    </tr>
+    <tr>
+      <td><code>normal</code></td>
+      <td>none of its own (the parent shows through)</td>
+      <td>the colour</td>
+      <td>the colour</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Filled is a solid button or chip; its border matches the fill, so a border
+  only adds size. Text has a transparent background and palette-coloured text;
+  add <code>$border</code> for an outlined button. Normal paints no background
+  of its own and uses the palette colour for text and border.
+</p>
+
+<h2><code>apply-container-vars()</code></h2>
+<p>
+  It takes the same arguments except <code>$border</code> and
+  <code>$elevation</code>. It sets five variables and no properties, so the
+  element and its children decide what to paint:
+</p>
+<ul>
+  <li>
+    <code>--container-bg-color</code> and <code>--container-color</code>: the
+    pair the style describes.
+  </li>
+  <li><code>--container-border-color</code>: the colour.</li>
+  <li>
+    <code>--container-color--high</code> and
+    <code>--container-color--low</code>, below.
+  </li>
+</ul>
+<table>
+  <thead>
+    <tr>
+      <th><code>$style</code></th>
+      <th><code>--container-color--high</code></th>
+      <th><code>--container-color--low</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>filled</code></td>
+      <td>its <code>--contrast--high</code> (4.5:1)</td>
+      <td>its <code>--contrast--low</code> (decorative)</td>
+    </tr>
+    <tr>
+      <td><code>text</code>, <code>normal</code></td>
+      <td>its <code>-higher-1</code></td>
+      <td>its <code>-lower-1</code></td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  On a coloured box the text needs a contrast colour; with no box it needs a
+  palette colour, and those carry no contrast guarantee against the page. For
+  text and normal, use the two without <code>$variant</code> or
+  <code>$reverse-mode</code>: with either set, the names they build do not
+  exist.
+</p>
+<p>
+  The cards use it. The filled card's heading and body text use
+  <code>--container-color--high</code>, and its divider uses
+  <code>--container-color--low</code>, which chapter 4 keeps for decoration. The
+  normal card sets its own background, because the variables paint nothing, and
+  its body text uses <code>--container-color</code>, the palette colour.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/09-containers.scss -->
+<!-- include: examples/09-containers.html -->

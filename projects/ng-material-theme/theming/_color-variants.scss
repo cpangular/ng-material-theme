@@ -1,411 +1,27 @@
-// Color Variant Generation System
-// 3-pass architecture:
-//   Pass 1 (emit-mode-vars):  --theme--light/dark--color--X-variant  (per-mode intermediates)
-//   Pass 2 (emit-join-vars):  --color--X-variant: light-dark(...)     (normal + inverse joins)
-//   Pass 3 (emit-join-contrast-vars): --color--X-variant--contrast--* (all contrast join vars)
+// Colour variants.
+//
+// Every palette X is derived from its two inputs, --theme--light--color--X and
+// --theme--dark--color--X, in two passes:
+//
+//   emit-mode-vars(X, mode)  per-mode intermediates, --theme--<mode>--color--X-…:
+//                            lighter/darker, higher/lower, tints, disabled, and
+//                            the contrast colours of every one of those slots
+//   emit-join-vars(X)        public tokens, --color--X-…: light-dark() joins of
+//                            the intermediates, plus -reverse-mode (swapped)
+//
+// A public token is never a relative-colour origin: every oklch(from …) and
+// color(from …) reads a per-mode intermediate.
+//
+// Contrast: the base is black or white, chosen at the WCAG luminance crossover
+// (Y = 0.179), which gives at least 4.58:1 against any colour. --contrast--high
+// is that base; --contrast and --contrast--low mix it back toward the colour
+// in OKLab by the contrast-blend percentages.
 
-@use "sass:map";
 @use "sass:list";
+@use "sass:map";
+@use "sass:string";
+@use "./defaults";
 
-// Theme-level defaults generation
-@mixin generate-theme-defaults($theme-config) {
-  // Theme-wide blend percentages
-  --theme--blend--darker-2: #{map.get($theme-config, "darker-2") or 30%};
-  --theme--blend--darker-1: #{map.get($theme-config, "darker-1") or 80%};
-  --theme--blend--lighter-1: #{map.get($theme-config, "lighter-1") or 30%};
-  --theme--blend--lighter-2: #{map.get($theme-config, "lighter-2") or 5%};
-
-  // Disabled state desaturation (percentage of base color, rest is gray)
-  --theme--disabled-saturation: #{map.get($theme-config, "disabled-saturation")
-    or 40%};
-  // Disabled state foreground (contrast text) opacity
-  --theme--disabled-foreground-opacity: #{map.get(
-      $theme-config,
-      "disabled-foreground-opacity"
-    )
-    or 70%};
-  // Disabled state background color opacity
-  --theme--disabled-background-opacity: #{map.get(
-      $theme-config,
-      "disabled-background-opacity"
-    )
-    or 80%};
-}
-
-@mixin generate-theme-opacity-defaults($opacity-config) {
-  // Theme-wide opacity levels (9 levels)
-  // 2-4 align with MD3 state layers (hover 8%, focus/pressed 12%, dragged 16%)
-  // 5-9 fill the visual tint range
-  --theme--opacity--1: #{map.get($opacity-config, "opacity1") or 2%};
-  --theme--opacity--2: #{map.get($opacity-config, "opacity2") or 8%};
-  --theme--opacity--3: #{map.get($opacity-config, "opacity3") or 12%};
-  --theme--opacity--4: #{map.get($opacity-config, "opacity4") or 16%};
-  --theme--opacity--5: #{map.get($opacity-config, "opacity5") or 25%};
-  --theme--opacity--6: #{map.get($opacity-config, "opacity6") or 40%};
-  --theme--opacity--7: #{map.get($opacity-config, "opacity7") or 55%};
-  --theme--opacity--8: #{map.get($opacity-config, "opacity8") or 70%};
-  --theme--opacity--9: #{map.get($opacity-config, "opacity9") or 90%};
-}
-
-@mixin generate-theme-contrast-blend-defaults($contrast-config) {
-  // Theme-wide contrast blend percentages
-  --theme--contrast-blend--high: #{map.get($contrast-config, "high") or 100%};
-  --theme--contrast-blend: #{map.get($contrast-config, "default") or 84%};
-  --theme--contrast-blend--low: #{map.get($contrast-config, "low") or 72%};
-}
-
-// Per-palette override and computed variable generation
-@mixin generate-palette-config-vars($name, $config) {
-  // Blend overrides
-  @if map.has-key($config, "blend-darker-2") {
-    --color--#{$name}--blend--darker-2-override: #{map.get(
-        $config,
-        "blend-darker-2"
-      )};
-  }
-  @if map.has-key($config, "blend-darker-1") {
-    --color--#{$name}--blend--darker-1-override: #{map.get(
-        $config,
-        "blend-darker-1"
-      )};
-  }
-  @if map.has-key($config, "blend-lighter-1") {
-    --color--#{$name}--blend--lighter-1-override: #{map.get(
-        $config,
-        "blend-lighter-1"
-      )};
-  }
-  @if map.has-key($config, "blend-lighter-2") {
-    --color--#{$name}--blend--lighter-2-override: #{map.get(
-        $config,
-        "blend-lighter-2"
-      )};
-  }
-
-  // Generate computed variables with fallback chain
-  --color--#{$name}--blend--darker-2: var(
-    --color--#{$name}--blend--darker-2-override,
-    var(--theme--blend--darker-2)
-  );
-  --color--#{$name}--blend--darker-1: var(
-    --color--#{$name}--blend--darker-1-override,
-    var(--theme--blend--darker-1)
-  );
-  --color--#{$name}--blend--lighter-1: var(
-    --color--#{$name}--blend--lighter-1-override,
-    var(--theme--blend--lighter-1)
-  );
-  --color--#{$name}--blend--lighter-2: var(
-    --color--#{$name}--blend--lighter-2-override,
-    var(--theme--blend--lighter-2)
-  );
-
-  // Opacity overrides (index-based 1-9, not value-based)
-  @each $opacity in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
-    @if map.has-key($config, "opacity#{$opacity}") {
-      --color--#{$name}--opacity--#{$opacity}-override: #{map.get(
-          $config,
-          "opacity#{$opacity}"
-        )};
-    }
-    --color--#{$name}--opacity--#{$opacity}: var(
-      --color--#{$name}--opacity--#{$opacity}-override,
-      var(--theme--opacity--#{$opacity})
-    );
-  }
-
-  // Contrast blend overrides
-  @if map.has-key($config, "contrast-blend-high") {
-    --color--#{$name}--contrast-blend--high-override: #{map.get(
-        $config,
-        "contrast-blend-high"
-      )};
-  }
-  @if map.has-key($config, "contrast-blend") {
-    --color--#{$name}--contrast-blend-override: #{map.get(
-        $config,
-        "contrast-blend"
-      )};
-  }
-  @if map.has-key($config, "contrast-blend-low") {
-    --color--#{$name}--contrast-blend--low-override: #{map.get(
-        $config,
-        "contrast-blend-low"
-      )};
-  }
-
-  // Computed contrast blend variables with fallback chain
-  --color--#{$name}--contrast-blend--high: var(
-    --color--#{$name}--contrast-blend--high-override,
-    var(--theme--contrast-blend--high)
-  );
-  --color--#{$name}--contrast-blend: var(
-    --color--#{$name}--contrast-blend-override,
-    var(--theme--contrast-blend)
-  );
-  --color--#{$name}--contrast-blend--low: var(
-    --color--#{$name}--contrast-blend--low-override,
-    var(--theme--contrast-blend--low)
-  );
-
-  // Disabled saturation override
-  @if map.has-key($config, "disabled-saturation") {
-    --color--#{$name}--disabled-saturation-override: #{map.get(
-        $config,
-        "disabled-saturation"
-      )};
-  }
-  --color--#{$name}--disabled-saturation: var(
-    --color--#{$name}--disabled-saturation-override,
-    var(--theme--disabled-saturation)
-  );
-
-  // Disabled foreground (contrast text) opacity override
-  @if map.has-key($config, "disabled-foreground-opacity") {
-    --color--#{$name}--disabled-foreground-opacity-override: #{map.get(
-        $config,
-        "disabled-foreground-opacity"
-      )};
-  }
-  --color--#{$name}--disabled-foreground-opacity: var(
-    --color--#{$name}--disabled-foreground-opacity-override,
-    var(--theme--disabled-foreground-opacity)
-  );
-
-  // Disabled background opacity override
-  @if map.has-key($config, "disabled-background-opacity") {
-    --color--#{$name}--disabled-background-opacity-override: #{map.get(
-        $config,
-        "disabled-background-opacity"
-      )};
-  }
-  --color--#{$name}--disabled-background-opacity: var(
-    --color--#{$name}--disabled-background-opacity-override,
-    var(--theme--disabled-background-opacity)
-  );
-}
-
-// Lighter/Darker variant generation
-@mixin generate-lighter-darker($name) {
-  --color--#{$name}-darker-2: color-mix(
-    in oklch,
-    var(--color--#{$name}) var(--color--#{$name}--blend--darker-2),
-    black calc(100% - var(--color--#{$name}--blend--darker-2))
-  );
-  --color--#{$name}-darker-1: color-mix(
-    in oklch,
-    var(--color--#{$name}) var(--color--#{$name}--blend--darker-1),
-    black calc(100% - var(--color--#{$name}--blend--darker-1))
-  );
-  // --color--#{$name} is the base (user sets this)
-  --color--#{$name}-lighter-1: color-mix(
-    in oklch,
-    var(--color--#{$name}) var(--color--#{$name}--blend--lighter-1),
-    white calc(100% - var(--color--#{$name}--blend--lighter-1))
-  );
-  --color--#{$name}-lighter-2: color-mix(
-    in oklch,
-    var(--color--#{$name}) var(--color--#{$name}--blend--lighter-2),
-    white calc(100% - var(--color--#{$name}--blend--lighter-2))
-  );
-}
-
-// Mode-relative variants (invert in dark mode)
-@mixin generate-mode-relative($name) {
-  // In light mode: higher = darker (more prominent), lower = lighter (less prominent)
-  // In dark mode: higher = lighter (more prominent), lower = darker (less prominent)
-  --color--#{$name}-higher-2: light-dark(
-    var(--color--#{$name}-darker-2),
-    var(--color--#{$name}-lighter-2)
-  );
-  --color--#{$name}-higher-1: light-dark(
-    var(--color--#{$name}-darker-1),
-    var(--color--#{$name}-lighter-1)
-  );
-  --color--#{$name}-lower-1: light-dark(
-    var(--color--#{$name}-lighter-1),
-    var(--color--#{$name}-darker-1)
-  );
-  --color--#{$name}-lower-2: light-dark(
-    var(--color--#{$name}-lighter-2),
-    var(--color--#{$name}-darker-2)
-  );
-}
-
-// Disabled variant (desaturated version) - can be applied to any color variant
-@mixin generate-disabled-variant($name, $variant: null) {
-  $source-var: if($variant, --color--#{$name}-#{$variant}, --color--#{$name});
-  $target-var: if(
-    $variant,
-    --color--#{$name}-#{$variant}-disabled,
-    --color--#{$name}-disabled
-  );
-
-  // True desaturation: blend with zero-chroma version of the same color,
-  // preserving lightness and hue — no gray imposed
-  #{$target-var}: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(#{$source-var}) var(--color--#{$name}--disabled-saturation),
-        oklch(from var(#{$source-var}) l 0 h)
-          calc(100% - var(--color--#{$name}--disabled-saturation))
-      )
-      l c h / var(--color--#{$name}--disabled-background-opacity)
-  );
-}
-
-@mixin generate-mode-relative-dark($name) {
-  // In dark mode: lower = lighter, higher = darker (inverted)
-  --color--#{$name}-lower-2: color-mix(
-    in oklch,
-    var(--color--#{$name}) 80%,
-    white 20%
-  );
-  --color--#{$name}-lower-1: color-mix(
-    in oklch,
-    var(--color--#{$name}) 90%,
-    white 10%
-  );
-  --color--#{$name}-higher-1: color-mix(
-    in oklch,
-    var(--color--#{$name}) 90%,
-    black 10%
-  );
-  --color--#{$name}-higher-2: color-mix(
-    in oklch,
-    var(--color--#{$name}) 80%,
-    black 20%
-  );
-}
-
-// Tint generation (transparent overlays)
-@mixin generate-tints($name) {
-  --color--#{$name}-tint-1: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--1)
-  );
-  --color--#{$name}-tint-2: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--2)
-  );
-  --color--#{$name}-tint-3: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--3)
-  );
-  --color--#{$name}-tint-4: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--4)
-  );
-  --color--#{$name}-tint-5: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--5)
-  );
-  --color--#{$name}-tint-6: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--6)
-  );
-  --color--#{$name}-tint-7: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--7)
-  );
-  --color--#{$name}-tint-8: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--8)
-  );
-  --color--#{$name}-tint-9: oklch(
-    from var(--color--#{$name}) l c h / var(--color--#{$name}--opacity--9)
-  );
-}
-
-// Contrast color generation (for main and all variants)
-@mixin generate-contrast-colors($name, $variant: null, $is-disabled: false) {
-  $var-name: if($variant, --color--#{$name}-#{$variant}, --color--#{$name});
-  $var-prefix: if(
-    $variant,
-    --color--#{$name}-#{$variant}--contrast,
-    --color--#{$name}--contrast
-  );
-
-  // Base contrast:
-  // - For the palette base (no $variant): derive --light and --dark individually
-  //   from the palette's two input colors, then produce --base via light-dark().
-  // - For variants: the variant color is already a single mode-resolved value,
-  //   so compute --base with a single oklch formula.
-  @if not $variant {
-    --theme--light--color--#{$name}--contrast--base: oklch(
-      from var(--theme--light--color--#{$name})
-        clamp(0, (0.6 - l) * 9999, 1)
-        0
-        0
-    );
-    --theme--dark--color--#{$name}--contrast--base: oklch(
-      from var(--theme--dark--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    );
-    #{$var-prefix}--base: light-dark(
-      var(--theme--light--color--#{$name}--contrast--base),
-      var(--theme--dark--color--#{$name}--contrast--base)
-    );
-  } @else {
-    #{$var-prefix}--base: oklch(
-      from var(#{$var-name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    );
-  }
-
-  // Blended contrast variants (use palette-specific blend vars)
-  @if $is-disabled {
-    // Disabled contrast: relative syntax to bake opacity into the color value
-    #{$var-prefix}--high: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$var-prefix}--base)
-            var(--color--#{$name}--contrast-blend--high),
-          var(#{$var-name})
-            calc(100% - var(--color--#{$name}--contrast-blend--high))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-    #{$var-prefix}: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend),
-          var(#{$var-name}) calc(100% - var(--color--#{$name}--contrast-blend))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-    #{$var-prefix}--low: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--low),
-          var(#{$var-name})
-            calc(100% - var(--color--#{$name}--contrast-blend--low))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-  } @else {
-    #{$var-prefix}--high: color-mix(
-      in oklch,
-      var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--high),
-      var(#{$var-name})
-        calc(100% - var(--color--#{$name}--contrast-blend--high))
-    );
-    #{$var-prefix}: color-mix(
-      in oklch,
-      var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend),
-      var(#{$var-name}) calc(100% - var(--color--#{$name}--contrast-blend))
-    );
-    #{$var-prefix}--low: color-mix(
-      in oklch,
-      var(#{$var-prefix}--base) var(--color--#{$name}--contrast-blend--low),
-      var(#{$var-name}) calc(100% - var(--color--#{$name}--contrast-blend--low))
-    );
-  }
-}
-
-// ── 3-Pass Architecture ───────────────────────────────────────────────────────
-
-// $variants: all 8 named variants (lighter/darker + mode-relative)
 $_variants: (
   darker-2,
   darker-1,
@@ -417,91 +33,246 @@ $_variants: (
   lower-2
 );
 
-// Pass 1: Emit per-mode intermediate vars for a given mode (light or dark).
-// Sets --theme--#{$mode}--color--#{$name}-variant for all 8 variants + disabled + tints.
-// Source var: --theme--#{$mode}--color--#{$name}
+// The base slot ("") plus every variant.
+$_slots: list.join((""), $_variants);
+
+// ── Tuning ────────────────────────────────────────────────────────────────────
+//
+// Theme-level tuning variables (--theme--blend--*, --theme--opacity--*,
+// --theme--contrast-blend*, --theme--disabled-*) default to their @property
+// initial values and are only ever emitted when a theme sets them. Each palette
+// reads them through a fallback chain,
+//   --color--X--blend--darker-2: var(--color--X--blend--darker-2-override, var(--theme--blend--darker-2))
+// so a per-palette -override variable, which stays unregistered, wins when set
+// and otherwise inherits like any custom property.
+
+@function _check-keys($map, $allowed, $where) {
+  @each $key, $_ in $map {
+    @if not list.index($allowed, $key) {
+      @error "Unknown #{$where} key `#{$key}`. Expected one of: #{$allowed}.";
+    }
+  }
+  @return true;
+}
+
+// Theme-level tuning. Reads the `blends`, `opacities`, `contrast-blends` and
+// `disabled` keys of a createTheme() config and emits only what is present:
+//   blends:          (darker-2: 30%, darker-1: 80%, lighter-1: 30%, lighter-2: 5%)
+//   opacities:       (opacity1: 2%, … opacity9: 90%)
+//   contrast-blends: (high: 100%, default: 90%, low: 80%)
+//   disabled:        (saturation: 40%, foreground-opacity: 70%, background-opacity: 80%)
+@mixin emit-theme-tuning($config) {
+  $blends: map.get($config, "blends") or ();
+  $_: _check-keys($blends, map.keys(defaults.$blends), "blends");
+  @each $key, $value in $blends {
+    --theme--blend--#{$key}: #{$value};
+  }
+
+  $opacities: map.get($config, "opacities") or ();
+  @each $i, $_ in defaults.$opacities {
+    @if map.has-key($opacities, "opacity#{$i}") {
+      --theme--opacity--#{$i}: #{map.get($opacities, "opacity#{$i}")};
+    }
+  }
+  @each $key, $_ in $opacities {
+    @if not map.has-key(defaults.$opacities, _opacity-index($key)) {
+      @error "Unknown opacities key `#{$key}`. Expected opacity1 … opacity9.";
+    }
+  }
+
+  $contrast-blends: map.get($config, "contrast-blends") or ();
+  $_: _check-keys(
+    $contrast-blends,
+    map.keys(defaults.$contrast-blends),
+    "contrast-blends"
+  );
+  @each $key, $value in $contrast-blends {
+    --theme--contrast-blend#{map.get(defaults.$contrast-blend-suffix, $key)}: #{$value};
+  }
+
+  $disabled: map.get($config, "disabled") or ();
+  $_: _check-keys($disabled, map.keys(defaults.$disabled), "disabled");
+  @each $key, $value in $disabled {
+    --theme--disabled-#{$key}: #{$value};
+  }
+}
+
+// "opacity3" → 3, anything else → null
+@function _opacity-index($key) {
+  @each $i, $_ in defaults.$opacities {
+    @if $key == "opacity#{$i}" {
+      @return $i;
+    }
+  }
+  @return null;
+}
+
+// Per-palette overrides: one unregistered -override variable per key present in
+// the expanded palette config (see config-expansion.expand()).
+@mixin emit-palette-overrides($name, $config) {
+  @each $label, $_ in defaults.$blends {
+    @if map.has-key($config, "blend-#{$label}") {
+      --color--#{$name}--blend--#{$label}-override: #{map.get(
+          $config,
+          "blend-#{$label}"
+        )};
+    }
+  }
+  @each $i, $_ in defaults.$opacities {
+    @if map.has-key($config, "opacity#{$i}") {
+      --color--#{$name}--opacity--#{$i}-override: #{map.get(
+          $config,
+          "opacity#{$i}"
+        )};
+    }
+  }
+  @each $key, $suffix in defaults.$contrast-blend-suffix {
+    $config-key: "contrast-blend";
+    @if $key != "default" {
+      $config-key: "contrast-blend-#{$key}";
+    }
+    @if map.has-key($config, $config-key) {
+      --color--#{$name}--contrast-blend#{$suffix}-override: #{map.get(
+          $config,
+          $config-key
+        )};
+    }
+  }
+  @each $key, $_ in defaults.$disabled {
+    @if map.has-key($config, "disabled-#{$key}") {
+      --color--#{$name}--disabled-#{$key}-override: #{map.get(
+          $config,
+          "disabled-#{$key}"
+        )};
+    }
+  }
+}
+
+// Per-palette fallback chain: the computed tuning variables every variant
+// formula reads. Emitted once per palette by core() (standard palettes) or by
+// createTheme() (custom palettes).
+@mixin emit-palette-chain($name) {
+  @each $label, $_ in defaults.$blends {
+    --color--#{$name}--blend--#{$label}: var(
+      --color--#{$name}--blend--#{$label}-override,
+      var(--theme--blend--#{$label})
+    );
+  }
+  @each $i, $_ in defaults.$opacities {
+    --color--#{$name}--opacity--#{$i}: var(
+      --color--#{$name}--opacity--#{$i}-override,
+      var(--theme--opacity--#{$i})
+    );
+  }
+  @each $key, $suffix in defaults.$contrast-blend-suffix {
+    --color--#{$name}--contrast-blend#{$suffix}: var(
+      --color--#{$name}--contrast-blend#{$suffix}-override,
+      var(--theme--contrast-blend#{$suffix})
+    );
+  }
+  @each $key, $_ in defaults.$disabled {
+    --color--#{$name}--disabled-#{$key}: var(
+      --color--#{$name}--disabled-#{$key}-override,
+      var(--theme--disabled-#{$key})
+    );
+  }
+}
+
+// ── Contrast ──────────────────────────────────────────────────────────────────
+
+// Black or white, whichever reads better on $origin (a CSS colour expression).
+// The step is a clamp on the WCAG relative luminance of $origin, computed from
+// its linear-light sRGB channels. Each channel is clamped to 0..1 first, so an
+// out-of-gamut origin (a derived or mixed colour can leave sRGB) is judged as
+// the browser paints it, not as the unclipped maths would have it.
+@function _contrast-base($origin) {
+  $y: "0.2126 * clamp(0, r, 1) + 0.7152 * clamp(0, g, 1) + 0.0722 * clamp(0, b, 1)";
+  $step: "clamp(0, (0.179 - (#{$y})) * 1000000, 1)";
+  @return string.unquote(
+    "color(from #{$origin} srgb-linear #{$step} #{$step} #{$step} / 1)"
+  );
+}
+
+// Contrast colours of one per-mode slot.
+// $src is the slot variable, e.g. --theme--light--color--primary-darker-1.
+@mixin _emit-mode-contrast($name, $src, $disabled: false) {
+  $pfx: #{$src}--contrast;
+  #{$pfx}--base: #{_contrast-base(var(#{$src}))};
+  @each $level, $suffix in defaults.$contrast-blend-suffix {
+    $blend: --color--#{$name}--contrast-blend#{$suffix};
+    $mix: color-mix(
+      in oklab,
+      var(#{$pfx}--base) var(#{$blend}),
+      var(#{$src}) calc(100% - var(#{$blend}))
+    );
+    @if $disabled {
+      #{$pfx}#{$suffix}: oklch(
+        from #{$mix} l c h / var(--color--#{$name}--disabled-foreground-opacity)
+      );
+    } @else {
+      #{$pfx}#{$suffix}: #{$mix};
+    }
+  }
+}
+
+// ── Pass 1: per-mode intermediates ────────────────────────────────────────────
+
 @mixin emit-mode-vars($name, $mode) {
   $src: --theme--#{$mode}--color--#{$name};
   $s: --color--#{$name};
 
   /* ── #{$name} (#{$mode}) ─── Lighter / Darker ──────────────────────────── */
-  --theme--#{$mode}--color--#{$name}-darker-2: color-mix(
+  #{$src}-darker-2: color-mix(
     in oklch,
     var(#{$src}) var(#{$s}--blend--darker-2),
     black calc(100% - var(#{$s}--blend--darker-2))
   );
-  --theme--#{$mode}--color--#{$name}-darker-1: color-mix(
+  #{$src}-darker-1: color-mix(
     in oklch,
     var(#{$src}) var(#{$s}--blend--darker-1),
     black calc(100% - var(#{$s}--blend--darker-1))
   );
-  --theme--#{$mode}--color--#{$name}-lighter-1: color-mix(
+  #{$src}-lighter-1: color-mix(
     in oklch,
     var(#{$src}) var(#{$s}--blend--lighter-1),
     white calc(100% - var(#{$s}--blend--lighter-1))
   );
-  --theme--#{$mode}--color--#{$name}-lighter-2: color-mix(
+  #{$src}-lighter-2: color-mix(
     in oklch,
     var(#{$src}) var(#{$s}--blend--lighter-2),
     white calc(100% - var(#{$s}--blend--lighter-2))
   );
 
-  /* ── #{$name} (#{$mode}) ─── Mode-Relative (Higher / Lower) ───────────── */
-  // In light mode: higher = darker, lower = lighter
-  // In dark mode:  higher = lighter, lower = darker
-  @if $mode == light {
-    --theme--#{$mode}--color--#{$name}-higher-2: var(
-      --theme--#{$mode}--color--#{$name}-darker-2
-    );
-    --theme--#{$mode}--color--#{$name}-higher-1: var(
-      --theme--#{$mode}--color--#{$name}-darker-1
-    );
-    --theme--#{$mode}--color--#{$name}-lower-1: var(
-      --theme--#{$mode}--color--#{$name}-lighter-1
-    );
-    --theme--#{$mode}--color--#{$name}-lower-2: var(
-      --theme--#{$mode}--color--#{$name}-lighter-2
-    );
-  } @else {
-    --theme--#{$mode}--color--#{$name}-higher-2: var(
-      --theme--#{$mode}--color--#{$name}-lighter-2
-    );
-    --theme--#{$mode}--color--#{$name}-higher-1: var(
-      --theme--#{$mode}--color--#{$name}-lighter-1
-    );
-    --theme--#{$mode}--color--#{$name}-lower-1: var(
-      --theme--#{$mode}--color--#{$name}-darker-1
-    );
-    --theme--#{$mode}--color--#{$name}-lower-2: var(
-      --theme--#{$mode}--color--#{$name}-darker-2
-    );
+  /* ── #{$name} (#{$mode}) ─── Mode-relative (Higher / Lower) ───────────── */
+  // Light: higher = darker, lower = lighter.  Dark: the reverse.
+  $up: darker;
+  $down: lighter;
+  @if $mode == dark {
+    $up: lighter;
+    $down: darker;
   }
+  #{$src}-higher-2: var(#{$src}-#{$up}-2);
+  #{$src}-higher-1: var(#{$src}-#{$up}-1);
+  #{$src}-lower-1: var(#{$src}-#{$down}-1);
+  #{$src}-lower-2: var(#{$src}-#{$down}-2);
 
   /* ── #{$name} (#{$mode}) ─── Tints ─────────────────────────────────────── */
-  @each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
-    --theme--#{$mode}--color--#{$name}-tint-#{$i}: oklch(
+  @each $i, $_ in defaults.$opacities {
+    #{$src}-tint-#{$i}: oklch(
       from var(#{$src}) l c h / var(#{$s}--opacity--#{$i})
     );
   }
 
   /* ── #{$name} (#{$mode}) ─── Disabled ──────────────────────────────────── */
-  --theme--#{$mode}--color--#{$name}-disabled: oklch(
-    from
-      color-mix(
-        in oklch,
-        var(#{$src}) var(#{$s}--disabled-saturation),
-        oklch(from var(#{$src}) l 0 h)
-          calc(100% - var(#{$s}--disabled-saturation))
-      )
-      l c h / var(#{$s}--disabled-background-opacity)
-  );
-  @each $v in $_variants {
-    --theme--#{$mode}--color--#{$name}-#{$v}-disabled: oklch(
+  // Desaturate toward the zero-chroma version of the same colour, then apply
+  // the disabled background opacity.
+  @each $slot in $_slots {
+    $v: if-suffix($slot);
+    #{$src}#{$v}-disabled: oklch(
       from color-mix(
           in oklch,
-          var(--theme--#{$mode}--color--#{$name}-#{$v})
-            var(#{$s}--disabled-saturation),
-          oklch(from var(--theme--#{$mode}--color--#{$name}-#{$v}) l 0 h)
+          var(#{$src}#{$v}) var(#{$s}--disabled-saturation),
+          oklch(from var(#{$src}#{$v}) l 0 h)
             calc(100% - var(#{$s}--disabled-saturation))
         )
         l
@@ -510,48 +281,59 @@ $_variants: (
         var(#{$s}--disabled-background-opacity)
     );
   }
+
+  /* ── #{$name} (#{$mode}) ─── Contrast ──────────────────────────────────── */
+  @each $slot in $_slots {
+    $v: if-suffix($slot);
+    @include _emit-mode-contrast($name, #{$src}#{$v});
+    @include _emit-mode-contrast($name, #{$src}#{$v}-disabled, $disabled: true);
+  }
 }
 
-// Pass 2: Emit light-dark() join vars and their reverse-mode variants for a palette.
-// Produces --color--X-variant (and --color--X-variant-reverse-mode) for all slots.
-@mixin emit-join-vars($name) {
-  /* ── #{$name} ─── Join: Base ────────────────────────────────────────────── */
-  --color--#{$name}-disabled: light-dark(
-    var(--theme--light--color--#{$name}-disabled),
-    var(--theme--dark--color--#{$name}-disabled)
-  );
-  --color--#{$name}-reverse-mode: light-dark(
-    var(--theme--dark--color--#{$name}),
-    var(--theme--light--color--#{$name})
-  );
-  --color--#{$name}-reverse-mode-disabled: light-dark(
-    var(--theme--dark--color--#{$name}-disabled),
-    var(--theme--light--color--#{$name}-disabled)
-  );
+// "" → "", darker-2 → -darker-2
+@function if-suffix($slot) {
+  @if $slot == "" {
+    @return "";
+  }
+  @return -#{$slot};
+}
 
-  /* ── #{$name} ─── Join: Variants ────────────────────────────────────────── */
-  @each $v in $_variants {
-    --color--#{$name}-#{$v}: light-dark(
-      var(--theme--light--color--#{$name}-#{$v}),
-      var(--theme--dark--color--#{$name}-#{$v})
-    );
-    --color--#{$name}-#{$v}-disabled: light-dark(
-      var(--theme--light--color--#{$name}-#{$v}-disabled),
-      var(--theme--dark--color--#{$name}-#{$v}-disabled)
-    );
-    // Reverse-mode: swap light ↔ dark
-    --color--#{$name}-#{$v}-reverse-mode: light-dark(
-      var(--theme--dark--color--#{$name}-#{$v}),
-      var(--theme--light--color--#{$name}-#{$v})
-    );
-    --color--#{$name}-#{$v}-reverse-mode-disabled: light-dark(
-      var(--theme--dark--color--#{$name}-#{$v}-disabled),
-      var(--theme--light--color--#{$name}-#{$v}-disabled)
+// ── Pass 2: light-dark() joins ────────────────────────────────────────────────
+
+// One public slot: the colour and its three contrast colours, joined from the
+// per-mode intermediates. $reverse swaps the modes (-reverse-mode tokens).
+@mixin _join($name, $v, $d, $reverse: false) {
+  $light: --theme--light--color--#{$name}#{$v}#{$d};
+  $dark: --theme--dark--color--#{$name}#{$v}#{$d};
+  $r: "";
+  @if $reverse {
+    $r: -reverse-mode;
+    $swap: $light;
+    $light: $dark;
+    $dark: $swap;
+  }
+  $public: --color--#{$name}#{$v}#{$r}#{$d};
+  #{$public}: light-dark(var(#{$light}), var(#{$dark}));
+  @each $level, $suffix in defaults.$contrast-blend-suffix {
+    #{$public}--contrast#{$suffix}: light-dark(
+      var(#{$light}--contrast#{$suffix}),
+      var(#{$dark}--contrast#{$suffix})
     );
   }
+}
 
-  /* ── #{$name} ─── Join: Tints ───────────────────────────────────────────── */
-  @each $i in (1, 2, 3, 4, 5, 6, 7, 8, 9) {
+@mixin emit-join-vars($name) {
+  /* ── #{$name} ─── Join: base and variants ──────────────────────────────── */
+  @each $slot in $_slots {
+    $v: if-suffix($slot);
+    @each $d in ("", -disabled) {
+      @include _join($name, $v, $d);
+      @include _join($name, $v, $d, $reverse: true);
+    }
+  }
+
+  /* ── #{$name} ─── Join: tints (no contrast) ────────────────────────────── */
+  @each $i, $_ in defaults.$opacities {
     --color--#{$name}-tint-#{$i}: light-dark(
       var(--theme--light--color--#{$name}-tint-#{$i}),
       var(--theme--dark--color--#{$name}-tint-#{$i})
@@ -561,202 +343,4 @@ $_variants: (
       var(--theme--light--color--#{$name}-tint-#{$i})
     );
   }
-}
-
-// Pass 3: Emit contrast vars for all join slots (normal + inverse, each with disabled).
-// Reused internal helper shared between normal and inverse slots.
-@mixin _emit-contrast-for-slot(
-  $slot-var,
-  $contrast-prefix,
-  $name,
-  $is-disabled: false
-) {
-  @if $is-disabled {
-    #{$contrast-prefix}--base: oklch(
-      from var(#{$slot-var}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    );
-    #{$contrast-prefix}--high: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$contrast-prefix}--base)
-            var(--color--#{$name}--contrast-blend--high),
-          var(#{$slot-var})
-            calc(100% - var(--color--#{$name}--contrast-blend--high))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-    #{$contrast-prefix}: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$contrast-prefix}--base) var(--color--#{$name}--contrast-blend),
-          var(#{$slot-var}) calc(100% - var(--color--#{$name}--contrast-blend))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-    #{$contrast-prefix}--low: oklch(
-      from color-mix(
-          in oklch,
-          var(#{$contrast-prefix}--base)
-            var(--color--#{$name}--contrast-blend--low),
-          var(#{$slot-var})
-            calc(100% - var(--color--#{$name}--contrast-blend--low))
-        )
-        l
-        c
-        h /
-        var(--color--#{$name}--disabled-foreground-opacity)
-    );
-  } @else {
-    #{$contrast-prefix}--base: oklch(
-      from var(#{$slot-var}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    );
-    #{$contrast-prefix}--high: color-mix(
-      in oklch,
-      var(#{$contrast-prefix}--base)
-        var(--color--#{$name}--contrast-blend--high),
-      var(#{$slot-var})
-        calc(100% - var(--color--#{$name}--contrast-blend--high))
-    );
-    #{$contrast-prefix}: color-mix(
-      in oklch,
-      var(#{$contrast-prefix}--base) var(--color--#{$name}--contrast-blend),
-      var(#{$slot-var}) calc(100% - var(--color--#{$name}--contrast-blend))
-    );
-    #{$contrast-prefix}--low: color-mix(
-      in oklch,
-      var(#{$contrast-prefix}--base)
-        var(--color--#{$name}--contrast-blend--low),
-      var(#{$slot-var}) calc(100% - var(--color--#{$name}--contrast-blend--low))
-    );
-  }
-}
-
-@mixin emit-join-contrast-vars($name) {
-  /* ── #{$name} ─── Contrast: Base ───────────────────────────────────────── */
-  // Base color contrast (special: --base derives from per-mode intermediates)
-  --color--#{$name}--contrast--base: light-dark(
-    oklch(
-      from var(--theme--light--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0
-        0
-    ),
-    oklch(
-      from var(--theme--dark--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    )
-  );
-  --color--#{$name}--contrast--high: color-mix(
-    in oklch,
-    var(--color--#{$name}--contrast--base)
-      var(--color--#{$name}--contrast-blend--high),
-    var(--color--#{$name})
-      calc(100% - var(--color--#{$name}--contrast-blend--high))
-  );
-  --color--#{$name}--contrast: color-mix(
-    in oklch,
-    var(--color--#{$name}--contrast--base)
-      var(--color--#{$name}--contrast-blend),
-    var(--color--#{$name}) calc(100% - var(--color--#{$name}--contrast-blend))
-  );
-  --color--#{$name}--contrast--low: color-mix(
-    in oklch,
-    var(--color--#{$name}--contrast--base)
-      var(--color--#{$name}--contrast-blend--low),
-    var(--color--#{$name})
-      calc(100% - var(--color--#{$name}--contrast-blend--low))
-  );
-
-  /* ── #{$name} ─── Contrast: Base Disabled ──────────────────────────────── */
-  @include _emit-contrast-for-slot(
-    --color--#{$name}-disabled,
-    --color--#{$name}-disabled--contrast,
-    $name,
-    $is-disabled: true
-  );
-
-  /* ── #{$name} ─── Contrast: Base Reverse-Mode ───────────────────────────────── */
-  // Inverse base: swap light↔dark for --base computation, then same blend
-  --color--#{$name}-reverse-mode--contrast--base: light-dark(
-    oklch(
-      from var(--theme--dark--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0 0
-    ),
-    oklch(
-      from var(--theme--light--color--#{$name}) clamp(0, (0.6 - l) * 9999, 1) 0
-        0
-    )
-  );
-  --color--#{$name}-reverse-mode--contrast--high: color-mix(
-    in oklch,
-    var(--color--#{$name}-reverse-mode--contrast--base)
-      var(--color--#{$name}--contrast-blend--high),
-    var(--color--#{$name}-reverse-mode)
-      calc(100% - var(--color--#{$name}--contrast-blend--high))
-  );
-  --color--#{$name}-reverse-mode--contrast: color-mix(
-    in oklch,
-    var(--color--#{$name}-reverse-mode--contrast--base)
-      var(--color--#{$name}--contrast-blend),
-    var(--color--#{$name}-reverse-mode)
-      calc(100% - var(--color--#{$name}--contrast-blend))
-  );
-  --color--#{$name}-reverse-mode--contrast--low: color-mix(
-    in oklch,
-    var(--color--#{$name}-reverse-mode--contrast--base)
-      var(--color--#{$name}--contrast-blend--low),
-    var(--color--#{$name}-reverse-mode)
-      calc(100% - var(--color--#{$name}--contrast-blend--low))
-  );
-
-  /* ── #{$name} ─── Contrast: Base Reverse-Mode Disabled ──────────────────────── */
-  @include _emit-contrast-for-slot(
-    --color--#{$name}-reverse-mode-disabled,
-    --color--#{$name}-reverse-mode-disabled--contrast,
-    $name,
-    $is-disabled: true
-  );
-
-  /* ── #{$name} ─── Contrast: Variants ───────────────────────────────────── */
-  @each $v in $_variants {
-    @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v},
-      --color--#{$name}-#{$v}--contrast,
-      $name
-    );
-    @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v}-disabled,
-      --color--#{$name}-#{$v}-disabled--contrast,
-      $name,
-      $is-disabled: true
-    );
-    @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v}-reverse-mode,
-      --color--#{$name}-#{$v}-reverse-mode--contrast,
-      $name
-    );
-    @include _emit-contrast-for-slot(
-      --color--#{$name}-#{$v}-reverse-mode-disabled,
-      --color--#{$name}-#{$v}-reverse-mode-disabled--contrast,
-      $name,
-      $is-disabled: true
-    );
-  }
-  // Tints: no contrast
-}
-
-// Main generation mixin — orchestrates 3 passes for a single palette.
-// config: canonical map from config-expansion.expand(), or () for CSS-only defaults.
-@mixin generate-all-variants($name, $config) {
-  /* ── #{$name} ─── Config ───────────────────────────────────────────────── */
-  @include generate-palette-config-vars($name, $config);
-  /* ── #{$name} ─── Pass 1: Per-mode intermediates ───────────────────────── */
-  @include emit-mode-vars($name, light);
-  @include emit-mode-vars($name, dark);
-  /* ── #{$name} ─── Pass 2: light-dark() joins ──────────────────────────── */
-  @include emit-join-vars($name);
-  /* ── #{$name} ─── Pass 3: Contrast ────────────────────────────────────── */
-  @include emit-join-contrast-vars($name);
 }

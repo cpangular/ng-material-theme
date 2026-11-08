@@ -1,68 +1,47 @@
-// ng-material-theme Public API
-// Main entry point for the theming system
+// ng-material-theme — public Sass API
 
-// Advanced utilities (for direct access if needed)
-@forward "./contrast-utils" show calculate-optimal-contrast;
+@forward "./tone" show tone;
 @forward "./palette-utils" show apply-container-vars, apply-container;
-
-// Material Design 3 adapter (optional, for Angular Material / M3 framework compatibility)
-@forward "./material-bridge" show material-adapter;
 
 @use "./theme" as internal-theme;
 @use "./property-declarations" as props;
-@use "./density" as dens;
-@use "./color-variants" as variants;
 @use "./color-derivation" as derivation;
+@use "./color-variants" as variants;
+@use "./surfaces";
 
-// Main API
+$_palettes: (primary, secondary, tertiary, neutral, neutral-variant, error);
+
+// core(): registers the inputs and emits every derived token.
+//
+// Cascade rules:
+//   - Everything sits under zero-specificity selectors, so any user,
+//     createTheme() or defineTheme() rule wins regardless of stylesheet order.
+//   - The inputs (--theme--light/dark--color--primary, --theme--…--error) and
+//     the tuning variables are never declared here. Their defaults are the
+//     @property initial values, so a nested [theme] inherits what it does not set.
+//   - The four derived palettes are re-derived from primary on every [theme].
+//   - Constants with nothing to re-derive (--elevation-shadow-color and the
+//     --theme--size-base--N scale) are declared once, on :root only, so a user
+//     or parent-theme override of them reaches every nested [theme].
+//
+// Registration: only the twelve colour inputs and the theme-level tuning
+// variables are registered with @property (see property-declarations). Their
+// names are published as --theme--animatable, so
+//   :root, [theme] { transition-property: var(--theme--animatable); }
+// crossfades a theme change. Derived tokens are unregistered and re-resolve
+// from the animating inputs, so they need no transition of their own.
 @mixin core() {
-  // Register theme-level @property declarations (blend, opacity, contrast, disabled)
+  @include props.register-all-palette-inputs();
   @include props.register-theme-level-properties();
 
-  // Register per-palette @property declarations (base color + all overrides)
-  @include props.register-all-palette-properties();
+  :where(:root) {
+    // Follow the OS preference with no JavaScript. `color-scheme: light` or
+    // `dark` on any element forces a mode for its subtree.
+    color-scheme: light dark;
 
-  // Density selectors
-  @include dens.density-selectors();
-
-  // ── Root computation block ──────────────────────────────────────────────────
-  // Sets up ALL CSS-only var chains for all 6 standard palettes.
-  // Each palette is fully computed from its --theme--light/dark--color--X inputs.
-  // createTheme() only needs to override those 2 upstream vars (+ optional contrast).
-  // Secondary/tertiary/neutral/neutral-variant derive from primary at CSS time via oklch().
-  // [theme] selector enables sub-theming: computations re-apply on any themed element.
-  :root,
-  [theme] {
-    /* ── Elevation system (box-shadow scale) ─────────────────────────────── */
-    --elevation-shadow-color: light-dark(#000000, #000000);
-    --elevation-0: none;
-    --elevation-1: 0px 2px 1px -1px oklch(from var(--elevation-shadow-color) l c
-            h / 0.2),
-      0px 1px 1px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
-      0px 1px 3px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
-    --elevation-2: 0px 3px 3px -2px oklch(from var(--elevation-shadow-color) l c
-            h / 0.2),
-      0px 3px 4px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
-      0px 1px 8px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
-    --elevation-3: 0px 3px 5px -1px oklch(from var(--elevation-shadow-color) l c
-            h / 0.2),
-      0px 6px 10px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
-      0px 1px 18px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
-    --elevation-4: 0px 5px 5px -3px oklch(from var(--elevation-shadow-color) l c
-            h / 0.2),
-      0px 8px 10px 1px oklch(from var(--elevation-shadow-color) l c h / 0.14),
-      0px 3px 14px 2px oklch(from var(--elevation-shadow-color) l c h / 0.12);
-    --elevation-5: 0px 7px 8px -4px oklch(from var(--elevation-shadow-color) l c
-            h / 0.2),
-      0px 12px 17px 2px oklch(from var(--elevation-shadow-color) l c h / 0.14),
-      0px 5px 22px 4px oklch(from var(--elevation-shadow-color) l c h / 0.12);
-
-    /* ── Sizing scale (density-aware) ────────────────────────────────────── */
-    // Base font size: 16px (browser default)
-    // Density scale factor: 1.0 (default), adjusts based on density level
-    --theme--density-scale: 1;
-
-    // Base size scale (before density adjustment)
+    /* ── Constants (inherited by every [theme]) ───────────────────────────── */
+    --theme--animatable: #{props.registered-names()};
+    --elevation-shadow-color: #000;
     --theme--size-base--1: 0.125em; // 2px
     --theme--size-base--2: 0.25em; // 4px
     --theme--size-base--3: 0.5em; // 8px
@@ -74,106 +53,57 @@
     --theme--size-base--9: 2.5em; // 40px
     --theme--size-base--10: 3em; // 48px
     --theme--size-base--11: 4em; // 64px
+  }
 
-    // Actual size tokens (density-adjusted via calc)
-    --theme--size--1: calc(
-      var(--theme--size-base--1) * var(--theme--density-scale)
-    );
-    --theme--size--2: calc(
-      var(--theme--size-base--2) * var(--theme--density-scale)
-    );
-    --theme--size--3: calc(
-      var(--theme--size-base--3) * var(--theme--density-scale)
-    );
-    --theme--size--4: calc(
-      var(--theme--size-base--4) * var(--theme--density-scale)
-    );
-    --theme--size--5: calc(
-      var(--theme--size-base--5) * var(--theme--density-scale)
-    );
-    --theme--size--6: calc(
-      var(--theme--size-base--6) * var(--theme--density-scale)
-    );
-    --theme--size--7: calc(
-      var(--theme--size-base--7) * var(--theme--density-scale)
-    );
-    --theme--size--8: calc(
-      var(--theme--size-base--8) * var(--theme--density-scale)
-    );
-    --theme--size--9: calc(
-      var(--theme--size-base--9) * var(--theme--density-scale)
-    );
-    --theme--size--10: calc(
-      var(--theme--size-base--10) * var(--theme--density-scale)
-    );
-    --theme--size--11: calc(
-      var(--theme--size-base--11) * var(--theme--density-scale)
-    );
+  :where(:root, [theme]) {
+    /* ── Elevation (box-shadow scale) ─────────────────────────────────────── */
+    --elevation-0: none;
+    --elevation-1:
+      0px 2px 1px -1px oklch(from var(--elevation-shadow-color) l c h / 0.2),
+      0px 1px 1px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 3px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-2:
+      0px 3px 3px -2px oklch(from var(--elevation-shadow-color) l c h / 0.2),
+      0px 3px 4px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 8px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-3:
+      0px 3px 5px -1px oklch(from var(--elevation-shadow-color) l c h / 0.2),
+      0px 6px 10px 0px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 1px 18px 0px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-4:
+      0px 5px 5px -3px oklch(from var(--elevation-shadow-color) l c h / 0.2),
+      0px 8px 10px 1px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 3px 14px 2px oklch(from var(--elevation-shadow-color) l c h / 0.12);
+    --elevation-5:
+      0px 7px 8px -4px oklch(from var(--elevation-shadow-color) l c h / 0.2),
+      0px 12px 17px 2px oklch(from var(--elevation-shadow-color) l c h / 0.14),
+      0px 5px 22px 4px oklch(from var(--elevation-shadow-color) l c h / 0.12);
 
-    /* ── Default palette colors ───────────────────────────────────────────── */
-    // Primary (medium gray with slight warmth)
-    --theme--light--color--primary: oklch(50% 0.02 270);
-    --theme--dark--color--primary: oklch(70% 0.02 270);
-
-    // Error (red, independent of primary)
-    --theme--light--color--error: #cc0000;
-    --theme--dark--color--error: #ff6b6b;
-
-    /* ── CSS-time derivation: secondary/tertiary/neutral/neutral-variant from primary ── */
-    // Light mode derivations
-    --theme--light--color--secondary: oklch(
-      from var(--theme--light--color--primary) calc(l * 0.9) calc(c * 2)
-        calc(h + 120)
-    );
-    --theme--light--color--tertiary: oklch(
-      from var(--theme--light--color--primary) calc(l * 0.95) calc(c * 1.5)
-        calc(h - 120)
-    );
-    --theme--light--color--neutral: oklch(
-      from var(--theme--light--color--primary) l 0.004 h
-    );
-    --theme--light--color--neutral-variant: oklch(
-      from var(--theme--light--color--primary) l 0.012 h
-    );
-
-    // Dark mode derivations (from dark primary)
-    --theme--dark--color--secondary: oklch(
-      from var(--theme--dark--color--primary) calc(l * 0.95) calc(c * 2)
-        calc(h + 120)
-    );
-    --theme--dark--color--tertiary: oklch(
-      from var(--theme--dark--color--primary) l calc(c * 1.5) calc(h - 120)
-    );
-    --theme--dark--color--neutral: oklch(
-      from var(--theme--dark--color--primary) l 0.004 h
-    );
-    --theme--dark--color--neutral-variant: oklch(
-      from var(--theme--dark--color--primary) l 0.012 h
-    );
-
-    /* ── Base light-dark() joins ──────────────────────────────────────────── */
-    @include derivation.derive-colors();
-
-    /* ── Config chain vars for all 6 palettes ────────────────────────────── */
-    @each $palette-name
-      in (primary, secondary, tertiary, neutral, neutral-variant, error)
-    {
-      @include variants.generate-palette-config-vars($palette-name, ());
+    /* ── Size scale (× --theme--density-scale) ────────────────────────────── */
+    @for $i from 1 through 11 {
+      --theme--size--#{$i}: calc(
+        var(--theme--size-base--#{$i}) * var(--theme--density-scale)
+      );
     }
 
-    /* ── 3-pass variant computation for all 6 palettes ───────────────────── */
-    @each $palette-name
-      in (primary, secondary, tertiary, neutral, neutral-variant, error)
-    {
-      @include variants.emit-mode-vars($palette-name, light);
-      @include variants.emit-mode-vars($palette-name, dark);
-      @include variants.emit-join-vars($palette-name);
-      @include variants.emit-join-contrast-vars($palette-name);
+    /* ── Palette inputs derived from primary ──────────────────────────────── */
+    @include derivation.derive-palette-inputs();
+
+    /* ── Surface roles (Material tones of neutral / neutral-variant) ──────── */
+    @include surfaces.emit-surface-roles();
+
+    /* ── Per-palette tuning chains and variants ───────────────────────────── */
+    @each $palette in $_palettes {
+      @include variants.emit-palette-chain($palette);
+    }
+    @each $palette in $_palettes {
+      @include variants.emit-mode-vars($palette, light);
+      @include variants.emit-mode-vars($palette, dark);
+      @include variants.emit-join-vars($palette);
     }
   }
 }
 
-// Re-export theme mixin
 @mixin createTheme($name, $config, $is-default: false) {
   @include internal-theme.createTheme($name, $config, $is-default);
 }

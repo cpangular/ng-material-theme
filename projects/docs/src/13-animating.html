@@ -1,0 +1,91 @@
+<h1>Animating theme changes</h1>
+<p class="lead">
+  One declaration makes a theme change crossfade, every token at once. The rule
+  is where to put it, and what will not fade.
+</p>
+
+<!-- example: examples/13-animating.html -->
+<p>
+  Press the page button: every swatch, the gradient, the coloured part of the
+  shadow and panels 4 and 5 crossfade over 1.5&nbsp;s. Panel 3 moves only with
+  its own button. The mode buttons snap.
+</p>
+
+<h2>Why a theme change can crossfade</h2>
+<p>
+  A custom property is a string to the browser, and a string cannot be animated.
+  <code>core.css</code> registers its input variables from chapters 3 and 10,
+  the twelve colours and the tuning values, with <code>@property</code> and a
+  type, so the browser can interpolate them. Nothing else is registered. When
+  <code>theme="indigo"</code> becomes <code>theme="ember"</code>, the inputs
+  change, and if a transition covers them, they move from one value to the
+  other; every token is derived from the inputs, so every token moves with them.
+  The Reference page lists the registered inputs.
+</p>
+
+<h2>The declaration</h2>
+<pre><code>:root {
+  transition-property: var(--theme--animatable);
+  transition-duration: 1.5s;
+}</code></pre>
+<p>
+  <code>--theme--animatable</code> is a constant <code>core.css</code> emits:
+  the comma-separated names of all the registered inputs. Using it keeps the
+  list out of your code. <code>transition: all</code> would not do: custom
+  properties are not part of <code>all</code>.
+</p>
+
+<h2>Where to put it</h2>
+<p>
+  On <code>:root</code>, and on every element with a <code>theme</code>
+  attribute that switches its own theme, like panel 3. The example's rule is
+  <code>:root, [theme] { … }</code>, which covers both.
+</p>
+<p>
+  Never on a nested theme that only inherits its inputs, like panel 4, which
+  sets only tertiary. Its primary is inherited from the page, and while the
+  page's primary is animating, the inherited value changes every frame; a
+  transition on that element would start over every frame and trail behind at
+  about half speed (a 1&nbsp;s crossfade settling after 2.2&nbsp;s). Without
+  one, the panel follows the page in step, because its tokens re-resolve from
+  the inherited animating input. That is the <code>.inherits</code> rule in the
+  example, which turns the transition back off.
+</p>
+<p>
+  A derived palette on the same element does not trail: panel 1's secondary is
+  worked out from its primary, and both arrive together.
+</p>
+
+<h2>What does not crossfade</h2>
+<ul>
+  <li>
+    <strong>A light/dark flip.</strong> <code>color-scheme</code> changes which
+    half of each <code>light-dark()</code> is used; no registered value changes,
+    so nothing interpolates. The flip is instant, as an OS flip is.
+  </li>
+  <li>
+    <strong>A token set directly.</strong> Write
+    <code>--color--primary: red</code> yourself and it snaps, because the token
+    is not registered; only the inputs are. Change the input instead.
+  </li>
+  <li>
+    <strong>A custom palette</strong> (chapter 8). Its two inputs are registered
+    but are not in <code>--theme--animatable</code>; name them in
+    <code>transition-property</code> after the variable to include them.
+  </li>
+</ul>
+
+<h2>Text at the crossover</h2>
+<p>
+  Contrast colours (chapters 1 and 4) are black or white, chosen in CSS by a
+  luminance step. As a swatch fades from a dark colour to a light one, its text
+  flips from white to black in one frame when the swatch crosses the threshold.
+  The example smooths that with <code>transition: color 150ms</code> on the text
+  elements, which is a transition on an ordinary property and leaves the 4.5:1
+  guarantee at rest untouched. A colour whose luminance sits near the threshold
+  flips near its own end of the crossfade, in the slow tail of the easing, and
+  can read as a late pop. That is the step doing its job, not a defect.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/13-animating.html -->

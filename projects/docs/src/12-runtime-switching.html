@@ -1,0 +1,111 @@
+<h1>Runtime switching</h1>
+<p class="lead">
+  The first JavaScript. One small module finds the themes a page has, switches
+  between them, switches light and dark, and remembers the choice.
+</p>
+
+<!-- example: examples/12-runtime-switching.html -->
+
+<h2>The switcher</h2>
+<p>
+  Everything so far was CSS: a theme is a rule, a mode is a declaration. To let
+  a user change them, something has to set the <code>theme</code> attribute on
+  <code>&lt;html&gt;</code> (chapter 6) and its
+  <code>color-scheme</code> (chapter 2). That is all
+  <code>ThemeSwitcher</code> does. It holds no colours and does no colour maths;
+  <code>core.css</code> still derives every token.
+</p>
+<pre><code>import { themeSwitcher } from "@cpangular/ng-material-theme/theme-switcher";</code></pre>
+<p>
+  <code>themeSwitcher</code> is a ready-made instance. Importing it is enough:
+  it discovers the page's themes, restores the stored choice and starts watching
+  for new stylesheets. (It is also set on <code>window</code>, for a page
+  without modules.)
+</p>
+
+<h2>Discovery</h2>
+<p>
+  There is no list of themes to register. The switcher reads every stylesheet
+  the page can access and collects the names in
+  <code>[theme="…"]</code> selectors, so the three rules in the example's
+  <code>&lt;style&gt;</code> are its three themes. A
+  <code>&lt;style&gt;</code> or stylesheet <code>&lt;link&gt;</code> added later
+  is picked up too. <code>onChange(callback)</code> calls you now and whenever
+  the list or the page theme changes, with both; the example fills its select
+  from that.
+</p>
+
+<h2>Switching the theme</h2>
+<p>
+  <code>setTheme("ember")</code> sets <code>theme="ember"</code> on
+  <code>&lt;html&gt;</code>; <code>setTheme(null)</code> removes it, which is
+  the default theme of chapter 6. The name is not checked against the list: if
+  its rule arrives later, CSS applies it then. The switcher manages the root
+  element only; a nested theme is an attribute you set yourself.
+</p>
+
+<h2>Switching light and dark</h2>
+<p>
+  <code>setColorScheme("light")</code> and <code>("dark")</code> set an inline
+  <code>color-scheme</code> on <code>&lt;html&gt;</code>, which chapter 2 showed
+  forces a mode on the whole page. <code>("auto")</code> removes it, so
+  <code>core.css</code>'s own <code>color-scheme: light dark</code> applies
+  again and the page follows the operating system, with no listener needed: the
+  browser re-resolves every <code>light-dark()</code> itself when the OS
+  changes. <code>onColorSchemeChange(callback)</code> reports the mode, as
+  <code>"light"</code>, <code>"dark"</code> or <code>"auto"</code>; the example
+  uses it to press the right button.
+</p>
+
+<h2>Persistence</h2>
+<p>
+  Both choices are stored in <code>localStorage</code>, under
+  <code>@cpangular/ng-material-theme.selectedTheme</code> and
+  <code>@cpangular/ng-material-theme.colorScheme</code>, and put back when the
+  switcher is created. Storage is per origin, so every page of a site shares the
+  choice. On this site that includes the examples: pick a theme here and the
+  site header follows on the next page load, and the other way round. A stored
+  name a page has no rule for is still set, since a rule may arrive later
+  (chapter 14); the example keeps such a name visible in its select instead of
+  showing a blank. Pass <code>{ persist: false }</code> to
+  <code>new ThemeSwitcher()</code> for an instance that stores nothing.
+</p>
+
+<h2>Before first paint</h2>
+<p>
+  The switcher is a module, so it runs after the page has started to render. For
+  a moment the page would show the default theme and the OS mode, then jump.
+  Three lines in <code>&lt;head&gt;</code>, before the stylesheets, read the
+  same two keys and apply them first:
+</p>
+<pre><code>&lt;script&gt;
+  try {
+    var t = localStorage.getItem("@cpangular/ng-material-theme.selectedTheme"), s = localStorage.getItem("@cpangular/ng-material-theme.colorScheme");
+    if (t) document.documentElement.setAttribute("theme", t);
+    if (s === "light" || s === "dark") document.documentElement.style.colorScheme = s;
+  } catch (e) {}
+&lt;/script&gt;</code></pre>
+<p>
+  The <code>try</code> is for browsers that block storage. The switcher then
+  finds the attribute and the declaration already in place and changes nothing.
+  Reload the example with a theme chosen: it does not flash.
+</p>
+
+<h2>This site</h2>
+<p>
+  The header's select and its three buttons are this chapter's example again, as
+  site code: the themes are rules in the site's stylesheet, the select is filled
+  from <code>onChange</code>, the buttons call <code>setColorScheme</code>, and
+  each page's <code>&lt;head&gt;</code> carries the script above. The site also
+  copies its mode onto each example as it loads, because an example is its own
+  document and the inline <code>color-scheme</code> on the site's root does not
+  reach into it.
+</p>
+
+<h2>Source</h2>
+<p>
+  The example loads <code>../theme-switcher.js</code>, a copy the site keeps
+  next to the examples, through an import map, so the import reads the package
+  name as it would in your app. With a bundler, the import alone is enough.
+</p>
+<!-- include: examples/12-runtime-switching.html -->

@@ -1,0 +1,43 @@
+// Material tone → OKLCH.
+//
+// tone($input, $T) returns a CSS relative colour that sets the lightness of
+// $input to Material tone T and scales its chroma to stay in gamut.
+//
+// T is a CIELAB L* (0–100). For a grey, OKLab L equals the cube root of Y, so
+// the CIELAB inverse gives L = (T + 16) / 116 for T > 8, else cbrt(T / 903.3).
+// Chroma is capped at $max-chroma and then scaled by k = min(1, 4·L·(1 − L)),
+// which falls to zero at both ends of the lightness range where no chroma is
+// displayable. The cap matters for wide-gamut inputs: a rec2020 red has an
+// OKLCH chroma near 0.36, and at mid tones k alone keeps almost all of it; the
+// browser then clips the result to sRGB and the tone's lightness, and with it
+// the on-surface contrast, collapses (3.3:1 uncapped). 0.27 is about the most
+// chroma sRGB can show at mid lightness; the sweep in test/run.ts (input chroma
+// up to 0.45) stays above 5.3:1 with it, and the margin shrinks fast past 0.3.
+// The alpha is pinned to 1, so a translucent input gives opaque surfaces.
+
+@use "sass:math";
+
+$max-chroma: 0.27;
+
+@function _round($x) {
+  @return math.div(math.round($x * 10000), 10000);
+}
+
+@function tone-lightness($T) {
+  @if $T > 8 {
+    @return _round(math.div($T + 16, 116));
+  }
+  @return _round(math.pow(math.div($T, 903.3), math.div(1, 3)));
+}
+
+@function tone-chroma-factor($T) {
+  $L: tone-lightness($T);
+  @return _round(math.min(1, 4 * $L * (1 - $L)));
+}
+
+@function tone($input, $T) {
+  @return oklch(
+    from #{$input} #{tone-lightness($T)}
+      calc(min(c, #{$max-chroma}) * #{tone-chroma-factor($T)}) h / 1
+  );
+}

@@ -1,0 +1,55 @@
+<h1>Light and dark</h1>
+<p class="lead">
+  Every token has a light value and a dark value. One CSS property decides which
+  one you see, on any element.
+</p>
+
+<!-- example: examples/02-light-and-dark.html -->
+<p>
+  Press <strong>Light</strong>, <strong>Dark</strong> and
+  <strong>Auto</strong> at the top of this page. They set
+  <code>color-scheme</code> on the example's root element, as your operating
+  system would; <strong>Auto</strong> removes it, so <code>core.css</code>'s
+  default takes over again. The first two panels never change colour. The third
+  sets nothing and follows the root.
+</p>
+<p>
+  The panels use <code>Canvas</code> and <code>CanvasText</code>, the browser's
+  own page colours, for background and text; they follow the same switch.
+  Chapter 5 replaces them with the library's own background and text tokens.
+</p>
+
+<h2>The default follows the OS</h2>
+<p>
+  <code>core.css</code> sets <code>color-scheme: light dark</code> on the root
+  element. That is the browser's own switch for light and dark mode: with both
+  keywords, the page follows the operating system preference, with no script.
+</p>
+
+<h2>Forcing a mode on any element</h2>
+<p>
+  <code>color-scheme: light</code> or <code>color-scheme: dark</code> on an
+  element forces that mode for the element and everything inside it. Nothing
+  else is needed: no attribute, no class, no second stylesheet. A dark panel
+  inside a light page is one declaration.
+</p>
+
+<h2>Two values per token</h2>
+<p>
+  The box is <code>--color--primary</code> in all three panels.
+  <code>core.css</code> writes each token as
+  <code>light-dark(<em>light value</em>, <em>dark value</em>)</code>. A custom
+  property passes that text down unchanged, so the browser picks one of the two
+  only at the element that uses <code>var(--color--primary)</code>, from that
+  element's <code>color-scheme</code>, whether set on it or inherited from a
+  parent. That is why forcing a mode works on any element.
+</p>
+<p>
+  In the light panel the box shows the light value. In the dark panel it shows
+  the dark value, a lighter colour so that it stands out on a dark background.
+  <code>--color--primary--contrast</code> changes with it, so the text stays
+  readable. The next chapter sets those two values.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/02-light-and-dark.html -->

@@ -1,0 +1,112 @@
+<h1>Surfaces and elevation</h1>
+<p class="lead">
+  Backgrounds for the page and the things on it, the text colours to use on
+  them, and six shadow depths.
+</p>
+
+<!-- example: examples/05-surfaces-and-elevation.html -->
+
+<h2>The surface ladder</h2>
+<p>
+  Surface, outline and background tokens are roles, not palettes: they sit
+  outside chapter 4's grammar and take no variant and no
+  <code>--contrast</code>. Their text colours are the <code>on-</code> tokens in
+  the next section.
+</p>
+<p>
+  Surfaces are near-grey shades of the <code>neutral</code> palette from chapter
+  3, so they carry a trace of your primary's hue.
+  <code>--color--surface</code> is the page.
+  <code>--color--surface-dim</code> and <code>--color--surface-bright</code> are
+  a darker and a lighter page background: in light mode bright equals surface
+  and dim is darker; in dark mode dim equals surface and bright is lighter. Use
+  them for a backdrop that should recede or stand out.
+</p>
+<p>
+  Five container shades stack on top. Lowest to highest is emphasis, not
+  lightness: lowest is white in light mode and near-black in dark, and each step
+  up is a little darker in light mode and a little lighter in dark, like higher
+  in chapter 4.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--color--surface-container-lowest</code></td>
+      <td>Cards and sheets.</td>
+    </tr>
+    <tr>
+      <td><code>--color--surface-container-low</code></td>
+      <td>Grouped content behind cards.</td>
+    </tr>
+    <tr>
+      <td><code>--color--surface-container</code></td>
+      <td>Toolbars, navigation.</td>
+    </tr>
+    <tr>
+      <td><code>--color--surface-container-high</code></td>
+      <td>Chips, inline code, selected rows.</td>
+    </tr>
+    <tr>
+      <td><code>--color--surface-container-highest</code></td>
+      <td>Input fields, the strongest fill.</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  The order holds in both modes, so a card stays distinct from the page when the
+  mode flips.
+</p>
+
+<h2>Text on surfaces</h2>
+<p>
+  <code>--color--on-surface</code> reads at 4.5:1 or better on every surface
+  above, in both modes, whatever primary you set.
+  <code>--color--on-surface-variant</code> is a muted text colour for captions
+  and secondary lines. Surfaces are not coloured boxes in chapter 3's sense:
+  on-surface is already full strength, so small text needs nothing more.
+</p>
+<p>
+  <code>--color--background</code> and <code>--color--on-background</code> are
+  other names for surface and on-surface, for stylesheets that prefer those
+  names.
+</p>
+
+<h2>Surface variant</h2>
+<p>
+  <code>--color--surface-variant</code> is a more tinted fill from the
+  <code>neutral-variant</code> palette. Its text colour is
+  <code>--color--on-surface-variant</code>.
+</p>
+
+<h2>Outlines</h2>
+<p>
+  <code>--color--outline</code> is for borders that carry meaning, such as the
+  edge of a text field. <code>--color--outline-variant</code> is for quieter,
+  decorative dividers.
+</p>
+
+<h2>Elevation</h2>
+<p>
+  <code>--elevation-0</code> to <code>--elevation-5</code> are
+  <code>box-shadow</code> values of increasing depth; they are not colours, so
+  their names have no <code>--color--</code> part. Zero is <code>none</code>.
+  The example labels a typical use for each: 0 flat, 1 card, 2 raised, 3 menu, 4
+  sheet, 5 dialog.
+</p>
+<p>
+  The shadow colour is <code>--elevation-shadow-color</code>, the same black in
+  both modes; set it on <code>:root</code> to tint every shadow. Elevation is a
+  shadow only: it does not change the surface colour. Every card in the example
+  uses <code>--color--surface-container-lowest</code>, so only the shadow
+  differs; combine elevation with a container shade to set a card further apart
+  from the page.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/05-surfaces-and-elevation.html -->

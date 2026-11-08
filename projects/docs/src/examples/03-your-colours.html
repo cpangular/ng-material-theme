@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Your colours</title>
+    <link rel="stylesheet" href="../core.css" />
+    <style>
+      /* The theme: two inputs per palette, one for each mode. */
+      :root {
+        --theme--light--color--primary: #0b5fa5;
+        --theme--dark--color--primary: #8ec5ff;
+        /* Tertiary would be derived from primary; here it is set instead. */
+        --theme--light--color--tertiary: #b4530a;
+        --theme--dark--color--tertiary: #ffb77a;
+      }
+
+      body {
+        margin: 1rem;
+        font:
+          1rem/1.5 system-ui,
+          sans-serif;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .box {
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+      .box small {
+        display: block;
+        font-size: 0.875rem;
+      }
+      .primary {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .secondary {
+        background: var(--color--secondary);
+        color: var(--color--secondary--contrast--high);
+      }
+      .tertiary {
+        background: var(--color--tertiary);
+        color: var(--color--tertiary--contrast--high);
+      }
+      .neutral {
+        background: var(--color--neutral);
+        color: var(--color--neutral--contrast--high);
+      }
+      .neutral-variant {
+        background: var(--color--neutral-variant);
+        color: var(--color--neutral-variant--contrast--high);
+      }
+      .error {
+        background: var(--color--error);
+        color: var(--color--error--contrast--high);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box primary">primary <small>set</small></div>
+    <div class="box secondary">
+      secondary <small>derived from primary</small>
+    </div>
+    <div class="box tertiary">tertiary <small>set, not derived</small></div>
+    <div class="box neutral">neutral <small>derived from primary</small></div>
+    <div class="box neutral-variant">
+      neutral-variant <small>derived from primary</small>
+    </div>
+    <div class="box error">error <small>independent</small></div>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
+
+@include theme.core();
+@include theme.createTheme(
+  "sea",
+  (
+    colors: (
+      primary: (
+        #0b5fa5,
+        #8ec5ff,
+      ),
+    ),
+  ),
+  $is-default: true
+);
+
+// Panels 3, 4 and 5 in one Sass theme. Theme-level maps sit beside `colors`;
+// per-palette keys sit beside `value` inside a palette.
+@include theme.createTheme(
+  "soft",
+  (
+    colors: (
+      // a palette with tuning: its colour goes under value
+      primary: (
+          value: (
+            #0b5fa5,
+            #8ec5ff,
+          ),
+          blend-darker-1: 50%
+        ),
+    ),
+    opacities: (
+      opacity5: 60%,
+    ),
+    disabled: (
+      saturation: 100%,
+    ),
+  )
+);
+
+body {
+  margin: 1rem;
+  font:
+    0.8rem/1.35 system-ui,
+    sans-serif;
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.panel {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  background: var(--color--surface-container);
+  h2 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--color--on-surface-variant);
+    word-break: break-all;
+  }
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3rem;
+}
+.sw {
+  min-height: 2.6rem;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  font-size: 0.65rem;
+}
+.p {
+  background: var(--color--primary);
+  color: var(--color--primary--contrast--high);
+}
+.p-darker-1 {
+  background: var(--color--primary-darker-1);
+  color: var(--color--primary-darker-1--contrast--high);
+}
+.p-lighter-1 {
+  background: var(--color--primary-lighter-1);
+  color: var(--color--primary-lighter-1--contrast--high);
+}
+.s-darker-1 {
+  background: var(--color--secondary-darker-1);
+  color: var(--color--secondary-darker-1--contrast--high);
+}
+// tints have no contrast colour; the label keeps the page's text colour
+.p-tint-5 {
+  background: var(--color--primary-tint-5);
+}
+.p-disabled {
+  background: var(--color--primary-disabled);
+  color: var(--color--primary-disabled--contrast);
+}

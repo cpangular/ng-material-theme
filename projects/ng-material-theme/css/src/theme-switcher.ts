@@ -1,8 +1,19 @@
 /**
- * Theme Switcher
- * Pure TypeScript theme discovery and switching system
- * Detects themes defined as [theme="name"] selectors in CSS
- * Manages both theme selection and color scheme (light/dark/auto)
+ * ThemeSwitcher: the library's whole JavaScript surface.
+ *
+ * - Discovers themes: every `[theme="name"]` selector in any stylesheet the
+ *   page can read, now and as stylesheets are added.
+ * - Switches the page theme (the `theme` attribute on `<html>`) and the colour
+ *   scheme (an inline `color-scheme` on `<html>`; "auto" removes it, and
+ *   core.css's `color-scheme: light dark` follows the OS).
+ * - Persists both in localStorage under
+ *   `@cpangular/ng-material-theme.selectedTheme` and
+ *   `@cpangular/ng-material-theme.colorScheme`, and restores them when created.
+ * - Defines and removes themes at runtime from a flat map of the input
+ *   variables (`defineTheme` / `removeTheme`), through the CSSOM.
+ *
+ * No colour maths happens here: a theme is a few input variables and core.css
+ * derives everything else.
  */
 
 export type ThemeChangeCallback = (
@@ -15,381 +26,316 @@ export type ColorSchemeMode = "light" | "dark" | "auto";
 export type ColorSchemeChangeCallback = (mode: ColorSchemeMode) => void;
 
 export interface ThemeSwitcherOptions {
-  /** Enable localStorage persistence for theme and color scheme */
+  /** Persist the theme and colour scheme in localStorage. Default true. */
   persist?: boolean;
 }
+
+/**
+ * The input variables a runtime theme may set: the light and dark colour of
+ * each of the six standard palettes, and the theme-level tuning variables.
+ * Values are plain CSS values, e.g. `{ "--theme--light--color--primary": "#3f51b5" }`.
+ */
+export type ThemeVars = Record<`--theme--${string}`, string>;
+
+const STORAGE_THEME = "@cpangular/ng-material-theme.selectedTheme";
+const STORAGE_SCHEME = "@cpangular/ng-material-theme.colorScheme";
+
+const COLOUR_INPUT =
+  /^--theme--(?:light|dark)--color--(primary|secondary|tertiary|neutral|neutral-variant|error)$/;
 
 export class ThemeSwitcher {
   private themes: Set<string> = new Set();
   private observers: ThemeChangeCallback[] = [];
   private colorSchemeObservers: ColorSchemeChangeCallback[] = [];
   private mutationObserver?: MutationObserver;
-  private mediaQueryListener?: ((e: MediaQueryListEvent) => void) | null = null;
   private persist: boolean;
 
   constructor(options: ThemeSwitcherOptions = {}) {
     this.persist = options.persist ?? true;
-
-    // Discover initial themes
     this.discoverThemes();
-
-    // Watch for new style tags being added
     this.observeStyleChanges();
-
-    // Restore saved theme and color scheme from localStorage if persistence enabled
     if (this.persist) {
       this.restoreTheme();
       this.restoreColorScheme();
     } else {
-      // If not persisting, initialize to auto mode
       this.setColorScheme("auto", false);
     }
   }
 
-  /**
-   * Discover themes by parsing CSS rules for [theme="..."] selectors
-   */
+  // ── Discovery ──────────────────────────────────────────────────────────────
+
+  /** Scan every readable stylesheet for `[theme="name"]` selectors. */
   public discoverThemes(): string[] {
-    const newThemes = new Set<string>();
-
-    try {
-      // Iterate through all stylesheets
-      for (const sheet of Array.from(document.styleSheets)) {
-        try {
-          // Skip cross-origin stylesheets we can't access
-          if (!sheet.cssRules) continue;
-
-          // Look through all CSS rules
-          for (const rule of Array.from(sheet.cssRules)) {
-            if (
-              "selectorText" in rule &&
-              typeof rule.selectorText === "string"
-            ) {
-              // Match [theme="name"] pattern
-              const matches = rule.selectorText.matchAll(
-                /\[theme=["']([^"']+)["']\]/g,
-              );
-              for (const match of matches) {
-                const themeName = match[1];
-                if (themeName && themeName !== "") {
-                  newThemes.add(themeName);
-                }
-              }
-            }
-          }
-        } catch (e) {
-          // Cross-origin or other access issues - skip this sheet
-          console.debug("Cannot access stylesheet:", sheet.href, e);
-        }
+    const found = new Set<string>();
+    for (const sheet of Array.from(document.styleSheets)) {
+      let rules: CSSRuleList;
+      try {
+        rules = sheet.cssRules;
+      } catch {
+        continue; // cross-origin stylesheet
       }
-    } catch (e) {
-      console.error("Error discovering themes:", e);
+      for (const rule of Array.from(rules)) {
+        if (!(rule instanceof CSSStyleRule)) continue;
+        for (const m of rule.selectorText.matchAll(
+          /\[theme=["']([^"']+)["']\]/g,
+        ))
+          found.add(m[1]);
+      }
     }
-
-    // Update themes set and notify if changed
-    const themesChanged =
-      newThemes.size !== this.themes.size ||
-      !Array.from(newThemes).every((t) => this.themes.has(t));
-
-    if (themesChanged) {
-      this.themes = newThemes;
+    const changed =
+      found.size !== this.themes.size ||
+      ![...found].every((t) => this.themes.has(t));
+    if (changed) {
+      this.themes = found;
       this.notifyObservers();
     }
-
-    return Array.from(this.themes).sort();
+    return this.getThemes();
   }
 
-  /**
-   * Watch for new style tags or link elements being added to the document
-   */
+  /** Rediscover when a `<style>` or stylesheet `<link>` is added to `<head>`. */
   private observeStyleChanges(): void {
     this.mutationObserver = new MutationObserver((mutations) => {
-      let shouldRediscover = false;
-
-      for (const mutation of mutations) {
-        for (const node of Array.from(mutation.addedNodes)) {
-          // Check if added node is a style or link element
-          if (
-            node instanceof HTMLElement &&
-            (node.tagName === "STYLE" ||
-              (node.tagName === "LINK" &&
-                node.getAttribute("rel") === "stylesheet"))
-          ) {
-            shouldRediscover = true;
-            break;
-          }
-        }
-        if (shouldRediscover) break;
-      }
-
-      if (shouldRediscover) {
-        // Small delay to let browser parse the stylesheet
-        setTimeout(() => this.discoverThemes(), 50);
-      }
+      const added = mutations.some((m) =>
+        Array.from(m.addedNodes).some(
+          (n) =>
+            n instanceof HTMLStyleElement ||
+            (n instanceof HTMLLinkElement && n.rel === "stylesheet"),
+        ),
+      );
+      // A <link> has no rules until it has loaded; give it a moment.
+      if (added) setTimeout(() => this.discoverThemes(), 50);
     });
-
-    // Observe head for style/link additions
-    this.mutationObserver.observe(document.head, {
-      childList: true,
-      subtree: false,
-    });
+    this.mutationObserver.observe(document.head, { childList: true });
   }
 
-  /**
-   * Get list of available themes
-   */
   public getThemes(): string[] {
-    return Array.from(this.themes).sort();
+    return [...this.themes].sort();
   }
 
-  /**
-   * Get currently active theme
-   */
   public getCurrentTheme(): string | null {
     return document.documentElement.getAttribute("theme") || null;
   }
 
+  // ── Theme ──────────────────────────────────────────────────────────────────
+
   /**
-   * Set active theme
-   * @param themeName - Theme name or null to remove theme
-   * @param persist - Override default persistence setting for this call
+   * Set the page theme: the `theme` attribute on `<html>`. The name need not be
+   * a discovered theme; if its rule arrives later (a stylesheet still loading,
+   * a `defineTheme` call), CSS picks it up then. `null` removes the attribute.
    */
   public setTheme(themeName: string | null, persist?: boolean): void {
     const shouldPersist = persist ?? this.persist;
-
-    if (themeName === null || themeName === "" || themeName === "none") {
+    if (!themeName) {
       document.documentElement.removeAttribute("theme");
-      if (shouldPersist) {
-        this.removeFromStorage("@cpangular/ng-material-theme.selectedTheme");
-      }
+      if (shouldPersist) this.removeFromStorage(STORAGE_THEME);
     } else {
       document.documentElement.setAttribute("theme", themeName);
-      if (shouldPersist) {
-        this.saveToStorage("@cpangular/ng-material-theme.selectedTheme", themeName);
-      }
+      if (shouldPersist) this.saveToStorage(STORAGE_THEME, themeName);
     }
-
     this.notifyObservers();
   }
 
-  /**
-   * Get current color scheme mode
-   */
+  private restoreTheme(): void {
+    const saved = this.getFromStorage(STORAGE_THEME);
+    if (saved) this.setTheme(saved, false);
+  }
+
+  // ── Colour scheme ──────────────────────────────────────────────────────────
+
   public getCurrentColorScheme(): ColorSchemeMode {
     if (this.persist) {
-      return (this.getFromStorage("@cpangular/ng-material-theme.colorScheme") as ColorSchemeMode) || "auto";
+      const saved = this.getFromStorage(STORAGE_SCHEME);
+      if (saved === "light" || saved === "dark") return saved;
+      return "auto";
     }
-    // If not persisting, check the actual color-scheme style
-    const current = document.documentElement.style.colorScheme;
-    if (current === "light" || current === "dark") {
-      return current;
-    }
-    return "auto";
+    const inline = document.documentElement.style.colorScheme;
+    return inline === "light" || inline === "dark" ? inline : "auto";
   }
 
   /**
-   * Set color scheme mode
-   * @param mode - "light", "dark", or "auto" (follows system preference)
-   * @param persist - Override default persistence setting for this call
+   * Force light or dark on `<html>`, or "auto": remove the inline declaration
+   * so core.css's `color-scheme: light dark` follows the OS. No media-query
+   * listener is needed; the browser re-resolves `light-dark()` itself.
    */
   public setColorScheme(mode: ColorSchemeMode, persist?: boolean): void {
     const shouldPersist = persist ?? this.persist;
-
-    if (shouldPersist) {
-      this.saveToStorage("@cpangular/ng-material-theme.colorScheme", mode);
-    }
-
-    // Remove previous listener if exists
-    if (this.mediaQueryListener) {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", this.mediaQueryListener);
-      this.mediaQueryListener = null;
-    }
-
-    if (mode === "auto") {
-      // Use system preference
-      const systemPref = this.getSystemPreference();
-      document.documentElement.style.colorScheme = systemPref;
-
-      // Listen for system preference changes
-      this.mediaQueryListener = (e: MediaQueryListEvent) => {
-        document.documentElement.style.colorScheme = e.matches ? "dark" : "light";
-        this.notifyColorSchemeObservers();
-      };
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", this.mediaQueryListener);
-    } else {
-      // Use explicit mode
-      document.documentElement.style.colorScheme = mode;
-    }
-
+    if (shouldPersist) this.saveToStorage(STORAGE_SCHEME, mode);
+    if (mode === "auto")
+      document.documentElement.style.removeProperty("color-scheme");
+    else document.documentElement.style.colorScheme = mode;
     this.notifyColorSchemeObservers();
   }
 
-  /**
-   * Get system color scheme preference
-   */
-  private getSystemPreference(): "light" | "dark" {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  }
-
-  /**
-   * Cycle through color scheme modes: light → dark → auto → light
-   */
+  /** light → dark → auto → light */
   public cycleColorScheme(): void {
     const current = this.getCurrentColorScheme();
-    const next: ColorSchemeMode =
-      current === "light" ? "dark" : current === "dark" ? "auto" : "light";
-    this.setColorScheme(next);
+    this.setColorScheme(
+      current === "light" ? "dark" : current === "dark" ? "auto" : "light",
+    );
   }
 
-  /**
-   * Register a callback to be notified when color scheme changes
-   */
-  public onColorSchemeChange(callback: ColorSchemeChangeCallback): void {
-    this.colorSchemeObservers.push(callback);
-    // Immediately call with current state
-    callback(this.getCurrentColorScheme());
-  }
-
-  /**
-   * Unregister a color scheme callback
-   */
-  public removeColorSchemeObserver(callback: ColorSchemeChangeCallback): void {
-    const index = this.colorSchemeObservers.indexOf(callback);
-    if (index > -1) {
-      this.colorSchemeObservers.splice(index, 1);
-    }
-  }
-
-  /**
-   * Notify all color scheme observers
-   */
-  private notifyColorSchemeObservers(): void {
-    const mode = this.getCurrentColorScheme();
-    for (const callback of this.colorSchemeObservers) {
-      try {
-        callback(mode);
-      } catch (e) {
-        console.error("Color scheme observer error:", e);
-      }
-    }
-  }
-
-  /**
-   * Restore color scheme from localStorage
-   */
   private restoreColorScheme(): void {
-    const saved = this.getFromStorage("@cpangular/ng-material-theme.colorScheme") as ColorSchemeMode;
-    if (saved && (saved === "light" || saved === "dark" || saved === "auto")) {
-      this.setColorScheme(saved, false); // Don't re-save when restoring
-    } else {
-      this.setColorScheme("auto", false);
+    const saved = this.getFromStorage(STORAGE_SCHEME);
+    this.setColorScheme(
+      saved === "light" || saved === "dark" ? saved : "auto",
+      false,
+    );
+  }
+
+  // ── Data-driven themes ─────────────────────────────────────────────────────
+
+  /**
+   * Define (or redefine) a theme from a flat map of input variables, e.g.
+   * `{ "--theme--light--color--primary": "#3f51b5", "--theme--dark--color--primary": "#aab4ff" }`.
+   *
+   * Allowed keys are the light and dark colour inputs of the six standard
+   * palettes (primary, secondary, tertiary, neutral, neutral-variant, error)
+   * and the `--theme--*` tuning variables. A colour that `CSS.supports` rejects,
+   * a palette outside the six (custom palettes are Sass-only) or a key outside
+   * `--theme--` is skipped with a console warning; the rest of the theme is
+   * still applied. Returns the skipped keys.
+   *
+   * The rule is written through the CSSOM: one `<style data-theme>` element in
+   * `<head>` holding `[theme="name"] { … }`, with each declaration set by
+   * `setProperty`, so no CSS text is built from the data.
+   */
+  public defineTheme(name: string, vars: ThemeVars): string[] {
+    this.styleFor(name)?.remove();
+    const style = document.createElement("style");
+    style.dataset.theme = name;
+    document.head.append(style);
+    const sheet = style.sheet!;
+    const rule = sheet.cssRules[
+      sheet.insertRule(`[theme="${CSS.escape(name)}"]{}`)
+    ] as CSSStyleRule;
+    const skipped: string[] = [];
+    for (const [key, value] of Object.entries(vars)) {
+      let why = "";
+      if (!key.startsWith("--theme--")) why = "is not a --theme-- input";
+      else if (key.includes("--color--") && !COLOUR_INPUT.test(key))
+        why =
+          "is not one of the six standard palettes (custom palettes are Sass-only)";
+      else if (COLOUR_INPUT.test(key) && !CSS.supports("color", value))
+        why = `has an invalid colour "${value}"`;
+      if (why) {
+        skipped.push(key);
+        console.warn(`defineTheme("${name}"): ${key} ${why}; skipped`);
+        continue;
+      }
+      rule.style.setProperty(key, value);
     }
+    this.discoverThemes();
+    return skipped;
   }
 
   /**
-   * Restore theme from localStorage
+   * Remove a theme defined with `defineTheme`. If it is the page theme, the
+   * attribute is cleared too. Themes from stylesheets are not affected.
    */
-  private restoreTheme(): void {
-    const saved = this.getFromStorage("@cpangular/ng-material-theme.selectedTheme");
-    if (saved && this.themes.has(saved)) {
-      this.setTheme(saved, false); // Don't re-save when restoring
-    }
+  public removeTheme(name: string): void {
+    this.styleFor(name)?.remove();
+    if (this.getCurrentTheme() === name) this.setTheme(null);
+    this.discoverThemes();
   }
 
-  /**
-   * Register a callback to be notified when themes change
-   */
+  private styleFor(name: string): HTMLStyleElement | null {
+    return document.head.querySelector(
+      `style[data-theme="${CSS.escape(name)}"]`,
+    );
+  }
+
+  // ── Observers ──────────────────────────────────────────────────────────────
+
+  /** Called now and whenever the theme list or the page theme changes. */
   public onChange(callback: ThemeChangeCallback): void {
     this.observers.push(callback);
-    // Immediately call with current state
     callback(this.getThemes(), this.getCurrentTheme());
   }
 
-  /**
-   * Unregister a callback
-   */
   public removeObserver(callback: ThemeChangeCallback): void {
-    const index = this.observers.indexOf(callback);
-    if (index > -1) {
-      this.observers.splice(index, 1);
-    }
+    const i = this.observers.indexOf(callback);
+    if (i > -1) this.observers.splice(i, 1);
   }
 
-  /**
-   * Notify all observers of theme changes
-   */
   private notifyObservers(): void {
     const themes = this.getThemes();
     const current = this.getCurrentTheme();
-    for (const callback of this.observers) {
+    for (const cb of this.observers) {
       try {
-        callback(themes, current);
+        cb(themes, current);
       } catch (e) {
         console.error("Theme observer error:", e);
       }
     }
   }
 
-  /**
-   * Clean up observers
-   */
+  /** Called now and whenever the colour scheme mode changes. */
+  public onColorSchemeChange(callback: ColorSchemeChangeCallback): void {
+    this.colorSchemeObservers.push(callback);
+    callback(this.getCurrentColorScheme());
+  }
+
+  public removeColorSchemeObserver(callback: ColorSchemeChangeCallback): void {
+    const i = this.colorSchemeObservers.indexOf(callback);
+    if (i > -1) this.colorSchemeObservers.splice(i, 1);
+  }
+
+  private notifyColorSchemeObservers(): void {
+    const mode = this.getCurrentColorScheme();
+    for (const cb of this.colorSchemeObservers) {
+      try {
+        cb(mode);
+      } catch (e) {
+        console.error("Color scheme observer error:", e);
+      }
+    }
+  }
+
   public destroy(): void {
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-    }
-    if (this.mediaQueryListener) {
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .removeEventListener("change", this.mediaQueryListener);
-      this.mediaQueryListener = null;
-    }
+    this.mutationObserver?.disconnect();
     this.observers = [];
     this.colorSchemeObservers = [];
   }
 
-  // Storage helpers with SSR safety
+  // ── Storage (fails quietly where storage is blocked) ───────────────────────
+
   private saveToStorage(key: string, value: string): void {
     try {
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem(key, value);
-      }
-    } catch (e) {
-      console.debug("Cannot save to localStorage:", e);
+      localStorage.setItem(key, value);
+    } catch {
+      /* storage unavailable */
     }
   }
 
   private getFromStorage(key: string): string | null {
     try {
-      if (typeof localStorage !== "undefined") {
-        return localStorage.getItem(key);
-      }
-    } catch (e) {
-      console.debug("Cannot read from localStorage:", e);
+      return localStorage.getItem(key);
+    } catch {
+      return null;
     }
-    return null;
   }
 
   private removeFromStorage(key: string): void {
     try {
-      if (typeof localStorage !== "undefined") {
-        localStorage.removeItem(key);
-      }
-    } catch (e) {
-      console.debug("Cannot remove from localStorage:", e);
+      localStorage.removeItem(key);
+    } catch {
+      /* storage unavailable */
     }
   }
 }
 
-// Create and export a singleton instance
-export const themeSwitcher = new ThemeSwitcher();
+/**
+ * The shared switcher. Created when this module is evaluated in a browser;
+ * importing the module during server-side rendering is safe, and there the
+ * value is undefined. Also published as `window.themeSwitcher` for pages
+ * without modules.
+ */
+export const themeSwitcher: ThemeSwitcher =
+  typeof document !== "undefined"
+    ? new ThemeSwitcher()
+    : (undefined as unknown as ThemeSwitcher);
 
-// Also export to window for non-module usage
 if (typeof window !== "undefined") {
-  (window as any).themeSwitcher = themeSwitcher;
+  (window as unknown as { themeSwitcher: ThemeSwitcher }).themeSwitcher =
+    themeSwitcher;
 }

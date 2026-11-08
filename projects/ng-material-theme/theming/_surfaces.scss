@@ -1,0 +1,89 @@
+// Surface roles.
+// Material's surface, outline and on-surface roles as tones of the neutral (n)
+// and neutral-variant (nv) inputs, per mode, joined with light-dark(). Emitted
+// by core() under :where(:root, [theme]), so core.css alone defines them and
+// every themed subtree re-derives them.
+
+@use "sass:list";
+@use "./tone";
+
+// role: (palette, light tone, dark tone)
+$roles: (
+  "surface": (
+    neutral,
+    98,
+    6,
+  ),
+  "surface-dim": (
+    neutral,
+    87,
+    6,
+  ),
+  "surface-bright": (
+    neutral,
+    98,
+    24,
+  ),
+  "surface-container-lowest": (
+    neutral,
+    100,
+    4,
+  ),
+  "surface-container-low": (
+    neutral,
+    96,
+    10,
+  ),
+  "surface-container": (
+    neutral,
+    94,
+    12,
+  ),
+  "surface-container-high": (
+    neutral,
+    92,
+    17,
+  ),
+  "surface-container-highest": (
+    neutral,
+    90,
+    22,
+  ),
+  "on-surface": (
+    neutral,
+    10,
+    90,
+  ),
+  "surface-variant": (
+    neutral-variant,
+    90,
+    30,
+  ),
+  "on-surface-variant": (
+    neutral-variant,
+    30,
+    90,
+  ),
+  "outline": (
+    neutral-variant,
+    50,
+    60,
+  ),
+  "outline-variant": (
+    neutral-variant,
+    80,
+    30,
+  ),
+);
+
+@mixin emit-surface-roles() {
+  @each $role, $spec in $roles {
+    $palette: list.nth($spec, 1);
+    --color--#{$role}: light-dark(
+      #{tone.tone(var(--theme--light--color--#{$palette}), list.nth($spec, 2))},
+      #{tone.tone(var(--theme--dark--color--#{$palette}), list.nth($spec, 3))}
+    );
+  }
+  --color--background: var(--color--surface);
+  --color--on-background: var(--color--on-surface);
+}

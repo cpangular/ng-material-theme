@@ -1,0 +1,105 @@
+<h1>Your colours</h1>
+<p class="lead">
+  Your colours start from two inputs: a light primary and a dark primary. Four
+  more palettes are derived from them, and a sixth, error, has its own default.
+  A <em>palette</em> is a named colour, such as primary, with its own inputs and
+  its own tokens.
+</p>
+
+<!-- example: examples/03-your-colours.html -->
+<p>
+  Switch between Light and Dark at the top of the page to see each mode's input:
+  <code>#0b5fa5</code> in light mode, <code>#8ec5ff</code> in dark.
+</p>
+
+<h2>The input variables</h2>
+<p>
+  Every palette has two inputs,
+  <code>--theme--light--color--<em>palette</em></code> and
+  <code>--theme--dark--color--<em>palette</em></code
+  >, one per mode from chapter 2. You write inputs; <code>core.css</code> turns
+  them into the tokens you read, such as <code>--color--primary</code>. Do not
+  set the tokens yourself.
+</p>
+<p>
+  Set the inputs in a <code>:root</code> rule, anywhere in your CSS. The rule
+  can come before or after the <code>core.css</code> link: <code>core.css</code>
+  writes its defaults so that any rule of yours overrides them.
+</p>
+<p>
+  To use one colour in both modes, put the same value in both inputs; there is
+  no single input for both modes.
+</p>
+
+<h2>The six palettes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Palette</th>
+      <th>Comes from</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>primary</code></td>
+      <td>Your inputs. The default is a quiet grey-blue.</td>
+    </tr>
+    <tr>
+      <td><code>secondary</code></td>
+      <td>
+        Derived from primary: hue turned a third of the way round the colour
+        wheel (120°), more saturated.
+      </td>
+    </tr>
+    <tr>
+      <td><code>tertiary</code></td>
+      <td>Derived from primary: hue turned the other way (−120°).</td>
+    </tr>
+    <tr>
+      <td><code>neutral</code></td>
+      <td>
+        Derived from primary: almost grey, with a trace of its hue. Chapter 5
+        builds the page and card backgrounds from it.
+      </td>
+    </tr>
+    <tr>
+      <td><code>neutral-variant</code></td>
+      <td>
+        Derived from primary: a slightly more tinted grey, meant for borders and
+        dividers.
+      </td>
+    </tr>
+    <tr>
+      <td><code>error</code></td>
+      <td>
+        Independent. A red by default; set
+        <code>--theme--light--color--error</code> and
+        <code>--theme--dark--color--error</code> to change it.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Overriding a derived palette</h2>
+<p>
+  Derivation is a default, not a rule. Set the two inputs of any derived palette
+  and that value is used instead; the example sets tertiary to an orange that
+  the primary's hue would never produce. Everything you do not set keeps
+  following primary, so changing primary later still moves secondary, neutral
+  and neutral-variant with it. Set both inputs: each mode reads only its own, so
+  setting one leaves the other derived.
+</p>
+
+<h2>Text on a coloured box</h2>
+<p>
+  Each palette gives you <code>--color--<em>palette</em></code> and
+  <code>--color--<em>palette</em>--contrast</code>, exactly like primary in
+  chapter 1. <code>--contrast</code> is black or white, softened slightly toward
+  the colour. For small text such as labels, use a third token,
+  <code>--color--<em>palette</em>--contrast--high</code>: pure black or white,
+  the strongest of the three. The labels in the example use it. Chapter 4
+  explains the three strengths and what each one guarantees.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/03-your-colours.html -->

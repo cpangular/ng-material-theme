@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Light and dark</title>
+    <link rel="stylesheet" href="../core.css" />
+    <style>
+      body {
+        margin: 1rem;
+        font:
+          1rem/1.5 system-ui,
+          sans-serif;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+      .panel {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        /* Canvas and CanvasText are the browser's own page colours.
+           They follow color-scheme, like --color--primary does. */
+        background: Canvas;
+        color: CanvasText;
+        outline: 1px solid GrayText;
+      }
+      .panel h2 {
+        font-size: 1rem;
+        margin: 0 0 0.75rem;
+      }
+      .box {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        background: var(--color--primary);
+        color: var(--color--primary--contrast);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel" style="color-scheme: light">
+      <h2><code>color-scheme: light</code></h2>
+      <div class="box">Always light.</div>
+    </div>
+    <div class="panel" style="color-scheme: dark">
+      <h2><code>color-scheme: dark</code></h2>
+      <div class="box">Always dark.</div>
+    </div>
+    <div class="panel">
+      <h2>no <code>color-scheme</code></h2>
+      <div class="box">Follows the page.</div>
+    </div>
+  </body>
+</html>

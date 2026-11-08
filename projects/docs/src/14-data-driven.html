@@ -1,0 +1,82 @@
+<h1>Data-driven themes</h1>
+<p class="lead">
+  A theme is a few input variables, so it can come from anywhere: a JSON file, a
+  database row, a form. One call turns such a row into a theme.
+</p>
+
+<!-- example: examples/14-data-driven.html -->
+<p>
+  The page defines its three themes from <code>14-data-driven.json</code> when
+  it loads; the log underneath shows each call. Choose a page theme and a nested
+  one, then reload: both come back. Add a theme from the form, or remove the
+  current one.
+</p>
+
+<h2>defineTheme</h2>
+<pre><code>themeSwitcher.defineTheme("ocean", {
+  "--theme--light--color--primary": "#005f9e",
+  "--theme--dark--color--primary": "#7cc4ff",
+});</code></pre>
+<p>
+  The second argument is a flat map of the input variables: the light and dark
+  colours of the six palettes (chapter 3) and the tuning variables (chapter 10).
+  The result is the same as a <code>[theme="ocean"] { … }</code> rule (chapter
+  6), and the switcher discovers it like any other, so it appears in
+  <code>onChange</code> and can be set, nested and persisted the same way. Call
+  it again with the same name to replace the theme.
+</p>
+<p>
+  The rule is written through the browser's stylesheet API, one
+  <code>&lt;style data-theme="ocean"&gt;</code> in <code>&lt;head&gt;</code>,
+  with each declaration set by <code>setProperty</code>. No CSS text is built
+  from the data, so a value cannot escape its declaration.
+</p>
+
+<h2>What a row may hold</h2>
+<ul>
+  <li>
+    <strong>Colours.</strong> Any value the browser accepts as a colour. In the
+    fixture, <code>sunset</code> has <code>"tomato red"</code> for its light
+    error colour: it fails the check, is skipped with a warning in the console,
+    and the rest of <code>sunset</code> is applied. <code>defineTheme</code>
+    also returns the skipped keys, which is what the log prints.
+  </li>
+  <li>
+    <strong>Tuning.</strong> <code>slate</code> sets
+    <code>--theme--blend--darker-1</code> and
+    <code>--theme--density-scale</code> (chapters 10 and 11). Tuning values are
+    not checked; a bad one falls back to the default, as it would in CSS.
+  </li>
+  <li>
+    <strong>The six standard palettes only.</strong> A custom palette (chapter
+    8) needs the Sass that defines its tokens, so a key such as
+    <code>--theme--light--color--brand</code> is skipped. Keys outside
+    <code>--theme--</code> are skipped too.
+  </li>
+</ul>
+
+<h2>Restoring after a reload</h2>
+<p>
+  The switcher stores the page theme's <em>name</em> (chapter 12), and on reload
+  the head script and the switcher set it before the fixture has loaded. For a
+  moment <code>theme="sunset"</code> has no rule, which chapter 6 showed is
+  harmless: the page shows the defaults until <code>defineTheme</code> adds the
+  rule, and CSS applies it then. So store the rows where the page can fetch them
+  at start; a theme added from the form in the example is gone after a reload
+  because nothing stores its row. The nested panel's theme is an attribute on
+  that panel, outside the switcher, so the example remembers it itself with one
+  <code>localStorage</code> line.
+</p>
+
+<h2>removeTheme</h2>
+<p>
+  <code>removeTheme("sunset")</code> removes the <code>&lt;style&gt;</code> that
+  <code>defineTheme</code> added. If it is the page theme, the attribute is
+  cleared too; an element nested inside with that name keeps its attribute, so
+  the example clears that one itself. Themes that come from a stylesheet are not
+  affected.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/14-data-driven.json -->
+<!-- include: examples/14-data-driven.html -->

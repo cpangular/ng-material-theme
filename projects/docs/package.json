@@ -1,0 +1,24 @@
+{
+  "name": "@cpangular/docs",
+  "version": "0.0.0-MAIN",
+  "private": true,
+  "type": "module",
+  "description": "Documentation site for @cpangular/ng-material-theme: static HTML built with the library itself; every chapter is a working example",
+  "scripts": {
+    "build": "tsc --noEmit -p . && node build.ts",
+    "check": "node build.ts --check",
+    "serve": "http-server dist -p 8080 -c-1",
+    "check:browser": "tsc --noEmit -p test && node test/render.ts",
+    "github.actions.build": "pnpm run build"
+  },
+  "devDependencies": {
+    "@cpangular/material-demo": "workspace:*",
+    "@cpangular/ng-material-theme": "workspace:*",
+    "@types/node": "^20.17.11",
+    "http-server": "^14.1.1",
+    "playwright": "1.65.0",
+    "sass": "^1.80.0",
+    "typescript": "^5.9.3"
+  },
+  "license": "MIT"
+}

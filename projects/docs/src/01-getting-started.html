@@ -1,0 +1,68 @@
+<h1>Getting started</h1>
+<p class="lead">
+  One stylesheet, two tokens, a readable box. Nothing is set yet; every value is
+  a default.
+</p>
+
+<!-- example: examples/01-getting-started.html -->
+
+<h2>What you need to know first</h2>
+<p>
+  The library is plain CSS. Its values are custom properties, called
+  <em>tokens</em>, that you read with <code>var()</code>. If you have used
+  <code>var(--my-colour)</code> before, you are ready. You do not need Angular
+  or Angular Material; chapter 15 covers using the library with Material.
+</p>
+
+<h2>Include the stylesheet</h2>
+<p>Install the package and load <code>core.css</code> by its package path:</p>
+<pre><code>npm install @cpangular/ng-material-theme</code></pre>
+<pre><code>&lt;link rel="stylesheet" href="node_modules/@cpangular/ng-material-theme/css/dist/core.css"&gt;</code></pre>
+<p>
+  With a bundler, import it instead:
+  <code>import "@cpangular/ng-material-theme/core.css"</code>. The package maps
+  that short path to <code>css/dist/core.css</code>, so both load the same file.
+</p>
+
+<h2>A token</h2>
+<p>
+  <code>core.css</code> gives its tokens default values, so the box above works
+  with nothing set. <code>--color--primary</code> is the main colour; the box
+  uses it as its background. The default is a quiet grey-blue.
+</p>
+
+<h2>Its contrast</h2>
+<p>
+  <code>--color--primary--contrast</code> is the text colour to use on primary:
+  black or white, whichever reads better on it. <code>core.css</code> works it
+  out from <code>--color--primary</code> itself, so it stays right when primary
+  changes, and you never pick a text colour by hand.
+</p>
+<p>
+  Token names are parts joined by <code>--</code>: the group
+  (<code>color</code>), the role (<code>primary</code>), then anything extra
+  (<code>contrast</code>). Every colour token has a partner named by adding
+  <code>--contrast</code>: <code>--color--<em>X</em></code> pairs with
+  <code>--color--<em>X</em>--contrast</code>.
+</p>
+<p>
+  Chapter 2 makes the colour follow light and dark mode; chapter 3 makes it
+  yours.
+</p>
+
+<h2>Source</h2>
+<p>
+  The example loads <code>../core.css</code>, a copy the site keeps next to the
+  examples. Every example on this site does the same; in your project, use the
+  package path above.
+</p>
+<!-- include: examples/01-getting-started.html -->
+
+<h2>Browser baseline</h2>
+<p>
+  Supported browsers: Chrome 123, Firefox 128 and Safari 17.5 (mid 2024).
+  <code>core.css</code> uses <code>light-dark()</code>, relative colour syntax
+  and <code>color-mix()</code> internally and has no fallbacks for older
+  browsers. You never have to write these functions yourself; they are listed
+  only so you know which browsers are supported.
+</p>

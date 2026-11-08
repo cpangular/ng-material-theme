@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Variants</title>
+    <link rel="stylesheet" href="../core.css" />
+    <style>
+      :root {
+        --theme--light--color--primary: #0b5fa5;
+        --theme--dark--color--primary: #8ec5ff;
+      }
+      body {
+        margin: 1rem;
+        font:
+          0.9rem/1.4 system-ui,
+          sans-serif;
+      }
+      h2 {
+        font-size: 0.9rem;
+        margin: 1rem 0 0.4rem;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.5rem;
+      }
+      .row.tints {
+        grid-template-columns: repeat(9, 1fr);
+      }
+      .sw {
+        min-height: 3.5rem;
+        padding: 0.5rem;
+        border-radius: 0.4rem;
+        font-size: 0.75rem;
+        word-break: break-all;
+      }
+
+      /* Lighter / darker: mixed toward white or black, the same in both modes */
+      .darker-2 {
+        background: var(--color--primary-darker-2);
+        color: var(--color--primary-darker-2--contrast--high);
+      }
+      .darker-1 {
+        background: var(--color--primary-darker-1);
+        color: var(--color--primary-darker-1--contrast--high);
+      }
+      .base {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .lighter-1 {
+        background: var(--color--primary-lighter-1);
+        color: var(--color--primary-lighter-1--contrast--high);
+      }
+      .lighter-2 {
+        background: var(--color--primary-lighter-2);
+        color: var(--color--primary-lighter-2--contrast--high);
+      }
+
+      /* Higher / lower: stand out more or less against the page, in either mode */
+      .higher-2 {
+        background: var(--color--primary-higher-2);
+        color: var(--color--primary-higher-2--contrast--high);
+      }
+      .higher-1 {
+        background: var(--color--primary-higher-1);
+        color: var(--color--primary-higher-1--contrast--high);
+      }
+      .lower-1 {
+        background: var(--color--primary-lower-1);
+        color: var(--color--primary-lower-1--contrast--high);
+      }
+      .lower-2 {
+        background: var(--color--primary-lower-2);
+        color: var(--color--primary-lower-2--contrast--high);
+      }
+
+      /* Reverse mode: the other mode's value */
+      .reverse {
+        background: var(--color--primary-reverse-mode);
+        color: var(--color--primary-reverse-mode--contrast--high);
+      }
+
+      /* Tints: the colour at nine opacities, over whatever is behind */
+      .tint-1 {
+        background: var(--color--primary-tint-1);
+      }
+      .tint-2 {
+        background: var(--color--primary-tint-2);
+      }
+      .tint-3 {
+        background: var(--color--primary-tint-3);
+      }
+      .tint-4 {
+        background: var(--color--primary-tint-4);
+      }
+      .tint-5 {
+        background: var(--color--primary-tint-5);
+      }
+      .tint-6 {
+        background: var(--color--primary-tint-6);
+      }
+      .tint-7 {
+        background: var(--color--primary-tint-7);
+      }
+      .tint-8 {
+        background: var(--color--primary-tint-8);
+      }
+      .tint-9 {
+        background: var(--color--primary-tint-9);
+      }
+
+      /* Disabled: desaturated and faded, with a faded contrast */
+      .disabled {
+        background: var(--color--primary-disabled);
+        color: var(--color--primary-disabled--contrast);
+      }
+      .darker-1-disabled {
+        background: var(--color--primary-darker-1-disabled);
+        color: var(--color--primary-darker-1-disabled--contrast);
+      }
+
+      /* A control that uses higher-1 on hover, in either mode */
+      button {
+        font: inherit;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 0;
+        border-radius: 0.4rem;
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      button:hover {
+        background: var(--color--primary-higher-1);
+        color: var(--color--primary-higher-1--contrast--high);
+      }
+
+      /* Contrast emphasis: three text colours for the same background */
+      .high {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .mid {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast);
+      }
+      .low {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--low);
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Lighter and darker</h2>
+    <div class="row">
+      <div class="sw darker-2">-darker-2</div>
+      <div class="sw darker-1">-darker-1</div>
+      <div class="sw base">primary</div>
+      <div class="sw lighter-1">-lighter-1</div>
+      <div class="sw lighter-2">-lighter-2</div>
+    </div>
+
+    <h2>Higher and lower</h2>
+    <div class="row">
+      <div class="sw higher-2">-higher-2</div>
+      <div class="sw higher-1">-higher-1</div>
+      <div class="sw base">primary</div>
+      <div class="sw lower-1">-lower-1</div>
+      <div class="sw lower-2">-lower-2</div>
+    </div>
+    <button>Hover me</button>
+
+    <h2>Reverse mode</h2>
+    <div class="row">
+      <div class="sw base">primary</div>
+      <div class="sw reverse">-reverse-mode</div>
+    </div>
+
+    <h2>Disabled</h2>
+    <div class="row">
+      <div class="sw base">primary</div>
+      <div class="sw disabled">-disabled</div>
+      <div class="sw darker-1">-darker-1</div>
+      <div class="sw darker-1-disabled">-darker-1-disabled</div>
+    </div>
+
+    <h2>Tints</h2>
+    <div class="row tints">
+      <div class="sw tint-1">1</div>
+      <div class="sw tint-2">2</div>
+      <div class="sw tint-3">3</div>
+      <div class="sw tint-4">4</div>
+      <div class="sw tint-5">5</div>
+      <div class="sw tint-6">6</div>
+      <div class="sw tint-7">7</div>
+      <div class="sw tint-8">8</div>
+      <div class="sw tint-9">9</div>
+    </div>
+
+    <h2>Contrast emphasis</h2>
+    <div class="row">
+      <div class="sw high">--contrast--high</div>
+      <div class="sw mid">--contrast</div>
+      <div class="sw low">--contrast--low</div>
+    </div>
+  </body>
+</html>

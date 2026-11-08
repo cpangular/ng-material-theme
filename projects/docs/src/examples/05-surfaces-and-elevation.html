@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Surfaces and elevation</title>
+    <link rel="stylesheet" href="../core.css" />
+    <style>
+      :root {
+        --theme--light--color--primary: #0b5fa5;
+        --theme--dark--color--primary: #8ec5ff;
+      }
+      body {
+        margin: 0;
+        padding: 1rem;
+        font:
+          0.9rem/1.4 system-ui,
+          sans-serif;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+      }
+      h2 {
+        font-size: 0.9rem;
+        margin: 1rem 0 0.5rem;
+      }
+      .ladder {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+        gap: 0.5rem;
+      }
+      .tile {
+        padding: 0.75rem;
+        border-radius: 0.4rem;
+        color: var(--color--on-surface);
+        font-size: 0.75rem;
+      }
+      .tile small {
+        display: block;
+        color: var(--color--on-surface-variant);
+      }
+      .surface-dim {
+        background: var(--color--surface-dim);
+      }
+      .surface {
+        background: var(--color--surface);
+      }
+      .surface-bright {
+        background: var(--color--surface-bright);
+      }
+      .surface-variant {
+        background: var(--color--surface-variant);
+        color: var(--color--on-surface-variant);
+      }
+      .lowest {
+        background: var(--color--surface-container-lowest);
+      }
+      .low {
+        background: var(--color--surface-container-low);
+      }
+      .container {
+        background: var(--color--surface-container);
+      }
+      .high {
+        background: var(--color--surface-container-high);
+      }
+      .highest {
+        background: var(--color--surface-container-highest);
+      }
+
+      .outlined {
+        border: 1px solid var(--color--outline);
+      }
+      .outlined-variant {
+        border: 1px solid var(--color--outline-variant);
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+        gap: 1.25rem;
+        padding: 1rem 0.25rem 1.25rem;
+      }
+      .card {
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background: var(--color--surface-container-lowest);
+        color: var(--color--on-surface);
+        font-size: 0.75rem;
+      }
+      .card .accent {
+        font-weight: 600;
+      }
+      .e0 {
+        box-shadow: var(--elevation-0);
+      }
+      .e1 {
+        box-shadow: var(--elevation-1);
+      }
+      .e2 {
+        box-shadow: var(--elevation-2);
+      }
+      .e3 {
+        box-shadow: var(--elevation-3);
+      }
+      .e4 {
+        box-shadow: var(--elevation-4);
+      }
+      .e5 {
+        box-shadow: var(--elevation-5);
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Surfaces</h2>
+    <div class="ladder">
+      <div class="tile surface-dim">surface-dim</div>
+      <div class="tile surface">surface <small>= background</small></div>
+      <div class="tile surface-bright">surface-bright</div>
+      <div class="tile surface-variant">
+        surface-variant <small>on-surface-variant</small>
+      </div>
+    </div>
+
+    <h2>Containers</h2>
+    <div class="ladder">
+      <div class="tile lowest">container-lowest</div>
+      <div class="tile low">container-low</div>
+      <div class="tile container">container</div>
+      <div class="tile high">container-high</div>
+      <div class="tile highest">container-highest</div>
+    </div>
+
+    <h2>Outlines</h2>
+    <div class="ladder">
+      <div class="tile outlined">outline</div>
+      <div class="tile outlined-variant">outline-variant</div>
+    </div>
+
+    <h2>Elevation</h2>
+    <div class="cards">
+      <div class="card e0"><span class="accent">0</span> flat</div>
+      <div class="card e1"><span class="accent">1</span> card</div>
+      <div class="card e2"><span class="accent">2</span> raised</div>
+      <div class="card e3"><span class="accent">3</span> menu</div>
+      <div class="card e4"><span class="accent">4</span> sheet</div>
+      <div class="card e5"><span class="accent">5</span> dialog</div>
+    </div>
+  </body>
+</html>

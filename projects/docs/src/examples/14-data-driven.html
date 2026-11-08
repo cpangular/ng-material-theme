@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Data-driven themes</title>
+    <link rel="stylesheet" href="../core.css" />
+    <script>
+      try {
+        var t = localStorage.getItem(
+            "@cpangular/ng-material-theme.selectedTheme",
+          ),
+          s = localStorage.getItem("@cpangular/ng-material-theme.colorScheme");
+        if (t) document.documentElement.setAttribute("theme", t);
+        if (s === "light" || s === "dark")
+          document.documentElement.style.colorScheme = s;
+      } catch (e) {}
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@cpangular/ng-material-theme/theme-switcher": "../theme-switcher.js"
+        }
+      }
+    </script>
+    <style>
+      /* No theme rules here: every theme on this page comes from data. */
+      body {
+        margin: 0;
+        padding: var(--theme--size--5);
+        font:
+          0.85rem/1.4 system-ui,
+          sans-serif;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--theme--size--3);
+        align-items: center;
+        margin-bottom: var(--theme--size--4);
+      }
+      label {
+        display: inline-flex;
+        gap: var(--theme--size--2);
+        align-items: center;
+      }
+      select,
+      input,
+      button {
+        font: inherit;
+        padding: var(--theme--size--2) var(--theme--size--3);
+        border: 1px solid var(--color--outline);
+        border-radius: var(--theme--size--2);
+        background: var(--color--surface-container-lowest);
+        color: var(--color--on-surface);
+      }
+      input[type="color"] {
+        padding: 0 var(--theme--size--1);
+        width: var(--theme--size--9);
+        height: var(--theme--size--8);
+      }
+      button {
+        background: var(--color--primary);
+        border-color: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+        cursor: pointer;
+      }
+      button.quiet {
+        background: var(--color--surface-container-high);
+        border-color: var(--color--outline);
+        color: var(--color--on-surface);
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--theme--size--2);
+      }
+      .chip {
+        padding: var(--theme--size--2) var(--theme--size--4);
+        border-radius: var(--theme--size--8);
+      }
+      .primary {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .darker {
+        background: var(--color--primary-darker-1);
+        color: var(--color--primary-darker-1--contrast--high);
+      }
+      .tertiary {
+        background: var(--color--tertiary);
+        color: var(--color--tertiary--contrast--high);
+      }
+      .error {
+        background: var(--color--error);
+        color: var(--color--error--contrast--high);
+      }
+      .nested {
+        margin-top: var(--theme--size--4);
+        padding: var(--theme--size--4);
+        border-radius: var(--theme--size--3);
+        background: var(--color--surface-container);
+        outline: 2px solid var(--color--primary);
+      }
+      .nested .row {
+        margin-bottom: var(--theme--size--3);
+      }
+      pre {
+        margin: var(--theme--size--4) 0 0;
+        padding: var(--theme--size--3);
+        border-radius: var(--theme--size--2);
+        background: var(--color--surface-container-low);
+        color: var(--color--on-surface-variant);
+        font-size: 0.75rem;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <label
+        >Page theme
+        <select id="page"></select
+      ></label>
+      <button class="quiet" id="remove" type="button">Remove it</button>
+    </div>
+    <div class="chips">
+      <span class="chip primary">primary</span>
+      <span class="chip darker">darker-1</span>
+      <span class="chip tertiary">tertiary</span>
+      <span class="chip error">error</span>
+    </div>
+
+    <div class="nested" id="nested">
+      <div class="row">
+        <label
+          >Nested theme
+          <select id="nested-select"></select
+        ></label>
+      </div>
+      <div class="chips">
+        <span class="chip primary">primary</span>
+        <span class="chip darker">darker-1</span>
+        <span class="chip tertiary">tertiary</span>
+        <span class="chip error">error</span>
+      </div>
+    </div>
+
+    <form class="row" id="add">
+      <label>Name <input name="name" required placeholder="my-theme" /></label>
+      <label>Light <input name="light" type="color" value="#7a1fa2" /></label>
+      <label>Dark <input name="dark" type="color" value="#e9b8ff" /></label>
+      <button>Add theme</button>
+    </form>
+    <pre id="log"></pre>
+
+    <script type="module">
+      import { themeSwitcher } from "@cpangular/ng-material-theme/theme-switcher";
+
+      const log = document.querySelector("#log");
+      const say = (line) => (log.textContent += line + "\n");
+
+      // 1. Themes from data. Each row is a flat map of input variables; a value
+      //    that is not a colour is skipped with a warning and the rest applied.
+      const rows = await (await fetch("14-data-driven.json")).json();
+      for (const [name, vars] of Object.entries(rows)) {
+        const skipped = themeSwitcher.defineTheme(name, vars);
+        say(
+          `defineTheme("${name}"): ${Object.keys(vars).length} inputs` +
+            (skipped.length ? `, skipped ${skipped.join(", ")}` : ""),
+        );
+      }
+
+      // 2. The page theme, through the switcher: stored, and restored on reload
+      //    by the head script and the switcher before the rules above arrive.
+      const page = document.querySelector("#page");
+      const nestedSelect = document.querySelector("#nested-select");
+      const nested = document.querySelector("#nested");
+      themeSwitcher.onChange((themes, current) => {
+        const options = () => [
+          new Option("(inherit)", ""),
+          ...themes.map((t) => new Option(t, t)),
+        ];
+        page.replaceChildren(...options());
+        if (current && !themes.includes(current))
+          page.add(new Option(`${current} (no rule yet)`, current));
+        page.value = current ?? "";
+        nestedSelect.replaceChildren(...options());
+        nestedSelect.value = nested.getAttribute("theme") ?? "";
+      });
+      page.onchange = () => themeSwitcher.setTheme(page.value || null);
+
+      // 3. A nested theme is an attribute on the panel. The switcher manages
+      //    only <html>, so the page remembers this one itself.
+      const setNested = (name) => {
+        if (name) nested.setAttribute("theme", name);
+        else nested.removeAttribute("theme");
+        nestedSelect.value = name;
+        localStorage.setItem("docs.nestedTheme", name);
+      };
+      setNested(localStorage.getItem("docs.nestedTheme") ?? "");
+      nestedSelect.onchange = () => setNested(nestedSelect.value);
+
+      // 4. A theme from a form: the same call, with the same kind of map.
+      document.querySelector("#add").onsubmit = (e) => {
+        e.preventDefault();
+        const f = new FormData(e.target);
+        const name = f.get("name");
+        themeSwitcher.defineTheme(name, {
+          "--theme--light--color--primary": f.get("light"),
+          "--theme--dark--color--primary": f.get("dark"),
+        });
+        themeSwitcher.setTheme(name);
+        say(`defineTheme("${name}") from the form (gone after a reload)`);
+      };
+      document.querySelector("#remove").onclick = () => {
+        const name = themeSwitcher.getCurrentTheme();
+        if (!name) return;
+        themeSwitcher.removeTheme(name);
+        if (nested.getAttribute("theme") === name) setNested("");
+        say(`removeTheme("${name}")`);
+      };
+    </script>
+  </body>
+</html>

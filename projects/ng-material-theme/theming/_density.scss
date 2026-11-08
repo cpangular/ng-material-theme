@@ -1,29 +1,19 @@
-// Density System
-// Adjusts spacing/sizing based on density level using a scale multiplier
-// The --theme--density-scale variable controls all --theme--size--* tokens
-//
-// Density levels:
-//   0 (default): scale = 1.0 (100%)
-//  -1: scale = 0.92 (92%)
-//  -2: scale = 0.84 (84%)
-//  -3: scale = 0.76 (76%)
+// Density
+// --theme--density-scale multiplies every --theme--size--N token. It is a
+// registered input (initial value 1) and is only emitted when a theme sets it.
 
-@mixin density-selectors() {
-  // Placeholder: not needed, density is set per-theme
-}
+@use "sass:map";
 
-@mixin apply-density($density: 0) {
-  // Set density scale based on density level
-  @if $density == 0 {
-    --theme--density-scale: 1;
-  } @else if $density == -1 {
-    --theme--density-scale: 0.92;
-  } @else if $density == -2 {
-    --theme--density-scale: 0.84;
-  } @else if $density == -3 {
-    --theme--density-scale: 0.76;
-  } @else {
-    // Default to 1 for any other value
-    --theme--density-scale: 1;
+$scales: (
+  0: 1,
+  -1: 0.92,
+  -2: 0.84,
+  -3: 0.76,
+);
+
+@mixin apply-density($density) {
+  @if not map.has-key($scales, $density) {
+    @error "density must be 0, -1, -2 or -3; got #{$density}.";
   }
+  --theme--density-scale: #{map.get($scales, $density)};
 }

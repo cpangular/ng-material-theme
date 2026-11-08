@@ -1,0 +1,86 @@
+name: Docs Pages
+
+# Builds projects/docs and deploys projects/docs/dist to GitHub Pages for a
+# stable release. This is the only workflow not taken from git-flow; building,
+# testing and publishing to npm stay with the git-flow workflows:
+#   test.yml               every push       build + test
+#   build-pack-publish.yml release PR merge build + pack + publish + tag v<version>
+#
+# Triggers. Merging the release PR pushes to release/main, which is the
+# primary trigger. git-flow also creates the v<version> tag, but it does so
+# with GITHUB_TOKEN, and events made with that token never start another
+# workflow, so the tag trigger below only fires for a tag pushed by hand (the
+# pattern matches v21.0.0, not v21.0.0-feature.ng21.3: feature-line releases
+# do not publish docs). workflow_dispatch redeploys the current commit of any
+# branch or tag.
+
+on:
+  push:
+    branches:
+      - "release/main"
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read # install @cpdevtools/* from GitHub Packages (.npmrc)
+  pages: write
+  id-token: write
+
+# One deploy at a time; a newer run supersedes a queued one but never cancels
+# a deploy in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    # Belt and braces for the tag pattern: never deploy docs for a prerelease.
+    if: github.ref_type != 'tag' || !contains(github.ref_name, '-')
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # read by .npmrc
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4 # version from package.json "packageManager"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        # library → material-demo → docs (devutil run build, dependency order)
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload docs
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: projects/docs/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

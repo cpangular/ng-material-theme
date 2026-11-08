@@ -1,0 +1,113 @@
+<h1>Variants</h1>
+<p class="lead">
+  Each palette colour comes with a family of variants. A <em>variant</em> is a
+  step (lighter, darker, higher, lower) or a tint; <em>reverse-mode</em> and
+  <em>disabled</em> are modifiers that combine with any of them. Every one
+  except the tints has its own contrast colours, and the names follow one
+  grammar.
+</p>
+
+<!-- example: examples/04-variants.html -->
+<p>
+  Switch between Light and Dark at the top of the page. In the first row darker
+  stays on the left. In the second, the end that stands out swaps sides. Reverse
+  mode always shows the other mode's primary.
+</p>
+
+<h2>Lighter and darker</h2>
+<p>
+  <code>-lighter-1</code>, <code>-lighter-2</code> mix the colour toward white;
+  <code>-darker-1</code>, <code>-darker-2</code> toward black. They mean the
+  same in both modes: darker is always darker. Each has its own contrast, named
+  by adding <code>--contrast</code>:
+  <code>--color--primary-darker-1--contrast</code>.
+</p>
+
+<h2>Higher and lower</h2>
+<p>
+  <code>-higher-1</code>, <code>-higher-2</code> stand out more against the
+  page; <code>-lower-1</code>, <code>-lower-2</code> less. The page is light in
+  light mode and dark in dark mode (chapter 2), so higher is darker in light
+  mode and lighter in dark mode. Use these for hover and pressed states, so a
+  control that darkens on hover in light mode brightens in dark mode without a
+  second rule. The button under that row uses <code>-higher-1</code> on hover;
+  try it in both modes.
+</p>
+
+<h2>Reverse mode</h2>
+<p>
+  <code>-reverse-mode</code> gives the other mode's value: the dark primary
+  where the element using it is in light mode, the light primary where it is in
+  dark mode. <code>color-scheme: dark</code> from chapter 2 pins an element to
+  dark; <code>-reverse-mode</code> instead always gives the opposite of the
+  current mode, so it flips when the mode does. Use it for something that should
+  always stand out against the page, such as a badge.
+</p>
+
+<h2>Tints</h2>
+<p>
+  <code>-tint-1</code> to <code>-tint-9</code> are the colour at nine opacities,
+  2, 8, 12, 16, 25, 40, 55, 70 and 90%, painted over whatever is behind. Use
+  <code>-tint-2</code> as a hover overlay, <code>-tint-3</code> for focus and
+  pressed, and <code>-tint-4</code> while dragging. Tints have no contrast
+  colour; put text on the element behind them.
+</p>
+<p>
+  In the example the digits sit on the tints only as labels. On the stronger
+  tints they read below 4.5:1, which is why real text belongs on the element
+  behind.
+</p>
+
+<h2>Disabled</h2>
+<p>
+  <code>-disabled</code> desaturates the colour and fades it, and
+  <code>-disabled--contrast</code> fades the text with it. It is a modifier, so
+  it combines with any variant: <code>--color--primary-darker-1-disabled</code>.
+  A disabled swatch is faded on purpose and reads below 4.5:1 in both modes; it
+  is meant to look unavailable, not to carry text that must be read.
+</p>
+
+<h2>Contrast with emphasis</h2>
+<p>
+  Every colour and variant except the tints has three contrast colours.
+  <code>--contrast--high</code> is pure black or white and reads at 4.5:1 or
+  better on its colour, the WCAG AA level for normal text.
+  <code>--contrast</code> keeps 90% of that black or white and mixes in 10% of
+  the colour; it reads at 3:1 or better, the AA level for large text and
+  interface parts. <code>--contrast--low</code> keeps 80% and is decorative: use
+  it for hints and dividers, not for text that must be read. The low swatch in
+  the example shows it on purpose.
+</p>
+<p>
+  The <code>--contrast</code> you used in chapter 1 is the middle one: fine for
+  large text such as headings. For small text, use
+  <code>--contrast--high</code>, as chapter 3 did.
+</p>
+
+<h2>The name grammar</h2>
+<pre><code>--color--{palette}[-{variant}][-reverse-mode][-disabled][--contrast[--high|--low]]</code></pre>
+<p>
+  <code>{…}</code> is a part you fill in, <code>[…]</code> is optional, and
+  <code>|</code> means one or the other. Single dashes join the parts of one
+  colour; a double dash introduces its contrast. <code>{variant}</code> is one
+  of <code>lighter-1</code>, <code>lighter-2</code>, <code>darker-1</code>,
+  <code>darker-2</code>, <code>higher-1</code>, <code>higher-2</code>,
+  <code>lower-1</code>, <code>lower-2</code>, or <code>tint-1</code> to
+  <code>tint-9</code>. <code>neutral-variant</code> is one palette name, so its
+  tokens read <code>--color--neutral-variant-lighter-1</code>. Tints take no
+  <code>-disabled</code> and no <code>--contrast</code>.
+</p>
+<p>
+  Read a full name left to right:
+  <code>--color--primary-higher-1-reverse-mode--contrast--high</code> is
+  primary, one step higher, in the other mode's value, and its strongest text
+  colour.
+</p>
+<p>
+  Every percentage in this chapter (the mix amounts, the tint opacities and the
+  contrast blends) is tunable; see <a href="10-tuning.html">Tuning</a>. To look
+  a token up, the <a href="reference.html">Reference</a> draws all of them.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/04-variants.html -->

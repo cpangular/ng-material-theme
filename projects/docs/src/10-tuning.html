@@ -1,0 +1,205 @@
+<h1>Tuning</h1>
+<p class="lead">
+  The percentages behind the variants are variables too. Change one for a whole
+  theme, or for one palette inside it.
+</p>
+
+<!-- example: examples/10-tuning.html -->
+<p>
+  Compare each panel with <strong>defaults</strong>. The
+  <code>--theme--blend--darker-1: 50%</code> panel darkens
+  <code>-darker-1</code> for every palette. The
+  <code>--theme--opacity--5</code> panel strengthens <code>tint-5</code>. The
+  <code>--theme--disabled-saturation</code> panel keeps the disabled swatch's
+  full colour. The <code>-override</code> panel darkens
+  <code>-darker-1</code> for primary only, so <code>secondary-darker-1</code> is
+  untouched. <code>soft</code> does the last three at once, in Sass.
+</p>
+<p>
+  The solid swatches use <code>--contrast--high</code>. The
+  <code>tint-5</code> and <code>-disabled</code> labels read below 4.5:1 on
+  purpose: they are there to show what tuning does to those swatches.
+</p>
+
+<h2>The tuning variables</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Default</th>
+      <th>Controls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--theme--blend--darker-1</code>,
+        <code>--theme--blend--darker-2</code>
+      </td>
+      <td>80%, 30%</td>
+      <td>
+        The share of the colour kept when mixing toward black; the rest is
+        black. A smaller number is darker.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--blend--lighter-1</code>,
+        <code>--theme--blend--lighter-2</code>
+      </td>
+      <td>30%, 5%</td>
+      <td>
+        The share kept when mixing toward white. A smaller number is lighter.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--opacity--1</code> … <code>--theme--opacity--9</code>
+      </td>
+      <td>2, 8, 12, 16, 25, 40, 55, 70, 90%</td>
+      <td>The opacity of <code>-tint-1</code> to <code>-tint-9</code>.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--contrast-blend--high</code>,
+        <code>--theme--contrast-blend</code>,
+        <code>--theme--contrast-blend--low</code>
+      </td>
+      <td>100%, 90%, 80%</td>
+      <td>
+        Each contrast colour starts as black or white and is mixed with the
+        colour it sits on; this is how much of the black or white is kept. High
+        protects chapter 4's 4.5:1 and the middle one its 3:1; lowering either
+        below its default gives that guarantee up. Low has none.
+      </td>
+    </tr>
+    <tr>
+      <td><code>--theme--disabled-saturation</code></td>
+      <td>40%</td>
+      <td>How much colour a <code>-disabled</code> variant keeps.</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--disabled-foreground-opacity</code>,
+        <code>--theme--disabled-background-opacity</code>
+      </td>
+      <td>70%, 80%</td>
+      <td>
+        The opacity of the text colour <code>-disabled--contrast</code> and of
+        the fill <code>-disabled</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  <code>-higher</code> and <code>-lower</code> use the same blends: in light
+  mode <code>-higher-1</code> is <code>-darker-1</code>, in dark mode it is
+  <code>-lighter-1</code>.
+</p>
+<p>
+  Like primary and error, a nested theme inherits the tuning values it does not
+  set (chapter 6).
+</p>
+
+<h2>Per-palette overrides and the fallback chain</h2>
+<p>
+  Each palette reads every tuning value through a chain with an override in
+  front:
+</p>
+<pre><code>--color--primary--blend--darker-1: var(--color--primary--blend--darker-1-override, var(--theme--blend--darker-1));</code></pre>
+<p>
+  The library declares <code>--color--primary--blend--darker-1</code> itself;
+  you never set it. The <code>-override</code> in front of it is the slot it
+  leaves for you. The rule is: <code>--theme--<em>X</em></code> becomes
+  <code>--color--<em>palette</em>--<em>X</em>-override</code>. Set it and that
+  palette alone changes; leave it unset and the theme-level value applies. For
+  example <code>--color--error--opacity--5-override</code>,
+  <code>--color--primary--contrast-blend--low-override</code>,
+  <code>--color--primary--disabled-saturation-override</code>.
+</p>
+
+<h2>Where an override must sit</h2>
+<p>
+  Tuning values and their overrides take effect only in a
+  <code>:root</code> rule or on an element with a <code>theme</code> attribute.
+  As chapter 6 showed, the library works out the tokens there, and the elements
+  inside receive finished colours. Setting
+  <code>--theme--blend--darker-1</code> on a plain
+  <code>&lt;div&gt;</code> arrives after that work is done and changes nothing.
+  That is why each panel in the example is a <code>theme="sea"</code> element
+  with an inline style: the attribute makes the library work out the tokens
+  again on that panel, as in chapter 6's
+  <em>A theme attribute with no rule</em>. <code>color-scheme</code> works on
+  any element because it only picks between two finished values; tuning changes
+  how the values are made.
+</p>
+
+<h2>The Sass shape</h2>
+<p>
+  In <code>createTheme()</code>, theme-level tuning is four optional maps beside
+  <code>colors</code>. Per-palette tuning goes inside the palette: its colour
+  moves under <code>value</code> and the tuning keys sit beside it, as
+  <code>primary: (value: (#0b5fa5, #8ec5ff), blend-darker-1: 50%)</code>.
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>CSS variable</th>
+      <th>Theme-level map and key</th>
+      <th>Per-palette key</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--theme--blend--darker-1</code> (also <code>darker-2</code>,
+        <code>lighter-1</code>, <code>lighter-2</code>)
+      </td>
+      <td><code>blends: (darker-1: …)</code></td>
+      <td><code>blend-darker-1</code></td>
+    </tr>
+    <tr>
+      <td><code>--theme--opacity--5</code> (1 to 9)</td>
+      <td><code>opacities: (opacity5: …)</code></td>
+      <td><code>opacity5</code></td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--contrast-blend--high</code>,
+        <code>--theme--contrast-blend</code>,
+        <code>--theme--contrast-blend--low</code>
+      </td>
+      <td><code>contrast-blends: (high: …, default: …, low: …)</code></td>
+      <td>
+        <code>contrast-blend-high</code>, <code>contrast-blend</code>,
+        <code>contrast-blend-low</code>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>--theme--disabled-saturation</code>,
+        <code>--theme--disabled-foreground-opacity</code>,
+        <code>--theme--disabled-background-opacity</code>
+      </td>
+      <td>
+        <code
+          >disabled: (saturation: …, foreground-opacity: …, background-opacity:
+          …)</code
+        >
+      </td>
+      <td>
+        <code>disabled-saturation</code>,
+        <code>disabled-foreground-opacity</code>,
+        <code>disabled-background-opacity</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>
+  Sass writes a variable only for each key you give; everything else keeps its
+  default.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/10-tuning.scss -->
+<!-- include: examples/10-tuning.html -->

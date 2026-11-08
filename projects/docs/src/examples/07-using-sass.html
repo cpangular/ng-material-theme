@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Using Sass</title>
+    <!-- Compiled from 07-using-sass.scss. No core.css link: core() is inside. -->
+    <link rel="stylesheet" href="07-using-sass.css" />
+  </head>
+  <body>
+    <div class="panel" theme="ember">
+      <h2>theme="ember"</h2>
+      <div class="chips">
+        <span class="chip primary">primary</span>
+        <span class="chip secondary">secondary</span>
+        <span class="chip tertiary">tertiary</span>
+        <span class="chip error">error</span>
+      </div>
+      <div class="nested" theme="accent">
+        <p>theme="accent" sets only tertiary; primary is inherited.</p>
+        <div class="chips">
+          <span class="chip primary">primary</span>
+          <span class="chip secondary">secondary</span>
+          <span class="chip tertiary">tertiary</span>
+          <span class="chip error">error</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" theme="mint" style="color-scheme: light">
+      <h2>theme="mint", color-scheme: light</h2>
+      <div class="chips">
+        <span class="chip primary">primary</span>
+        <span class="chip secondary">secondary</span>
+        <span class="chip tertiary">tertiary</span>
+        <span class="chip error">error</span>
+      </div>
+      <div class="nested" style="color-scheme: dark">
+        <p>
+          A dark card inside a light theme: color-scheme: dark, no theme
+          attribute.
+        </p>
+        <div class="chips">
+          <span class="chip primary">primary</span>
+          <span class="chip secondary">secondary</span>
+          <span class="chip tertiary">tertiary</span>
+          <span class="chip error">error</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

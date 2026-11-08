@@ -1,12 +1,119 @@
-// Material Design 3 Adapter
-// Optional bridge for Angular Material and M3-compatible frameworks
-// Maps design system tokens to --mat-sys-* and MD3 semantic aliases
+// Angular Material adapter.
 //
-// REQUIRES: core.css or core() mixin to be loaded first
-// USAGE: Import this ONLY if using Angular Material or M3 frameworks
+// Computed from Material's own role tables at build time: this file @uses
+// @angular/material's md-sys-color module and feeds it palettes whose tones
+// are tone() of this library's input colours, so nothing role-by-role is
+// hand-maintained and a Material upgrade is a rebuild. Emitted under the same
+// selector as core() so every [theme] element re-maps --mat-sys-* too.
+//
+// Requires core.css (or core()) before it. Load it only for Angular Material.
+//
+// Rules on top of the tables:
+//   - a role core() already defines maps to var(--color--<role>);
+//   - on-<palette> maps to var(--color--<palette>--contrast--high);
+//   - the -fixed roles use the light input in both modes;
+//   - neutral10 and neutral-variant20 are the two raw palette tones
+//     Material's _system.scss adds beside the roles;
+//   - the only non-colour tokens are level0..5, the elevation shadows.
+// Shape, state-layer, typography and density tokens come from mat.theme().
 
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+@use "@angular/material/core/tokens/m3/md-sys-color" as md;
 @use "../../theming" as theme;
 
-:root {
-  @include theme.material-adapter();
+$_palettes: primary, secondary, tertiary, neutral, neutral-variant, error;
+
+// Every tone Material's tables read. A tone a future table reads and this
+// list lacks is caught by the null check below, not emitted as nothing.
+$_tones:
+  0, 4, 6, 10, 12, 17, 20, 22, 24, 30, 40, 50, 60, 80, 87, 90, 92, 94, 95, 96,
+  98, 100;
+
+// Roles core() defines as --color--<role>.
+$_core-roles:
+  primary, secondary, tertiary, error, surface, surface-dim, surface-bright,
+  surface-container-lowest, surface-container-low, surface-container,
+  surface-container-high, surface-container-highest, on-surface,
+  surface-variant, on-surface-variant, outline, outline-variant, background,
+  on-background;
+
+// palette → tone → tone(var(--theme--<mode>--color--<palette>), T)
+@function _palettes($mode) {
+  $out: ();
+  @each $palette in $_palettes {
+    $tones: ();
+    @each $t in $_tones {
+      $tones: map.set(
+        $tones,
+        $t,
+        theme.tone(var(--theme--#{$mode}--color--#{$palette}), $t)
+      );
+    }
+    $out: map.set($out, $palette, $tones);
+  }
+  @return $out;
+}
+
+@function _is-on-palette($role) {
+  @each $palette in primary, secondary, tertiary, error {
+    @if $role == on-#{$palette} {
+      @return $palette;
+    }
+  }
+  @return null;
+}
+
+@mixin material-adapter() {
+  $light: md.md-sys-color-values-light(_palettes(light));
+  $dark: md.md-sys-color-values-dark(_palettes(dark));
+  $light-fixed: md.md-sys-color-values-dark(_palettes(light));
+
+  @each $role, $light-value in $light {
+    $dark-value: map.get($dark, $role);
+    @if not $light-value or not $dark-value {
+      // A null here means Material's table read a tone missing from $_tones.
+      @error "Material's #{$role} role reads a tone this adapter does not provide";
+    }
+    @if list.index($_core-roles, $role) {
+      --mat-sys-#{$role}: var(--color--#{$role});
+    } @else if _is-on-palette($role) {
+      --mat-sys-#{$role}: var(
+        --color--#{_is-on-palette($role)}--contrast--high
+      );
+    } @else if string.index($role, "-fixed") {
+      // Same tone in both tables; the light input in both modes.
+      @if $light-value != map.get($light-fixed, $role) {
+        @error "#{$role} differs between Material's light and dark tables";
+      }
+      --mat-sys-#{$role}: #{$light-value};
+    } @else {
+      --mat-sys-#{$role}: light-dark(#{$light-value}, #{$dark-value});
+    }
+  }
+  @each $role in map.keys($dark) {
+    @if not map.has-key($light, $role) {
+      @error "Material's light table has no #{$role} role";
+    }
+  }
+
+  // Raw palette tones components read directly (form-field, sidenav).
+  --mat-sys-neutral10: light-dark(
+    #{theme.tone(var(--theme--light--color--neutral), 10)},
+    #{theme.tone(var(--theme--dark--color--neutral), 10)}
+  );
+  --mat-sys-neutral-variant20: light-dark(
+    #{theme.tone(var(--theme--light--color--neutral-variant), 20)},
+    #{theme.tone(var(--theme--dark--color--neutral-variant), 20)}
+  );
+
+  // Elevation: Material's six levels on this library's shadow scale.
+  @for $i from 0 through 5 {
+    --mat-sys-level#{$i}: var(--elevation-#{$i});
+  }
+}
+
+:where(:root, [theme]) {
+  @include material-adapter();
 }

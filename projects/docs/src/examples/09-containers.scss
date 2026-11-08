@@ -1,0 +1,109 @@
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
+
+@include theme.core();
+@include theme.createTheme(
+  "sea",
+  (
+    colors: (
+      primary: (
+        #0b5fa5,
+        #8ec5ff,
+      ),
+    ),
+  ),
+  $is-default: true
+);
+
+body {
+  margin: 1rem;
+  font:
+    0.85rem/1.4 system-ui,
+    sans-serif;
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+}
+h2 {
+  font-size: 0.85rem;
+  margin: 1rem 0 0.5rem;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+// Buttons: every colour comes from apply-container(). The mixin sets
+// background, color, and optionally a border and an elevation.
+button {
+  font: inherit;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.filled {
+  @include theme.apply-container(primary);
+  &:hover {
+    @include theme.apply-container(primary, higher-1);
+  }
+}
+// secondary palette, lighter-2: a light box in both modes (lighter is not
+// mode-relative)
+.secondary {
+  @include theme.apply-container(secondary, lighter-2);
+}
+.outlined {
+  @include theme.apply-container(primary, $style: text, $border: 1px);
+}
+.text {
+  @include theme.apply-container(primary, $style: text);
+}
+.danger {
+  @include theme.apply-container(error, $elevation: 1);
+}
+// $reverse-mode: true -> --color--primary-reverse-mode (chapter 4)
+.reverse {
+  @include theme.apply-container(primary, $reverse-mode: true);
+}
+.filled:disabled {
+  @include theme.apply-container(primary, $disabled: true);
+  cursor: default;
+}
+
+// Cards: apply-container-vars() only sets the --container-* variables; the
+// card decides what to do with them, and its children read them.
+.card {
+  @include theme.apply-container-vars(tertiary, $style: filled);
+  background: var(--container-bg-color);
+  color: var(--container-color);
+  box-shadow: var(--elevation-2);
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  max-width: 18rem;
+  h3 {
+    margin: 0 0 0.25rem;
+    font-size: 0.95rem;
+    color: var(--container-color--high);
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--container-color--low);
+    margin: 0.5rem 0;
+  }
+  p {
+    margin: 0;
+    color: var(--container-color--high);
+  }
+}
+.card.normal {
+  @include theme.apply-container-vars(tertiary, $style: normal);
+  background: var(--color--surface-container-lowest);
+  border: 1px solid var(--container-border-color);
+  box-shadow: none;
+  // The vars set no properties: the card picks its own background. Body text
+  // uses --container-color, the palette colour.
+  p {
+    color: var(--container-color);
+  }
+}

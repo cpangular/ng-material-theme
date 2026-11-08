@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  min-height: 100%;
+}
+.title {
+  font: var(--mat-sys-title-large);
+}
+.spacer {
+  flex: 1;
+}
+mat-toolbar {
+  gap: 1rem;
+  height: auto;
+  padding-block: 0.5rem;
+  background: var(--mat-sys-surface-container);
+}
+mat-toolbar .theme {
+  width: 11rem;
+}
+main {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+}
+.controls {
+  width: 100%;
+}
+mat-radio-group {
+  display: inline-flex;
+}
+.region {
+  padding: 1rem;
+  border-radius: var(--mat-sys-corner-large);
+  background: var(--mat-sys-surface-container-low);
+  outline: 1px dashed var(--mat-sys-outline);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}

@@ -5,7 +5,6 @@
 @use "sass:map";
 @use "sass:list";
 @use "sass:meta";
-@use "./contrast-utils" as contrast-utils;
 
 // ── Public ────────────────────────────────────────────────────────────────────
 
@@ -14,19 +13,16 @@
 // Input forms:
 //   single color:  primary: #3f51b5
 //   list (l,d):    primary: (#6200ee, #bb86fc)
-//   object:        primary: (value: ..., contrast: ..., blend-darker-2: 25%, ...)
+//   object:        primary: (value: ..., blend-darker-2: 25%, ...)
 //
 // Output map always contains:
 //   base-light, base-dark           — the source colors per mode
-//   contrast-base-light/dark        — auto-calculated if not provided
 //
 // Plus any user-specified per-palette overrides (blend-*, opacity*, disabled-*, contrast-blend-*)
 // passed through verbatim so generate-palette-config-vars() can detect them with map.has-key().
 @function expand($raw-config) {
   $light: null;
   $dark: null;
-  $contrast-light: null;
-  $contrast-dark: null;
   $overrides: ();
 
   @if meta.type-of($raw-config) == "color" {
@@ -53,16 +49,8 @@
       $dark: $value;
     }
 
-    // Extract user-provided contrast
-    $contrast: map.get($raw-config, "contrast");
-    @if $contrast != null {
-      @if meta.type-of($contrast) == "list" {
-        $contrast-light: list.nth($contrast, 1);
-        $contrast-dark: list.nth($contrast, 2);
-      } @else {
-        $contrast-light: $contrast;
-        $contrast-dark: $contrast;
-      }
+    @if map.has-key($raw-config, "contrast") {
+      @error "The `contrast` key is gone: the on-colour is chosen in CSS by WCAG luminance, so Sass and CSS themes pick the same one.";
     }
 
     // Pass through any per-palette config overrides verbatim.
@@ -95,20 +83,10 @@
     }
   }
 
-  // Auto-calculate contrast if not user-provided
-  @if $contrast-light == null {
-    $contrast-light: contrast-utils.calculate-optimal-contrast($light);
-  }
-  @if $contrast-dark == null {
-    $contrast-dark: contrast-utils.calculate-optimal-contrast($dark);
-  }
-
   // Build canonical map
   $result: (
     "base-light": $light,
     "base-dark": $dark,
-    "contrast-base-light": $contrast-light,
-    "contrast-base-dark": $contrast-dark,
   );
   // Merge in user overrides (blend, opacity, disabled, contrast-blend)
   $result: map.merge($result, $overrides);

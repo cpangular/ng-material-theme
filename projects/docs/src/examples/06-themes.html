@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Themes</title>
+    <link rel="stylesheet" href="../core.css" />
+    <style>
+      /* The default theme: what chapter 3 did. */
+      :root {
+        --theme--light--color--primary: #0b5fa5;
+        --theme--dark--color--primary: #8ec5ff;
+      }
+      /* Named themes: the same inputs behind a theme attribute. */
+      [theme="ember"] {
+        --theme--light--color--primary: #c2410c;
+        --theme--dark--color--primary: #fb923c;
+        --theme--light--color--error: #8b005d;
+        --theme--dark--color--error: #ff7ac8;
+      }
+      [theme="mint"] {
+        --theme--light--color--primary: #0f766e;
+        --theme--dark--color--primary: #5eead4;
+      }
+      /* Sets only tertiary. Primary and error are inherited from the parent;
+         secondary, neutral and neutral-variant are re-derived from that primary. */
+      [theme="accent"] {
+        --theme--light--color--tertiary: #b45309;
+        --theme--dark--color--tertiary: #fbbf24;
+      }
+
+      body {
+        margin: 0;
+        padding: 1rem;
+        font:
+          0.85rem/1.4 system-ui,
+          sans-serif;
+        background: var(--color--surface);
+        color: var(--color--on-surface);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .panel {
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background: var(--color--surface-container);
+        color: var(--color--on-surface);
+      }
+      .panel h2 {
+        font-size: 0.85rem;
+        margin: 0 0 0.5rem;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .chip {
+        padding: 0.3rem 0.6rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+      }
+      .primary {
+        background: var(--color--primary);
+        color: var(--color--primary--contrast--high);
+      }
+      .secondary {
+        background: var(--color--secondary);
+        color: var(--color--secondary--contrast--high);
+      }
+      .tertiary {
+        background: var(--color--tertiary);
+        color: var(--color--tertiary--contrast--high);
+      }
+      .error {
+        background: var(--color--error);
+        color: var(--color--error--contrast--high);
+      }
+
+      .nested {
+        margin-top: 0.75rem;
+        padding: 0.6rem;
+        border-radius: 0.4rem;
+        background: var(--color--surface-container-highest);
+      }
+      .nested p {
+        margin: 0 0 0.4rem;
+        color: var(--color--on-surface-variant);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel" theme="ember">
+      <h2>theme="ember"</h2>
+      <div class="chips">
+        <span class="chip primary">primary</span>
+        <span class="chip secondary">secondary</span>
+        <span class="chip tertiary">tertiary</span>
+        <span class="chip error">error</span>
+      </div>
+      <div class="nested" theme="accent">
+        <p>theme="accent" sets only tertiary; primary is inherited.</p>
+        <div class="chips">
+          <span class="chip primary">primary</span>
+          <span class="chip secondary">secondary</span>
+          <span class="chip tertiary">tertiary</span>
+          <span class="chip error">error</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" theme="mint" style="color-scheme: light">
+      <h2>theme="mint", color-scheme: light</h2>
+      <div class="chips">
+        <span class="chip primary">primary</span>
+        <span class="chip secondary">secondary</span>
+        <span class="chip tertiary">tertiary</span>
+        <span class="chip error">error</span>
+      </div>
+      <div class="nested" style="color-scheme: dark">
+        <p>
+          A dark card inside a light theme: color-scheme: dark, no theme
+          attribute.
+        </p>
+        <div class="chips">
+          <span class="chip primary">primary</span>
+          <span class="chip secondary">secondary</span>
+          <span class="chip tertiary">tertiary</span>
+          <span class="chip error">error</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

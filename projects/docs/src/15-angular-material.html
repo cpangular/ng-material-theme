@@ -1,0 +1,156 @@
+<h1>Angular Material</h1>
+<p class="lead">
+  Angular Material reads its colours from <code>--mat-sys-*</code> tokens. One
+  stylesheet maps them to this library's tokens, so a Material app is themed by
+  the same few input variables, re-themed inside a nested region, and switched
+  at runtime, with no Angular service in between.
+</p>
+
+<!-- demo: material -->
+<p>
+  The demo is a small Angular app built with Angular Material 21. Its theme
+  select and mode buttons are Material controls driving the switcher from
+  chapter 12. The dashed section at the bottom is a nested theme region: pick
+  its theme and open its menu or dialog. The demo and this site share the stored
+  theme, so changing one changes the other.
+</p>
+
+<h2>Two stylesheets, in order</h2>
+<pre><code>npm install @cpangular/ng-material-theme @angular/material</code></pre>
+<p>
+  The adapter is a second CSS file, <code>material-adapter.css</code>, loaded
+  after <code>core.css</code>. In an Angular app both go in the
+  <code>styles</code> list of <code>angular.json</code>, before your own
+  stylesheet:
+</p>
+<pre><code>"styles": [
+  "node_modules/@cpangular/ng-material-theme/css/dist/core.css",
+  "node_modules/@cpangular/ng-material-theme/css/dist/material-adapter.css",
+  "src/styles.scss"
+]</code></pre>
+<p>
+  It sets every <code>--mat-sys-</code> colour token: <code>primary</code> is
+  <code>var(--color--primary)</code>, the surface roles are chapter 5's, and the
+  roles only Material has (the <code>-container</code> colours, the
+  <code>-fixed</code> family, <code>inverse-surface</code>,
+  <code>surface-tint</code>, <code>scrim</code>, <code>shadow</code>) are
+  computed from the same inputs with chapter 5's tone formula. The text roles
+  <code>on-primary</code>, <code>on-secondary</code>,
+  <code>on-tertiary</code> and <code>on-error</code> are the
+  <code>--contrast--high</code> partners from chapter 3, so they keep their
+  4.5:1 guarantee for whatever colour you chose, which Material's fixed tones
+  cannot promise (at the default tuning; chapter 10's high contrast blend can
+  lower it). The six elevation levels <code>--mat-sys-level0</code> to
+  <code>5</code> are the <code>--elevation-N</code> shadows.
+</p>
+<p>
+  Nothing in the adapter is written by hand. At build time it calls the
+  functions in <code>@angular/material</code> that define Material's light and
+  dark role tables, feeding them palettes whose tones are
+  <code>tone(var(--theme--light--color--primary), 90)</code> and so on, then
+  joins each pair with <code>light-dark()</code>. A Material upgrade is a
+  rebuild of this library, not a review of a mapping.
+</p>
+
+<h2>mat.theme() for everything but colour</h2>
+<p>
+  Material's own <code>mat.theme()</code> mixin stays, without a
+  <code>color</code> key. It still emits the typography tokens, the density
+  tokens when the scale is below zero, and the shape and state-layer tokens it
+  always emits. It does not emit elevation without colour, which is why the
+  adapter does. Put it in your stylesheet on <code>html</code>:
+</p>
+<pre><code>@use "@angular/material" as mat;
+
+html {
+  @include mat.theme((typography: Roboto, density: 0));
+}</code></pre>
+<p>
+  Do not pass <code>color</code>: it would emit <code>--mat-sys-</code> colour
+  tokens on <code>html</code> that override the adapter's, and only on
+  <code>html</code>, so nested regions would lose them. For the same reason do
+  not include Material's <code>mat.app-background()</code> mixin: it writes an
+  <code>html</code> rule that unsets <code>--mat-sys-on-surface</code>, and a
+  plain <code>html</code> selector beats the adapter's zero-specificity rule on
+  the root. Set the page colours yourself instead, as the demo does:
+  <code
+    >body { background: var(--mat-sys-surface); color: var(--mat-sys-on-surface)
+    }</code
+  >.
+</p>
+
+<h2>Two densities</h2>
+<p>
+  Material density and chapter 11's <code>--theme--density-scale</code> are
+  separate controls. Material's <code>density</code> key shrinks Material
+  components by rewriting their own size tokens, in steps below 0; each
+  component clamps at its own minimum, −3 for buttons and −5 for form fields.
+  <code>--theme--density-scale</code> multiplies the
+  <code>--theme--size--N</code>
+  scale your own CSS uses. Set both when the whole page should tighten; a
+  Material control does not read the library scale, and the library scale does
+  not reach into a Material control.
+</p>
+
+<h2>Nested regions</h2>
+<p>
+  The adapter is emitted under <code>:where(:root, [theme])</code>, the same
+  selector <code>core.css</code> uses, so an element with a
+  <code>theme</code> attribute (chapter 6) re-maps every
+  <code>--mat-sys-</code> token for its subtree, and Material components inside
+  it draw in that theme. The demo's region is one
+  <code>&lt;section [attr.theme]="nestedTheme()"&gt;</code>.
+</p>
+<p>
+  Overlays are the exception. A menu, dialog, select panel, tooltip or snackbar
+  renders in the CDK overlay container at the end of <code>&lt;body&gt;</code>,
+  outside the region that opened it, so it takes the page theme from
+  <code>&lt;html&gt;</code>. For the page's own overlays that is right. For a
+  region's overlays, put the region's <code>theme</code> on the panel when it
+  opens. A menu panel has the menu's <code>panelId</code>:
+</p>
+<pre><code>&lt;button matButton [matMenuTriggerFor]="menu"
+        (menuOpened)="themeMenu(menu, nestedTheme())"&gt;Menu&lt;/button&gt;
+
+themeMenu(menu: MatMenu, theme: string) {
+  document.getElementById(menu.panelId)?.setAttribute("theme", theme);
+}</code></pre>
+<p>
+  A dialog's container is the surface, so the attribute goes there, reached from
+  the component the dialog created:
+</p>
+<pre><code>const ref = this.dialog.open(DemoDialog, { data: { theme } });
+const host: HTMLElement = ref.componentRef!.location.nativeElement;
+host.closest("mat-dialog-container")?.setAttribute("theme", theme);</code></pre>
+
+<h2>The switcher in Angular</h2>
+<p>
+  Import <code>themeSwitcher</code> from the package as in chapter 12. It
+  touches <code>&lt;html&gt;</code> and <code>localStorage</code> as soon as it
+  is used, so use it from <code>afterNextRender</code>, which runs once, in the
+  browser, after the first render, and never on the server. Subscribe there and
+  copy what it reports into signals; the template binds to the signals.
+</p>
+<pre><code>constructor() {
+  afterNextRender(() =&gt; {
+    themeSwitcher.onChange((themes, current) =&gt; {
+      this.themes.set(themes);
+      this.theme.set(current);
+    });
+    this.themes.set(themeSwitcher.getThemes());
+    this.theme.set(themeSwitcher.getCurrentTheme());
+  });
+}</code></pre>
+<p>
+  The three-line head script from chapter 12 goes in <code>index.html</code> as
+  before, so the stored theme is on <code>&lt;html&gt;</code> before Angular
+  boots. Themes themselves are plain CSS rules in your stylesheet; the demo's
+  three sit in <code>styles.scss</code> under <code>mat.theme()</code>.
+</p>
+
+<h2>Source</h2>
+<!-- include: material-demo/angular.json -->
+<!-- include: material-demo/src/styles.scss -->
+<!-- include: material-demo/src/app/app.ts -->
+<!-- include: material-demo/src/app/app.html -->
+<!-- include: material-demo/src/app/demo-dialog.ts -->

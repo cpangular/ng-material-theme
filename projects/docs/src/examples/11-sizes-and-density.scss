@@ -1,0 +1,140 @@
+@use "pkg:@cpangular/ng-material-theme/theming" as theme;
+
+@include theme.core();
+@include theme.createTheme(
+  "sea",
+  (
+    colors: (
+      primary: (
+        #0b5fa5,
+        #8ec5ff,
+      ),
+    ),
+  ),
+  $is-default: true
+);
+
+// Four themes that set only density. Each inherits primary from sea and
+// re-derives the rest (chapter 6).
+@include theme.createTheme(
+  "d0",
+  (
+    density: 0,
+  )
+);
+@include theme.createTheme(
+  "d1",
+  (
+    density: -1,
+  )
+);
+@include theme.createTheme(
+  "d2",
+  (
+    density: -2,
+  )
+);
+@include theme.createTheme(
+  "d3",
+  (
+    density: -3,
+  )
+);
+
+body {
+  margin: 1rem;
+  font:
+    0.85rem/1.3 system-ui,
+    sans-serif;
+  background: var(--color--surface);
+  color: var(--color--on-surface);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+// From here on, spacing is the size scale, not rem.
+.panel {
+  padding: var(--theme--size--4);
+  border-radius: var(--theme--size--3);
+  background: var(--color--surface-container);
+  h2 {
+    font-size: 0.8rem;
+    margin: 0 0 var(--theme--size--3);
+    color: var(--color--on-surface-variant);
+  }
+}
+.toolbar {
+  display: flex;
+  gap: var(--theme--size--2);
+  margin-bottom: var(--theme--size--4);
+}
+button {
+  font: inherit;
+  padding: var(--theme--size--2) var(--theme--size--4);
+  border: 0;
+  border-radius: var(--theme--size--2);
+  background: var(--color--primary);
+  color: var(--color--primary--contrast--high);
+}
+input {
+  font: inherit;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--theme--size--9);
+  padding: 0 var(--theme--size--4);
+  margin-bottom: var(--theme--size--4);
+  border: 1px solid var(--color--outline);
+  border-radius: var(--theme--size--2);
+  background: var(--color--surface-container-highest);
+  color: var(--color--on-surface);
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color--outline-variant);
+  border-radius: var(--theme--size--2);
+  background: var(--color--surface-container-lowest);
+}
+li {
+  padding: var(--theme--size--3) var(--theme--size--4);
+  border-top: 1px solid var(--color--outline-variant);
+  &:first-child {
+    border-top: 0;
+  }
+}
+
+// The scale itself: a bar per token.
+.scale {
+  display: grid;
+  gap: var(--theme--size--1);
+  margin-top: var(--theme--size--4);
+  font-size: 0.65rem;
+  color: var(--color--on-surface-variant);
+  div {
+    display: flex;
+    align-items: center;
+    gap: var(--theme--size--2);
+  }
+  span {
+    display: inline-block;
+    height: var(--theme--size--2);
+    background: var(--color--primary);
+  }
+}
+.s-1 {
+  width: var(--theme--size--1);
+}
+.s-3 {
+  width: var(--theme--size--3);
+}
+.s-5 {
+  width: var(--theme--size--5);
+}
+.s-8 {
+  width: var(--theme--size--8);
+}
+.s-11 {
+  width: var(--theme--size--11);
+}

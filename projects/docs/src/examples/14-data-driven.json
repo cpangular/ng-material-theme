@@ -1,0 +1,20 @@
+{
+  "ocean": {
+    "--theme--light--color--primary": "#005f9e",
+    "--theme--dark--color--primary": "#7cc4ff"
+  },
+  "sunset": {
+    "--theme--light--color--primary": "#b3261e",
+    "--theme--dark--color--primary": "#ffb4ab",
+    "--theme--light--color--tertiary": "#7d5700",
+    "--theme--dark--color--tertiary": "#f7bd42",
+    "--theme--light--color--error": "tomato red",
+    "--theme--dark--color--error": "#ff7ac8"
+  },
+  "slate": {
+    "--theme--light--color--primary": "#475569",
+    "--theme--dark--color--primary": "#cbd5e1",
+    "--theme--blend--darker-1": "60%",
+    "--theme--density-scale": "0.84"
+  }
+}

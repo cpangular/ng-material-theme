@@ -1,0 +1,50 @@
+<h1>Custom palettes</h1>
+<p class="lead">
+  A palette beyond the six, with the whole variant family of chapter 4. This
+  needs Sass.
+</p>
+
+<!-- example: examples/08-custom-palettes.html -->
+<p>
+  The labels on the solid swatches use <code>--contrast--high</code>, as in
+  chapter 3. Three kinds are left as they are on purpose: the tint digits use
+  the page's text colour (tints have no contrast colour), the disabled swatch
+  uses <code>-disabled--contrast</code>, and the emphasis row shows all three
+  strengths. Some of these read below chapter 4's 4.5:1, which is expected.
+</p>
+
+<h2>Adding a palette</h2>
+<p>
+  Name a palette in <code>createTheme()</code>'s <code>colors</code> map
+  (chapter 7) that is not one of the six standard ones, and it becomes a
+  palette. <code>brand</code> above takes the same two shapes as any palette: a
+  single colour, or a light and dark pair. From then on every token the grammar
+  in chapter 4 allows exists for it: <code>--color--brand</code>,
+  <code>--color--brand-darker-1--contrast--high</code>,
+  <code>--color--brand-tint-3</code>, and so on, with the same contrast
+  guarantees.
+</p>
+
+<h2>Why Sass only</h2>
+<p>
+  <code>core.css</code> works out the six standard palettes and nothing else; it
+  cannot know your palette names. <code>createTheme()</code> writes the rules
+  for any other name you give it into the theme's own rule, and plain CSS has no
+  way to do that, so a seventh palette needs Sass. To recolour
+  <code>brand</code> later, name it in another <code>createTheme()</code> call.
+</p>
+
+<h2>Where it lives</h2>
+<p>
+  A custom palette belongs to the theme that declares it. Declare it in the
+  default theme (<code>$is-default: true</code>, as here; this one is also
+  selectable as <code>theme="shop"</code>) to have it everywhere, or in a named
+  theme to have it only inside that theme. Like error in chapter 6, it is not
+  derived from primary, so a nested theme that does not declare it keeps its
+  parent's <code>brand</code>. Two themes may declare the same palette name with
+  different colours.
+</p>
+
+<h2>Source</h2>
+<!-- include: examples/08-custom-palettes.scss -->
+<!-- include: examples/08-custom-palettes.html -->
