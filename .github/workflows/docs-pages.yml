@@ -3,23 +3,20 @@ name: Docs Pages
 # Builds projects/docs and deploys projects/docs/dist to GitHub Pages for a
 # stable release. This is the only workflow not taken from git-flow; building,
 # testing and publishing to npm stay with the git-flow workflows:
-#   test.yml               every push       build + test
-#   build-pack-publish.yml release PR merge build + pack + publish + tag v<version>
+#   test.yml               every push        build + test
+#   build-pack-publish.yml release PR merge  build + pack + publish + tag
 #
-# Triggers. Merging the release PR pushes to release/main, which is the
-# primary trigger. git-flow also creates the v<version> tag, but it does so
-# with GITHUB_TOKEN, and events made with that token never start another
-# workflow, so the tag trigger below only fires for a tag pushed by hand (the
-# pattern matches v21.0.0, not v21.0.0-feature.ng21.3: feature-line releases
-# do not publish docs). workflow_dispatch redeploys the current commit of any
-# branch or tag.
+# Trigger: merging the release PR pushes to release/main. git-flow also tags
+# the release (@cpangular/ng-material-theme/v<version>), but it does so with
+# GITHUB_TOKEN, and events made with that token never start another workflow,
+# so a tag trigger would never fire. Feature-line release branches
+# (release/feature/*) publish prereleases and do not deploy docs.
+# workflow_dispatch redeploys the current commit of any branch or tag.
 
 on:
   push:
     branches:
       - "release/main"
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
 
 permissions:
@@ -38,8 +35,6 @@ jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
-    # Belt and braces for the tag pattern: never deploy docs for a prerelease.
-    if: github.ref_type != 'tag' || !contains(github.ref_name, '-')
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # read by .npmrc
     steps:
