@@ -1,0 +1,169 @@
+<mat-toolbar>
+  <span class="title">Angular Material</span>
+  <span class="spacer"></span>
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="theme">
+    <mat-label>Theme</mat-label>
+    <mat-select
+      [value]="theme() ?? ''"
+      (selectionChange)="setTheme($event.value)"
+    >
+      <mat-option value="">(library default)</mat-option>
+      @for (t of themes(); track t) {
+      <mat-option [value]="t">{{ t }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-button-toggle-group
+    [value]="scheme()"
+    (change)="setScheme($event.value)"
+    aria-label="Colour scheme"
+    hideSingleSelectionIndicator
+  >
+    <mat-button-toggle value="light">Light</mat-button-toggle>
+    <mat-button-toggle value="dark">Dark</mat-button-toggle>
+    <mat-button-toggle value="auto">Auto</mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-toolbar>
+
+<main>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Buttons</mat-card-title>
+      <mat-card-subtitle
+        >Every variant, plus a menu and a dialog</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content class="row">
+      <button matButton="filled">Filled</button>
+      <button matButton="tonal">Tonal</button>
+      <button matButton="elevated">Elevated</button>
+      <button matButton="outlined">Outlined</button>
+      <button matButton>Text</button>
+      <button matButton="filled" disabled>Disabled</button>
+      <button matButton="outlined" [matMenuTriggerFor]="pageMenu">Menu</button>
+      <button matButton="tonal" (click)="openDialog(null)">Dialog</button>
+    </mat-card-content>
+  </mat-card>
+  <mat-menu #pageMenu="matMenu">
+    <button mat-menu-item>Cut</button>
+    <button mat-menu-item>Copy</button>
+    <button mat-menu-item disabled>Paste</button>
+  </mat-menu>
+
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Form fields</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput value="Ada" />
+        <mat-hint>Outlined</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          value="not-an-email"
+          [ngModel]="'bad'"
+          #email="ngModel"
+          email
+          required
+        />
+        <mat-error>Enter a valid email</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Size</mat-label>
+        <mat-select value="m">
+          <mat-option value="s">Small</mat-option>
+          <mat-option value="m">Medium</mat-option>
+          <mat-option value="l">Large</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="row controls">
+        <mat-checkbox checked>Checkbox</mat-checkbox>
+        <mat-slide-toggle checked>Toggle</mat-slide-toggle>
+        <mat-radio-group value="a">
+          <mat-radio-button value="a">One</mat-radio-button>
+          <mat-radio-button value="b">Two</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Tabs and lists</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Inbox">
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Release notes</span>
+              <span matListItemLine>Material 21, no surprises</span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <span matListItemTitle>Design review</span>
+              <span matListItemLine>Thursday</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-tab>
+        <mat-tab label="Starred">
+          <mat-selection-list>
+            <mat-list-option selected>Tokens</mat-list-option>
+            <mat-list-option>Themes</mat-list-option>
+          </mat-selection-list>
+        </mat-tab>
+        <mat-tab label="Archive" disabled></mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+
+  <section class="region" [attr.theme]="nestedTheme()">
+    <mat-card appearance="filled">
+      <mat-card-header>
+        <mat-card-title>Nested theme region</mat-card-title>
+        <mat-card-subtitle>
+          This section carries <code>theme="{{ nestedTheme() }}"</code>; the
+          adapter re-maps every <code>--mat-sys-*</code> token inside it.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="row">
+        <mat-button-toggle-group
+          [value]="nestedTheme()"
+          (change)="nestedTheme.set($event.value)"
+          aria-label="Region theme"
+          hideSingleSelectionIndicator
+        >
+          @for (t of themes(); track t) {
+          <mat-button-toggle [value]="t">{{ t }}</mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+        <button matButton="filled">Filled</button>
+        <button matButton="tonal">Tonal</button>
+        <button matButton="outlined">Outlined</button>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Inside the region</mat-label>
+          <input matInput value="themed" />
+        </mat-form-field>
+        <button
+          matButton="outlined"
+          [matMenuTriggerFor]="regionMenu"
+          (menuOpened)="themeMenu(regionMenu, nestedTheme())"
+        >
+          Menu
+        </button>
+        <button matButton="tonal" (click)="openDialog(nestedTheme())">
+          Dialog
+        </button>
+      </mat-card-content>
+    </mat-card>
+    <mat-menu #regionMenu="matMenu">
+      <button mat-menu-item>Themed item</button>
+      <button mat-menu-item>Another</button>
+    </mat-menu>
+  </section>
+</main>

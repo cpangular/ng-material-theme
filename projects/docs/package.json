@@ -12,6 +12,7 @@
     "github.actions.build": "pnpm run build"
   },
   "devDependencies": {
+    "@cpangular/material-demo": "workspace:*",
     "@cpangular/ng-material-theme": "workspace:*",
     "@types/node": "^20.17.11",
     "http-server": "^14.1.1",

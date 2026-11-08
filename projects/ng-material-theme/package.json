@@ -30,8 +30,8 @@
     "./css/dist/theme-switcher.js"
   ],
   "devDependencies": {
-    "@angular/cdk": "^20.2.14",
-    "@angular/material": "^20.2.14",
+    "@angular/cdk": "^21.2.14",
+    "@angular/material": "^21.2.14",
     "@types/node": "^20.17.11",
     "colorjs.io": "^0.5.2",
     "sass": "^1.80.0",

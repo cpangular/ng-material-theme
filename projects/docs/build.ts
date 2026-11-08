@@ -8,6 +8,8 @@
 //                  Two directives are expanded:
 //                    <!-- example: examples/NN-name.html -->  the page in an <iframe>
 //                    <!-- include: examples/NN-name.ext -->   its escaped source (any extension)
+//                    <!-- demo: material -->                  the built material-demo app in an <iframe>
+//                    <!-- include: material-demo/<path> -->   a source file of that app
 //   index.html     the landing page fragment
 //   examples/      standalone example pages with their own .css/.scss/.js/.json;
 //                  non-partial .scss compiles to dist/examples/*.css
@@ -26,6 +28,7 @@ import { compile, NodePackageImporter } from "sass";
 import ts from "typescript";
 import {
   copyFileSync,
+  cpSync,
   existsSync,
   mkdirSync,
   readdirSync,
@@ -40,6 +43,11 @@ const src = join(root, "src");
 const examplesDir = join(src, "examples");
 const dist = join(root, "dist");
 const lib = join(root, "node_modules/@cpangular/ng-material-theme/css/dist");
+// The Angular Material demo (projects/material-demo): its `ng build` output is
+// copied to dist/material/ for chapter 15's iframe, and its sources are
+// included from the project itself so they cannot drift either.
+const demo = join(root, "node_modules/@cpangular/material-demo");
+const demoDist = join(demo, "dist");
 const checkOnly = process.argv.includes("--check");
 
 // ── Chapter table (PLAN.md, Phase 5) ─────────────────────────────────────────
@@ -165,15 +173,34 @@ const sourceLabel: Record<string, string> = {
   ".scss": "Sass",
   ".js": "JavaScript",
   ".json": "JSON",
+  ".ts": "TypeScript",
 };
+
+// An include path is under src/ unless it names the demo app.
+const includePath = (path: string) =>
+  path.startsWith("material-demo/")
+    ? join(demo, path.slice("material-demo/".length))
+    : join(src, path);
 
 function expand(chapterFile: string, body: string, n: number): string {
   const embedded: string[] = [];
   const included: string[] = [];
+  let embedsDemo = false;
   const out = body.replace(
-    /<!--\s*(example|include):\s*(\S+)\s*-->/g,
+    /<!--\s*(example|include|demo):\s*(\S+)\s*-->/g,
     (_, kind: string, path: string) => {
-      const abs = join(src, path);
+      if (kind === "demo") {
+        if (path !== "material") {
+          fail(`${chapterFile}: demo ${path} is unknown (only "material")`);
+          return "";
+        }
+        embedsDemo = true;
+        return `<figure class="example demo">
+<iframe src="material/index.html" title="Example: the Angular Material demo" loading="lazy"></iframe>
+<figcaption><a href="material/index.html" target="_blank" rel="noopener">Open the demo in a new tab</a></figcaption>
+</figure>`;
+      }
+      const abs = includePath(path);
       if (!existsSync(abs)) {
         fail(`${chapterFile}: ${kind} ${path} does not exist`);
         return "";
@@ -197,7 +224,10 @@ function expand(chapterFile: string, body: string, n: number): string {
 </figure>`;
     },
   );
-  if (!embedded.some((p) => chapterOf(p.replace(/^examples\//, "")) === n))
+  if (
+    !embedsDemo &&
+    !embedded.some((p) => chapterOf(p.replace(/^examples\//, "")) === n)
+  )
     fail(
       `${chapterFile}: chapter ${n} embeds no example of its own (examples/${String(n).padStart(2, "0")}-*.html)`,
     );
@@ -411,8 +441,13 @@ if (!existsSync(join(lib, "core.css")))
   throw new Error(
     `${join(lib, "core.css")} not found; build the library first`,
   );
+if (!existsSync(join(demoDist, "index.html")))
+  throw new Error(
+    `${join(demoDist, "index.html")} not found; build material-demo first`,
+  );
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(join(dist, "examples"), { recursive: true });
+cpSync(demoDist, join(dist, "material"), { recursive: true });
 
 for (const f of ["core.css", "theme-switcher.js", "theme-switcher.js.map"])
   copyFileSync(join(lib, f), join(dist, f));

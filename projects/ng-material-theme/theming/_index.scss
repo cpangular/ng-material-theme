@@ -3,9 +3,6 @@
 @forward "./tone" show tone;
 @forward "./palette-utils" show apply-container-vars, apply-container;
 
-// Material Design 3 adapter (optional, for Angular Material)
-@forward "./material-bridge" show material-adapter;
-
 @use "./theme" as internal-theme;
 @use "./property-declarations" as props;
 @use "./color-derivation" as derivation;

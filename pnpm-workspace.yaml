@@ -14,3 +14,10 @@ minimumReleaseAgeExclude:
 # (sass falls back to chokidar), so its build script is deliberately not run.
 allowBuilds:
   '@parcel/watcher': false
+  # Angular's build pulls these in. esbuild's install script only checks that
+  # its platform binary matches; lmdb and msgpackr-extract ship prebuilt
+  # binaries as optional dependencies, so their from-source build scripts are
+  # not needed.
+  esbuild: true
+  lmdb: false
+  msgpackr-extract: false
