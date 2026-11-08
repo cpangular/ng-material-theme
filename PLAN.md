@@ -172,9 +172,9 @@ Done when: chapters 1–11 are written and `node build.ts` passes the chapter-or
 
 ## Phase 6 — Release
 
-- [ ] `README.md` becomes a short pointer: what it is, install, the chapter 1 example, link to the docs.
-- [ ] A short "Breaking changes from 17.x" note: an old→new variable-name table, `theme` attribute on `<html>` not `<body>`, no Angular service, no `theme-mode` attribute, storage keys changed, and the removed `--color--on-<palette>` / `-container` library aliases (use `--contrast` or the adapter).
-- [ ] `docs-pages.yml`: on push to `release/main`, build `projects/docs` and deploy `projects/docs/dist` to GitHub Pages. This is the only workflow not taken from git-flow.
+- [x] `README.md` becomes a short pointer: what it is, install, the chapter 1 example, link to the docs.
+- [x] A short "Breaking changes from 17.x" note: an old→new variable-name table, `theme` attribute on `<html>` not `<body>`, no Angular service, no `theme-mode` attribute, storage keys changed, and the removed `--color--on-<palette>` / `-container` library aliases (use `--contrast` or the adapter).
+- [x] `docs-pages.yml`: on push to `release/main`, build `projects/docs` and deploy `projects/docs/dist` to GitHub Pages. This is the only workflow not taken from git-flow.
 - [ ] Graduation, done by hand in this order: merge `main` into `feature/ng21` one last time and rebuild; merge `feature/ng21` into `main`; run `pnpm gitflow version` on `main` and pick `21.0.0`; push; merge the release PR that git-flow opens. That merge publishes `@cpangular/ng-material-theme@21.0.0` to npmjs and tags the release.
 
 Done when: the release PR merge is green, the package is on npmjs at 21.0.0, and the README docs link serves the Pages build from `release/main`.
